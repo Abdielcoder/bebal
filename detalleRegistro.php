@@ -14,7 +14,7 @@ session_start();
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
 
-	include("modal/recibo_Inspeccion.php");
+	// Eliminar la inclusión del modal de recibo que ya no usamos
 	include("modal/revisar_pago.php");
 	include("modal/eliminar_registro.php");
 	include("modal/efectuar_inspeccion.php");
@@ -218,10 +218,6 @@ echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="
 echo '&nbsp;&nbsp;';
 
 if ( $estatus=='Generar Recibo Inspeccion'  ) {
-echo '<a href="#reciboInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'"  class="btn btn-warning" title="Imagen"> <i class="glyphicon glyphicon-print"></i> Imprimir Recibo </a>';
-
-echo '&nbsp;&nbsp;';
-
 echo '<a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-info" title="Imagen"> <i class="glyphicon glyphicon-check"></i> Revisar Pago </a>';
 
 echo '&nbsp;&nbsp;';

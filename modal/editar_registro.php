@@ -18,7 +18,7 @@
 			<div id="resultados_ajax2"></div>
 
 <input type="hidden" id="id_valla" name="id_valla">
-<input type="hidden" id="pagina" name="pagina">
+<input type="hidden" id="page" name="page">
 
 			<div class="form-group">
 			<label for="folio_data" class="col-sm-3 control-label">Folio</label>

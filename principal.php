@@ -85,16 +85,16 @@
 <?php
 
 if(!$_POST) {
-if (isset($_GET['pagina'])){
-$pagina=$_GET['pagina'];
-echo '<script>load('.$pagina.');</script>';
+if (isset($_GET['page'])){
+$page=$_GET['page'];
+echo '<script>load('.$page.');</script>';
 } else {
 echo '<script>load(1);</script>';
 }
 } else {
-if (isset($_POST['pagina'])){
-$pagina=$_POST['pagina'];
-echo '<script>load('.$pagina.');</script>';
+if (isset($_POST['page'])){
+$page=$_POST['page'];
+echo '<script>load('.$page.');</script>';
 } else {
 echo '<script>load(1);</script>';
 }
@@ -141,8 +141,8 @@ $( "#editar_valla" ).submit(function( event ) {
 			$("#resultados_ajax2").html(datos);
 			$('#actualizar_datos_valla').attr("disabled", false);
 
-var PAGINA=document.getElementById("pagina").value;
-			load(PAGINA);
+var PAGE=document.getElementById("page").value;
+			load(PAGE);
 		  }
 	});
   event.preventDefault();
@@ -198,7 +198,7 @@ var telefono_solicitante = $("#telefono_solicitante"+id).val();
 var COLONIAyDELEGACION = $("#COLONIAyDELEGACION"+id).val();
 var direccion_establecimiento_completa = $("#direccion_establecimiento_completa"+id).val();
 
-$("#pagina").val(pagina);
+$("#page").val(pagina);
 $("#folio_data").val(folio);
 $("#numero_permiso_data").val(numero_permiso);
 $("#estatus_data").val(estatus);

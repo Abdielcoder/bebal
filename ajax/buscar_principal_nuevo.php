@@ -257,7 +257,7 @@ if ($action == 'ajax') {
                                         $url_imagen = str_replace('../', '/', $url_imagen);
                                     }
                                     
-                                    echo '<a href="'.$url_imagen.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                    echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
                                         <img class="img-thumbnail-custom" src="'.$url_imagen.'" alt="Imagen de '.$nombre_comercial.'">
                                     </a>';
                                 } else {
@@ -265,13 +265,15 @@ if ($action == 'ajax') {
                                     $url_base = "http://98.80.116.118/bebal_images/medias/";
                                     $url_imagen = $url_base.$id."-".$foto.".jpg";
                                     
-                                    echo '<a href="'.$url_imagen.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                    echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
                                         <img class="img-thumbnail-custom" src="'.$url_imagen.'" alt="Imagen de '.$nombre_comercial.'" onerror="this.src=\'img/no_imagen.jpg\'">
                                     </a>';
                                 }
                             } else {
                                 // Si no hay foto definida
-                                echo '<a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
+                                echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-foto="" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
+                                    <img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto">
+                                </a>';
                             }
                             ?>
                             <span class="d-block text-muted mt-2 id-info"><small>ID: <?php echo $id; ?> | Folio: <?php echo $folio; ?></small></span>

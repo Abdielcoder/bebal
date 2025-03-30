@@ -84,8 +84,10 @@
 	<hr>
 	<?php
 	include("footer.php");
+	include("modal/imagenes_modal.php"); // Modal para mostrar imágenes
 	?>
 	<script type="text/javascript" src="js/principal.js"></script>
+	<script type="text/javascript" src="js/imagenes-modal.js"></script>
 <?php
 
 if(!$_POST) {

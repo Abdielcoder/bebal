@@ -48,7 +48,7 @@ if ($login->isUserLoggedIn() == true) {
   --color-primary: #742c32;
   --color-primary-dark: #5e2328;
   --color-primary-light: #8a363c;
-  --color-secondary: #AC905B;
+  --color-secondary: #fde5b7;
   --color-secondary-dark: #8c7342;
   --color-secondary-light: #c4ab7a;
   --color-tertiary: #A4A5A8;
@@ -60,7 +60,7 @@ if ($login->isUserLoggedIn() == true) {
 
 /* Estilo basado en la imagen de referencia */
 body {
-  background: linear-gradient(135deg, #57a1c8 0%, #3487b6 35%, #206997 100%);
+  background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-primary) 35%, var(--color-primary-dark) 100%);
   height: 100vh;
   display: flex;
   align-items: center;
@@ -82,13 +82,14 @@ body {
 .avatar-container {
   width: 120px;
   height: 120px;
-  background-color: #0a2641;
+  background-color: var(--color-primary-dark);
   border-radius: 50%;
   margin: 0 auto 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.2);
 }
 
 .avatar-icon {
@@ -129,8 +130,8 @@ body {
 }
 
 .login-btn {
-  background-color: #0a2641;
-  color: white;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
   text-transform: uppercase;
   letter-spacing: 1px;
   font-size: 14px;
@@ -144,7 +145,8 @@ body {
 }
 
 .login-btn:hover {
-  background-color: #15335a;
+  background-color: var(--color-secondary-dark);
+  color: var(--color-white);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
@@ -172,26 +174,6 @@ body {
 
 .forgot-link:hover {
   color: var(--color-secondary);
-}
-
-/* Adaptar los colores al sistema */
-.avatar-container {
-  background-color: #0a2641;
-  border: 3px solid rgba(255, 255, 255, 0.2);
-}
-
-.login-btn {
-  background-color: #0a2641;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 14px;
-}
-
-.login-btn:hover {
-  background-color: #15335a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 </style>

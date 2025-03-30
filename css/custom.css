@@ -1,14 +1,14 @@
 /*
 Esquema de colores del proyecto:
-- Primario (burdeos): #661C32
+- Primario (burdeos): #742c32
 - Secundario (dorado): #AC905B  
 - Terciario (gris): #A4A5A8
 */
 
 :root {
-  --color-primary: #661C32;
-  --color-primary-dark: #4d0b1d;
-  --color-primary-light: #7d2b44;
+  --color-primary: #742c32;
+  --color-primary-dark: #5e2328;
+  --color-primary-light: #8a363c;
   --color-secondary: #AC905B;
   --color-secondary-dark: #8c7342;
   --color-secondary-light: #c4ab7a;

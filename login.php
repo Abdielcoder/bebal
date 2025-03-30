@@ -45,7 +45,7 @@ if ($login->isUserLoggedIn() == true) {
 <link rel=icon href='img/logo-icon.png' sizes="32x32" type="image/png">
 <style>
 :root {
-  --color-primary: #661C32;
+  --color-primary: #742c32;
   --color-secondary: #AC905B;
   --color-tertiary: #A4A5A8;
 }

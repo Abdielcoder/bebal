@@ -12,7 +12,7 @@
       flex-direction: column;
       justify-content: left;
       align-items: left;
-      background-color: #661C32;
+      background-color: #742c32;
     }
 
     .time {

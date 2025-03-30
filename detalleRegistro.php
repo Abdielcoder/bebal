@@ -1,4 +1,3 @@
-
 <?php
 include('ajax/is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 
@@ -19,6 +18,7 @@ session_start();
 	include("modal/revisar_pago.php");
 	include("modal/eliminar_registro.php");
 	include("modal/efectuar_inspeccion.php");
+    include("modal/recibo_pdf.php"); // Incluir el nuevo modal para PDF
 
 	$active_principal="active";
 	$active_clientes="";
@@ -210,6 +210,11 @@ echo '<FORM action="principal.php" name="ir_aPrincipal" method="POST">';
 echo '<input type="hidden" name="pagina" value="'.$page.'">';
 
 echo '<button class="btn btn-default" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="color:black;" /><i class="glyphicon glyphicon-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>';
+
+echo '&nbsp;&nbsp;';
+
+// Botón para generar PDF del recibo
+echo '<a href="#reciboPDF" data-toggle="modal" data-id="'.$IDPRINCIPAL.'" data-nombre="'.$nombre_comercial_establecimiento.'" class="btn btn-success" title="Ver Recibo PDF"><i class="glyphicon glyphicon-file"></i> Generar Recibo PDF</a>';
 
 echo '&nbsp;&nbsp;';
 

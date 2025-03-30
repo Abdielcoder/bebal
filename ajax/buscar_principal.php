@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 $per_page = 3; //how much records you want to show

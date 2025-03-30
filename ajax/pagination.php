@@ -1,66 +1,58 @@
 <?php
-function paginate($reload, $page, $tpages, $adjacents) {
-	$prevlabel = "&lsaquo; Prev";
-	$nextlabel = "Sig &rsaquo;";
-	$out = '<ul class="pagination pagination-large">';
+function paginate($reload, $page, $total_pages, $adjacents) {
+	$prevlabel = "Anterior";
+	$nextlabel = "Siguiente";
+	$out = '<ul class="pagination pagination-custom">';
 	
 	// previous label
-##echo '<script>alert("page='.$page.', tpages='.$tpages.', reload='.$reload.'");</script>';
-
-
-	if($page==1) {
-		$out.= "<li class='disabled'><span><a>$prevlabel</a></span></li>";
-	} else if($page==2) {
-		$out.= "<li><span><a href='javascript:void(0);' onclick='load(1)'>$prevlabel</a></span></li>";
-	}else {
-		$out.= "<li><span><a href='javascript:void(0);' onclick='load(".($page-1).")'>$prevlabel</a></span></li>";
-
+	if ($page == 1) {
+		$out.= '<li class="page-item disabled"><a class="page-link">'.$prevlabel.'</a></li>';
+	} else if ($page == 2) {
+		$out.= '<li class="page-item"><a class="page-link" href="'.$reload.'">'.$prevlabel.'</a></li>';
+	} else {
+		$out.= '<li class="page-item"><a class="page-link" href="'.$reload.'&page='.($page-1).'">'.$prevlabel.'</a></li>';
 	}
 	
 	// first label
-	if($page>($adjacents+1)) {
-		$out.= "<li><a href='javascript:void(0);' onclick='load(1)'>1</a></li>";
+	if ($page > ($adjacents+1)) {
+		$out.= '<li class="page-item"><a class="page-link" href="'.$reload.'">1</a></li>';
 	}
 	// interval
-	if($page>($adjacents+2)) {
-		$out.= "<li><a>...</a></li>";
+	if ($page > ($adjacents+2)) {
+		$out.= '<li class="page-item disabled"><a class="page-link">...</a></li>';
 	}
 
 	// pages
-
-	$pmin = ($page>$adjacents) ? ($page-$adjacents) : 1;
-	$pmax = ($page<($tpages-$adjacents)) ? ($page+$adjacents) : $tpages;
-	for($i=$pmin; $i<=$pmax; $i++) {
-		if($i==$page) {
-			$out.= "<li class='active'><a>$i</a></li>";
-		}else if($i==1) {
-			$out.= "<li><a href='javascript:void(0);' onclick='load(1)'>$i</a></li>";
-		}else {
-			$out.= "<li><a href='javascript:void(0);' onclick='load(".$i.")'>$i</a></li>";
+	$pmin = ($page > $adjacents) ? ($page-$adjacents) : 1;
+	$pmax = ($page < ($total_pages-$adjacents)) ? ($page+$adjacents) : $total_pages;
+	for ($i=$pmin; $i<=$pmax; $i++) {
+		if ($i == $page) {
+			$out.= '<li class="page-item active"><a class="page-link">'.$i.'</a></li>';
+		} else if ($i == 1) {
+			$out.= '<li class="page-item"><a class="page-link" href="'.$reload.'">'.$i.'</a></li>';
+		} else {
+			$out.= '<li class="page-item"><a class="page-link" href="'.$reload.'&page='.$i.'">'.$i.'</a></li>';
 		}
 	}
 
 	// interval
-
-	if($page<($tpages-$adjacents-1)) {
-		$out.= "<li><a>...</a></li>";
+	if ($page < ($total_pages-$adjacents-1)) {
+		$out.= '<li class="page-item disabled"><a class="page-link">...</a></li>';
 	}
 
 	// last
-
-	if($page<($tpages-$adjacents)) {
-		$out.= "<li><a href='javascript:void(0);' onclick='load($tpages)'>$tpages</a></li>";
+	if ($page < ($total_pages-$adjacents)) {
+		$out.= '<li class="page-item"><a class="page-link" href="'.$reload.'&page='.$total_pages.'">'.$total_pages.'</a></li>';
 	}
 
 	// next
-
-	if($page<$tpages) {
-		$out.= "<li><span><a href='javascript:void(0);' onclick='load(".($page+1).")'>$nextlabel</a></span></li>";
-	}else {
-		$out.= "<li class='disabled'><span><a>$nextlabel</a></span></li>";
+	if ($page < $total_pages) {
+		$out.= '<li class="page-item"><a class="page-link" href="'.$reload.'&page='.($page+1).'">'.$nextlabel.'</a></li>';
+	} else {
+		$out.= '<li class="page-item disabled"><a class="page-link">'.$nextlabel.'</a></li>';
 	}
 	
-	$out.= "</ul>";
+	$out.= '</ul>';
 	return $out;
 }
 ?>

@@ -660,21 +660,55 @@ window.console = window.console || function(t) {};
 			
 			?>
 			<div class="table-responsive">
-			  <table class="table">
-				<tr  class="success">
-					<th width="15%"><font size="1">-</font></th>
-					<th width="27%"><font size="1">Datos Establecimiento</font></th>
-					<th width="27%"><font size="1">Solicitante</font></th>
-<?php
-##<th><font size="1" width="15%">Fecha Alta</font></th>
-echo '<th width="15%"><font size="1">Observación</font></th>';
-?>
-					<th  width="16%"><font size="1">Acciones y Estatus</font></th>
-					
+			  <table class="table registro-table">
+				<thead>
+				<tr>
+					<th>Imagen</th>
+					<th>Datos Establecimiento</th>
+					<th>Solicitante</th>
+					<th>Observación</th>
+					<th class="text-end">Acciones</th>
 				</tr>
-<?php
+				</thead>
+				<tbody>
+				<?php
 
 ##############################
+					// escaping, additionally removing everything that could be (html/javascript-) code
+         $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
+		 $aColumns = array('domicilio');//Columnas de busqueda
+		 $sTable = "principal";
+	 	 if ( $ID_MUNICIPIO==0 ) $sWhere = "  estatus!='ELIMINADO' ";
+		 else $sWhere = " WHERE  estatus!='ELIMINADO' AND id_municipio=".$ID_MUNICIPIO;
+		if ( $_GET['q'] != "" )
+		{
+			$sWhere = "WHERE  estatus!='ELIMINADO' AND id_municipio=".$ID_MUNICIPIO."  AND (";
+			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			{
+				$sWhere .= $aColumns[$i]." LIKE '%".$q."%' OR ";
+			}
+			$sWhere = substr_replace( $sWhere, "", -3 );
+			$sWhere .= ')';
+		}
+		$sWhere.=" order by id_municipio, id";
+		//echo $sWhere;
+		include 'pagination.php'; //include pagination file
+		//pagination variables
+		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
+		$adjacents  = 4; //gap between pages after number of adjacents
+		$offset = ($page - 1) * $per_page;
+		//Count the total number of row in your table*/
+		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
+		$row= mysqli_fetch_array($count_query);
+		$numrows = $row['numrows'];
+		$total_pages = ceil($numrows/$per_page);
+		$reload = './principal.php';
+		//main query to fetch the data
+		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$query = mysqli_query($con, $sql);
+		//loop through fetched data
+		if ($numrows>0){
+
 ##############################
 			
 //$VIDEO_URL1='https://www.youtube.com/embed/Tos5vaJ4IAM';
@@ -796,39 +830,53 @@ echo '<input type="hidden" value="'.$telefono_solicitante.'" id="telefono_solici
 
 echo '<tr>';
 ##########
-echo '<td>';
+echo '<td data-label="Imagen">';
 #################
 ###  FOTO
 #################
 $foto_file='../../'.FOTOSMEDIAS.$id.'-'.$foto.'.jpg';
 if ( $foto==NULL || $foto=='' )
-	echo '<a href="#" data-toggle="modal" data-target="#myCarusel'.$ciclo.'"><img class="item-img img-responsive" src="img/no_imagen.jpg" alt="No Existe Foto" style="width:50px;height:50px;"></a>';
+	echo '<a href="#" data-toggle="modal" data-target="#myCarusel'.$ciclo.'"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
 else {
-	if ( file_exists($foto_file)!=1 ) echo '<a href="#" data-toggle="modal" data-target="#myCarusel'.$ciclo.'"><img class="item-img img-responsive"   src="img/no_imagen.jpg" alt="No Existe Foto" style="width:50px;height:50px;"></a>';
+	if ( file_exists($foto_file)!=1 ) echo '<a href="#" data-toggle="modal" data-target="#myCarusel'.$ciclo.'"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
 	else {
-	  echo '<a href="#" data-toggle="modal" data-target="#myCarusel'.$ciclo.'"><img id="myImg" src="'.$foto_file.'" class="item-img img-responsive" alt="Registro  '.$folio.' / '.$numero_permiso.'  ('.$calle_establecimiento.')" style="width:110px;height:80px;"></a>';
+	  echo '<a href="#" data-toggle="modal" data-target="#myCarusel'.$ciclo.'"><img id="myImg" src="'.$foto_file.'" class="img-thumbnail-custom" alt="Registro '.$folio.' / '.$numero_permiso.'  ('.$calle_establecimiento.')"></a>';
 	}
 }
 
-echo '<font size="1">('.$id.')</font>';
-
-echo '<font color="black" size="1"> '.$fecha_alta.'</font><br><font color="blue" size="1">'.$operacion.'</font><BR><font size="1">'.$numero_permiso.'</font>';
+echo '<span class="d-block text-muted mt-2"><small>'.$id.' | '.$fecha_alta.'</small></span>';
+echo '<span class="d-block text-primary"><small>'.$operacion.' | '.$numero_permiso.'</small></span>';
 
 echo '</td>';
 ##########
-echo '<td><font size="1" color="blue"><b>'.ucwords($nombre_comercial_establecimiento).'</font></b><br><span style="background:black"><font color="white" size="1">'.$GIRO.', '.$MODALIDAD_GA.'</font></span><br><font size="1">'.$calle_establecimiento.' '.$numero_establecimiento.', CP '.$cp_establecimiento.'<br><u>Delegación: </u>'.$DELEGACION.', '.$COLONIA.' ('.$MUNICIPIO.')</font></td>';
+echo '<td data-label="Datos Establecimiento">
+	<div class="datos-establecimiento">
+		<span class="nombre-comercial">'.ucwords($nombre_comercial_establecimiento).'</span>
+		<span class="detalle-giro">'.$GIRO.', '.$MODALIDAD_GA.'</span>
+		<span class="direccion">'.$calle_establecimiento.' '.$numero_establecimiento.', CP '.$cp_establecimiento.'</span>
+		<span class="direccion"><span class="etiqueta">Delegación:</span> '.$DELEGACION.', '.$COLONIA.' ('.$MUNICIPIO.')</span>
+	</div>
+</td>';
 ##########
-echo '<td><font size="1" color="red"><b>'.ucwords($nombre_persona_fisicamoral_solicitante).'</font></b><br><span style="background:yellow"><font color="black" size="1">'.$nombre_representante_legal_solicitante.'</font></span><br><font size="1">'.$email_solicitante.'<br><u>Email: </u>'.$email_solicitante.', ('.$telefono_solicitante.')</font></td>';
+echo '<td data-label="Solicitante">
+	<div class="datos-solicitante">
+		<span class="nombre-comercial">'.ucwords($nombre_persona_fisicamoral_solicitante).'</span>
+		<span class="detalle-giro" style="background-color:var(--color-secondary); color:var(--color-primary);">'.$nombre_representante_legal_solicitante.'</span>
+		<span class="contacto"><span class="etiqueta">Email:</span> '.$email_solicitante.'</span>
+		<span class="contacto"><span class="etiqueta">Tel:</span> '.$telefono_solicitante.'</span>
+	</div>
+</td>';
 ##########
 
-if ( strlen($observaciones)>150 ) echo '<td><font size="1">'.substr($observaciones,0,150).'<font color="blue"><abbr title="'.$observaciones.'">...More</abbr></font></td>';
+if ( strlen($observaciones)>150 ) 
+	echo '<td data-label="Observación"><div class="info-tooltip">' . substr($observaciones,0,150) . '...<span class="tooltip-text">'.$observaciones.'</span></div></td>';
 else {
-echo '<td><font size="1">'.$observaciones.'</font></td>';
+	echo '<td data-label="Observación">'.$observaciones.'</td>';
 }
 ?>
 						
-<td class='text-right'>
-
+<td data-label="Acciones" class="text-end">
+<div class="action-buttons">
 
 <?php
 
@@ -839,7 +887,7 @@ if ( $operacion!='NUEVO' ) {
 ############################
 ####  MAPA
 
-echo '<button id="myBtn2_'.$ciclo.'" title="Mapa Google Maps"><i class="glyphicon glyphicon-map-marker"></i></button>&nbsp;';
+echo '<button id="myBtn2_'.$ciclo.'" class="btn btn-sm btn-action btn-primary-custom" title="Mapa Google Maps"><i class="bi bi-geo-alt"></i></button>';
 echo '<div id="myModal_Emergente2_'.$ciclo.'" class="modal_Emergente2">';
 echo '<div class="modal_Emergente2-content" width="">';
 echo '<span class="close_Emergente2_'.$ciclo.'">&times;</span>';
@@ -857,7 +905,7 @@ echo '</div>';
 echo '</div>';
 } else {
 ##if ( $estatus=='Efectuar Inspeccion' ) {
-echo '<button id="myBtn2_'.$ciclo.'" title="Mapa Google Maps" disabled><i class="glyphicon glyphicon-map-marker"></i></button>&nbsp;';
+echo '<button id="myBtn2_'.$ciclo.'" class="btn btn-sm btn-action btn-secondary-custom" title="Mapa Google Maps" disabled><i class="bi bi-geo-alt"></i></button>';
 echo '<div id="myModal_Emergente2_'.$ciclo.'" class="modal_Emergente2">';
 echo '<div class="modal_Emergente2-content" width="">';
 echo '<span class="close_Emergente2_'.$ciclo.'">&times;</span>';
@@ -871,26 +919,24 @@ echo '</tr></table>';
 echo '</div>';
 echo '</div>';
 
-echo '<a href="principalFotos.php?id='.$row["id"].'&page='.$page.'" class="btn btn-default" title="Galerias de Fotos"> <i class="glyphicon glyphicon-camera"></i></a>';
+echo '<a href="principalFotos.php?id='.$row["id"].'&page='.$page.'" class="btn btn-sm btn-action btn-secondary-custom" title="Galerías de Fotos"><i class="bi bi-camera"></i></a>';
 
 }
 
 ############
-echo '<a href="detalleRegistro.php?id='.$row["id"].'&page='.$page.'" class="btn btn-default" title="Detalle Registro"> <i class="glyphicon glyphicon-edit"></i></a>';
+echo '<a href="detalleRegistro.php?id='.$row["id"].'&page='.$page.'" class="btn btn-sm btn-action btn-primary-custom" title="Detalle Registro"><i class="bi bi-pencil"></i></a>';
 ############
 
 if ( $estatus=='Efectuar Inspeccion' ) {
-echo '<br><span style="background:pink"><font color="black" size="1">'.$estatus.'</font></span>';
+echo '<div class="estatus-badge estatus-inspeccion mt-2">'.$estatus.'</div>';
+} else if ( $estatus=='Inspeccion Realizada' ) {
+echo '<div class="estatus-badge estatus-realizada mt-2">'.$estatus.'</div>';
 } else {
-if ( $estatus=='Inspeccion Realizada' ) {
-echo '<br><span style="background:#000000;"><font color="white" size="1">'.$estatus.'</font></span>';
-} else {
-echo '<br><span style="background:#AC905B;"><font color="white" size="1">'.$estatus.'</font></span>';
+echo '<div class="estatus-badge estatus-generar mt-2">'.$estatus.'</div>';
 }
-}
-
 
 ?>
+</div>
 </td>
 </tr>
 
@@ -1120,22 +1166,27 @@ echo '</tr>';
 }
 }
 
-				?>
-				<tr>
-					<td colspan=4><span class="pull-right">
-					<?php
-					 echo paginate($reload, $page, $total_pages, $adjacents);
-					?></span></td>
-				</tr>
-			  </table>
-			</div>
-<?php
-
-
-		}
-
-
-
+echo '</tbody>';
+echo '</table>';
+echo '</div>';
+		
+$inicios=$offset+1;
+$finales=$offset+$numrows;
+echo '<div class="clearfix"></div>';
+echo '<div class="row">';
+echo '<div class="col-md-12">';
+echo '<div class="pagination-container text-center mt-4">';
+echo paginate($reload, $page, $total_pages, $adjacents);
+echo '</div>';
+echo '<div class="col-md-12 text-center">';
+echo '<p class="text-muted">Mostrando '.$inicios.' al '.$finales.' de '.$numrows.' registros</p>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+		
+} else {
+echo '<div class="alert alert-warning text-center">No hay resultados para esta búsqueda.</div>';
+}
 
 ?>
 

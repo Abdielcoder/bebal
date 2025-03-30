@@ -14,6 +14,7 @@
 	$active_usuarios="";	
 	$active_reportes="";
 	$active_delegaciones="";
+	$active_principal="active";
 
 
 	$title="bebal";
@@ -34,14 +35,12 @@
 	?>
 	
     <div class="container">
-	<div class="panel panel-success">
-		<div class="panel-heading">
-		    <div class="btn-group pull-right">
-				<button type='button' class="btn btn-danger" data-toggle="modal" data-target="#nuevoRegistroPrincipal" style="background-color:#661C32;color:white"><span class="glyphicon glyphicon-plus" ></span> Nuevo Registro</button>
-			</div>
-			<h5><i class='glyphicon glyphicon-search'></i> Buscar Registro</h5>
+	<div class="panel">
+		<div class="panel-header-custom">
+			<h5><i class="bi bi-search"></i> Buscar Registro</h5>
+		    <button type='button' class="btn-registro-nuevo" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal"><i class="bi bi-plus-circle"></i> Nuevo Registro</button>
 		</div>
-		<div class="panel-body">
+		<div class="panel-body-custom">
 		
 			
 			
@@ -49,31 +48,28 @@
 			include("modal/registro_principal.php");
 			include("modal/editar_registro.php");
 			?>
-			<form class="form-horizontal" role="form" id="datos_cotizacion">
+			<form class="form-horizontal form-busqueda" role="form" id="datos_cotizacion">
 				
-						<div class="form-group row">
-							<label for="q" class="col-md-2 control-label">Dirección</label>
-							<div class="col-md-5">
-								<input type="text" class="form-control" id="q" placeholder="Escribe dirección" onkeyup='load(1);'>
-							</div>
-							<div class="col-md-3">
-								<button type="button" class="btn btn-default" onclick='load(1);'>
-									<span class="glyphicon glyphicon-search" ></span> Buscar</button>
-								<span id="loader"></span>
-							</div>
-							
-						</div>
+				<div class="row mb-3">
+					<label for="q" class="col-md-2 col-form-label">Dirección</label>
+					<div class="col-md-6">
+						<input type="text" class="form-control" id="q" placeholder="Escribe dirección" onkeyup='load(1);'>
+					</div>
+					<div class="col-md-4">
+						<button type="button" class="btn btn-buscar-custom" onclick='load(1);'>
+							<i class="bi bi-search"></i> Buscar
+						</button>
+						<span id="loader"></span>
+					</div>
+				</div>
 				
-				
+			</form>
+			<div id="resultados"></div><!-- Carga los datos ajax -->
+			<div class='outer_div'></div><!-- Carga los datos ajax -->
 
 
-</form>
-<div id="resultados"></div><!-- Carga los datos ajax -->
-<div class='outer_div'></div><!-- Carga los datos ajax -->
-
-
-  </div>
-</div>
+		</div>
+	</div>
 		 
 	</div>
 	<hr>

@@ -8,12 +8,26 @@
 			$.ajax({
 				url:'./ajax/buscar_principal.php?action=ajax&page='+page+'&q='+q,
 				 beforeSend: function(objeto){
-				 $('#loader').html('<img src="./img/ajax-loader.gif"> Cargando...');
+				 $('#loader').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
 			  },
 				success:function(data){
 					$(".outer_div").html(data).fadeIn('slow');
 					$('#loader').html('');
 					
+					// Agregar controladores de evento para los enlaces de paginación
+					$('.pagination-custom .page-link').on('click', function(e) {
+						e.preventDefault();
+						var page = $(this).attr('href');
+						if (page) {
+							// Extraer el número de página de la URL
+							var pageNum = page.match(/page=(\d+)/);
+							if (pageNum && pageNum[1]) {
+								load(pageNum[1]);
+							} else {
+								load(1);
+							}
+						}
+					});
 				}
 			})
 		}

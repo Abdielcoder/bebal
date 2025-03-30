@@ -18,7 +18,6 @@ session_start();
 	include("modal/revisar_pago.php");
 	include("modal/eliminar_registro.php");
 	include("modal/efectuar_inspeccion.php");
-    include("modal/recibo_pdf.php"); // Incluir el nuevo modal para PDF
 
 	$active_principal="active";
 	$active_clientes="";
@@ -213,13 +212,8 @@ echo '<button class="btn btn-default" name="ir_aPrincipal" type="submit" title="
 
 echo '&nbsp;&nbsp;';
 
-// Botón para generar PDF del recibo (corregido)
-echo '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#reciboPDF" data-id="'.$IDPRINCIPAL.'" data-nombre="'.$nombre_comercial_establecimiento.'"><i class="glyphicon glyphicon-file"></i> Generar Recibo PDF</button>';
-
-echo '&nbsp;&nbsp;';
-
-// Botón para generar HTML del recibo (alternativa)
-echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-primary"><i class="glyphicon glyphicon-globe"></i> Ver Recibo HTML</a>';
+// Eliminar el botón de PDF y modificar el botón HTML para hacerlo más prominente
+echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-success"><i class="glyphicon glyphicon-file"></i> Generar Recibo</a>';
 
 echo '&nbsp;&nbsp;';
 

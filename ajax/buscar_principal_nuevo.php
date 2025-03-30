@@ -103,8 +103,8 @@ if ($action == 'ajax') {
     
     // Configuración de paginación
     include 'pagination.php';
-    $page = (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) ? $_REQUEST['page'] : 1;
-    $per_page = 3; // Registros por página
+    $page = (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) ? intval($_REQUEST['page']) : 1;
+    $per_page = 3; // Registros por página (fijo en 3)
     $adjacents = 4; // Espacios entre páginas
     $offset = ($page - 1) * $per_page;
     
@@ -117,9 +117,23 @@ if ($action == 'ajax') {
     $row = mysqli_fetch_array($count_query);
     $numrows = $row['numrows'];
     $total_pages = ceil($numrows/$per_page);
-    $reload = './principal.php';
     
-    // Consulta principal
+    // Validar que la página solicitada esté dentro del rango válido
+    if ($page < 1) $page = 1;
+    if ($page > $total_pages && $total_pages > 0) $page = $total_pages;
+    
+    // Recalcular el offset basado en la página validada
+    $offset = ($page - 1) * $per_page;
+    
+    // Definir URL de recarga para la paginación (mantiene la búsqueda)
+    $reload = './principal.php';
+    if (!empty($q)) {
+        $reload .= "?q=" . urlencode($q) . "&";
+    } else {
+        $reload .= "?";
+    }
+    
+    // Consulta principal con LIMIT ajustado
     $main_sql = "SELECT * FROM $sTable $sWhere LIMIT $offset,$per_page";
     echo "<!-- Debug SQL: " . $main_sql . " -->";
     $query = mysqli_query($con, $main_sql);
@@ -330,10 +344,17 @@ if ($action == 'ajax') {
         <div class="row">
             <div class="col-md-12">
                 <div class="pagination-container text-center mt-4">
-                    <?php echo paginate($reload, $page, $total_pages, $adjacents); ?>
+                    <?php 
+                    // Asegurarse de que la paginación use el parámetro 'page' para mantener consistencia
+                    echo paginate($reload, $page, $total_pages, $adjacents); 
+                    ?>
                 </div>
                 <div class="col-md-12 text-center">
-                    <p class="text-muted">Mostrando <?php echo ($offset+1); ?> al <?php echo min($offset+$per_page, $numrows); ?> de <?php echo $numrows; ?> registros</p>
+                    <p class="text-muted">
+                        Mostrando <?php echo min($numrows, ($offset+1)); ?> al 
+                        <?php echo min($offset+$per_page, $numrows); ?> de 
+                        <?php echo $numrows; ?> registros
+                    </p>
                 </div>
             </div>
         </div>

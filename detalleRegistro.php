@@ -54,6 +54,9 @@ session_start();
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             margin-bottom: 15px;
             overflow: hidden;
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .seccion-datos .encabezado {
@@ -100,7 +103,9 @@ session_start();
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 15px 0 50px 0;
+            margin: 15px auto 50px auto;
+            max-width: 85%;
+            justify-content: center;
         }
         
         .nota-legal {
@@ -110,6 +115,9 @@ session_start();
             font-size: 0.75rem;
             border: 1px solid #ddd;
             margin-bottom: 15px;
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .estatus-seccion {
@@ -117,6 +125,9 @@ session_start();
             border-radius: 4px;
             border: 1px solid #ddd;
             margin-bottom: 15px;
+            max-width: 85%;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         @media (max-width: 768px) {

@@ -671,28 +671,35 @@ a:hover {
   
   .registro-table tbody tr {
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    position: relative;
+    overflow: hidden;
   }
   
   .registro-table tbody td {
     display: block;
-    text-align: right;
+    text-align: left;
     font-size: 0.9rem;
     padding: 0.75rem 1rem;
     position: relative;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    min-height: 50px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
   
   .registro-table tbody td:before {
     content: attr(data-label);
-    float: left;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--color-primary);
+    display: block;
+    margin-bottom: 0.5rem;
   }
   
   .registro-table tbody td:last-child {
@@ -700,32 +707,48 @@ a:hover {
     text-align: center;
   }
 
-  /* Ajustes para que la fecha/hora tenga más margen en dispositivos móviles */
-  .registro-table td[data-label="Imagen"] .text-muted,
-  .registro-table td[data-label="Imagen"] .text-primary {
-    margin-left: -15px;
-    text-align: left;
-    padding-left: 0;
-    display: inline-block;
-    width: 100%;
+  /* Ajustes para los datos de la imagen en móvil */
+  .registro-table td[data-label="Imagen"] {
+    text-align: center;
+    background-color: rgba(var(--color-primary-rgb), 0.05);
+  }
+  
+  .registro-table td[data-label="Imagen"] .img-thumbnail-custom {
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .registro-table td[data-label="Imagen"] .text-muted {
+    display: block;
+    text-align: center;
+    margin-top: 0.5rem;
   }
 
-  /* Alineación de datos en móvil */
+  /* Ajuste para datos de establecimiento y solicitante */
   .datos-establecimiento,
   .datos-solicitante {
-    text-align: left;
-    padding-left: 120px;
+    padding-left: 0;
+    margin-top: 0.5rem;
   }
-
-  /* Ajuste para los botones de acción en vista móvil */
+  
+  /* Mejorar visualización de botones de acción en móvil */
   .action-buttons {
+    display: flex;
     justify-content: center;
-    margin-top: 10px;
+    gap: 1rem;
+    margin-top: 0.5rem;
   }
-
+  
+  .estatus-badge {
+    margin: 0.5rem auto;
+    display: inline-block;
+  }
+  
+  /* Ajustes para la cabecera y botones principales */
   .panel-header-custom {
     flex-direction: column;
     align-items: flex-start;
+    padding: 1rem;
   }
   
   .panel-header-custom .btn-registro-nuevo {
@@ -747,6 +770,40 @@ a:hover {
     width: 100%;
     justify-content: center;
     margin-top: 0.5rem;
+  }
+  
+  /* Mejorar espaciados generales y legibilidad */
+  .container {
+    padding: 0.5rem;
+  }
+  
+  .panel-body-custom {
+    padding: 1rem;
+  }
+}
+
+/* Estilos responsivos para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .registro-table tbody td {
+    padding: 0.6rem;
+  }
+  
+  .datos-establecimiento .nombre-comercial,
+  .datos-solicitante .nombre-comercial {
+    font-size: 0.95rem;
+  }
+  
+  .direccion, .contacto {
+    font-size: 0.8rem;
+  }
+  
+  .btn-action {
+    padding: 0.35rem 0.6rem;
+  }
+  
+  .estatus-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
   }
 }
 
@@ -949,52 +1006,6 @@ table.registro-table {
     border-bottom: 1px solid #ddd;
 }
 
-/* Estilos responsivos para móviles */
-@media (max-width: 768px) {
-    .registro-table thead {
-        display: none;
-    }
-    
-    .registro-table tbody tr {
-        display: block;
-        margin-bottom: 15px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        border-radius: 4px;
-        overflow: hidden;
-    }
-    
-    .registro-table td {
-        display: block;
-        text-align: right;
-        position: relative;
-        padding-left: 50%;
-        border-bottom: 1px solid #eee;
-    }
-    
-    .registro-table td:before {
-        content: attr(data-label);
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-weight: bold;
-        color: var(--color-primary);
-    }
-    
-    .registro-table td:last-child {
-        border-bottom: none;
-        text-align: center;
-        padding-left: 10px;
-    }
-    
-    .action-buttons {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 5px;
-    }
-}
-
 /* Estilo para el estado de loading */
 .loading-overlay {
     position: fixed;
@@ -1158,4 +1169,73 @@ table.registro-table {
 .info-tooltip:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
+}
+
+/* Estilos adicionales para mejorar la visualización en móvil */
+.registro-row {
+  transition: all 0.3s ease;
+}
+
+.imagen-celda {
+  text-align: center;
+}
+
+.datos-celda {
+  min-width: 150px;
+}
+
+.observacion-celda {
+  min-width: 100px;
+}
+
+.acciones-celda {
+  min-width: 100px;
+}
+
+.id-info {
+  font-size: 0.8rem;
+  color: var(--color-tertiary-dark);
+  margin-top: 5px;
+}
+
+.observacion-texto {
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* Ajustes para vista móvil específicos */
+@media (max-width: 768px) {
+  .imagen-celda {
+    background-color: rgba(var(--color-primary-rgb), 0.03);
+    border-radius: 8px 8px 0 0;
+    padding-top: 1rem;
+  }
+  
+  .id-info {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .acciones-celda {
+    background-color: rgba(var(--color-secondary-rgb), 0.05);
+    border-radius: 0 0 8px 8px;
+    padding: 1rem;
+  }
+  
+  .datos-celda, .observacion-celda {
+    padding: 1rem;
+  }
+  
+  .observacion-texto {
+    text-align: left;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+  }
+}
+
+/* Mejoras para la tabla de registros y solución de problemas de carga */
+.outer_div {
+    transition: opacity 0.3s ease;
+    min-height: 100px; /* Garantiza espacio para contenido incluso cuando está vacío */
 }

@@ -1,5 +1,5 @@
 <?php
-session_start();
+// Quito session_start() ya que is_logged.php también lo hace
 
 // Habilitar la visualización de errores para depuración
 ini_set('display_errors', 1);
@@ -158,38 +158,49 @@ if ($action == 'ajax') {
                     $email = $row['email_solicitante'];
                     $telefono = $row['telefono_solicitante'];
                     ?>
-                    <tr>
-                        <td data-label="Imagen">
+                    <tr class="registro-row">
+                        <td data-label="Imagen" class="imagen-celda">
                             <a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>
-                            <span class="d-block text-muted mt-2"><small>ID: <?php echo $id; ?> | Folio: <?php echo $folio; ?></small></span>
+                            <span class="d-block text-muted mt-2 id-info"><small>ID: <?php echo $id; ?> | Folio: <?php echo $folio; ?></small></span>
                         </td>
-                        <td data-label="Datos Establecimiento">
+                        <td data-label="Datos Establecimiento" class="datos-celda">
                             <div class="datos-establecimiento">
                                 <span class="nombre-comercial"><?php echo ucwords($nombre_comercial); ?></span>
                                 <span class="direccion"><?php echo $calle . ' ' . $numero; ?></span>
+                                <?php if (!empty($entre_calles)): ?>
                                 <span class="direccion"><?php echo $entre_calles; ?></span>
+                                <?php endif; ?>
+                                <?php if (!empty($numero_interno)): ?>
+                                <span class="direccion">Int: <?php echo $numero_interno; ?></span>
+                                <?php endif; ?>
                             </div>
                         </td>
-                        <td data-label="Solicitante">
+                        <td data-label="Solicitante" class="datos-celda">
                             <div class="datos-solicitante">
                                 <span class="nombre-comercial"><?php echo ucwords($nombre_solicitante); ?></span>
+                                <?php if (!empty($email)): ?>
                                 <span class="contacto"><span class="etiqueta">Email:</span> <?php echo $email; ?></span>
+                                <?php endif; ?>
+                                <?php if (!empty($telefono)): ?>
                                 <span class="contacto"><span class="etiqueta">Tel:</span> <?php echo $telefono; ?></span>
+                                <?php endif; ?>
                             </div>
                         </td>
-                        <td data-label="Observación">
+                        <td data-label="Observación" class="observacion-celda">
                             <?php 
-                            if (strlen($observaciones) > 150) {
-                                echo substr($observaciones, 0, 150) . '...';
+                            if (empty($observaciones)) {
+                                echo '<span class="text-muted">sin observaciones</span>';
+                            } else if (strlen($observaciones) > 150) {
+                                echo '<div class="observacion-texto">' . substr($observaciones, 0, 150) . '...</div>';
                             } else {
-                                echo $observaciones; 
+                                echo '<div class="observacion-texto">' . $observaciones . '</div>'; 
                             }
                             ?>
                         </td>
-                        <td data-label="Acciones" class="text-end">
+                        <td data-label="Acciones" class="acciones-celda">
                             <div class="action-buttons">
                                 <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Editar registro" onclick="obtener_datos('<?php echo $id; ?>','<?php echo $page; ?>');"><i class="bi bi-pencil"></i></a>
-                                <div class="estatus-badge estatus-inspeccion mt-2"><?php echo $estatus; ?></div>
+                                <div class="estatus-badge estatus-inspeccion"><?php echo $estatus; ?></div>
                             </div>
                         </td>
                     </tr>

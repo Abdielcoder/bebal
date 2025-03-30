@@ -46,104 +46,216 @@ if ($login->isUserLoggedIn() == true) {
 <style>
 :root {
   --color-primary: #742c32;
+  --color-primary-dark: #5e2328;
+  --color-primary-light: #8a363c;
   --color-secondary: #AC905B;
+  --color-secondary-dark: #8c7342;
+  --color-secondary-light: #c4ab7a;
   --color-tertiary: #A4A5A8;
+  --color-tertiary-dark: #87888c;
+  --color-tertiary-light: #c2c3c5;
+  --color-white: #f7f7f7;
+  --color-text-dark: #333333;
 }
+
+/* Estilo basado en la imagen de referencia */
 body {
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #57a1c8 0%, #3487b6 35%, #206997 100%);
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
 }
-.card-container {
-  max-width: 350px;
-  padding: 40px;
-  background-color: #fff;
+
+.login-container {
+  background-color: rgba(255, 255, 255, 0.15);
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 350px;
+  width: 100%;
+  padding: 30px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  color: var(--color-white);
 }
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
+
+.avatar-container {
+  width: 120px;
+  height: 120px;
+  background-color: #0a2641;
   border-radius: 50%;
+  margin: 0 auto 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.btn-login {
-  background-color: var(--color-secondary);
+
+.avatar-icon {
   color: white;
+  font-size: 60px;
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.form-control {
+  background-color: transparent !important;
   border: none;
-  transition: all 0.3s ease;
-}
-.btn-login:hover {
-  background-color: #8c7342;
+  border-bottom: 1px solid white;
+  border-radius: 0;
+  padding-left: 35px;
   color: white;
+  height: 45px;
 }
-.brand-title {
-  color: var(--color-primary);
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.form-control:focus {
+  box-shadow: none;
+  border-color: var(--color-secondary);
+}
+
+.form-icon {
+  position: absolute;
+  top: 12px;
+  left: 5px;
+  color: white;
+  font-size: 18px;
+}
+
+.login-btn {
+  background-color: #0a2641;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  width: 100%;
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-top: 10px;
+  transition: all 0.3s;
 }
-.brand-subtitle {
-  color: var(--color-tertiary);
-  font-size: 0.8rem;
-  margin-bottom: 15px;
+
+.login-btn:hover {
+  background-color: #15335a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.remember-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.remember-check {
+  display: flex;
+  align-items: center;
+}
+
+.remember-check input {
+  margin-right: 5px;
+}
+
+.forgot-link {
+  color: white;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  color: var(--color-secondary);
+}
+
+/* Adaptar los colores al sistema */
+.avatar-container {
+  background-color: #0a2641;
+  border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.login-btn {
+  background-color: #0a2641;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+
+.login-btn:hover {
+  background-color: #15335a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 </style>
 </head>
 <body>
- <div class="container d-flex justify-content-center align-items-center min-vh-100">
-	<div class="card-container">
-        <div class="text-center mb-4">
-          <h4 class="brand-title">Secretaría de Gobierno Municipal</h4>
-          <p class="brand-subtitle">Programa de Identificación, Empadronamiento, Regulación y Revalidación de Establecimientos Que Expiden y Venden al Público en Envase Cerrado y Abierto, Bebidas con Contenido Alcohólico</p>
-        </div>
-        <img id="profile-img" class="profile-img-card" src="img/avatar_2x.png" />
-        <form method="post" accept-charset="utf-8" action="login.php" name="loginform" autocomplete="off" role="form" class="mt-3">
-        <?php
-            // show potential errors / feedback (from login object)
-            if (isset($login)) {
-                if ($login->errors) {
-                    ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Error!</strong>
-                    <?php
-                    foreach ($login->errors as $error) {
-                        echo $error;
-                    }
-                    ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php
-                }
-                if ($login->messages) {
-                    ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Aviso!</strong>
-                    <?php
-                    foreach ($login->messages as $message) {
-                        echo $message;
-                    }
-                    ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <?php
-                }
+  <div class="login-container">
+    <div class="avatar-container">
+      <i class="bi bi-person avatar-icon"></i>
+    </div>
+    
+    <?php
+    // show potential errors / feedback (from login object)
+    if (isset($login)) {
+        if ($login->errors) {
+            ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!</strong>
+            <?php
+            foreach ($login->errors as $error) {
+                echo $error;
             }
             ?>
-            <div class="form-floating mb-3">
-                <input class="form-control" id="floatingInput" placeholder="Usuario" name="user_name" type="text" value="" required>
-                <label for="floatingInput">Usuario</label>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <div class="form-floating mb-3">
-                <input class="form-control" id="floatingPassword" placeholder="Contraseña" name="user_password" type="password" value="" autocomplete="off" required>
-                <label for="floatingPassword">Contraseña</label>
+            <?php
+        }
+        if ($login->messages) {
+            ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>Aviso!</strong>
+            <?php
+            foreach ($login->messages as $message) {
+                echo $message;
+            }
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-lg btn-login" name="login" id="submit">
-                    <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+            <?php
+        }
+    }
+    ?>
+    
+    <form method="post" accept-charset="utf-8" action="login.php" name="loginform" autocomplete="off" role="form">
+      <div class="form-group">
+        <i class="bi bi-envelope form-icon"></i>
+        <input type="text" class="form-control" name="user_name" placeholder="Usuario" required>
+      </div>
+      
+      <div class="form-group">
+        <i class="bi bi-lock form-icon"></i>
+        <input type="password" class="form-control" name="user_password" placeholder="Contraseña" autocomplete="off" required>
+      </div>
+      
+      <div class="remember-group">
+        <div class="remember-check">
+          <input type="checkbox" id="remember">
+          <label for="remember">Recordarme</label>
+        </div>
+        <a href="#" class="forgot-link">¿Olvidó su contraseña?</a>
+      </div>
+      
+      <button type="submit" class="login-btn" name="login">INICIAR SESIÓN</button>
+    </form>
+  </div>
 </body>
 </html>
 

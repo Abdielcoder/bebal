@@ -192,10 +192,15 @@ if ($action == 'ajax') {
                     <tr class="registro-row">
                         <td data-label="Imagen" class="imagen-celda">
                             <?php 
-                            if (!empty($foto) && file_exists("img/fotos/".$foto)) {
-                                echo '<a href="img/fotos/'.$foto.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
-                                    <img class="img-thumbnail-custom" src="img/fotos/'.$foto.'" alt="Imagen de '.$nombre_comercial.'">
-                                </a>';
+                            if (!empty($foto) && is_numeric($foto)) {
+                                $rutaFoto = "../".FOTOSMEDIAS.$id."-".$foto.".jpg";
+                                if (file_exists($rutaFoto)) {
+                                    echo '<a href="'.$rutaFoto.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                        <img class="img-thumbnail-custom" src="'.$rutaFoto.'" alt="Imagen de '.$nombre_comercial.'">
+                                    </a>';
+                                } else {
+                                    echo '<a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
+                                }
                             } else {
                                 echo '<a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
                             }
@@ -245,7 +250,7 @@ if ($action == 'ajax') {
                                 <a href="#" class="btn btn-sm btn-action btn-info-custom" title="Coordenadas" data-bs-toggle="modal" data-bs-target="#coordenadasModal" onclick="mapa_valla('<?php echo $id; ?>')"><i class="bi bi-geo-alt"></i></a>
                                 
                                 <!-- Botón de cámara/foto -->
-                                <a href="#" class="btn btn-sm btn-action btn-success-custom" title="Foto" data-bs-toggle="modal" data-bs-target="#fotoModal" data-id="<?php echo $id; ?>"><i class="bi bi-camera"></i></a>
+                                <a href="principalFotos.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-success-custom" title="Gestionar Fotos"><i class="bi bi-camera"></i></a>
                                 
                                 <!-- Estatus -->
                                 <div class="estatus-badge estatus-inspeccion"><?php echo $estatus; ?></div>

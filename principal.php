@@ -88,45 +88,6 @@
 			  </div>
 			</div>
 			
-			<!-- Modal para subir foto -->
-			<div class="modal fade" id="fotoModal" tabindex="-1" aria-labelledby="fotoModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h5 class="modal-title" id="fotoModalLabel">Subir Foto</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				  </div>
-				  <div class="modal-body">
-					<!-- Formulario para subir foto -->
-					<form method="post" id="guardar_foto" name="guardar_foto" enctype="multipart/form-data">
-						<input type="hidden" id="id_registro_foto" name="id_registro_foto">
-						
-						<div class="form-group mb-3">
-							<label for="foto" class="control-label">Seleccionar Foto</label>
-							<input type="file" class="form-control" id="foto" name="foto" accept="image/*">
-							<small class="text-muted">Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB</small>
-						</div>
-						
-						<div class="form-group mb-3">
-							<label>Vista previa</label>
-							<div id="preview" class="text-center mt-2">
-								<img src="img/no_imagen.jpg" class="img-fluid" alt="Vista previa" style="max-height: 200px;">
-							</div>
-						</div>
-						
-						<div class="alert alert-info">
-							Puede tomar una foto con su dispositivo o seleccionar una existente.
-						</div>
-					</form>
-				  </div>
-				  <div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-					<button type="button" class="btn btn-primary" id="guardar_imagen">Guardar</button>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			
 			<form class="form-horizontal form-busqueda" role="form" id="datos_cotizacion">
 				
 				<div class="row mb-3">

@@ -253,80 +253,9 @@ function generar_recibo(id) {
     });
 }
 
-// Manejo del modal de foto
+// Manejo del modal de coordenadas
 $(document).ready(function() {
-    // Cuando se abre el modal de foto
-    $('#fotoModal').on('show.bs.modal', function(e) {
-        var button = $(e.relatedTarget);
-        var id = button.data('id');
-        $('#id_registro_foto').val(id);
-        $('#preview img').attr('src', 'img/no_imagen.jpg');
-    });
-    
-    // Previsualización de la imagen seleccionada
-    $('#foto').change(function() {
-        var input = this;
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            
-            reader.onload = function(e) {
-                $('#preview img').attr('src', e.target.result);
-            }
-            
-            reader.readAsDataURL(input.files[0]);
-        }
-    });
-    
-    // Guardar la foto
-    $('#guardar_imagen').click(function() {
-        var formData = new FormData(document.getElementById("guardar_foto"));
-        
-        // Mostrar el indicador de carga
-        $("#loadingOverlay").show();
-        
-        $.ajax({
-            url: 'ajax/guardar_foto.php',
-            type: 'POST',
-            data: formData,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function(data) {
-                // Ocultar el indicador de carga
-                $("#loadingOverlay").hide();
-                
-                // Cerrar el modal
-                $('#fotoModal').modal('hide');
-                
-                // Mostrar mensaje de éxito
-                $("#resultados").html(`
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        ${data}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `);
-                
-                // Recargar la tabla después de un breve retraso
-                setTimeout(function() {
-                    load(1);
-                }, 1500);
-            },
-            error: function(xhr, status, error) {
-                // Ocultar el indicador de carga
-                $("#loadingOverlay").hide();
-                
-                // Mostrar mensaje de error
-                $("#resultados").html(`
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        Error al guardar la imagen: ${error}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `);
-            }
-        });
-    });
-    
-    // Manejo del modal de coordenadas
+    // Cuando se abre el modal de coordenadas
     $('#obtenerCoordenadas').click(function() {
         // Mostrar mensaje de carga en el contenedor de info
         $('#coordenadas_info').html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Obteniendo ubicación...</span></div> Obteniendo ubicación...');

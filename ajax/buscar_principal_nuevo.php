@@ -193,7 +193,7 @@ if ($action == 'ajax') {
                         <td data-label="Imagen" class="imagen-celda">
                             <?php 
                             if (!empty($foto) && is_numeric($foto)) {
-                                $rutaFoto = "../".FOTOSMEDIAS.$id."-".$foto.".jpg";
+                                $rutaFoto = '../'.FOTOSMEDIAS.$id."-".$foto.".jpg";
                                 if (file_exists($rutaFoto)) {
                                     echo '<a href="'.$rutaFoto.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
                                         <img class="img-thumbnail-custom" src="'.$rutaFoto.'" alt="Imagen de '.$nombre_comercial.'">

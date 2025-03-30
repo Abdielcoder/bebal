@@ -18,16 +18,29 @@ function checkCreateDir($path) {
     }
 }
 
-// Crear directorios de imágenes
+// Crear directorios de imágenes en la raíz
 $directorios = array(
     FOTOSORIGINALES,
     FOTOSMEDIAS,
     FOTOSTHUMB
 );
 
+// Crear directorios de imágenes en el directorio superior (usado por principalFotos.php)
+$directoriosSuperior = array(
+    '../'.FOTOSORIGINALES,
+    '../'.FOTOSMEDIAS,
+    '../'.FOTOSTHUMB
+);
+
 echo "<h2>Inicialización de directorios de imágenes</h2>";
 
+echo "<h3>Creando directorios en la raíz:</h3>";
 foreach ($directorios as $dir) {
+    checkCreateDir($dir);
+}
+
+echo "<h3>Creando directorios en nivel superior:</h3>";
+foreach ($directoriosSuperior as $dir) {
     checkCreateDir($dir);
 }
 

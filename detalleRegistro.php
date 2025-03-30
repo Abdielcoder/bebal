@@ -62,7 +62,7 @@ session_start();
         .seccion-datos .encabezado {
             background-color: var(--color-primary);
             color: white;
-            padding: 8px 12px;
+            padding: 5px 12px;
             text-align: center;
             border-top-left-radius: 4px;
             border-top-right-radius: 4px;
@@ -71,28 +71,28 @@ session_start();
         .seccion-datos .encabezado h4 {
             margin: 0;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .seccion-datos .contenido {
-            padding: 12px;
+            padding: 8px;
         }
         
         .fila-datos {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         
         .etiqueta {
             background-color: #f4f0ec;
             font-weight: 600;
-            padding: 6px 8px;
+            padding: 3px 8px;
             border-radius: 3px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         
         .valor {
-            padding: 6px 8px;
-            font-size: 0.9rem;
+            padding: 3px 8px;
+            font-size: 0.85rem;
         }
         
         .valor-destacado {
@@ -108,23 +108,23 @@ session_start();
             justify-content: center;
         }
         
-        .nota-legal {
+        .estatus-seccion {
             background-color: #f8f9fa;
             border-radius: 4px;
-            padding: 10px;
-            font-size: 0.75rem;
             border: 1px solid #ddd;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             max-width: 85%;
             margin-left: auto;
             margin-right: auto;
         }
         
-        .estatus-seccion {
+        .nota-legal {
             background-color: #f8f9fa;
             border-radius: 4px;
+            padding: 8px;
+            font-size: 0.7rem;
             border: 1px solid #ddd;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             max-width: 85%;
             margin-left: auto;
             margin-right: auto;

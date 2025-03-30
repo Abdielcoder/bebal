@@ -148,11 +148,11 @@ if ($action == 'ajax') {
             <table class="table registro-table">
                 <thead>
                     <tr class="success">
-                        <th>Imagen</th>
-                        <th>Datos Establecimiento</th>
-                        <th>Solicitante</th>
-                        <th>Observación</th>
-                        <th class="text-end">Acciones</th>
+                        <th>IMAGEN</th>
+                        <th>DATOS ESTABLECIMIENTO</th>
+                        <th>SOLICITANTE</th>
+                        <th>OBSERVACIÓN</th>
+                        <th class="text-end">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -316,17 +316,17 @@ if ($action == 'ajax') {
                                 <a href="detalleRegistro.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-primary-custom" title="Editar registro"><i class="bi bi-pencil"></i></a>
                                 
                                 <!-- Botón de coordenadas/mapa -->
-                                <a href="#" class="btn btn-sm btn-action btn-info-custom" title="Coordenadas" data-bs-toggle="modal" data-bs-target="#coordenadasModal" onclick="mapa_valla('<?php echo $id; ?>')"><i class="bi bi-geo-alt"></i></a>
+                                <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas" data-bs-toggle="modal" data-bs-target="#coordenadasModal" onclick="mapa_valla('<?php echo $id; ?>')"><i class="bi bi-geo-alt"></i></a>
                                 
                                 <!-- Botón de cámara/foto -->
-                                <a href="principalFotos.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-success-custom" title="Gestionar Fotos"><i class="bi bi-camera"></i></a>
+                                <a href="principalFotos.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-primary-custom" title="Gestionar Fotos"><i class="bi bi-camera"></i></a>
                                 
                                 <!-- Estatus -->
                                 <div class="estatus-badge estatus-inspeccion"><?php echo $estatus; ?></div>
                                 
                                 <?php if ($estatus == "PENDIENTE" || $estatus == "INSPECCION"): ?>
                                 <!-- Botón de generar recibo -->
-                                <a href="#" class="btn btn-sm btn-action btn-warning-custom btn-generar-recibo mt-2" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibo Inspeccion</a>
+                                <a href="#" class="btn btn-sm btn-action btn-primary-custom btn-generar-recibo mt-2" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibo Inspeccion</a>
                                 <?php endif; ?>
                             </div>
                         </td>

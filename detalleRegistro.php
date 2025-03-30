@@ -54,6 +54,7 @@ session_start();
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 25px;
             overflow: hidden;
+            height: 100%;
         }
         
         .seccion-datos .encabezado {
@@ -93,11 +94,30 @@ session_start();
             font-weight: 600;
         }
         
+        .sidebar {
+            position: sticky;
+            top: 20px;
+        }
+        
         .area-botones {
-            margin: 25px 0;
+            margin-top: 0;
+            margin-bottom: 25px;
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 10px;
+        }
+        
+        .area-botones .btn {
+            padding: 12px 15px;
+            font-size: 1rem;
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+        
+        .area-botones .btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
         }
         
         .nota-legal {
@@ -116,18 +136,28 @@ session_start();
             margin-bottom: 25px;
         }
         
+        .foto-establecimiento {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        
+        .info-bloque {
+            margin-bottom: 25px;
+        }
+        
         @media (max-width: 768px) {
             .etiqueta, .valor {
                 padding: 8px 10px;
             }
             
-            .area-botones {
-                flex-direction: column;
-            }
-            
-            .area-botones .btn {
-                width: 100%;
-                margin-bottom: 8px;
+            .sidebar {
+                position: static;
+                margin-top: 30px;
             }
         }
     </style>
@@ -220,153 +250,190 @@ $COLONIA=$row_colonia['colonia'];
             <h6 class="mb-0">PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO, EN ENVASE CERRADO Y ABIERTO, BEBIDAS CON CONTENIDO ALCOHÓLICO</h6>
         </div>
         
-        <!-- Sección de datos del establecimiento -->
-        <div class="seccion-datos">
-            <div class="encabezado">
-                <h4>Datos del Establecimiento</h4>
-            </div>
-            <div class="contenido">
-                <div class="row fila-datos">
-                    <div class="col-md-2 col-6">
-                        <div class="etiqueta">Folio</div>
-                        <div class="valor"><?php echo $folio; ?></div>
+        <div class="row">
+            <!-- Columna principal con datos -->
+            <div class="col-lg-8">
+                <!-- Sección de datos del establecimiento -->
+                <div class="seccion-datos">
+                    <div class="encabezado">
+                        <h4>Datos del Establecimiento</h4>
                     </div>
-                    <div class="col-md-5 col-6">
-                        <div class="etiqueta">Giro</div>
-                        <div class="valor"><?php echo $GIRO; ?></div>
-                    </div>
-                    <div class="col-md-5 col-12 mt-md-0 mt-3">
-                        <div class="etiqueta">Modalidad Graduación Alcohólica</div>
-                        <div class="valor"><?php echo $MODALIDAD_GA; ?></div>
-                    </div>
-                </div>
-                
-                <div class="row fila-datos">
-                    <div class="col-12">
-                        <div class="etiqueta">Nombre Comercial</div>
-                        <div class="valor valor-destacado"><?php echo $nombre_comercial_establecimiento; ?></div>
-                    </div>
-                </div>
-                
-                <div class="row fila-datos">
-                    <div class="col-md-9 col-12">
-                        <div class="etiqueta">Domicilio</div>
-                        <div class="valor">
-                            <?php echo $calle_establecimiento; ?> #<?php echo $numero_establecimiento; ?> 
-                            <?php if (!empty($numerointerno_local_establecimiento)) echo $numerointerno_local_establecimiento; ?>
+                    <div class="contenido">
+                        <div class="row fila-datos">
+                            <div class="col-md-3 col-6">
+                                <div class="etiqueta">Folio</div>
+                                <div class="valor"><?php echo $folio; ?></div>
+                            </div>
+                            <div class="col-md-4 col-6">
+                                <div class="etiqueta">Giro</div>
+                                <div class="valor"><?php echo $GIRO; ?></div>
+                            </div>
+                            <div class="col-md-5 col-12 mt-md-0 mt-3">
+                                <div class="etiqueta">Modalidad Graduación Alcohólica</div>
+                                <div class="valor"><?php echo $MODALIDAD_GA; ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row fila-datos">
+                            <div class="col-12">
+                                <div class="etiqueta">Nombre Comercial</div>
+                                <div class="valor valor-destacado"><?php echo $nombre_comercial_establecimiento; ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row fila-datos">
+                            <div class="col-md-9 col-12">
+                                <div class="etiqueta">Domicilio</div>
+                                <div class="valor">
+                                    <?php echo $calle_establecimiento; ?> #<?php echo $numero_establecimiento; ?> 
+                                    <?php if (!empty($numerointerno_local_establecimiento)) echo $numerointerno_local_establecimiento; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-12 mt-md-0 mt-3">
+                                <div class="etiqueta">CP</div>
+                                <div class="valor"><?php echo $cp_establecimiento; ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row fila-datos">
+                            <div class="col-md-4 col-12">
+                                <div class="etiqueta">Colonia</div>
+                                <div class="valor"><?php echo $COLONIA; ?></div>
+                            </div>
+                            <div class="col-md-4 col-12 mt-md-0 mt-3">
+                                <div class="etiqueta">Delegación</div>
+                                <div class="valor"><?php echo $DELEGACION; ?></div>
+                            </div>
+                            <div class="col-md-4 col-12 mt-md-0 mt-3">
+                                <div class="etiqueta">Ciudad</div>
+                                <div class="valor"><?php echo $MUNICIPIO; ?></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-12 mt-md-0 mt-3">
-                        <div class="etiqueta">CP</div>
-                        <div class="valor"><?php echo $cp_establecimiento; ?></div>
+                </div>
+                
+                <!-- Sección de datos del solicitante -->
+                <div class="seccion-datos mt-4">
+                    <div class="encabezado">
+                        <h4>Datos del Solicitante</h4>
+                    </div>
+                    <div class="contenido">
+                        <div class="row fila-datos">
+                            <div class="col-12">
+                                <div class="etiqueta">Persona Física/Moral</div>
+                                <div class="valor"><?php echo $nombre_persona_fisicamoral_solicitante; ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row fila-datos">
+                            <div class="col-12">
+                                <div class="etiqueta">Representante Legal</div>
+                                <div class="valor"><?php echo $nombre_representante_legal_solicitante; ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row fila-datos">
+                            <div class="col-12">
+                                <div class="etiqueta">Domicilio</div>
+                                <div class="valor"><?php echo $domicilio_solicitante; ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="row fila-datos">
+                            <div class="col-md-6 col-12">
+                                <div class="etiqueta">Email</div>
+                                <div class="valor"><?php echo $email_solicitante; ?></div>
+                            </div>
+                            <div class="col-md-6 col-12 mt-md-0 mt-3">
+                                <div class="etiqueta">Teléfono</div>
+                                <div class="valor"><?php echo $telefono_solicitante; ?></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="row fila-datos">
-                    <div class="col-md-4 col-12">
-                        <div class="etiqueta">Colonia</div>
-                        <div class="valor"><?php echo $COLONIA; ?></div>
-                    </div>
-                    <div class="col-md-4 col-12 mt-md-0 mt-3">
-                        <div class="etiqueta">Delegación</div>
-                        <div class="valor"><?php echo $DELEGACION; ?></div>
-                    </div>
-                    <div class="col-md-4 col-12 mt-md-0 mt-3">
-                        <div class="etiqueta">Ciudad</div>
-                        <div class="valor"><?php echo $MUNICIPIO; ?></div>
-                    </div>
+                <!-- Nota legal -->
+                <div class="nota-legal mt-4">
+                    <p class="mb-0">
+                        Mediante Acuerdo del Cabildo de fecha once de diciembre del dos mil veinticuatro en el punto de acuerdo número VI.3, se autoriza a la Secretaría de Gobierno Municipal para que instrumente el programa de identificación, empadronamiento y regularización de la situación jurídica y administrativa de las personas físicas o morales que se dediquen a la expedición y venta, en envase cerrado y abierto, de bebidas con contenido alcohólico, a fin de que se actualice su situación jurídica. Para cumplir con los objetivos del programa, por medio de la presente, se autoriza la recepción de documentos del solicitante para revisión de su expediente y posterior determinación. Este documento no implica que se vaya a expedir un permiso nuevo y/o autorizar la regularización de uno previo, situación que se le informa al solicitante y acepta de conformidad, firmando al calce.
+                    </p>
                 </div>
             </div>
-        </div>
-        
-        <!-- Sección de datos del solicitante -->
-        <div class="seccion-datos">
-            <div class="encabezado">
-                <h4>Datos del Solicitante</h4>
-            </div>
-            <div class="contenido">
-                <div class="row fila-datos">
-                    <div class="col-12">
-                        <div class="etiqueta">Persona Física/Moral</div>
-                        <div class="valor"><?php echo $nombre_persona_fisicamoral_solicitante; ?></div>
-                    </div>
-                </div>
-                
-                <div class="row fila-datos">
-                    <div class="col-12">
-                        <div class="etiqueta">Representante Legal</div>
-                        <div class="valor"><?php echo $nombre_representante_legal_solicitante; ?></div>
-                    </div>
-                </div>
-                
-                <div class="row fila-datos">
-                    <div class="col-12">
-                        <div class="etiqueta">Domicilio</div>
-                        <div class="valor"><?php echo $domicilio_solicitante; ?></div>
-                    </div>
-                </div>
-                
-                <div class="row fila-datos">
-                    <div class="col-md-6 col-12">
-                        <div class="etiqueta">Email</div>
-                        <div class="valor"><?php echo $email_solicitante; ?></div>
-                    </div>
-                    <div class="col-md-6 col-12 mt-md-0 mt-3">
-                        <div class="etiqueta">Teléfono</div>
-                        <div class="valor"><?php echo $telefono_solicitante; ?></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Sección de estatus -->
-        <div class="estatus-seccion">
-            <div class="row p-3">
-                <div class="col-md-4 col-12 mb-md-0 mb-3">
-                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Estatus</div>
-                    <div class="valor"><?php echo $estatus; ?></div>
-                </div>
-                <div class="col-md-4 col-12 mb-md-0 mb-3">
-                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Operación</div>
-                    <div class="valor"><?php echo $operacion; ?></div>
-                </div>
-                <div class="col-md-4 col-12">
-                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Fecha Alta</div>
-                    <div class="valor"><?php echo $fecha_alta; ?></div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Nota legal -->
-        <div class="nota-legal">
-            <p class="mb-0">
-                Mediante Acuerdo del Cabildo de fecha once de diciembre del dos mil veinticuatro en el punto de acuerdo número VI.3, se autoriza a la Secretaría de Gobierno Municipal para que instrumente el programa de identificación, empadronamiento y regularización de la situación jurídica y administrativa de las personas físicas o morales que se dediquen a la expedición y venta, en envase cerrado y abierto, de bebidas con contenido alcohólico, a fin de que se actualice su situación jurídica. Para cumplir con los objetivos del programa, por medio de la presente, se autoriza la recepción de documentos del solicitante para revisión de su expediente y posterior determinación. Este documento no implica que se vaya a expedir un permiso nuevo y/o autorizar la regularización de uno previo, situación que se le informa al solicitante y acepta de conformidad, firmando al calce.
-            </p>
-        </div>
-        
-        <!-- Botones de acción -->
-        <div class="area-botones">
-            <a href="principal.php?pagina=<?php echo $page; ?>" class="btn btn-secondary">
-                <i class="bi bi-arrow-left"></i> Regresar
-            </a>
             
-            <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-success">
-                <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
-            </a>
-            
-            <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
-                <a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-info" title="Revisar Pago">
-                    <i class="bi bi-check-circle"></i> Revisar Pago
-                </a>
-                
-                <a href="#EliminarRegistro" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Eliminar Registro">
-                    <i class="bi bi-trash"></i> Eliminar Registro
-                </a>
-            <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
-                <a href="#EfectuarInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-info" title="Registrar Inspección">
-                    <i class="bi bi-check-circle"></i> Registrar Inspección
-                </a>
-            <?php } ?>
+            <!-- Columna lateral con acciones y estado -->
+            <div class="col-lg-4">
+                <div class="sidebar">
+                    <!-- Imagen si está disponible -->
+                    <?php if (!empty($foto)): ?>
+                    <div class="info-bloque">
+                        <img src="img/uploads/<?php echo $foto; ?>" alt="Foto del establecimiento" class="foto-establecimiento">
+                    </div>
+                    <?php else: ?>
+                    <div class="info-bloque">
+                        <img src="img/sin-imagen.jpg" alt="Sin foto disponible" class="foto-establecimiento">
+                    </div>
+                    <?php endif; ?>
+                    
+                    <!-- Sección de estatus -->
+                    <div class="seccion-datos mb-4">
+                        <div class="encabezado">
+                            <h4>Estado del Registro</h4>
+                        </div>
+                        <div class="contenido">
+                            <div class="fila-datos">
+                                <div class="etiqueta" style="background-color: #997a8d; color: white;">Estatus</div>
+                                <div class="valor"><?php echo $estatus; ?></div>
+                            </div>
+                            <div class="fila-datos">
+                                <div class="etiqueta" style="background-color: #997a8d; color: white;">Operación</div>
+                                <div class="valor"><?php echo $operacion; ?></div>
+                            </div>
+                            <div class="fila-datos">
+                                <div class="etiqueta" style="background-color: #997a8d; color: white;">Fecha Alta</div>
+                                <div class="valor"><?php echo $fecha_alta; ?></div>
+                            </div>
+                            <?php if (!empty($numero_permiso)): ?>
+                            <div class="fila-datos">
+                                <div class="etiqueta" style="background-color: #997a8d; color: white;">Número de Permiso</div>
+                                <div class="valor"><?php echo $numero_permiso; ?></div>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    
+                    <!-- Botones de acción -->
+                    <div class="area-botones">
+                        <a href="principal.php?pagina=<?php echo $page; ?>" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Regresar a la lista
+                        </a>
+                        
+                        <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-success">
+                            <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
+                        </a>
+                        
+                        <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
+                            <a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-info" title="Revisar Pago">
+                                <i class="bi bi-check-circle"></i> Revisar Pago
+                            </a>
+                            
+                            <a href="#EliminarRegistro" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Eliminar Registro">
+                                <i class="bi bi-trash"></i> Eliminar Registro
+                            </a>
+                        <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
+                            <a href="#EfectuarInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-info" title="Registrar Inspección">
+                                <i class="bi bi-clipboard-check"></i> Registrar Inspección
+                            </a>
+                        <?php } ?>
+                        
+                        <?php if (!empty($observaciones)): ?>
+                        <div class="alert alert-info mt-3">
+                            <strong><i class="bi bi-info-circle"></i> Observaciones:</strong>
+                            <p class="mb-0 mt-2"><?php echo $observaciones; ?></p>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

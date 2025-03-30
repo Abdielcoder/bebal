@@ -244,7 +244,7 @@ if ($action == 'ajax') {
                         <td data-label="Acciones" class="acciones-celda">
                             <div class="action-buttons">
                                 <!-- Botón de editar -->
-                                <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Editar registro" data-bs-toggle="modal" data-bs-target="#editarRegistro" onclick="obtener_datos('<?php echo $id; ?>','<?php echo $page; ?>');"><i class="bi bi-pencil"></i></a>
+                                <a href="detalleRegistro.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-primary-custom" title="Editar registro"><i class="bi bi-pencil"></i></a>
                                 
                                 <!-- Botón de coordenadas/mapa -->
                                 <a href="#" class="btn btn-sm btn-action btn-info-custom" title="Coordenadas" data-bs-toggle="modal" data-bs-target="#coordenadasModal" onclick="mapa_valla('<?php echo $id; ?>')"><i class="bi bi-geo-alt"></i></a>

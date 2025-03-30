@@ -6,6 +6,30 @@
 			$("#loader").fadeIn('slow');
 			$(".outer_div").css('opacity', '0.5');
 			
+			// Actualizar la URL pero sin recargar la página para mantener el estado
+			var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname;
+			var queryParams = [];
+			
+			// Agregar el parámetro page a la URL
+			if (page && page != 1) {
+				queryParams.push("page=" + page);
+			}
+			
+			// Agregar el parámetro de búsqueda si existe
+			if (q && q.trim() !== '') {
+				queryParams.push("q=" + encodeURIComponent(q));
+			}
+			
+			// Construir la URL con los parámetros
+			if (queryParams.length > 0) {
+				newUrl += "?" + queryParams.join("&");
+			}
+			
+			// Actualizar la URL sin recargar la página usando History API
+			if (window.history && history.pushState) {
+				history.pushState({page: page, q: q}, document.title, newUrl);
+			}
+			
 			$.ajax({
 				url: './ajax/buscar_principal_nuevo.php?action=ajax&page=' + page + '&q=' + q,
 				beforeSend: function(objeto){
@@ -31,6 +55,9 @@
 					
 					// Inicializar eventos de botones modales para la nueva interfaz
 					inicializarEventosModal();
+					
+					// Inicializar eventos para los enlaces de paginación
+					initializePaginationEvents();
 				},
 				error: function(xhr, status, error) {
 					// Ocultar el indicador de carga
@@ -60,6 +87,27 @@
 						$('#loader').html('');
 					}, 1500);
 				}
+			});
+		}
+
+		// Función para inicializar los eventos de los enlaces de paginación
+		function initializePaginationEvents() {
+			// Interceptar los clics en los enlaces de paginación
+			$('.pagination-container a.page-link').off('click').on('click', function(e) {
+				e.preventDefault(); // Evitar el comportamiento predeterminado del enlace
+				
+				var href = $(this).attr('href');
+				if (!href) return; // Si no hay href, no hacer nada
+				
+				// Extraer el número de página del href
+				var pageMatch = href.match(/[?&]page=(\d+)/);
+				var page = pageMatch ? parseInt(pageMatch[1]) : 1;
+				
+				// Cargar la página correspondiente
+				load(page);
+				
+				// Scroll hacia arriba suavemente
+				$('html, body').animate({ scrollTop: 0 }, 'slow');
 			});
 		}
 

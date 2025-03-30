@@ -3,77 +3,64 @@
 		if (isset($title))
 		{
 	?>
-<nav class="navbar navbar-default ">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+    <div class="navbar-brand">
 <?php
-	echo '<font style="font-style:oblique;font-size: 10px;" color="white">bebal</font>';
+	echo '<font style="font-style:oblique;font-size: 10px;" color="black">bebal</font>';
 	echo '<br><font size=1>'.$PROFILE.'-'.$ID_MUNICIPIO.'</font>';
 //echo '<a class="navbar-brand" href="#">Stock X</a>';
 ?>
     </div>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="<?php if (isset($active_principal)){echo $active_principal;}?>"><a href="principal.php"><i class='glyphicon glyphicon-list'></i> Lista</a></li>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link <?php if (isset($active_principal)){echo 'active';}?>" href="principal.php"><i class='bi bi-list'></i> Lista</a>
+        </li>
 
 <?php
 if ( $PROFILE=='admin' ) {
 ?>
-<li class="<?php if (isset($active_usuarios)){echo $active_usuarios;}?>"><a href="usuarios.php"><i  class='glyphicon glyphicon-user'></i> Usuarios</a></li>
-<li class="<?php if (isset($active_colonias)){echo $active_colonias;}?>"><a href="colonias.php"><i  class='glyphicon glyphicon-list-alt'></i> Colonias</a></li>
-<li class="<?php if (isset($active_delegaciones)){echo $active_delegaciones;}?>"><a href="delegacion.php"><i  class='glyphicon glyphicon-list-alt'></i> Delegaciones</a></li>
-<li class="<?php if (isset($active_giro)){echo $active_giro;}?>"><a href="giro.php"><i  class='glyphicon glyphicon-list-alt'></i> Giro</a></li>
-<li class="<?php if (isset($active_tramite)){echo $active_tramite;}?>"><a href="tramite.php"><i  class='glyphicon glyphicon-list-alt'></i> Tramite</a></li>
-<li class="<?php if (isset($active_modalidad)){echo $active_modalidad;}?>"><a href="modalidad.php"><i  class='glyphicon glyphicon-list-alt'></i> Modalidad</a></li>
-<li class="<?php if (isset($active_serviciosAdicionales)){echo $active_serviciosAdicionales;}?>"><a href="serviciosAdicionales.php"><i  class='glyphicon glyphicon-list-alt'></i> Servicios Adicionales</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="usuarios.php"><i class='bi bi-person'></i> Usuarios</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="colonias.php"><i class='bi bi-list-check'></i> Colonias</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="delegacion.php"><i class='bi bi-list-check'></i> Delegaciones</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_giro)){echo 'active';}?>" href="giro.php"><i class='bi bi-list-check'></i> Giro</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_tramite)){echo 'active';}?>" href="tramite.php"><i class='bi bi-list-check'></i> Tramite</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_modalidad)){echo 'active';}?>" href="modalidad.php"><i class='bi bi-list-check'></i> Modalidad</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_serviciosAdicionales)){echo 'active';}?>" href="serviciosAdicionales.php"><i class='bi bi-list-check'></i> Servicios Adicionales</a></li>
 <?php } else { ?>
-<li class="<?php if (isset($active_usuarios)){echo $active_usuarios;}?>"><a href="#"><i  class='glyphicon glyphicon-user'></i> Usuarios</a></li>
-<li class="<?php if (isset($active_colonias)){echo $active_colonias;}?>"><a href="#"><i  class='glyphicon glyphicon-list-alt'></i> Colonias</a></li>
-<li class="<?php if (isset($active_delegaciones)){echo $active_delegaciones;}?>"><a href="#"><i  class='glyphicon glyphicon-list-alt'></i> Delegaciones</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="#"><i class='bi bi-person'></i> Usuarios</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="#"><i class='bi bi-list-check'></i> Colonias</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="#"><i class='bi bi-list-check'></i> Delegaciones</a></li>
 <?php
 }
-
-
-//if (isset($active_reportes))
-//echo '<li class="'.$active_reportes.'"><a href="reportes.php"><i  class="glyphicon glyphicon-cutlery"></i> Reportes</a></li>';
-//else 
-//echo '<li class=""><a href="reportes.php"><i  class="glyphicon glyphicon-cutlery"></i> Reportes</a></li>';
 
 $mes_actual=date("n");
 $semana_actual = date('W');
 $anio=date("Y");
 
-## https://www.w3schools.com/bootstrap/bootstrap_buttons.asp
-### Colores  btn btn-primary  AZUL
-
-echo '<li><p>';
-echo '<div class="dropdown">';
-echo '<button class="btn btn-basic dropdown-toggle" type="button" data-toggle="dropdown"><i  class="glyphicon glyphicon-cutlery"></i>&nbsp; &nbsp;Reportes&nbsp; &nbsp;<span class="caret"></span></button>';
-echo '<ul class="dropdown-menu">';
-echo '<li><a href="reporte1.php"><i class="glyphicon glyphicon-play"></i>&nbsp; &nbsp;Reporte 1</a></li>';
-echo '<li><a href="reporte_Por_Mes.php?m='.$mes_actual.'&y='.$anio.'"><i class="glyphicon glyphicon-play"></i>&nbsp; &nbsp;Por Mes ('.$mes_actual.')</a></li>';
-echo '<li><a href="reporte_Por_Semana.php?w='.$semana_actual.'&y='.$anio.'"><i class="glyphicon glyphicon-play"></i>&nbsp; &nbsp;Por Semana '.$semana_actual.'</a></li>';
-echo '</ul>';
-echo '</div>';
-echo '</li>';
-
 ?>
-       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="http://AppstravagenceSystems.com/contacto/" target='_blank'><i class='glyphicon glyphicon-envelope'></i> Soporte</a></li>
-		<li><a href="login.php?logout"><i class='glyphicon glyphicon-off'></i> Salir</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-file-earmark-text"></i> Reportes
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="reporte1.php"><i class="bi bi-play"></i> Reporte 1</a></li>
+            <li><a class="dropdown-item" href="reporte_Por_Mes.php?m=<?php echo $mes_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play"></i> Por Mes (<?php echo $mes_actual;?>)</a></li>
+            <li><a class="dropdown-item" href="reporte_Por_Semana.php?w=<?php echo $semana_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play"></i> Por Semana <?php echo $semana_actual;?></a></li>
+          </ul>
+        </li>
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="http://AppstravagenceSystems.com/contacto/" target='_blank'><i class='bi bi-envelope'></i> Soporte</a></li>
+		<li class="nav-item"><a class="nav-link" href="login.php?logout"><i class='bi bi-power'></i> Salir</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
 	<?php
 		}

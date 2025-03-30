@@ -193,15 +193,48 @@ if ($action == 'ajax') {
                         <td data-label="Imagen" class="imagen-celda">
                             <?php 
                             if (!empty($foto) && is_numeric($foto)) {
-                                $rutaFoto = '../'.FOTOSMEDIAS.$id."-".$foto.".jpg";
-                                if (file_exists($rutaFoto)) {
-                                    echo '<a href="'.$rutaFoto.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
-                                        <img class="img-thumbnail-custom" src="'.$rutaFoto.'" alt="Imagen de '.$nombre_comercial.'">
+                                // Definir un array con todas las posibles rutas para la imagen
+                                $posibles_rutas = array(
+                                    // 1. Rutas usando la constante FOTOSMEDIAS
+                                    "../".FOTOSMEDIAS.$id."-".$foto.".jpg",
+                                    FOTOSMEDIAS.$id."-".$foto.".jpg",
+                                    // 2. Rutas explícitas relativas
+                                    "bebal_images/medias/".$id."-".$foto.".jpg",
+                                    "../bebal_images/medias/".$id."-".$foto.".jpg",
+                                    // 3. Rutas con nombre de archivo alternativo
+                                    "../".FOTOSMEDIAS.$id."_".$foto.".jpg",
+                                    FOTOSMEDIAS.$id."_".$foto.".jpg",
+                                    // 4. Ruta absoluta desde document root (si está disponible)
+                                    (isset($_SERVER["DOCUMENT_ROOT"]) ? $_SERVER["DOCUMENT_ROOT"]."/bebal_images/medias/".$id."-".$foto.".jpg" : "")
+                                );
+                                
+                                // Filtrar rutas vacías
+                                $posibles_rutas = array_filter($posibles_rutas);
+                                
+                                // Variable para almacenar la ruta válida
+                                $ruta_valida = "";
+                                
+                                // Comprobar cada ruta hasta encontrar una válida
+                                foreach ($posibles_rutas as $ruta) {
+                                    if (file_exists($ruta)) {
+                                        $ruta_valida = $ruta;
+                                        break;
+                                    }
+                                }
+                                
+                                // Si encontramos una ruta válida, mostrar la imagen
+                                if (!empty($ruta_valida)) {
+                                    echo '<a href="'.$ruta_valida.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                        <img class="img-thumbnail-custom" src="'.$ruta_valida.'" alt="Imagen de '.$nombre_comercial.'">
                                     </a>';
                                 } else {
-                                    echo '<a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
+                                    // Si no se encuentra ninguna ruta válida, intentar con la ruta base y usar onerror para manejar fallos
+                                    echo '<a href="../'.FOTOSMEDIAS.$id.'-'.$foto.'.jpg" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                        <img class="img-thumbnail-custom" src="../'.FOTOSMEDIAS.$id.'-'.$foto.'.jpg" alt="Imagen de '.$nombre_comercial.'" onerror="this.src=\'img/no_imagen.jpg\'">
+                                    </a>';
                                 }
                             } else {
+                                // Si no hay foto definida
                                 echo '<a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
                             }
                             ?>

@@ -1,4 +1,3 @@
-
   <style>
     body {
       font-family: sans-serif;
@@ -35,25 +34,27 @@
   </style>
 
 
-<div class="navbar navbar-default navbar-fixed-bottom" >
+<footer class="navbar fixed-bottom bg-primary">
     <div class="container">
-      <p class="navbar-text pull-left">
-	   <a href="http://mexcapproject.com/" target="_blank" style="color: #ecf0f1"> <font size="1">&copy <?php echo date('Y');?> - MEXCAP PROJECT PARTNERS SAPI</font></a>
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <span class="text-white small">
+          <a href="http://mexcapproject.com/" target="_blank" class="text-secondary text-decoration-none">
+            <small>&copy; <?php echo date('Y');?> - MEXCAP PROJECT PARTNERS SAPI</small>
+          </a>
+        </span>
 
-
-  <div class="clock">
-    <div class="time"></div>
-    <div class="date-time"></div>
-  </div>
-
-</p>
-</div>
-</div>
+        <div class="clock ms-3">
+          <div class="time"></div>
+          <div class="date-time"></div>
+        </div>
+      </div>
+    </div>
+</footer>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <!-- Latest compiled and minified JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
 <script>

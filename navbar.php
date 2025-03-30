@@ -7,8 +7,8 @@
   <div class="container-fluid">
     <div class="navbar-brand">
 <?php
-	echo '<font style="font-style:oblique;font-size: 10px;" color="black">bebal</font>';
-	echo '<br><font size=1>'.$PROFILE.'-'.$ID_MUNICIPIO.'</font>';
+	echo '<span style="font-style:oblique;font-size: 14px;" class="text-secondary">bebal</span>';
+	echo '<br><span style="font-size: 12px;" class="text-white">'.$PROFILE.'-'.$ID_MUNICIPIO.'</span>';
 //echo '<a class="navbar-brand" href="#">Stock X</a>';
 ?>
     </div>
@@ -49,15 +49,15 @@ $anio=date("Y");
             <i class="bi bi-file-earmark-text"></i> Reportes
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="reporte1.php"><i class="bi bi-play"></i> Reporte 1</a></li>
-            <li><a class="dropdown-item" href="reporte_Por_Mes.php?m=<?php echo $mes_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play"></i> Por Mes (<?php echo $mes_actual;?>)</a></li>
-            <li><a class="dropdown-item" href="reporte_Por_Semana.php?w=<?php echo $semana_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play"></i> Por Semana <?php echo $semana_actual;?></a></li>
+            <li><a class="dropdown-item" href="reporte1.php"><i class="bi bi-play-fill text-secondary"></i> Reporte 1</a></li>
+            <li><a class="dropdown-item" href="reporte_Por_Mes.php?m=<?php echo $mes_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play-fill text-secondary"></i> Por Mes (<?php echo $mes_actual;?>)</a></li>
+            <li><a class="dropdown-item" href="reporte_Por_Semana.php?w=<?php echo $semana_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play-fill text-secondary"></i> Por Semana <?php echo $semana_actual;?></a></li>
           </ul>
         </li>
       </ul>
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="http://AppstravagenceSystems.com/contacto/" target='_blank'><i class='bi bi-envelope'></i> Soporte</a></li>
-		<li class="nav-item"><a class="nav-link" href="login.php?logout"><i class='bi bi-power'></i> Salir</a></li>
+        <li class="nav-item"><a class="nav-link" href="http://AppstravagenceSystems.com/contacto/" target='_blank'><i class='bi bi-envelope text-secondary'></i> Soporte</a></li>
+		<li class="nav-item"><a class="nav-link" href="login.php?logout"><i class='bi bi-power text-secondary'></i> Salir</a></li>
       </ul>
     </div>
   </div>

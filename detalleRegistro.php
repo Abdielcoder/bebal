@@ -39,54 +39,57 @@ session_start();
     <style>
         .encabezado-programa {
             background-color: var(--color-tertiary-light);
-            border-radius: 8px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
+            border-radius: 4px;
+            padding: 10px 15px;
+            margin-bottom: 15px;
             text-align: center;
-            border-left: 5px solid var(--color-primary);
-            border-right: 5px solid var(--color-primary);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            border-left: 3px solid var(--color-primary);
+            border-right: 3px solid var(--color-primary);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .seccion-datos {
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 25px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
             overflow: hidden;
         }
         
         .seccion-datos .encabezado {
-            background-color: #AC905B;
+            background-color: var(--color-primary);
             color: white;
-            padding: 10px 15px;
+            padding: 8px 12px;
             text-align: center;
-            border-top-left-radius: 8px;
-            border-top-right-radius: 8px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
         }
         
         .seccion-datos .encabezado h4 {
             margin: 0;
             font-weight: 600;
+            font-size: 1rem;
         }
         
         .seccion-datos .contenido {
-            padding: 20px;
+            padding: 12px;
         }
         
         .fila-datos {
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         
         .etiqueta {
             background-color: #f4f0ec;
             font-weight: 600;
-            padding: 10px 15px;
-            border-radius: 4px;
+            padding: 6px 8px;
+            border-radius: 3px;
+            font-size: 0.85rem;
         }
         
         .valor {
-            padding: 10px 15px;
+            padding: 6px 8px;
+            font-size: 0.9rem;
         }
         
         .valor-destacado {
@@ -94,31 +97,31 @@ session_start();
         }
         
         .area-botones {
-            margin: 25px 0;
+            margin: 15px 0;
             display: flex;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
         
         .nota-legal {
             background-color: #f8f9fa;
-            border-radius: 8px;
-            padding: 15px;
-            font-size: 0.85rem;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 0.75rem;
             border: 1px solid #ddd;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .estatus-seccion {
             background-color: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 4px;
             border: 1px solid #ddd;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         
         @media (max-width: 768px) {
             .etiqueta, .valor {
-                padding: 8px 10px;
+                padding: 6px 8px;
             }
             
             .area-botones {
@@ -127,7 +130,7 @@ session_start();
             
             .area-botones .btn {
                 width: 100%;
-                margin-bottom: 8px;
+                margin-bottom: 6px;
             }
         }
     </style>
@@ -249,29 +252,29 @@ $COLONIA=$row_colonia['colonia'];
                 </div>
                 
                 <div class="row fila-datos">
-                    <div class="col-md-9 col-12">
+                    <div class="col-md-9 col-6">
                         <div class="etiqueta">Domicilio</div>
                         <div class="valor">
                             <?php echo $calle_establecimiento; ?> #<?php echo $numero_establecimiento; ?> 
                             <?php if (!empty($numerointerno_local_establecimiento)) echo $numerointerno_local_establecimiento; ?>
                         </div>
                     </div>
-                    <div class="col-md-3 col-12 mt-md-0 mt-3">
+                    <div class="col-md-3 col-6 mt-md-0">
                         <div class="etiqueta">CP</div>
                         <div class="valor"><?php echo $cp_establecimiento; ?></div>
                     </div>
                 </div>
                 
                 <div class="row fila-datos">
-                    <div class="col-md-4 col-12">
+                    <div class="col-md-4 col-4">
                         <div class="etiqueta">Colonia</div>
                         <div class="valor"><?php echo $COLONIA; ?></div>
                     </div>
-                    <div class="col-md-4 col-12 mt-md-0 mt-3">
+                    <div class="col-md-4 col-4">
                         <div class="etiqueta">Delegación</div>
                         <div class="valor"><?php echo $DELEGACION; ?></div>
                     </div>
-                    <div class="col-md-4 col-12 mt-md-0 mt-3">
+                    <div class="col-md-4 col-4">
                         <div class="etiqueta">Ciudad</div>
                         <div class="valor"><?php echo $MUNICIPIO; ?></div>
                     </div>
@@ -321,17 +324,17 @@ $COLONIA=$row_colonia['colonia'];
         
         <!-- Sección de estatus -->
         <div class="estatus-seccion">
-            <div class="row p-3">
-                <div class="col-md-4 col-12 mb-md-0 mb-3">
-                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Estatus</div>
+            <div class="row p-2">
+                <div class="col-md-4 col-4 mb-md-0">
+                    <div class="etiqueta" style="background-color: var(--color-primary); color: white;">Estatus</div>
                     <div class="valor"><?php echo $estatus; ?></div>
                 </div>
-                <div class="col-md-4 col-12 mb-md-0 mb-3">
-                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Operación</div>
+                <div class="col-md-4 col-4 mb-md-0">
+                    <div class="etiqueta" style="background-color: var(--color-primary); color: white;">Operación</div>
                     <div class="valor"><?php echo $operacion; ?></div>
                 </div>
-                <div class="col-md-4 col-12">
-                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Fecha Alta</div>
+                <div class="col-md-4 col-4">
+                    <div class="etiqueta" style="background-color: var(--color-primary); color: white;">Fecha Alta</div>
                     <div class="valor"><?php echo $fecha_alta; ?></div>
                 </div>
             </div>
@@ -346,24 +349,24 @@ $COLONIA=$row_colonia['colonia'];
         
         <!-- Botones de acción -->
         <div class="area-botones">
-            <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-secondary">
+            <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-danger">
                 <i class="bi bi-arrow-left"></i> Regresar
             </a>
             
-            <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-success">
+            <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-danger">
                 <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
             </a>
             
             <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
-                <a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Revisar Pago">
+                <a href="#revisarPago" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Revisar Pago">
                     <i class="bi bi-check-circle"></i> Revisar Pago
                 </a>
                 
-                <a href="#EliminarRegistro" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Eliminar Registro">
+                <a href="#EliminarRegistro" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Eliminar Registro">
                     <i class="bi bi-trash"></i> Eliminar Registro
                 </a>
             <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
-                <a href="#EfectuarInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Registrar Inspección">
+                <a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Registrar Inspección">
                     <i class="bi bi-clipboard-check"></i> Registrar Inspección
                 </a>
             <?php } ?>
@@ -428,7 +431,7 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
 
 // Inicializar eventos para los botones de modal
 $(document).ready(function() {
-    $('[data-toggle="modal"]').on('click', function(e) {
+    $('[data-bs-toggle="modal"]').on('click', function(e) {
         e.preventDefault();
         var target = $(this).attr('href');
         

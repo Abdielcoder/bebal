@@ -100,7 +100,7 @@ session_start();
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 15px 0;
+            margin: 15px 0 50px 0;
         }
         
         .nota-legal {
@@ -373,6 +373,9 @@ $COLONIA=$row_colonia['colonia'];
         </div>
     </div>
 </div>
+
+<!-- Espacio adicional antes del footer -->
+<div style="margin-bottom: 30px;"></div>
 
 <hr>
 <?php include("footer.php"); ?>

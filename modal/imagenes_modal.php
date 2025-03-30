@@ -24,7 +24,7 @@
       </div>
       <div class="modal-footer">
         <a id="btnAdministrarFotos" href="#" class="btn btn-primary me-auto">Administrar fotos</a>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-dorado" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
@@ -55,5 +55,16 @@
   
   .imagen-miniatura:hover, .imagen-miniatura.active {
     border-color: var(--color-primary);
+  }
+  
+  .btn-dorado {
+    background-color: #8c7342;
+    color: white;
+    border: none;
+  }
+  
+  .btn-dorado:hover {
+    background-color: #705a34;
+    color: white;
   }
 </style> 

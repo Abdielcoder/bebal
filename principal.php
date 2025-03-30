@@ -36,11 +36,15 @@
 	
     <div class="container">
 	<div class="panel panel-success">
-		<div class="panel-heading">
-		    <div class="btn-group pull-right">
-				<button type='button' class="btn btn-danger" data-toggle="modal" data-target="#nuevoRegistroPrincipal" style="background-color:#661C32;color:white"><span class="glyphicon glyphicon-plus" ></span> Nuevo Registro</button>
+		<div class="panel-heading d-flex justify-content-between align-items-center">
+		    <div class="d-flex align-items-center">
+				<i class='bi bi-search me-2 fs-4'></i>
 			</div>
-			<h5><i class='glyphicon glyphicon-search'></i> Buscar Registro</h5>
+			<div>
+				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal">
+					<i class="bi bi-plus-circle me-1"></i> Nuevo Registro
+				</button>
+			</div>
 		</div>
 		<div class="panel-body">
 		
@@ -54,12 +58,12 @@
 				
 						<div class="form-group row">
 							<label for="q" class="col-md-2 control-label">Dirección</label>
-							<div class="col-md-5">
+							<div class="col-md-7">
 								<input type="text" class="form-control" id="q" placeholder="Escribe dirección" onkeyup='load(1);'>
 							</div>
-							<div class="col-md-3">
+							<div class="col-md-3 text-end">
 								<button type="button" class="btn btn-default" onclick='load(1);'>
-									<span class="glyphicon glyphicon-search" ></span> Buscar</button>
+									<i class="bi bi-search"></i> Buscar</button>
 								<span id="loader"></span>
 							</div>
 							

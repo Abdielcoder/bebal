@@ -1317,3 +1317,68 @@ table.registro-table {
     transition: opacity 0.3s ease;
     min-height: 100px; /* Garantiza espacio para contenido incluso cuando está vacío */
 }
+
+/* Estilos mejorados para el panel de búsqueda */
+.panel-success {
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.panel-success .panel-heading {
+  background: transparent;
+  border: none;
+  padding: 15px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-success .panel-body {
+  background: white;
+  border: none;
+  padding: 20px 0;
+  border-radius: 0;
+}
+
+.btn-danger {
+  background-color: #742c32;
+  border-color: #5e2328;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-danger:hover {
+  background-color: #5e2328;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.form-control {
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  padding: 0.375rem 0.75rem;
+}
+
+.form-control:focus {
+  border-color: #742c32;
+  box-shadow: 0 0 0 0.2rem rgba(116, 44, 50, 0.25);
+}
+
+.btn-default {
+  background-color: #742c32;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  transition: all 0.3s ease;
+}
+
+.btn-default:hover {
+  background-color: #5e2328;
+  color: white;
+}

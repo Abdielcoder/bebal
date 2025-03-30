@@ -3,9 +3,37 @@
 		if (isset($title))
 		{
             // Establecer el elemento Lista como activo por defecto si no hay otra selección
-            if (!isset($active_principal) && !isset($active_usuarios) && !isset($active_colonias) 
-                && !isset($active_delegaciones) && !isset($active_giro) && !isset($active_tramite) 
-                && !isset($active_modalidad) && !isset($active_serviciosAdicionales)) {
+            // Asegurar que solo un elemento esté activo a la vez
+            $active_principal = false;
+            $active_usuarios = false;
+            $active_colonias = false;
+            $active_delegaciones = false; 
+            $active_giro = false;
+            $active_tramite = false;
+            $active_modalidad = false;
+            $active_serviciosAdicionales = false;
+            
+            // Verificar la URL actual para determinar cuál debe estar activo
+            $current_page = basename($_SERVER['PHP_SELF']);
+            
+            if ($current_page == 'principal.php') {
+                $active_principal = true;
+            } elseif ($current_page == 'usuarios.php') {
+                $active_usuarios = true;
+            } elseif ($current_page == 'colonias.php') {
+                $active_colonias = true;
+            } elseif ($current_page == 'delegacion.php') {
+                $active_delegaciones = true;
+            } elseif ($current_page == 'giro.php') {
+                $active_giro = true;
+            } elseif ($current_page == 'tramite.php') {
+                $active_tramite = true;
+            } elseif ($current_page == 'modalidad.php') {
+                $active_modalidad = true;
+            } elseif ($current_page == 'serviciosAdicionales.php') {
+                $active_serviciosAdicionales = true;
+            } else {
+                // Por defecto, activar Lista si no estamos en ninguna de las páginas específicas
                 $active_principal = true;
             }
 	?>
@@ -24,24 +52,24 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link <?php if (isset($active_principal)){echo 'active';}?>" href="principal.php"><i class='bi bi-house-fill'></i> Lista</a>
+        <li class="nav-item <?php if ($active_principal){echo 'active-item';}?>">
+          <a class="nav-link <?php if ($active_principal){echo 'active';}?>" href="principal.php"><i class='bi bi-house-fill'></i> Lista</a>
         </li>
 
 <?php
 if ( $PROFILE=='admin' ) {
 ?>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="usuarios.php"><i class='bi bi-people-fill'></i> Usuarios</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="colonias.php"><i class='bi bi-pin-map-fill'></i> Colonias</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="delegacion.php"><i class='bi bi-building-fill'></i> Delegaciones</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_giro)){echo 'active';}?>" href="giro.php"><i class='bi bi-arrow-repeat'></i> Giro</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_tramite)){echo 'active';}?>" href="tramite.php"><i class='bi bi-file-earmark-text-fill'></i> Tramite</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_modalidad)){echo 'active';}?>" href="modalidad.php"><i class='bi bi-sliders'></i> Modalidad</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_serviciosAdicionales)){echo 'active';}?>" href="serviciosAdicionales.php"><i class='bi bi-plus-circle-fill'></i> Servicios Adicionales</a></li>
+<li class="nav-item <?php if ($active_usuarios){echo 'active-item';}?>"><a class="nav-link <?php if ($active_usuarios){echo 'active';}?>" href="usuarios.php"><i class='bi bi-people-fill'></i> Usuarios</a></li>
+<li class="nav-item <?php if ($active_colonias){echo 'active-item';}?>"><a class="nav-link <?php if ($active_colonias){echo 'active';}?>" href="colonias.php"><i class='bi bi-pin-map-fill'></i> Colonias</a></li>
+<li class="nav-item <?php if ($active_delegaciones){echo 'active-item';}?>"><a class="nav-link <?php if ($active_delegaciones){echo 'active';}?>" href="delegacion.php"><i class='bi bi-building-fill'></i> Delegaciones</a></li>
+<li class="nav-item <?php if ($active_giro){echo 'active-item';}?>"><a class="nav-link <?php if ($active_giro){echo 'active';}?>" href="giro.php"><i class='bi bi-arrow-repeat'></i> Giro</a></li>
+<li class="nav-item <?php if ($active_tramite){echo 'active-item';}?>"><a class="nav-link <?php if ($active_tramite){echo 'active';}?>" href="tramite.php"><i class='bi bi-file-earmark-text-fill'></i> Tramite</a></li>
+<li class="nav-item <?php if ($active_modalidad){echo 'active-item';}?>"><a class="nav-link <?php if ($active_modalidad){echo 'active';}?>" href="modalidad.php"><i class='bi bi-sliders'></i> Modalidad</a></li>
+<li class="nav-item <?php if ($active_serviciosAdicionales){echo 'active-item';}?>"><a class="nav-link <?php if ($active_serviciosAdicionales){echo 'active';}?>" href="serviciosAdicionales.php"><i class='bi bi-plus-circle-fill'></i> Servicios Adicionales</a></li>
 <?php } else { ?>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="#"><i class='bi bi-people-fill'></i> Usuarios</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="#"><i class='bi bi-pin-map-fill'></i> Colonias</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="#"><i class='bi bi-building-fill'></i> Delegaciones</a></li>
+<li class="nav-item <?php if ($active_usuarios){echo 'active-item';}?>"><a class="nav-link <?php if ($active_usuarios){echo 'active';}?>" href="#"><i class='bi bi-people-fill'></i> Usuarios</a></li>
+<li class="nav-item <?php if ($active_colonias){echo 'active-item';}?>"><a class="nav-link <?php if ($active_colonias){echo 'active';}?>" href="#"><i class='bi bi-pin-map-fill'></i> Colonias</a></li>
+<li class="nav-item <?php if ($active_delegaciones){echo 'active-item';}?>"><a class="nav-link <?php if ($active_delegaciones){echo 'active';}?>" href="#"><i class='bi bi-building-fill'></i> Delegaciones</a></li>
 <?php
 }
 

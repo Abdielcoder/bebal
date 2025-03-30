@@ -8,33 +8,53 @@
 			$.ajax({
 				url:'./ajax/buscar_principal.php?action=ajax&page='+page+'&q='+q,
 				 beforeSend: function(objeto){
-				 $('#loader').html('<div class="d-flex justify-content-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
+				 $('#loader').html('<img src="img/ajax-loader.gif"> Cargando...');
 			  },
 				success:function(data){
 					$(".outer_div").html(data).fadeIn('slow');
 					$('#loader').html('');
 					
-					// Agregar controladores de evento para los enlaces de paginación
-					$('.pagination-custom .page-link').on('click', function(e) {
-						e.preventDefault();
-						var page = $(this).attr('href');
-						if (page) {
-							// Extraer el número de página de la URL
-							var pageNum = page.match(/page=(\d+)/);
-							if (pageNum && pageNum[1]) {
-								load(pageNum[1]);
-							} else {
-								load(1);
-							}
-						}
-					});
+					// Inicializar eventos de botones modales para la nueva interfaz
+					inicializarEventosModal();
 				}
 			})
 		}
 
-	
-		
-	function eliminar (id)
+		// Función para inicializar eventos de botones modales
+		function inicializarEventosModal() {
+			// Botones de mapa
+			$('[id^="myBtn2_"]').each(function() {
+				var id = $(this).attr('id').split('_')[1];
+				$(this).off('click').on('click', function() {
+					$("#myModal_Emergente2_" + id).css('display', 'block');
+				});
+			});
+
+			// Cerrar modal de mapa
+			$('[class^="close_Emergente2_"]').each(function() {
+				var id = $(this).attr('class').split('_')[2];
+				$(this).off('click').on('click', function() {
+					$("#myModal_Emergente2_" + id).css('display', 'none');
+				});
+			});
+
+			// Cerrar modal al hacer clic fuera del contenido
+			$('[id^="myModal_Emergente2_"]').each(function() {
+				var id = $(this).attr('id').split('_')[2];
+				$(this).off('click').on('click', function(event) {
+					if (event.target == this) {
+						$(this).css('display', 'none');
+					}
+				});
+			});
+		}
+
+		// Inicializar carga al cargar la página
+		$(document).ready(function(){
+			load(1);
+		});
+
+		function eliminar (id)
 		{
 		var q= $("#q").val();
 		if (confirm("Realmente deseas eliminar el Registro de la Valla ?")){	

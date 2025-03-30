@@ -617,9 +617,6 @@ window.console = window.console || function(t) {};
 			</div>
 			<?php
 		}
-		
-		
-		
 	}
 
 
@@ -673,72 +670,12 @@ window.console = window.console || function(t) {};
 				</thead>
 				<tbody>
 				<?php
-
-##############################
-					// escaping, additionally removing everything that could be (html/javascript-) code
-         $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-		 $aColumns = array('domicilio');//Columnas de busqueda
-		 $sTable = "principal";
-	 	 if ( $ID_MUNICIPIO==0 ) $sWhere = "  estatus!='ELIMINADO' ";
-		 else $sWhere = " WHERE  estatus!='ELIMINADO' AND id_municipio=".$ID_MUNICIPIO;
-		if ( $_GET['q'] != "" )
-		{
-			$sWhere = "WHERE  estatus!='ELIMINADO' AND id_municipio=".$ID_MUNICIPIO."  AND (";
-			for ( $i=0 ; $i<count($aColumns) ; $i++ )
-			{
-				$sWhere .= $aColumns[$i]." LIKE '%".$q."%' OR ";
-			}
-			$sWhere = substr_replace( $sWhere, "", -3 );
-			$sWhere .= ')';
-		}
-		$sWhere.=" order by id_municipio, id";
-		//echo $sWhere;
-		include 'pagination.php'; //include pagination file
-		//pagination variables
-		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$adjacents  = 4; //gap between pages after number of adjacents
-		$offset = ($page - 1) * $per_page;
-		//Count the total number of row in your table*/
-		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
-		$row= mysqli_fetch_array($count_query);
-		$numrows = $row['numrows'];
-		$total_pages = ceil($numrows/$per_page);
-		$reload = './principal.php';
-		//main query to fetch the data
-		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
-		$query = mysqli_query($con, $sql);
-		//loop through fetched data
-		if ($numrows>0){
-
-##############################
 			
-//$VIDEO_URL1='https://www.youtube.com/embed/Tos5vaJ4IAM';
-//$VIDEO_URL2='https://www.youtube.com/embed/dEp4pyz_G1c';
-//$VIDEO_URL3='https://www.youtube.com/embed/nz76eNAJTWU';
-  
-//<!-- Button trigger modal -->
-//echo '<button type="button" class="btn btn-primary video-btn" data-toggle="modal" data-src="'.$VIDEO_URL1.'" data-target="#myModalYouTube1"> Play Video 1 - autoplay </button>&nbsp;';
-  
-//<!-- Button trigger modal -->
-//echo '<button type="button" class="btn btn-primary video-btn" data-toggle="modal" data-src="'.$VIDEO_URL2.'" data-target="#myModalYouTube2"> Play Video 2 </button>&nbsp;';
-  
-  
- //<!-- Button trigger modal -->
-//echo '<button type="button" class="btn btn-primary video-btn" data-toggle="modal" data-src="'.$VIDEO_URL3.'" data-target="#myModalYouTube3"> Play Video 3 </button>&nbsp;';
-  
-  
-//<!-- Button trigger modal -->
-//echo '<button type="button" class="btn btn-primary video-btn" data-toggle="modal" data-src="https://player.vimeo.com/video/58385453?badge=0&autoplay=1&loop=1" data-target="#myModalYouTube1"> Play Vimeo Video </button>';
-
-##############################
-##############################
-
-
-	$ciclo=1;
-				while ($row=mysqli_fetch_array($query)) {
-					$id=$row['id'];
-					$principal_id=$row['id'];
-					$folio=$row['folio'];
+			$ciclo=1;
+			while ($row=mysqli_fetch_array($query)) {
+				$id=$row['id'];
+				$principal_id=$row['id'];
+				$folio=$row['folio'];
 
 $nombre_comercial_establecimiento=$row['nombre_comercial_establecimiento'];
 $calle_establecimiento=$row['calle_establecimiento'];

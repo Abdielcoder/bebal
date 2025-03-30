@@ -1,0 +1,88 @@
+	<?php
+		if (isset($con))
+		{
+
+
+?>
+
+
+<style>
+    input.transparent-input{
+       background-color:transparent !important;
+       border:none !important;
+    }
+</style>
+
+	<!-- Modal -->
+	<div class="modal fade" id="reciboInspeccion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel"><i class='glyphicon glyphicon-edit'></i> Recibo Inspección</h4>
+		  </div>
+
+<div id="imprimible">
+		  <div class="modal-body">
+<p><img src="img/Ayuntamiento-de-Tijuana-logoLARGO.jpg" alt="Ayuntamiento" width="200" height="100"></p>
+
+			<div class="form-group">
+			<label for="nombre_comercial_establecimiento_data" class="col-sm-3 control-label">Nombre Establecimiento</label>
+			<div class="col-sm-8">
+			<input type="text" class="form-control transparent-input" id="nombre_comercial_establecimiento_data" name="nombre_comercial_establecimiento_data" disabled>
+			</div>
+			</div>
+
+
+			<div class="form-group">
+			<div class="col-sm-10">
+
+<textarea class="form-control" id="direccion_establecimiento_completa_data"   maxlength="1000" disabled></textarea>
+
+
+			</div>
+			</div>
+
+			<div class="form-group">
+			<div class="col-sm-10">
+			<input type="text" class="form-control" id="COLONIAyDELEGACION_data" name="COLONIAyDELEGACION_data" disabled>
+			</div>
+			</div>
+<p id="COLONIA"> </p>
+<p id="COLONIA_data"> </p>
+
+			
+		  </div>
+</div>
+		  <div class="modal-footer">
+<button class="btn btn-primary print" id="btnImprimir">Imprimir</button>
+		  </div>
+		  </form>
+		</div>
+	  </div>
+	</div>
+
+<script>
+
+function imprimirElemento(elemento) {
+  var ventana = window.open('', 'PRINT', 'height=400,width=600');
+  ventana.document.write('<html><head><title>' + document.title + '</title>');
+  ventana.document.write('</head><body >');
+  ventana.document.write(elemento.innerHTML);
+  ventana.document.write('</body></html>');
+  ventana.document.close();
+  ventana.focus();
+  ventana.print();
+  ventana.close();
+  return true;
+}
+
+document.querySelector("#btnImprimir").addEventListener("click", function () {
+  var div = document.querySelector("#imprimible");
+  imprimirElemento(div);
+});
+</script>
+
+	<?php
+		}
+	?>

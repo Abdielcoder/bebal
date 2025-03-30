@@ -224,13 +224,35 @@ if ($action == 'ajax') {
                                 
                                 // Si encontramos una ruta válida, mostrar la imagen
                                 if (!empty($ruta_valida)) {
-                                    echo '<a href="'.$ruta_valida.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
-                                        <img class="img-thumbnail-custom" src="'.$ruta_valida.'" alt="Imagen de '.$nombre_comercial.'">
+                                    // Limpiar la ruta para URL pública (eliminar /var/www/html/ si existe)
+                                    $url_imagen = $ruta_valida;
+                                    // Eliminar cualquier referencia a /var/www/html/ que pueda estar en la ruta
+                                    $url_imagen = str_replace('/var/www/html/', '/', $url_imagen);
+                                    // Si la ruta comienza con document_root, convertirla a URL relativa
+                                    if (isset($_SERVER["DOCUMENT_ROOT"]) && strpos($url_imagen, $_SERVER["DOCUMENT_ROOT"]) === 0) {
+                                        $url_imagen = substr($url_imagen, strlen($_SERVER["DOCUMENT_ROOT"]));
+                                    }
+                                    
+                                    // Asegurarse de que la URL comience con / o sea relativa
+                                    if (strpos($url_imagen, '/') === 0) {
+                                        // Es una ruta absoluta desde la raíz del servidor
+                                        // No necesita modificación adicional
+                                    } else if (strpos($url_imagen, '../') === 0) {
+                                        // Es una ruta relativa con ../
+                                        // Convertir a ruta absoluta desde la raíz del sitio
+                                        $url_imagen = str_replace('../', '/', $url_imagen);
+                                    }
+                                    
+                                    echo '<a href="'.$url_imagen.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                        <img class="img-thumbnail-custom" src="'.$url_imagen.'" alt="Imagen de '.$nombre_comercial.'">
                                     </a>';
                                 } else {
-                                    // Si no se encuentra ninguna ruta válida, intentar con la ruta base y usar onerror para manejar fallos
-                                    echo '<a href="../'.FOTOSMEDIAS.$id.'-'.$foto.'.jpg" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
-                                        <img class="img-thumbnail-custom" src="../'.FOTOSMEDIAS.$id.'-'.$foto.'.jpg" alt="Imagen de '.$nombre_comercial.'" onerror="this.src=\'img/no_imagen.jpg\'">
+                                    // Si no se encuentra ninguna ruta válida, intentar con URL pública directa
+                                    $url_base = "http://98.80.116.118/bebal_images/medias/";
+                                    $url_imagen = $url_base.$id."-".$foto.".jpg";
+                                    
+                                    echo '<a href="'.$url_imagen.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                        <img class="img-thumbnail-custom" src="'.$url_imagen.'" alt="Imagen de '.$nombre_comercial.'" onerror="this.src=\'img/no_imagen.jpg\'">
                                     </a>';
                                 }
                             } else {

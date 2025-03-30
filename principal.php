@@ -64,6 +64,12 @@
 				</div>
 				
 			</form>
+			
+			<!-- Indicador de carga -->
+			<div class="loading-overlay" id="loadingOverlay">
+				<div class="loading-spinner"></div>
+			</div>
+			
 			<div id="resultados"></div><!-- Carga los datos ajax -->
 			<div class='outer_div'></div><!-- Carga los datos ajax -->
 

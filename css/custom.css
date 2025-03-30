@@ -38,17 +38,25 @@ Esquema de colores del proyecto:
 .navbar-light .navbar-nav .nav-link {
   color: var(--color-secondary);
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
 .navbar-light .navbar-nav .nav-link:hover,
 .navbar-light .navbar-nav .nav-link:focus {
-  color: var(--color-secondary-light);
+  color: var(--color-white);
+  transform: scale(1.05);
 }
 
 .navbar-light .navbar-nav .active > .nav-link,
 .navbar-light .navbar-nav .nav-link.active {
-  color: var(--color-white);
+  color: var(--color-white) !important;
   background-color: transparent;
+  font-weight: 600;
+}
+
+/* Hacer que el elemento Lista (nav-item con icono de casa) sea seleccionado por defecto */
+.navbar-light .navbar-nav .nav-item:first-child .nav-link {
+  color: var(--color-white);
   font-weight: 600;
 }
 
@@ -209,6 +217,11 @@ Esquema de colores del proyecto:
   background-color: var(--color-tertiary-light) !important;
 }
 
+/* Override para la barra de navegación */
+.navbar-light.bg-light {
+  background-color: var(--color-primary) !important;
+}
+
 /* Text colors */
 .text-primary {
   color: var(--color-primary) !important;
@@ -325,11 +338,6 @@ a:hover {
 .form-control:focus {
     border-color: var(--color-secondary);
     box-shadow: 0 0 0 0.25rem rgba(172, 144, 91, 0.25);
-}
-
-/* Asegurándose que el navbar de Bootstrap 5 tenga los colores correctos */
-.navbar-light.bg-light {
-  background-color: var(--color-primary) !important;
 }
 
 /* Mejorando la legibilidad para los formularios */

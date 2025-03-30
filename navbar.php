@@ -2,6 +2,12 @@
 
 		if (isset($title))
 		{
+            // Establecer el elemento Lista como activo por defecto si no hay otra selección
+            if (!isset($active_principal) && !isset($active_usuarios) && !isset($active_colonias) 
+                && !isset($active_delegaciones) && !isset($active_giro) && !isset($active_tramite) 
+                && !isset($active_modalidad) && !isset($active_serviciosAdicionales)) {
+                $active_principal = true;
+            }
 	?>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">

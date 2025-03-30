@@ -14,7 +14,7 @@
 			<form class="form-horizontal" method="post" id="registro_guardar_inspeccion" name="registro_guardar_inspeccion">
 			<div id="resultados_ajaxInspeccion"></div>
 <input type="hidden" id="mod_idprincipal" name="idprincipal">
-<input type="hidden" id="mod_pagina" name="pagina">
+<input type="hidden" id="mod_pagina" name="page">
 <input type="hidden" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento">
 
 			<div class="mb-3 row">

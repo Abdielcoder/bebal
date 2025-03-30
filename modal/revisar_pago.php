@@ -14,7 +14,7 @@
 			<form class="form-horizontal" method="post" id="registro_guardar_pago" name="registro_guardar_pago">
 			<div id="resultados_ajaxPago"></div>
 <input type="hidden" id="mod_idprincipal" name="idprincipal">
-<input type="hidden" id="mod_pagina" name="pagina">
+<input type="hidden" id="mod_pagina" name="page">
 <input type="hidden" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento">
 
 			<div class="mb-3 row">

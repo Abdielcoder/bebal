@@ -143,10 +143,10 @@ session_start();
 #################################
 if (isset($_GET['id'])) {
     $IDPRINCIPAL = $_GET['id'];
-    $page = isset($_GET['pagina']) ? $_GET['pagina'] : 1; // Asegurarse que siempre existe page
+    $page = isset($_GET['page']) ? $_GET['page'] : 1; // Asegurarse que siempre existe page
 } else {
     $IDPRINCIPAL = $_POST['IDPRINCIPAL'];
-    $page = isset($_POST['pagina']) ? $_POST['pagina'] : 1; // Asegurarse que siempre existe page
+    $page = isset($_POST['page']) ? $_POST['page'] : 1; // Asegurarse que siempre existe page
 }
 #################################
 #################################
@@ -346,7 +346,7 @@ $COLONIA=$row_colonia['colonia'];
         
         <!-- Botones de acción -->
         <div class="area-botones">
-            <a href="principal.php?pagina=<?php echo $page; ?>" class="btn btn-secondary">
+            <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-secondary">
                 <i class="bi bi-arrow-left"></i> Regresar
             </a>
             
@@ -445,7 +445,7 @@ $(document).ready(function() {
         $(target + ' #mod_nombre_comercial_establecimiento').val(nombreComercial);
         $(target + ' #mod_folio').val(folio);
         $(target + ' #mod_idprincipal, ' + target + ' #IDPRINCIPAL').val(idPrincipal);
-        $(target + ' #mod_pagina, ' + target + ' #pagina').val(pagina);
+        $(target + ' #mod_pagina, ' + target + ' #page').val(pagina);
         
         // Mostrar el modal
         myModal.show();

@@ -51,7 +51,7 @@ header('Content-Type: text/html; charset=utf-8');
         @media print {
             body {
                 width: 210mm;
-                height: 297mm;
+                height: 279mm; /* Tamaño carta exacto */
                 margin: 0;
                 padding: 0;
             }
@@ -65,13 +65,14 @@ header('Content-Type: text/html; charset=utf-8');
         
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
+            line-height: 1.4;
             color: #333;
             margin: 0;
-            padding: 20px;
-            max-width: 800px;
+            padding: 15px;
+            max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
+            font-size: 12px;
         }
         
         .print-button {
@@ -89,7 +90,7 @@ header('Content-Type: text/html; charset=utf-8');
         
         .container {
             background: white;
-            padding: 20px;
+            padding: 15px;
             border: 1px solid #ddd;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
@@ -97,14 +98,14 @@ header('Content-Type: text/html; charset=utf-8');
         .header {
             display: flex;
             align-items: center;
-            border-bottom: 3px solid #AC905B;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            border-bottom: 2px solid #AC905B;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
         
         .logo {
-            width: 100px;
-            margin-right: 20px;
+            width: 70px;
+            margin-right: 15px;
         }
         
         .title {
@@ -113,13 +114,13 @@ header('Content-Type: text/html; charset=utf-8');
         
         .title h1 {
             margin: 0;
-            font-size: 20px;
+            font-size: 16px;
             color: #333;
         }
         
         .title h2 {
-            margin: 5px 0;
-            font-size: 16px;
+            margin: 2px 0;
+            font-size: 14px;
             color: #666;
             font-weight: normal;
         }
@@ -127,45 +128,45 @@ header('Content-Type: text/html; charset=utf-8');
         .date {
             text-align: right;
             font-style: italic;
-            font-size: 14px;
+            font-size: 12px;
             color: #666;
         }
         
         .main-title {
             text-align: center;
-            margin: 20px 0;
+            margin: 10px 0;
         }
         
         .main-title h1 {
             margin: 0;
-            font-size: 24px;
+            font-size: 18px;
             color: #333;
         }
         
         .main-title h3 {
-            margin: 5px 0;
-            font-size: 14px;
+            margin: 2px 0;
+            font-size: 12px;
             color: #666;
             font-weight: normal;
         }
         
         .folio {
             text-align: right;
-            margin: 10px 0;
-            font-size: 18px;
+            margin: 5px 0;
+            font-size: 14px;
             color: #AC905B;
             font-weight: bold;
         }
         
         .section {
-            margin: 20px 0;
+            margin: 10px 0;
         }
         
         .section-title {
             background-color: #AC905B;
             color: white;
-            padding: 8px 15px;
-            font-size: 16px;
+            padding: 5px 10px;
+            font-size: 14px;
             font-weight: bold;
             text-align: center;
         }
@@ -173,7 +174,7 @@ header('Content-Type: text/html; charset=utf-8');
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 10px 0;
+            margin: 5px 0;
         }
         
         table, th, td {
@@ -181,8 +182,9 @@ header('Content-Type: text/html; charset=utf-8');
         }
         
         th, td {
-            padding: 8px;
+            padding: 5px;
             text-align: left;
+            font-size: 12px;
         }
         
         th {
@@ -191,43 +193,52 @@ header('Content-Type: text/html; charset=utf-8');
             width: 30%;
         }
         
-        .monto {
-            margin: 20px 0;
+        .compact-table th, .compact-table td {
+            padding: 3px;
+        }
+        
+        .two-column {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .column {
+            flex: 1;
         }
         
         .monto-table td {
-            padding: 12px;
+            padding: 8px;
         }
         
         .monto-label {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             width: 30%;
         }
         
         .monto-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             text-align: center;
         }
         
         .info-text {
-            margin: 15px 0;
-            font-size: 14px;
+            margin: 10px 0;
+            font-size: 12px;
             text-align: justify;
         }
         
         .legal {
-            font-size: 12px;
+            font-size: 10px;
             color: #666;
-            margin: 20px 0;
+            margin: 10px 0;
             text-align: justify;
         }
         
         .signatures {
             display: flex;
             justify-content: space-around;
-            margin-top: 50px;
+            margin-top: 30px;
         }
         
         .signature {
@@ -269,87 +280,93 @@ header('Content-Type: text/html; charset=utf-8');
             Folio: <?php echo $datos['folio']; ?>
         </div>
         
-        <div class="section">
-            <div class="section-title">DATOS DEL ESTABLECIMIENTO</div>
-            <table>
-                <tr>
-                    <th>Nombre Comercial:</th>
-                    <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
-                </tr>
-                <tr>
-                    <th>Giro:</th>
-                    <td><?php echo $datos['giro_desc']; ?></td>
-                </tr>
-                <tr>
-                    <th>Modalidad:</th>
-                    <td><?php echo $datos['modalidad_desc']; ?></td>
-                </tr>
-                <tr>
-                    <th>Domicilio:</th>
-                    <td><?php echo $datos['calle_establecimiento'] . ' #' . $datos['numero_establecimiento'] . 
-                (!empty($datos['numerointerno_local_establecimiento']) ? ' Int. ' . $datos['numerointerno_local_establecimiento'] : ''); ?></td>
-                </tr>
-                <tr>
-                    <th>Colonia:</th>
-                    <td><?php echo $datos['colonia_desc']; ?></td>
-                </tr>
-                <tr>
-                    <th>Delegación:</th>
-                    <td><?php echo $datos['delegacion_desc']; ?></td>
-                </tr>
-                <tr>
-                    <th>Ciudad:</th>
-                    <td><?php echo $datos['municipio_desc']; ?></td>
-                </tr>
-                <tr>
-                    <th>Código Postal:</th>
-                    <td><?php echo $datos['cp_establecimiento']; ?></td>
-                </tr>
-            </table>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">DATOS DEL SOLICITANTE</div>
-            <table>
-                <tr>
-                    <th>Persona Física/Moral:</th>
-                    <td><?php echo $datos['nombre_persona_fisicamoral_solicitante']; ?></td>
-                </tr>
-                <tr>
-                    <th>Representante Legal:</th>
-                    <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
-                </tr>
-                <tr>
-                    <th>Domicilio:</th>
-                    <td><?php echo $datos['domicilio_solicitante']; ?></td>
-                </tr>
-                <tr>
-                    <th>Email:</th>
-                    <td><?php echo $datos['email_solicitante']; ?></td>
-                </tr>
-                <tr>
-                    <th>Teléfono:</th>
-                    <td><?php echo $datos['telefono_solicitante']; ?></td>
-                </tr>
-            </table>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">DATOS DE LA INSPECCIÓN</div>
-            <table>
-                <tr>
-                    <th>Estatus:</th>
-                    <td><?php echo $datos['estatus']; ?></td>
-                </tr>
-                <tr>
-                    <th>Operación:</th>
-                    <td><?php echo $datos['operacion']; ?></td>
-                </tr>
-                <tr>
-                    <th>Fecha de Alta:</th>
-                    <td><?php echo $datos['fecha_alta']; ?></td>
-                </tr>
-            </table>
+        <div class="two-column">
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">DATOS DEL ESTABLECIMIENTO</div>
+                    <table class="compact-table">
+                        <tr>
+                            <th>Nombre Comercial:</th>
+                            <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Giro:</th>
+                            <td><?php echo $datos['giro_desc']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Modalidad:</th>
+                            <td><?php echo $datos['modalidad_desc']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Domicilio:</th>
+                            <td><?php echo $datos['calle_establecimiento'] . ' #' . $datos['numero_establecimiento'] . 
+                        (!empty($datos['numerointerno_local_establecimiento']) ? ' Int. ' . $datos['numerointerno_local_establecimiento'] : ''); ?></td>
+                        </tr>
+                        <tr>
+                            <th>Colonia:</th>
+                            <td><?php echo $datos['colonia_desc']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Delegación:</th>
+                            <td><?php echo $datos['delegacion_desc']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Ciudad:</th>
+                            <td><?php echo $datos['municipio_desc']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Código Postal:</th>
+                            <td><?php echo $datos['cp_establecimiento']; ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="column">
+                <div class="section">
+                    <div class="section-title">DATOS DEL SOLICITANTE</div>
+                    <table class="compact-table">
+                        <tr>
+                            <th>Persona Física/Moral:</th>
+                            <td><?php echo $datos['nombre_persona_fisicamoral_solicitante']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Representante Legal:</th>
+                            <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Domicilio:</th>
+                            <td><?php echo $datos['domicilio_solicitante']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Email:</th>
+                            <td><?php echo $datos['email_solicitante']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Teléfono:</th>
+                            <td><?php echo $datos['telefono_solicitante']; ?></td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">DATOS DE LA INSPECCIÓN</div>
+                    <table class="compact-table">
+                        <tr>
+                            <th>Estatus:</th>
+                            <td><?php echo $datos['estatus']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Operación:</th>
+                            <td><?php echo $datos['operacion']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Fecha de Alta:</th>
+                            <td><?php echo $datos['fecha_alta']; ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
         
         <div class="section">
@@ -360,7 +377,7 @@ header('Content-Type: text/html; charset=utf-8');
                     <td class="monto-value">$1,500.00 MXN</td>
                 </tr>
             </table>
-            <p style="text-align: center; margin-top: 5px;">MIL QUINIENTOS PESOS 00/100 M.N.</p>
+            <p style="text-align: center; margin-top: 3px; font-size: 13px; font-weight: bold;">MIL QUINIENTOS PESOS 00/100 M.N.</p>
         </div>
         
         <div class="section">

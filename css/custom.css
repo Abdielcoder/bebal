@@ -700,6 +700,29 @@ a:hover {
     text-align: center;
   }
 
+  /* Ajustes para que la fecha/hora tenga más margen en dispositivos móviles */
+  .registro-table td[data-label="Imagen"] .text-muted,
+  .registro-table td[data-label="Imagen"] .text-primary {
+    margin-left: -15px;
+    text-align: left;
+    padding-left: 0;
+    display: inline-block;
+    width: 100%;
+  }
+
+  /* Alineación de datos en móvil */
+  .datos-establecimiento,
+  .datos-solicitante {
+    text-align: left;
+    padding-left: 120px;
+  }
+
+  /* Ajuste para los botones de acción en vista móvil */
+  .action-buttons {
+    justify-content: center;
+    margin-top: 10px;
+  }
+
   .panel-header-custom {
     flex-direction: column;
     align-items: flex-start;
@@ -848,7 +871,7 @@ a:hover {
   opacity: 1;
 }
 
-/* Pantalla de carga */
+/* Pantalla de carga mejorada para asegurar visibilidad */
 #loader {
   display: flex;
   align-items: center;
@@ -856,10 +879,27 @@ a:hover {
   padding: 1rem;
   color: var(--color-primary);
   font-weight: 600;
+  min-height: 50px;
 }
 
 #loader img {
   margin-right: 0.5rem;
   width: 20px;
   height: 20px;
+}
+
+/* Asegurar que outer_div siempre sea visible y tenga espacio suficiente */
+.outer_div {
+  min-height: 100px;
+  width: 100%;
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Asegurar que las tablas de resultados sean visibles */
+table.registro-table {
+  width: 100% !important;
+  display: table !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }

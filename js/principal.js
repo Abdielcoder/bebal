@@ -9,13 +9,25 @@
 				url:'./ajax/buscar_principal.php?action=ajax&page='+page+'&q='+q,
 				 beforeSend: function(objeto){
 				 $('#loader').html('<img src="img/ajax-loader.gif"> Cargando...');
+				 $(".outer_div").css('opacity', '0.5');
 			  },
 				success:function(data){
 					$(".outer_div").html(data).fadeIn('slow');
 					$('#loader').html('');
+					$(".outer_div").css('opacity', '1');
 					
 					// Inicializar eventos de botones modales para la nueva interfaz
 					inicializarEventosModal();
+				},
+				error: function(xhr, status, error) {
+					$('#loader').html('Error al cargar los datos: ' + error);
+					console.error("Error en la carga: ", error);
+					$(".outer_div").css('opacity', '1');
+				},
+				complete: function() {
+					setTimeout(function() {
+						$('#loader').html('');
+					}, 1000);
 				}
 			})
 		}
@@ -52,6 +64,14 @@
 		// Inicializar carga al cargar la página
 		$(document).ready(function(){
 			load(1);
+			
+			// Si después de 5 segundos sigue cargando, intentar recargar automáticamente
+			setTimeout(function() {
+				if ($(".outer_div").is(':empty')) {
+					console.log("Recargando automáticamente...");
+					load(1);
+				}
+			}, 5000);
 		});
 
 		function eliminar (id)

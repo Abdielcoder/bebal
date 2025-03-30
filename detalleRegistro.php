@@ -37,186 +37,97 @@ session_start();
 
     <?php include("head.php");?>
     <style>
-        /* Estilos para hacer la interfaz muy compacta y visible en una sola pantalla */
-        body {
-            font-size: 0.9rem;
-        }
-        
-        .container {
-            max-width: 1400px;
-            padding: 0 10px;
-        }
-        
         .encabezado-programa {
             background-color: var(--color-tertiary-light);
-            border-radius: 4px;
-            padding: 5px 10px;
-            margin-bottom: 10px;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 25px;
             text-align: center;
-            border-left: 3px solid var(--color-primary);
-            border-right: 3px solid var(--color-primary);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-        
-        .encabezado-programa h6 {
-            font-size: 0.8rem;
-            margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            border-left: 5px solid var(--color-primary);
+            border-right: 5px solid var(--color-primary);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
         }
         
         .seccion-datos {
             background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            margin-bottom: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
             overflow: hidden;
-            height: 100%;
         }
         
         .seccion-datos .encabezado {
             background-color: #AC905B;
             color: white;
-            padding: 4px 8px;
+            padding: 10px 15px;
             text-align: center;
-            border-top-left-radius: 4px;
-            border-top-right-radius: 4px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
         }
         
         .seccion-datos .encabezado h4 {
             margin: 0;
             font-weight: 600;
-            font-size: 0.95rem;
         }
         
         .seccion-datos .contenido {
-            padding: 6px 10px;
+            padding: 20px;
         }
         
         .fila-datos {
-            margin-bottom: 4px;
+            margin-bottom: 12px;
         }
         
         .etiqueta {
             background-color: #f4f0ec;
             font-weight: 600;
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            margin-bottom: 2px;
+            padding: 10px 15px;
+            border-radius: 4px;
         }
         
         .valor {
-            padding: 3px 6px;
-            font-size: 0.8rem;
-            background-color: #f9f9f9;
-            border-radius: 3px;
+            padding: 10px 15px;
         }
         
         .valor-destacado {
             font-weight: 600;
         }
         
-        .sidebar {
-            position: sticky;
-            top: 10px;
-        }
-        
         .area-botones {
-            margin-top: 0;
-            margin-bottom: 8px;
+            margin: 25px 0;
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .area-botones .btn {
-            padding: 5px 8px;
-            font-size: 0.8rem;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--color-primary);
-            border-color: var(--color-primary-dark);
-            color: white;
-        }
-        
-        .area-botones .btn:hover {
-            background-color: var(--color-primary-dark);
-            border-color: var(--color-primary-dark);
-        }
-        
-        .area-botones .btn i {
-            margin-right: 5px;
-            font-size: 0.9rem;
+        .nota-legal {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 0.85rem;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
         }
         
         .estatus-seccion {
             background-color: #f8f9fa;
-            border-radius: 4px;
+            border-radius: 8px;
             border: 1px solid #ddd;
-            margin-bottom: 8px;
-        }
-        
-        .foto-establecimiento {
-            width: 100%;
-            height: auto;
-            max-height: 120px;
-            object-fit: cover;
-            border-radius: 3px;
-            margin-bottom: 8px;
-            border: 1px solid #ddd;
-        }
-        
-        .info-bloque {
-            margin-bottom: 8px;
-        }
-        
-        .estatus-badge {
-            background-color: #997a8d;
-            color: white;
-            padding: 3px 6px;
-            border-radius: 3px;
-            font-weight: 600;
-            font-size: 0.8rem;
-            margin-bottom: 2px;
-        }
-        
-        .mt-compact {
-            margin-top: 5px;
-        }
-        
-        .mb-compact {
-            margin-bottom: 5px;
-        }
-        
-        .compact-row [class*="col-"] {
-            padding-right: 4px;
-            padding-left: 4px;
-        }
-        
-        .alert-compact {
-            padding: 3px 6px;
-            margin-bottom: 5px;
-            font-size: 0.75rem;
-        }
-        
-        hr {
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-bottom: 25px;
         }
         
         @media (max-width: 768px) {
             .etiqueta, .valor {
-                padding: 3px 5px;
-                font-size: 0.75rem;
+                padding: 8px 10px;
             }
             
-            .sidebar {
-                position: static;
-                margin-top: 10px;
+            .area-botones {
+                flex-direction: column;
+            }
+            
+            .area-botones .btn {
+                width: 100%;
+                margin-bottom: 8px;
             }
         }
     </style>
@@ -231,11 +142,11 @@ session_start();
 
 #################################
 if (isset($_GET['id'])) {
-$IDPRINCIPAL=$_GET['id'];
-$page=$_GET['page'];
+    $IDPRINCIPAL = $_GET['id'];
+    $page = isset($_GET['pagina']) ? $_GET['pagina'] : 1; // Asegurarse que siempre existe page
 } else {
-$IDPRINCIPAL=$_POST['IDPRINCIPAL'];
-$page=$_POST['page'];
+    $IDPRINCIPAL = $_POST['IDPRINCIPAL'];
+    $page = isset($_POST['pagina']) ? $_POST['pagina'] : 1; // Asegurarse que siempre existe page
 }
 #################################
 #################################
@@ -303,229 +214,159 @@ $COLONIA=$row_colonia['colonia'];
 ##
 ?>
 
-    <div class="mt-3">
+    <div class="mt-4">
         <!-- Encabezado del programa -->
         <div class="encabezado-programa">
-            <h6>PROGRAMA DE IDENTIFICACIÓN Y REGULARIZACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN BEBIDAS CON CONTENIDO ALCOHÓLICO</h6>
+            <h6 class="mb-0">PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO, EN ENVASE CERRADO Y ABIERTO, BEBIDAS CON CONTENIDO ALCOHÓLICO</h6>
         </div>
         
-        <div class="row compact-row g-2">
-            <!-- Columna principal con datos -->
-            <div class="col-lg-8">
-                <div class="row compact-row g-2">
-                    <!-- Datos del establecimiento -->
-                    <div class="col-lg-12">
-                        <div class="seccion-datos">
-                            <div class="encabezado">
-                                <h4>Datos del Establecimiento</h4>
-                            </div>
-                            <div class="contenido">
-                                <div class="row compact-row">
-                                    <div class="col-md-3 col-6">
-                                        <div class="etiqueta">Folio</div>
-                                        <div class="valor"><?php echo $folio; ?></div>
-                                    </div>
-                                    <div class="col-md-4 col-6">
-                                        <div class="etiqueta">Giro</div>
-                                        <div class="valor"><?php echo $GIRO; ?></div>
-                                    </div>
-                                    <div class="col-md-5 col-12 mt-md-0 mt-1">
-                                        <div class="etiqueta">Modalidad Graduación Alcohólica</div>
-                                        <div class="valor"><?php echo $MODALIDAD_GA; ?></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row compact-row">
-                                    <div class="col-12">
-                                        <div class="etiqueta">Nombre Comercial</div>
-                                        <div class="valor valor-destacado"><?php echo $nombre_comercial_establecimiento; ?></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row compact-row">
-                                    <div class="col-md-9 col-12">
-                                        <div class="etiqueta">Domicilio</div>
-                                        <div class="valor">
-                                            <?php echo $calle_establecimiento; ?> #<?php echo $numero_establecimiento; ?> 
-                                            <?php if (!empty($numerointerno_local_establecimiento)) echo $numerointerno_local_establecimiento; ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-12 mt-md-0 mt-1">
-                                        <div class="etiqueta">CP</div>
-                                        <div class="valor"><?php echo $cp_establecimiento; ?></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row compact-row">
-                                    <div class="col-md-4 col-12">
-                                        <div class="etiqueta">Colonia</div>
-                                        <div class="valor"><?php echo $COLONIA; ?></div>
-                                    </div>
-                                    <div class="col-md-4 col-12 mt-md-0 mt-1">
-                                        <div class="etiqueta">Delegación</div>
-                                        <div class="valor"><?php echo $DELEGACION; ?></div>
-                                    </div>
-                                    <div class="col-md-4 col-12 mt-md-0 mt-1">
-                                        <div class="etiqueta">Ciudad</div>
-                                        <div class="valor"><?php echo $MUNICIPIO; ?></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <!-- Sección de datos del establecimiento -->
+        <div class="seccion-datos">
+            <div class="encabezado">
+                <h4>Datos del Establecimiento</h4>
+            </div>
+            <div class="contenido">
+                <div class="row fila-datos">
+                    <div class="col-md-2 col-6">
+                        <div class="etiqueta">Folio</div>
+                        <div class="valor"><?php echo $folio; ?></div>
                     </div>
-                    
-                    <!-- Datos del solicitante -->
-                    <div class="col-md-6">
-                        <div class="seccion-datos">
-                            <div class="encabezado">
-                                <h4>Datos del Solicitante</h4>
-                            </div>
-                            <div class="contenido">
-                                <div class="row compact-row">
-                                    <div class="col-12">
-                                        <div class="etiqueta">Persona Física/Moral</div>
-                                        <div class="valor"><?php echo $nombre_persona_fisicamoral_solicitante; ?></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row compact-row">
-                                    <div class="col-12">
-                                        <div class="etiqueta">Representante Legal</div>
-                                        <div class="valor"><?php echo $nombre_representante_legal_solicitante; ?></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row compact-row">
-                                    <div class="col-12">
-                                        <div class="etiqueta">Domicilio</div>
-                                        <div class="valor"><?php echo $domicilio_solicitante; ?></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-md-5 col-6">
+                        <div class="etiqueta">Giro</div>
+                        <div class="valor"><?php echo $GIRO; ?></div>
                     </div>
-                    
-                    <!-- Contacto -->
-                    <div class="col-md-6">
-                        <div class="seccion-datos">
-                            <div class="encabezado">
-                                <h4>Información de Contacto</h4>
-                            </div>
-                            <div class="contenido">
-                                <div class="row compact-row">
-                                    <div class="col-12">
-                                        <div class="etiqueta">Email</div>
-                                        <div class="valor"><?php echo $email_solicitante; ?></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="row compact-row">
-                                    <div class="col-12">
-                                        <div class="etiqueta">Teléfono</div>
-                                        <div class="valor"><?php echo $telefono_solicitante; ?></div>
-                                    </div>
-                                </div>
-                                
-                                <?php if (!empty($observaciones)): ?>
-                                <div class="row compact-row">
-                                    <div class="col-12">
-                                        <div class="etiqueta">Observaciones</div>
-                                        <div class="valor small"><?php echo $observaciones; ?></div>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+                    <div class="col-md-5 col-12 mt-md-0 mt-3">
+                        <div class="etiqueta">Modalidad Graduación Alcohólica</div>
+                        <div class="valor"><?php echo $MODALIDAD_GA; ?></div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Columna lateral con acciones y estado -->
-            <div class="col-lg-4">
-                <div class="row compact-row g-2">
-                    <!-- Sección de estatus -->
-                    <div class="col-md-12">
-                        <div class="seccion-datos">
-                            <div class="encabezado">
-                                <h4>Estado del Registro</h4>
-                            </div>
-                            <div class="contenido">
-                                <div class="row compact-row">
-                                    <div class="col-4">
-                                        <div class="estatus-badge">Estatus</div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="valor"><?php echo $estatus; ?></div>
-                                    </div>
-                                </div>
-                                <div class="row compact-row">
-                                    <div class="col-4">
-                                        <div class="estatus-badge">Operación</div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="valor"><?php echo $operacion; ?></div>
-                                    </div>
-                                </div>
-                                <div class="row compact-row">
-                                    <div class="col-4">
-                                        <div class="estatus-badge">Fecha Alta</div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="valor"><?php echo $fecha_alta; ?></div>
-                                    </div>
-                                </div>
-                                <?php if (!empty($numero_permiso)): ?>
-                                <div class="row compact-row">
-                                    <div class="col-4">
-                                        <div class="estatus-badge">Permiso</div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="valor"><?php echo $numero_permiso; ?></div>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Botones de acción -->
+                
+                <div class="row fila-datos">
                     <div class="col-12">
-                        <div class="area-botones">
-                            <div class="row compact-row g-1">
-                                <div class="col-6">
-                                    <a href="principal.php?pagina=<?php echo $page; ?>" class="btn w-100">
-                                        <i class="bi bi-arrow-left"></i> Regresar
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn w-100">
-                                        <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
-                                    </a>
-                                </div>
-                                
-                                <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
-                                <div class="col-6">
-                                    <a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn w-100" title="Revisar Pago">
-                                        <i class="bi bi-check-circle"></i> Revisar Pago
-                                    </a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="#EliminarRegistro" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn w-100" title="Eliminar Registro">
-                                        <i class="bi bi-trash"></i> Eliminar Registro
-                                    </a>
-                                </div>
-                                <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
-                                <div class="col-12">
-                                    <a href="#EfectuarInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn w-100" title="Registrar Inspección">
-                                        <i class="bi bi-clipboard-check"></i> Registrar Inspección
-                                    </a>
-                                </div>
-                                <?php } ?>
-                            </div>
+                        <div class="etiqueta">Nombre Comercial</div>
+                        <div class="valor valor-destacado"><?php echo $nombre_comercial_establecimiento; ?></div>
+                    </div>
+                </div>
+                
+                <div class="row fila-datos">
+                    <div class="col-md-9 col-12">
+                        <div class="etiqueta">Domicilio</div>
+                        <div class="valor">
+                            <?php echo $calle_establecimiento; ?> #<?php echo $numero_establecimiento; ?> 
+                            <?php if (!empty($numerointerno_local_establecimiento)) echo $numerointerno_local_establecimiento; ?>
                         </div>
+                    </div>
+                    <div class="col-md-3 col-12 mt-md-0 mt-3">
+                        <div class="etiqueta">CP</div>
+                        <div class="valor"><?php echo $cp_establecimiento; ?></div>
+                    </div>
+                </div>
+                
+                <div class="row fila-datos">
+                    <div class="col-md-4 col-12">
+                        <div class="etiqueta">Colonia</div>
+                        <div class="valor"><?php echo $COLONIA; ?></div>
+                    </div>
+                    <div class="col-md-4 col-12 mt-md-0 mt-3">
+                        <div class="etiqueta">Delegación</div>
+                        <div class="valor"><?php echo $DELEGACION; ?></div>
+                    </div>
+                    <div class="col-md-4 col-12 mt-md-0 mt-3">
+                        <div class="etiqueta">Ciudad</div>
+                        <div class="valor"><?php echo $MUNICIPIO; ?></div>
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- Sección de datos del solicitante -->
+        <div class="seccion-datos">
+            <div class="encabezado">
+                <h4>Datos del Solicitante</h4>
+            </div>
+            <div class="contenido">
+                <div class="row fila-datos">
+                    <div class="col-12">
+                        <div class="etiqueta">Persona Física/Moral</div>
+                        <div class="valor"><?php echo $nombre_persona_fisicamoral_solicitante; ?></div>
+                    </div>
+                </div>
+                
+                <div class="row fila-datos">
+                    <div class="col-12">
+                        <div class="etiqueta">Representante Legal</div>
+                        <div class="valor"><?php echo $nombre_representante_legal_solicitante; ?></div>
+                    </div>
+                </div>
+                
+                <div class="row fila-datos">
+                    <div class="col-12">
+                        <div class="etiqueta">Domicilio</div>
+                        <div class="valor"><?php echo $domicilio_solicitante; ?></div>
+                    </div>
+                </div>
+                
+                <div class="row fila-datos">
+                    <div class="col-md-6 col-12">
+                        <div class="etiqueta">Email</div>
+                        <div class="valor"><?php echo $email_solicitante; ?></div>
+                    </div>
+                    <div class="col-md-6 col-12 mt-md-0 mt-3">
+                        <div class="etiqueta">Teléfono</div>
+                        <div class="valor"><?php echo $telefono_solicitante; ?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección de estatus -->
+        <div class="estatus-seccion">
+            <div class="row p-3">
+                <div class="col-md-4 col-12 mb-md-0 mb-3">
+                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Estatus</div>
+                    <div class="valor"><?php echo $estatus; ?></div>
+                </div>
+                <div class="col-md-4 col-12 mb-md-0 mb-3">
+                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Operación</div>
+                    <div class="valor"><?php echo $operacion; ?></div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="etiqueta" style="background-color: #997a8d; color: white;">Fecha Alta</div>
+                    <div class="valor"><?php echo $fecha_alta; ?></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nota legal -->
+        <div class="nota-legal">
+            <p class="mb-0">
+                Mediante Acuerdo del Cabildo de fecha once de diciembre del dos mil veinticuatro en el punto de acuerdo número VI.3, se autoriza a la Secretaría de Gobierno Municipal para que instrumente el programa de identificación, empadronamiento y regularización de la situación jurídica y administrativa de las personas físicas o morales que se dediquen a la expedición y venta, en envase cerrado y abierto, de bebidas con contenido alcohólico, a fin de que se actualice su situación jurídica. Para cumplir con los objetivos del programa, por medio de la presente, se autoriza la recepción de documentos del solicitante para revisión de su expediente y posterior determinación. Este documento no implica que se vaya a expedir un permiso nuevo y/o autorizar la regularización de uno previo, situación que se le informa al solicitante y acepta de conformidad, firmando al calce.
+            </p>
+        </div>
+        
+        <!-- Botones de acción -->
+        <div class="area-botones">
+            <a href="principal.php?pagina=<?php echo $page; ?>" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Regresar
+            </a>
+            
+            <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-success">
+                <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
+            </a>
+            
+            <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
+                <a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Revisar Pago">
+                    <i class="bi bi-check-circle"></i> Revisar Pago
+                </a>
+                
+                <a href="#EliminarRegistro" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Eliminar Registro">
+                    <i class="bi bi-trash"></i> Eliminar Registro
+                </a>
+            <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
+                <a href="#EfectuarInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Registrar Inspección">
+                    <i class="bi bi-clipboard-check"></i> Registrar Inspección
+                </a>
+            <?php } ?>
         </div>
     </div>
 

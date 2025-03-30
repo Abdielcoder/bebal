@@ -35,12 +35,14 @@
 	?>
 	
     <div class="container">
-	<div class="panel">
-		<div class="panel-header-custom">
-			<h5><i class="bi bi-search"></i> Buscar Registro</h5>
-		    <button type='button' class="btn-registro-nuevo" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal"><i class="bi bi-plus-circle"></i> Nuevo Registro</button>
+	<div class="panel panel-success">
+		<div class="panel-heading">
+		    <div class="btn-group pull-right">
+				<button type='button' class="btn btn-danger" data-toggle="modal" data-target="#nuevoRegistroPrincipal" style="background-color:#661C32;color:white"><span class="glyphicon glyphicon-plus" ></span> Nuevo Registro</button>
+			</div>
+			<h5><i class='glyphicon glyphicon-search'></i> Buscar Registro</h5>
 		</div>
-		<div class="panel-body-custom">
+		<div class="panel-body">
 		
 			
 			
@@ -48,74 +50,31 @@
 			include("modal/registro_principal.php");
 			include("modal/editar_registro.php");
 			?>
-			
-			<!-- Modal para coordenadas/mapa -->
-			<div class="modal fade" id="coordenadasModal" tabindex="-1" aria-labelledby="coordenadasModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-				<div class="modal-content">
-				  <div class="modal-header">
-					<h5 class="modal-title" id="coordenadasModalLabel">Coordenadas del Establecimiento</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				  </div>
-				  <div class="modal-body">
-					<!-- Formulario para coordenadas -->
-					<form class="form-horizontal" id="guardar_mapa" name="guardar_mapa">
-						<input type="hidden" id="mod_id" name="mod_id">
-						<input type="hidden" id="folio_data2" name="folio_data2">
-						<input type="hidden" id="numero_permiso_data2" name="numero_permiso_data2">
-						
-						<div class="form-group mb-3">
-							<label for="mapa_data2" class="control-label">Coordenadas</label>
-							<div class="input-group">
-								<input type="text" class="form-control" id="mapa_data2" name="mapa_data2" placeholder="Ingrese coordenadas">
-								<button class="btn btn-primary" type="button" id="obtenerCoordenadas">Obtener</button>
+			<form class="form-horizontal" role="form" id="datos_cotizacion">
+				
+						<div class="form-group row">
+							<label for="q" class="col-md-2 control-label">Dirección</label>
+							<div class="col-md-5">
+								<input type="text" class="form-control" id="q" placeholder="Escribe dirección" onkeyup='load(1);'>
 							</div>
-							<small class="text-muted">Formato: latitud,longitud (ej: 32.5149,-117.0382)</small>
+							<div class="col-md-3">
+								<button type="button" class="btn btn-default" onclick='load(1);'>
+									<span class="glyphicon glyphicon-search" ></span> Buscar</button>
+								<span id="loader"></span>
+							</div>
+							
 						</div>
-						
-						<div id="map" style="width: 100%; height: 300px;"></div>
-						
-						<div class="alert alert-info" id="coordenadas_info" style="margin-top: 10px;">
-							Ingrese las coordenadas manualmente o use el botón "Obtener" para detectar su ubicación actual.
-						</div>
-					</form>
-				  </div>
-				  <div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-					<button type="button" class="btn btn-primary" id="guardar_coordenadas">Guardar</button>
-				  </div>
-				</div>
-			  </div>
-			</div>
-			
-			<form class="form-horizontal form-busqueda" role="form" id="datos_cotizacion">
 				
-				<div class="row mb-3">
-					<label for="q" class="col-md-2 col-form-label">Dirección</label>
-					<div class="col-md-6">
-						<input type="text" class="form-control" id="q" placeholder="Escribe dirección" onkeyup='load(1);'>
-					</div>
-					<div class="col-md-4">
-						<button type="button" class="btn btn-buscar-custom" onclick='load(1);'>
-							<i class="bi bi-search"></i> Buscar
-						</button>
-						<span id="loader"></span>
-					</div>
-				</div>
 				
-			</form>
-			
-			<!-- Indicador de carga -->
-			<div class="loading-overlay" id="loadingOverlay">
-				<div class="loading-spinner"></div>
-			</div>
-			
-			<div id="resultados"></div><!-- Carga los datos ajax -->
-			<div class='outer_div'></div><!-- Carga los datos ajax -->
 
 
-		</div>
-	</div>
+</form>
+<div id="resultados"></div><!-- Carga los datos ajax -->
+<div class='outer_div'></div><!-- Carga los datos ajax -->
+
+
+  </div>
+</div>
 		 
 	</div>
 	<hr>
@@ -291,9 +250,6 @@ modal.find('.modal-body #mod_foto').val(foto)
 modal.find('.modal-body #mod_id').val(id)
 modal.find('.modal-body #mod_ID').val(ID)
 })
-
-
-
 </script>
 
 

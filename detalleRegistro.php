@@ -213,8 +213,13 @@ echo '<button class="btn btn-default" name="ir_aPrincipal" type="submit" title="
 
 echo '&nbsp;&nbsp;';
 
-// Botón para generar PDF del recibo
-echo '<a href="#reciboPDF" data-toggle="modal" data-id="'.$IDPRINCIPAL.'" data-nombre="'.$nombre_comercial_establecimiento.'" class="btn btn-success" title="Ver Recibo PDF"><i class="glyphicon glyphicon-file"></i> Generar Recibo PDF</a>';
+// Botón para generar PDF del recibo (corregido)
+echo '<button type="button" class="btn btn-success" data-toggle="modal" data-target="#reciboPDF" data-id="'.$IDPRINCIPAL.'" data-nombre="'.$nombre_comercial_establecimiento.'"><i class="glyphicon glyphicon-file"></i> Generar Recibo PDF</button>';
+
+echo '&nbsp;&nbsp;';
+
+// Botón para generar HTML del recibo (alternativa)
+echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-primary"><i class="glyphicon glyphicon-globe"></i> Ver Recibo HTML</a>';
 
 echo '&nbsp;&nbsp;';
 

@@ -134,9 +134,18 @@ session_start();
         .area-botones .btn {
             padding: 5px 8px;
             font-size: 0.8rem;
-            text-align: left;
+            text-align: center;
             display: flex;
             align-items: center;
+            justify-content: center;
+            background-color: var(--color-primary);
+            border-color: var(--color-primary-dark);
+            color: white;
+        }
+        
+        .area-botones .btn:hover {
+            background-color: var(--color-primary-dark);
+            border-color: var(--color-primary-dark);
         }
         
         .area-botones .btn i {
@@ -434,17 +443,8 @@ $COLONIA=$row_colonia['colonia'];
             <!-- Columna lateral con acciones y estado -->
             <div class="col-lg-4">
                 <div class="row compact-row g-2">
-                    <!-- Imagen si está disponible -->
-                    <?php if (!empty($foto)): ?>
-                    <div class="col-md-6 col-lg-12">
-                        <div class="info-bloque">
-                            <img src="img/uploads/<?php echo $foto; ?>" alt="Foto del establecimiento" class="foto-establecimiento">
-                        </div>
-                    </div>
-                    <?php endif; ?>
-                    
                     <!-- Sección de estatus -->
-                    <div class="col-md-6 col-lg-12">
+                    <div class="col-md-12">
                         <div class="seccion-datos">
                             <div class="encabezado">
                                 <h4>Estado del Registro</h4>
@@ -493,30 +493,30 @@ $COLONIA=$row_colonia['colonia'];
                         <div class="area-botones">
                             <div class="row compact-row g-1">
                                 <div class="col-6">
-                                    <a href="principal.php?pagina=<?php echo $page; ?>" class="btn btn-secondary btn-sm w-100">
+                                    <a href="principal.php?pagina=<?php echo $page; ?>" class="btn w-100">
                                         <i class="bi bi-arrow-left"></i> Regresar
                                     </a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-success btn-sm w-100">
+                                    <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn w-100">
                                         <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
                                     </a>
                                 </div>
                                 
                                 <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
                                 <div class="col-6">
-                                    <a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-info btn-sm w-100" title="Revisar Pago">
+                                    <a href="#revisarPago" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn w-100" title="Revisar Pago">
                                         <i class="bi bi-check-circle"></i> Revisar Pago
                                     </a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="#EliminarRegistro" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger btn-sm w-100" title="Eliminar Registro">
+                                    <a href="#EliminarRegistro" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn w-100" title="Eliminar Registro">
                                         <i class="bi bi-trash"></i> Eliminar Registro
                                     </a>
                                 </div>
                                 <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
                                 <div class="col-12">
-                                    <a href="#EfectuarInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-info btn-sm w-100" title="Registrar Inspección">
+                                    <a href="#EfectuarInspeccion" data-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn w-100" title="Registrar Inspección">
                                         <i class="bi bi-clipboard-check"></i> Registrar Inspección
                                     </a>
                                 </div>

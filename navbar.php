@@ -19,23 +19,23 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link <?php if (isset($active_principal)){echo 'active';}?>" href="principal.php"><i class='bi bi-list'></i> Lista</a>
+          <a class="nav-link <?php if (isset($active_principal)){echo 'active';}?>" href="principal.php"><i class='bi bi-house-fill'></i> Lista</a>
         </li>
 
 <?php
 if ( $PROFILE=='admin' ) {
 ?>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="usuarios.php"><i class='bi bi-person'></i> Usuarios</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="colonias.php"><i class='bi bi-list-check'></i> Colonias</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="delegacion.php"><i class='bi bi-list-check'></i> Delegaciones</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_giro)){echo 'active';}?>" href="giro.php"><i class='bi bi-list-check'></i> Giro</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_tramite)){echo 'active';}?>" href="tramite.php"><i class='bi bi-list-check'></i> Tramite</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_modalidad)){echo 'active';}?>" href="modalidad.php"><i class='bi bi-list-check'></i> Modalidad</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_serviciosAdicionales)){echo 'active';}?>" href="serviciosAdicionales.php"><i class='bi bi-list-check'></i> Servicios Adicionales</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="usuarios.php"><i class='bi bi-people-fill'></i> Usuarios</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="colonias.php"><i class='bi bi-pin-map-fill'></i> Colonias</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="delegacion.php"><i class='bi bi-building-fill'></i> Delegaciones</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_giro)){echo 'active';}?>" href="giro.php"><i class='bi bi-arrow-repeat'></i> Giro</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_tramite)){echo 'active';}?>" href="tramite.php"><i class='bi bi-file-earmark-text-fill'></i> Tramite</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_modalidad)){echo 'active';}?>" href="modalidad.php"><i class='bi bi-sliders'></i> Modalidad</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_serviciosAdicionales)){echo 'active';}?>" href="serviciosAdicionales.php"><i class='bi bi-plus-circle-fill'></i> Servicios Adicionales</a></li>
 <?php } else { ?>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="#"><i class='bi bi-person'></i> Usuarios</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="#"><i class='bi bi-list-check'></i> Colonias</a></li>
-<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="#"><i class='bi bi-list-check'></i> Delegaciones</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_usuarios)){echo 'active';}?>" href="#"><i class='bi bi-people-fill'></i> Usuarios</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_colonias)){echo 'active';}?>" href="#"><i class='bi bi-pin-map-fill'></i> Colonias</a></li>
+<li class="nav-item"><a class="nav-link <?php if (isset($active_delegaciones)){echo 'active';}?>" href="#"><i class='bi bi-building-fill'></i> Delegaciones</a></li>
 <?php
 }
 
@@ -46,7 +46,7 @@ $anio=date("Y");
 ?>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-file-earmark-text"></i> Reportes
+            <i class="bi bi-graph-up-arrow"></i> Reportes
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="reporte1.php"><i class="bi bi-play-fill text-secondary"></i> Reporte 1</a></li>

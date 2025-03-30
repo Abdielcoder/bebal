@@ -157,10 +157,49 @@ if ($action == 'ajax') {
                     $nombre_solicitante = $row['nombre_persona_fisicamoral_solicitante'];
                     $email = $row['email_solicitante'];
                     $telefono = $row['telefono_solicitante'];
+                    $foto = isset($row['foto']) ? $row['foto'] : "";
+                    $mapa = isset($row['mapa']) ? $row['mapa'] : "";
+                    
+                    // Valores ocultos para los modales y acciones
                     ?>
+                    <input type="hidden" id="folio<?php echo $id; ?>" value="<?php echo $folio; ?>">
+                    <input type="hidden" id="numero_permiso<?php echo $id; ?>" value="<?php echo isset($row['numero_permiso']) ? $row['numero_permiso'] : ''; ?>">
+                    <input type="hidden" id="mapa<?php echo $id; ?>" value="<?php echo $mapa; ?>">
+                    <input type="hidden" id="estatus<?php echo $id; ?>" value="<?php echo $estatus; ?>">
+                    <input type="hidden" id="operacion<?php echo $id; ?>" value="<?php echo isset($row['operacion']) ? $row['operacion'] : ''; ?>">
+                    <input type="hidden" id="observaciones<?php echo $id; ?>" value="<?php echo $observaciones; ?>">
+                    <input type="hidden" id="direccion<?php echo $id; ?>" value="<?php echo isset($row['direccion']) ? $row['direccion'] : ''; ?>">
+                    <input type="hidden" id="delegacion_id<?php echo $id; ?>" value="<?php echo isset($row['delegacion_id']) ? $row['delegacion_id'] : ''; ?>">
+                    <input type="hidden" id="colonia_id<?php echo $id; ?>" value="<?php echo isset($row['colonia_id']) ? $row['colonia_id'] : ''; ?>">
+                    <input type="hidden" id="COLONIA<?php echo $id; ?>" value="<?php echo isset($row['COLONIA']) ? $row['COLONIA'] : ''; ?>">
+                    <input type="hidden" id="DELEGACION<?php echo $id; ?>" value="<?php echo isset($row['DELEGACION']) ? $row['DELEGACION'] : ''; ?>">
+                    <input type="hidden" id="GIRO<?php echo $id; ?>" value="<?php echo isset($row['GIRO']) ? $row['GIRO'] : ''; ?>">
+                    <input type="hidden" id="MODALIDAD_GA<?php echo $id; ?>" value="<?php echo isset($row['MODALIDAD_GA']) ? $row['MODALIDAD_GA'] : ''; ?>">
+                    <input type="hidden" id="nombre_comercial_establecimiento<?php echo $id; ?>" value="<?php echo $nombre_comercial; ?>">
+                    <input type="hidden" id="calle_establecimiento<?php echo $id; ?>" value="<?php echo $calle; ?>">
+                    <input type="hidden" id="entre_calles_establecimiento<?php echo $id; ?>" value="<?php echo $entre_calles; ?>">
+                    <input type="hidden" id="numero_establecimiento<?php echo $id; ?>" value="<?php echo $numero; ?>">
+                    <input type="hidden" id="numerointerno_local_establecimiento<?php echo $id; ?>" value="<?php echo $numero_interno; ?>">
+                    <input type="hidden" id="cp_establecimiento<?php echo $id; ?>" value="<?php echo isset($row['cp_establecimiento']) ? $row['cp_establecimiento'] : ''; ?>">
+                    <input type="hidden" id="nombre_persona_fisicamoral_solicitante<?php echo $id; ?>" value="<?php echo $nombre_solicitante; ?>">
+                    <input type="hidden" id="nombre_representante_legal_solicitante<?php echo $id; ?>" value="<?php echo isset($row['nombre_representante_legal_solicitante']) ? $row['nombre_representante_legal_solicitante'] : ''; ?>">
+                    <input type="hidden" id="domicilio_solicitante<?php echo $id; ?>" value="<?php echo isset($row['domicilio_solicitante']) ? $row['domicilio_solicitante'] : ''; ?>">
+                    <input type="hidden" id="email_solicitante<?php echo $id; ?>" value="<?php echo $email; ?>">
+                    <input type="hidden" id="telefono_solicitante<?php echo $id; ?>" value="<?php echo $telefono; ?>">
+                    <input type="hidden" id="COLONIAyDELEGACION<?php echo $id; ?>" value="<?php echo isset($row['COLONIAyDELEGACION']) ? $row['COLONIAyDELEGACION'] : ''; ?>">
+                    <input type="hidden" id="direccion_establecimiento_completa<?php echo $id; ?>" value="<?php echo isset($row['direccion_establecimiento_completa']) ? $row['direccion_establecimiento_completa'] : ''; ?>">
+                    
                     <tr class="registro-row">
                         <td data-label="Imagen" class="imagen-celda">
-                            <a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>
+                            <?php 
+                            if (!empty($foto) && file_exists("img/fotos/".$foto)) {
+                                echo '<a href="img/fotos/'.$foto.'" data-lightbox="imagen-'.$id.'" data-title="'.$nombre_comercial.'">
+                                    <img class="img-thumbnail-custom" src="img/fotos/'.$foto.'" alt="Imagen de '.$nombre_comercial.'">
+                                </a>';
+                            } else {
+                                echo '<a href="#"><img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto"></a>';
+                            }
+                            ?>
                             <span class="d-block text-muted mt-2 id-info"><small>ID: <?php echo $id; ?> | Folio: <?php echo $folio; ?></small></span>
                         </td>
                         <td data-label="Datos Establecimiento" class="datos-celda">
@@ -199,8 +238,22 @@ if ($action == 'ajax') {
                         </td>
                         <td data-label="Acciones" class="acciones-celda">
                             <div class="action-buttons">
-                                <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Editar registro" onclick="obtener_datos('<?php echo $id; ?>','<?php echo $page; ?>');"><i class="bi bi-pencil"></i></a>
+                                <!-- Botón de editar -->
+                                <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Editar registro" data-bs-toggle="modal" data-bs-target="#editarRegistro" onclick="obtener_datos('<?php echo $id; ?>','<?php echo $page; ?>');"><i class="bi bi-pencil"></i></a>
+                                
+                                <!-- Botón de coordenadas/mapa -->
+                                <a href="#" class="btn btn-sm btn-action btn-info-custom" title="Coordenadas" data-bs-toggle="modal" data-bs-target="#coordenadasModal" onclick="mapa_valla('<?php echo $id; ?>')"><i class="bi bi-geo-alt"></i></a>
+                                
+                                <!-- Botón de cámara/foto -->
+                                <a href="#" class="btn btn-sm btn-action btn-success-custom" title="Foto" data-bs-toggle="modal" data-bs-target="#fotoModal" data-id="<?php echo $id; ?>"><i class="bi bi-camera"></i></a>
+                                
+                                <!-- Estatus -->
                                 <div class="estatus-badge estatus-inspeccion"><?php echo $estatus; ?></div>
+                                
+                                <?php if ($estatus == "PENDIENTE" || $estatus == "INSPECCION"): ?>
+                                <!-- Botón de generar recibo -->
+                                <a href="#" class="btn btn-sm btn-action btn-warning-custom btn-generar-recibo mt-2" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibo Inspeccion</a>
+                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>

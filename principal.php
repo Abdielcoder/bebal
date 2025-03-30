@@ -48,6 +48,85 @@
 			include("modal/registro_principal.php");
 			include("modal/editar_registro.php");
 			?>
+			
+			<!-- Modal para coordenadas/mapa -->
+			<div class="modal fade" id="coordenadasModal" tabindex="-1" aria-labelledby="coordenadasModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="coordenadasModalLabel">Coordenadas del Establecimiento</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				  </div>
+				  <div class="modal-body">
+					<!-- Formulario para coordenadas -->
+					<form class="form-horizontal" id="guardar_mapa" name="guardar_mapa">
+						<input type="hidden" id="mod_id" name="mod_id">
+						<input type="hidden" id="folio_data2" name="folio_data2">
+						<input type="hidden" id="numero_permiso_data2" name="numero_permiso_data2">
+						
+						<div class="form-group mb-3">
+							<label for="mapa_data2" class="control-label">Coordenadas</label>
+							<div class="input-group">
+								<input type="text" class="form-control" id="mapa_data2" name="mapa_data2" placeholder="Ingrese coordenadas">
+								<button class="btn btn-primary" type="button" id="obtenerCoordenadas">Obtener</button>
+							</div>
+							<small class="text-muted">Formato: latitud,longitud (ej: 32.5149,-117.0382)</small>
+						</div>
+						
+						<div id="map" style="width: 100%; height: 300px;"></div>
+						
+						<div class="alert alert-info" id="coordenadas_info" style="margin-top: 10px;">
+							Ingrese las coordenadas manualmente o use el botón "Obtener" para detectar su ubicación actual.
+						</div>
+					</form>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-primary" id="guardar_coordenadas">Guardar</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			
+			<!-- Modal para subir foto -->
+			<div class="modal fade" id="fotoModal" tabindex="-1" aria-labelledby="fotoModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="fotoModalLabel">Subir Foto</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				  </div>
+				  <div class="modal-body">
+					<!-- Formulario para subir foto -->
+					<form method="post" id="guardar_foto" name="guardar_foto" enctype="multipart/form-data">
+						<input type="hidden" id="id_registro_foto" name="id_registro_foto">
+						
+						<div class="form-group mb-3">
+							<label for="foto" class="control-label">Seleccionar Foto</label>
+							<input type="file" class="form-control" id="foto" name="foto" accept="image/*">
+							<small class="text-muted">Formatos permitidos: JPG, PNG, GIF. Tamaño máximo: 5MB</small>
+						</div>
+						
+						<div class="form-group mb-3">
+							<label>Vista previa</label>
+							<div id="preview" class="text-center mt-2">
+								<img src="img/no_imagen.jpg" class="img-fluid" alt="Vista previa" style="max-height: 200px;">
+							</div>
+						</div>
+						
+						<div class="alert alert-info">
+							Puede tomar una foto con su dispositivo o seleccionar una existente.
+						</div>
+					</form>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-primary" id="guardar_imagen">Guardar</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			
 			<form class="form-horizontal form-busqueda" role="form" id="datos_cotizacion">
 				
 				<div class="row mb-3">

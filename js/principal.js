@@ -1,4 +1,3 @@
-
 		function load(page){
 			var q = $("#q").val();
 			
@@ -186,4 +185,275 @@ $( "#editar_categoria" ).submit(function( event ) {
 	  modal.find('.modal-body #mod_id').val(id)
 	})
 		
+
+// Función para generar recibo de inspección
+function generar_recibo(id) {
+    // Mostrar el indicador de carga
+    $("#loadingOverlay").show();
+    
+    // Realizar petición AJAX para generar el recibo
+    $.ajax({
+        url: 'ajax/generar_recibo.php',
+        type: 'POST',
+        data: { id: id },
+        success: function(response) {
+            // Ocultar el indicador de carga
+            $("#loadingOverlay").hide();
+            
+            try {
+                const data = JSON.parse(response);
+                if (data.status === 'success') {
+                    // Mostrar mensaje de éxito
+                    $("#resultados").html(`
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <strong>¡Éxito!</strong> ${data.message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `);
+                    
+                    // Si hay un PDF para descargar
+                    if (data.pdf_url) {
+                        window.open(data.pdf_url, '_blank');
+                    }
+                    
+                    // Recargar la tabla después de un breve retraso
+                    setTimeout(function() {
+                        load(1);
+                    }, 1500);
+                } else {
+                    // Mostrar mensaje de error
+                    $("#resultados").html(`
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>¡Error!</strong> ${data.message}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `);
+                }
+            } catch (e) {
+                // Mostrar el mensaje tal cual en caso de que la respuesta no sea JSON
+                $("#resultados").html(`
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        ${response}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+            }
+        },
+        error: function(xhr, status, error) {
+            // Ocultar el indicador de carga y mostrar error
+            $("#loadingOverlay").hide();
+            $("#resultados").html(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>¡Error en la petición!</strong> No se pudo procesar la solicitud.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+            console.error("Error: " + error);
+        }
+    });
+}
+
+// Manejo del modal de foto
+$(document).ready(function() {
+    // Cuando se abre el modal de foto
+    $('#fotoModal').on('show.bs.modal', function(e) {
+        var button = $(e.relatedTarget);
+        var id = button.data('id');
+        $('#id_registro_foto').val(id);
+        $('#preview img').attr('src', 'img/no_imagen.jpg');
+    });
+    
+    // Previsualización de la imagen seleccionada
+    $('#foto').change(function() {
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $('#preview img').attr('src', e.target.result);
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
+    
+    // Guardar la foto
+    $('#guardar_imagen').click(function() {
+        var formData = new FormData(document.getElementById("guardar_foto"));
+        
+        // Mostrar el indicador de carga
+        $("#loadingOverlay").show();
+        
+        $.ajax({
+            url: 'ajax/guardar_foto.php',
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                // Ocultar el indicador de carga
+                $("#loadingOverlay").hide();
+                
+                // Cerrar el modal
+                $('#fotoModal').modal('hide');
+                
+                // Mostrar mensaje de éxito
+                $("#resultados").html(`
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ${data}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+                
+                // Recargar la tabla después de un breve retraso
+                setTimeout(function() {
+                    load(1);
+                }, 1500);
+            },
+            error: function(xhr, status, error) {
+                // Ocultar el indicador de carga
+                $("#loadingOverlay").hide();
+                
+                // Mostrar mensaje de error
+                $("#resultados").html(`
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        Error al guardar la imagen: ${error}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+            }
+        });
+    });
+    
+    // Manejo del modal de coordenadas
+    $('#obtenerCoordenadas').click(function() {
+        // Mostrar mensaje de carga en el contenedor de info
+        $('#coordenadas_info').html('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Obteniendo ubicación...</span></div> Obteniendo ubicación...');
+        
+        // Verificar si el navegador soporta geolocalización
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                
+                // Mostrar las coordenadas en el campo de texto
+                $('#mapa_data2').val(lat + ',' + lng);
+                
+                // Actualizar el mensaje informativo
+                $('#coordenadas_info').html('Coordenadas obtenidas correctamente: ' + lat + ',' + lng);
+                
+                // Si existe un mapa, actualizarlo
+                if (typeof map !== 'undefined') {
+                    var nuevaPos = {lat: lat, lng: lng};
+                    map.setCenter(nuevaPos);
+                    marker.setPosition(nuevaPos);
+                } else {
+                    // Inicializar el mapa
+                    inicializarMapa(lat, lng);
+                }
+            }, function(error) {
+                // Manejar errores de geolocalización
+                var mensaje = '';
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        mensaje = "El usuario denegó la solicitud de geolocalización.";
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        mensaje = "La información de ubicación no está disponible.";
+                        break;
+                    case error.TIMEOUT:
+                        mensaje = "Se agotó el tiempo para obtener la ubicación.";
+                        break;
+                    case error.UNKNOWN_ERROR:
+                        mensaje = "Ocurrió un error desconocido.";
+                        break;
+                }
+                $('#coordenadas_info').html('<div class="alert alert-danger">Error: ' + mensaje + '</div>');
+            });
+        } else {
+            // El navegador no soporta geolocalización
+            $('#coordenadas_info').html('<div class="alert alert-warning">Su navegador no soporta geolocalización.</div>');
+        }
+    });
+    
+    // Guardar las coordenadas
+    $('#guardar_coordenadas').click(function() {
+        var id = $('#mod_id').val();
+        var coordenadas = $('#mapa_data2').val();
+        
+        if (coordenadas.trim() === '') {
+            $('#coordenadas_info').html('<div class="alert alert-warning">Por favor ingrese las coordenadas.</div>');
+            return;
+        }
+        
+        // Mostrar el indicador de carga
+        $("#loadingOverlay").show();
+        
+        $.ajax({
+            url: 'ajax/guardar_coordenadas.php',
+            type: 'POST',
+            data: {
+                id: id,
+                coordenadas: coordenadas
+            },
+            success: function(data) {
+                // Ocultar el indicador de carga
+                $("#loadingOverlay").hide();
+                
+                // Cerrar el modal
+                $('#coordenadasModal').modal('hide');
+                
+                // Mostrar mensaje de éxito
+                $("#resultados").html(`
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        ${data}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+                
+                // Recargar la tabla después de un breve retraso
+                setTimeout(function() {
+                    load(1);
+                }, 1500);
+            },
+            error: function(xhr, status, error) {
+                // Ocultar el indicador de carga
+                $("#loadingOverlay").hide();
+                
+                // Mostrar mensaje de error
+                $('#coordenadas_info').html('<div class="alert alert-danger">Error al guardar las coordenadas: ' + error + '</div>');
+            }
+        });
+    });
+});
+
+// Función para inicializar el mapa
+function inicializarMapa(lat, lng) {
+    // Esta función se usa cuando se cargan las APIs de Google Maps
+    // Si no se usa Google Maps, se puede implementar con otro proveedor como Leaflet
+    if (typeof google !== 'undefined') {
+        var ubicacion = {lat: parseFloat(lat), lng: parseFloat(lng)};
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: ubicacion
+        });
+        
+        marker = new google.maps.Marker({
+            position: ubicacion,
+            map: map,
+            draggable: true
+        });
+        
+        // Actualizar las coordenadas cuando se arrastra el marcador
+        google.maps.event.addListener(marker, 'dragend', function() {
+            var pos = marker.getPosition();
+            $('#mapa_data2').val(pos.lat() + ',' + pos.lng());
+            $('#coordenadas_info').html('Coordenadas actualizadas: ' + pos.lat() + ',' + pos.lng());
+        });
+    } else {
+        // Alternativa si no se tiene acceso a Google Maps
+        $('#map').html('<div class="alert alert-info">El mapa no está disponible. Las coordenadas se guardarán en formato texto.</div>');
+    }
+}
 

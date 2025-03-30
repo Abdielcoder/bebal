@@ -95,32 +95,12 @@ session_start();
         .valor-destacado {
             font-weight: 600;
         }
-        
-        .area-botones-fija {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            padding: 12px 0;
-            z-index: 1000;
-            text-align: center;
-        }
-        
-        .area-botones-fija .contenedor-botones {
+
+        .area-botones {
             display: flex;
-            justify-content: center;
-            gap: 8px;
             flex-wrap: wrap;
-            max-width: 1140px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        .espacio-inferior {
-            height: 70px;
-            width: 100%;
+            gap: 8px;
+            margin: 15px 0;
         }
         
         .nota-legal {
@@ -143,19 +123,14 @@ session_start();
             .etiqueta, .valor {
                 padding: 6px 8px;
             }
-            
-            .area-botones-fija .contenedor-botones {
-                flex-direction: row;
+
+            .area-botones {
+                flex-direction: column;
             }
             
-            .area-botones-fija .btn {
-                flex: 1;
-                padding: 6px 10px;
-                font-size: 0.85rem;
-            }
-            
-            .espacio-inferior {
-                height: 60px;
+            .area-botones .btn {
+                width: 100%;
+                margin-bottom: 6px;
             }
         }
     </style>
@@ -372,35 +347,30 @@ $COLONIA=$row_colonia['colonia'];
             </p>
         </div>
         
-        <!-- Espacio inferior para compensar el área de botones fija -->
-        <div class="espacio-inferior"></div>
-    </div>
-</div>
-
-<!-- Botones de acción fijos en la parte inferior -->
-<div class="area-botones-fija">
-    <div class="contenedor-botones">
-        <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-danger">
-            <i class="bi bi-arrow-left"></i> Regresar
-        </a>
-        
-        <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-danger">
-            <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
-        </a>
-        
-        <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
-            <a href="#revisarPago" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Revisar Pago">
-                <i class="bi bi-check-circle"></i> Revisar Pago
+        <!-- Botones de acción -->
+        <div class="area-botones">
+            <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-danger">
+                <i class="bi bi-arrow-left"></i> Regresar
             </a>
             
-            <a href="#EliminarRegistro" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Eliminar Registro">
-                <i class="bi bi-trash"></i> Eliminar Registro
+            <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-danger">
+                <i class="bi bi-file-earmark-pdf"></i> Generar Recibo
             </a>
-        <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
-            <a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Registrar Inspección">
-                <i class="bi bi-clipboard-check"></i> Registrar Inspección
-            </a>
-        <?php } ?>
+            
+            <?php if ($estatus=='Generar Recibo Inspeccion') { ?>
+                <a href="#revisarPago" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Revisar Pago">
+                    <i class="bi bi-check-circle"></i> Revisar Pago
+                </a>
+                
+                <a href="#EliminarRegistro" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Eliminar Registro">
+                    <i class="bi bi-trash"></i> Eliminar Registro
+                </a>
+            <?php } else if ($estatus=='Efectuar Inspeccion') { ?>
+                <a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="<?php echo $nombre_comercial_establecimiento; ?>" data-folio="<?php echo $folio; ?>" data-idprincipal="<?php echo $IDPRINCIPAL; ?>" data-pagina="<?php echo $page; ?>" class="btn btn-danger" title="Registrar Inspección">
+                    <i class="bi bi-clipboard-check"></i> Registrar Inspección
+                </a>
+            <?php } ?>
+        </div>
     </div>
 </div>
 

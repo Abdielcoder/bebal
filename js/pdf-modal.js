@@ -9,6 +9,9 @@ function pdf_registro(id) {
     
     // Limpiar resultados previos
     $('#resultados_pdf').html('');
+    $('#pdf_archivos_manual').val('');
+    $('#upload-progress-container').addClass('d-none');
+    $('#upload-progress-bar').css('width', '0%').attr('aria-valuenow', 0);
     
     // Inicializar Dropzone si no existe
     if (!dropzone) {
@@ -25,6 +28,9 @@ function pdf_registro(id) {
 
 // Función para inicializar Dropzone
 function inicializarDropzone() {
+    // Deshabilitar la funcionalidad automática de Dropzone
+    Dropzone.autoDiscover = false;
+    
     // Eliminar instancia previa si existe
     if (dropzone) {
         dropzone.destroy();
@@ -61,7 +67,16 @@ function inicializarDropzone() {
             this.on("addedfile", function(file) {
                 uploadingFiles++;
                 // Mostrar mensaje de carga
-                $('#resultados_pdf').html('<div class="alert alert-info">Subiendo archivos... <i class="bi bi-arrow-repeat spin"></i></div>');
+                $('#resultados_pdf').html('<div class="alert alert-info">Subiendo archivos... <div class="loading-spinner"></div></div>');
+            });
+            
+            // Cuando un archivo comienza a subirse
+            this.on("uploadprogress", function(file, progress) {
+                // Mostrar barra de progreso
+                $('#upload-progress-container').removeClass('d-none');
+                // Actualizar valor de la barra
+                let progressValue = Math.round(progress);
+                $('#upload-progress-bar').css('width', progressValue + '%').attr('aria-valuenow', progressValue);
             });
             
             // Cuando un archivo se sube con éxito
@@ -79,6 +94,11 @@ function inicializarDropzone() {
                             // Recargar la lista de PDFs
                             cargarPDFs($('#pdf_id_registro').val());
                             
+                            // Ocultar barra de progreso después de un tiempo
+                            setTimeout(function() {
+                                $('#upload-progress-container').addClass('d-none');
+                            }, 1000);
+                            
                             // Limpiar la cola después de un tiempo
                             setTimeout(function() {
                                 dz.removeAllFiles(true);
@@ -95,6 +115,9 @@ function inicializarDropzone() {
                         // Actualizar mensaje global si es el último archivo
                         if (uploadingFiles === 0) {
                             $('#resultados_pdf').html('<div class="alert alert-warning">Algunos archivos no se pudieron subir. Verifica los mensajes de error.</div>');
+                            
+                            // Ocultar barra de progreso
+                            $('#upload-progress-container').addClass('d-none');
                         }
                     }
                 } catch (e) {
@@ -102,6 +125,9 @@ function inicializarDropzone() {
                     uploadingFiles--;
                     file.previewElement.classList.add("dz-error");
                     $('#resultados_pdf').html('<div class="alert alert-danger">Error inesperado al procesar la respuesta del servidor.</div>');
+                    
+                    // Ocultar barra de progreso
+                    $('#upload-progress-container').addClass('d-none');
                 }
             });
             
@@ -110,6 +136,9 @@ function inicializarDropzone() {
                 uploadingFiles--;
                 if (uploadingFiles === 0) {
                     $('#resultados_pdf').html('<div class="alert alert-danger">Error al subir los archivos.</div>');
+                    
+                    // Ocultar barra de progreso
+                    $('#upload-progress-container').addClass('d-none');
                 }
             });
             
@@ -123,6 +152,110 @@ function inicializarDropzone() {
         }
     });
 }
+
+// Función para cargar PDFs manualmente
+$(document).on('click', '#btn-subir-pdf-manual', function() {
+    const archivos = $('#pdf_archivos_manual')[0].files;
+    
+    if (archivos.length === 0) {
+        $('#resultados_pdf').html('<div class="alert alert-warning">Debe seleccionar al menos un archivo PDF.</div>');
+        return;
+    }
+    
+    // Mostrar mensaje de carga
+    $('#resultados_pdf').html('<div class="alert alert-info">Preparando archivos para subir... <div class="loading-spinner"></div></div>');
+    
+    // Mostrar barra de progreso
+    $('#upload-progress-container').removeClass('d-none');
+    $('#upload-progress-bar').css('width', '0%').attr('aria-valuenow', 0);
+    
+    // Contador para archivos subidos
+    let archivosSubidos = 0;
+    let archivosConError = 0;
+    
+    // Subir cada archivo individualmente
+    for (let i = 0; i < archivos.length; i++) {
+        const formData = new FormData();
+        formData.append('id_registro', $('#pdf_id_registro').val());
+        formData.append('pdf_archivo', archivos[i]);
+        
+        // Calcular progreso aproximado para esta parte del proceso
+        const progresoInicial = Math.round((i / archivos.length) * 100);
+        $('#upload-progress-bar').css('width', progresoInicial + '%').attr('aria-valuenow', progresoInicial);
+        
+        $.ajax({
+            url: 'ajax/subir_pdf.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    archivosSubidos++;
+                } else {
+                    archivosConError++;
+                    console.error('Error al subir archivo:', response.message);
+                }
+                
+                // Actualizar progreso
+                const progreso = Math.round(((archivosSubidos + archivosConError) / archivos.length) * 100);
+                $('#upload-progress-bar').css('width', progreso + '%').attr('aria-valuenow', progreso);
+                
+                // Verificar si todos los archivos se han procesado
+                if ((archivosSubidos + archivosConError) === archivos.length) {
+                    // Actualizar mensaje según resultado
+                    if (archivosConError === 0) {
+                        $('#resultados_pdf').html('<div class="alert alert-success">Todos los archivos se han subido correctamente.</div>');
+                    } else if (archivosSubidos === 0) {
+                        $('#resultados_pdf').html('<div class="alert alert-danger">No se pudo subir ningún archivo. Por favor, inténtelo nuevamente.</div>');
+                    } else {
+                        $('#resultados_pdf').html('<div class="alert alert-warning">Se subieron ' + archivosSubidos + ' archivos, pero ' + archivosConError + ' no se pudieron subir.</div>');
+                    }
+                    
+                    // Recargar la lista de PDFs
+                    cargarPDFs($('#pdf_id_registro').val());
+                    
+                    // Limpiar campo de archivo
+                    $('#pdf_archivos_manual').val('');
+                    
+                    // Ocultar barra de progreso después de un tiempo
+                    setTimeout(function() {
+                        $('#upload-progress-container').addClass('d-none');
+                    }, 1000);
+                }
+            },
+            error: function() {
+                archivosConError++;
+                
+                // Actualizar progreso
+                const progreso = Math.round(((archivosSubidos + archivosConError) / archivos.length) * 100);
+                $('#upload-progress-bar').css('width', progreso + '%').attr('aria-valuenow', progreso);
+                
+                // Verificar si todos los archivos se han procesado
+                if ((archivosSubidos + archivosConError) === archivos.length) {
+                    // Actualizar mensaje según resultado
+                    if (archivosSubidos === 0) {
+                        $('#resultados_pdf').html('<div class="alert alert-danger">Error al subir los archivos. Por favor, inténtelo nuevamente.</div>');
+                    } else {
+                        $('#resultados_pdf').html('<div class="alert alert-warning">Se subieron ' + archivosSubidos + ' archivos, pero ' + archivosConError + ' no se pudieron subir.</div>');
+                    }
+                    
+                    // Recargar la lista de PDFs
+                    cargarPDFs($('#pdf_id_registro').val());
+                    
+                    // Limpiar campo de archivo
+                    $('#pdf_archivos_manual').val('');
+                    
+                    // Ocultar barra de progreso después de un tiempo
+                    setTimeout(function() {
+                        $('#upload-progress-container').addClass('d-none');
+                    }, 1000);
+                }
+            }
+        });
+    }
+});
 
 // Función para cargar los PDFs existentes
 function cargarPDFs(id_registro) {

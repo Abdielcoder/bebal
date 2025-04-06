@@ -24,6 +24,38 @@ function pdf_registro(id) {
     
     // Cargar la lista de PDFs existentes para este registro
     cargarPDFs(id);
+    
+    // Prevenir comportamiento por defecto de arrastrar y soltar en todo el documento
+    preventDefaultDragAndDrop();
+}
+
+// Función para prevenir comportamiento por defecto de arrastrar y soltar
+function preventDefaultDragAndDrop() {
+    // Prevenir el comportamiento predeterminado de arrastrar y soltar en el documento
+    $(document).on('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    
+    $(document).on('drop', function(e) {
+        if (!$(e.target).closest('#dropzone-pdfs').length) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+    
+    // Asegurarnos de que el dropzone capture los eventos correctamente
+    $('#dropzone-pdfs').on('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).addClass('dz-drag-hover');
+    });
+    
+    $('#dropzone-pdfs').on('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        $(this).removeClass('dz-drag-hover');
+    });
 }
 
 // Función para inicializar Dropzone
@@ -45,6 +77,7 @@ function inicializarDropzone() {
         uploadMultiple: false,
         parallelUploads: 2,
         maxFilesize: 20, // MB
+        clickable: true,
         dictDefaultMessage: "Arrastra archivos aquí o haz clic para seleccionarlos",
         dictFallbackMessage: "Tu navegador no soporta la carga de archivos por arrastrar y soltar.",
         dictFileTooBig: "El archivo es demasiado grande ({{filesize}}MB). Tamaño máximo: {{maxFilesize}}MB.",
@@ -54,6 +87,7 @@ function inicializarDropzone() {
         dictCancelUploadConfirmation: "¿Estás seguro de que deseas cancelar esta carga?",
         dictRemoveFile: "Eliminar",
         dictMaxFilesExceeded: "No puedes subir más archivos.",
+        disablePreviews: false,
         headers: {
             'x-csrf-token': $('meta[name="csrf-token"]').attr('content')
         },
@@ -149,9 +183,37 @@ function inicializarDropzone() {
                     cargarPDFs($('#pdf_id_registro').val());
                 }
             });
+            
+            // Evento drop específico para este dropzone
+            this.on("drop", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
         }
     });
+    
+    // Asegurarnos de que Dropzone use los eventos a nivel de documento
+    dropzone.on("dragenter", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    
+    dropzone.on("dragover", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    
+    dropzone.on("drop", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
 }
+
+// Prevenir comportamiento por defecto también al cargar el documento
+$(document).ready(function() {
+    // Prevenir comportamiento predeterminado en todo el documento
+    preventDefaultDragAndDrop();
+});
 
 // Función para cargar PDFs manualmente
 $(document).on('click', '#btn-subir-pdf-manual', function() {

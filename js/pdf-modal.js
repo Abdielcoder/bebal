@@ -1,9 +1,11 @@
-// Variables para manejar el dropzone
-let dropzone;
+// Variables globales
+let dropzoneInstance;
 let uploadingFiles = 0;
 
 // Función para inicializar el modal de PDF para un registro específico
 function pdf_registro(id) {
+    console.log("Inicializando modal PDF para registro ID:", id);
+    
     // Establecer el ID del registro en el campo oculto
     $('#pdf_id_registro').val(id);
     
@@ -13,133 +15,106 @@ function pdf_registro(id) {
     $('#upload-progress-container').addClass('d-none');
     $('#upload-progress-bar').css('width', '0%').attr('aria-valuenow', 0);
     
-    // Destruir Dropzone si existe
-    if (typeof dropzone !== 'undefined' && dropzone !== null) {
-        dropzone.destroy();
-        dropzone = null;
+    // Desactivar la auto-detección para manejar manualmente
+    Dropzone.autoDiscover = false;
+    
+    // Destruir instancia previa si existe
+    if (dropzoneInstance) {
+        dropzoneInstance.destroy();
+        console.log("Instancia previa de Dropzone destruida");
     }
     
-    // Inicializar Dropzone
-    inicializarDropzone(id);
+    // Inicializar nueva instancia de Dropzone
+    console.log("Creando nueva instancia de Dropzone");
+    
+    dropzoneInstance = new Dropzone("#mi-dropzone", {
+        paramName: "pdf_archivo",
+        acceptedFiles: ".pdf",
+        maxFilesize: 20, // 20MB
+        uploadMultiple: false,
+        parallelUploads: 5,
+        maxFiles: null, // Sin límite
+        addRemoveLinks: true,
+        dictDefaultMessage: "Arrastra archivos aquí o haz clic para seleccionarlos",
+        dictRemoveFile: "Eliminar",
+        dictCancelUpload: "Cancelar",
+        dictFileTooBig: "El archivo es demasiado grande ({{filesize}}MB). Tamaño máximo: {{maxFilesize}}MB.",
+        dictResponseError: "Error: {{statusCode}}",
+        params: {
+            id_registro: id
+        },
+        init: function() {
+            console.log("Dropzone inicializado con ID de registro:", id);
+            
+            this.on("addedfile", function(file) {
+                console.log("Archivo añadido:", file.name);
+            });
+            
+            this.on("sending", function(file, xhr, formData) {
+                // Asegurarse de que el id_registro se envía correctamente
+                formData.append("id_registro", id);
+                console.log("Enviando archivo:", file.name);
+                
+                // Mostrar indicador de progreso
+                $('#upload-progress-container').removeClass('d-none');
+                $('#resultados_pdf').html('<div class="alert alert-info">Subiendo archivos... <div class="loading-spinner"></div></div>');
+                
+                uploadingFiles++;
+            });
+            
+            this.on("uploadprogress", function(file, progress) {
+                let progressValue = Math.round(progress);
+                $('#upload-progress-bar').css('width', progressValue + '%').attr('aria-valuenow', progressValue);
+                console.log("Progreso:", file.name, progressValue + "%");
+            });
+            
+            this.on("success", function(file, response) {
+                console.log("Archivo subido con éxito:", file.name, response);
+                
+                uploadingFiles--;
+                file.previewElement.classList.add("dz-success");
+                
+                if (uploadingFiles === 0) {
+                    $('#resultados_pdf').html('<div class="alert alert-success">Todos los archivos se han subido correctamente.</div>');
+                    cargarPDFs(id);
+                    
+                    setTimeout(function() {
+                        $('#upload-progress-container').addClass('d-none');
+                    }, 1000);
+                }
+            });
+            
+            this.on("error", function(file, errorMessage) {
+                console.error("Error al subir archivo:", file.name, errorMessage);
+                
+                uploadingFiles--;
+                file.previewElement.classList.add("dz-error");
+                
+                if (uploadingFiles === 0) {
+                    $('#resultados_pdf').html('<div class="alert alert-danger">Ha ocurrido un error al subir algunos archivos.</div>');
+                    cargarPDFs(id);
+                    
+                    $('#upload-progress-container').addClass('d-none');
+                }
+            });
+            
+            this.on("queuecomplete", function() {
+                console.log("Cola de subida completada");
+                cargarPDFs(id);
+            });
+        }
+    });
     
     // Cargar la lista de PDFs existentes para este registro
     cargarPDFs(id);
 }
 
-// Función para inicializar Dropzone de forma simplificada
-function inicializarDropzone(id_registro) {
-    // Aseguramos que Dropzone no auto-descubra el elemento
-    Dropzone.autoDiscover = false;
-    
-    // Crear nueva instancia de Dropzone
-    dropzone = new Dropzone("#dropzone-pdfs", {
-        url: "ajax/subir_pdf.php",
-        method: "post",
-        paramName: "pdf_archivo",
-        acceptedFiles: ".pdf",
-        maxFiles: null, // Sin límite de archivos
-        maxFilesize: 20, // 20MB
-        parallelUploads: 3,
-        createImageThumbnails: false,
-        autoQueue: true,
-        autoProcessQueue: true,
-        clickable: true,
-        previewsContainer: false,
-        params: {
-            id_registro: id_registro
-        }
-    });
-    
-    // Eventos de Dropzone
-    
-    // Cuando se inicia el proceso total
-    dropzone.on("sending", function(file) {
-        // Mostrar barra de progreso
-        $('#upload-progress-container').removeClass('d-none');
-        
-        // Actualizar contador
-        uploadingFiles++;
-        
-        // Mostrar mensaje de carga
-        if ($('#resultados_pdf').find('.alert-info').length === 0) {
-            $('#resultados_pdf').html('<div class="alert alert-info">Subiendo archivos... <div class="loading-spinner"></div></div>');
-        }
-    });
-    
-    // Durante el progreso de subida
-    dropzone.on("uploadprogress", function(file, progress) {
-        let progressValue = Math.round(progress);
-        $('#upload-progress-bar').css('width', progressValue + '%').attr('aria-valuenow', progressValue);
-    });
-    
-    // Cuando un archivo se sube con éxito
-    dropzone.on("success", function(file, response) {
-        console.log("Archivo subido con éxito:", file.name);
-        
-        uploadingFiles--;
-        
-        // Si ya no quedan archivos subiendo
-        if (uploadingFiles === 0) {
-            $('#resultados_pdf').html('<div class="alert alert-success">Todos los archivos se han subido correctamente.</div>');
-            cargarPDFs(id_registro);
-            
-            // Ocultar barra de progreso después de un tiempo
-            setTimeout(function() {
-                $('#upload-progress-container').addClass('d-none');
-            }, 1000);
-        }
-    });
-    
-    // Cuando ocurre un error
-    dropzone.on("error", function(file, errorMessage) {
-        console.error("Error al subir archivo:", file.name, errorMessage);
-        
-        uploadingFiles--;
-        
-        // Si ya no quedan archivos subiendo
-        if (uploadingFiles === 0) {
-            $('#resultados_pdf').html('<div class="alert alert-danger">Error al subir algunos archivos.</div>');
-            cargarPDFs(id_registro);
-            
-            // Ocultar barra de progreso
-            $('#upload-progress-container').addClass('d-none');
-        }
-    });
-    
-    // Mostrar mensaje cuando se completa toda la cola
-    dropzone.on("queuecomplete", function() {
-        console.log("Cola de subida completada");
-        
-        // Verificar si hay archivos con errores
-        if (dropzone.getUploadingFiles().length === 0 && dropzone.getQueuedFiles().length === 0) {
-            // Recargar la lista
-            cargarPDFs(id_registro);
-        }
-    });
-    
-    // Eventos para prevenir el comportamiento predeterminado
-    
-    // Prevenir abrir PDFs cuando se arrastran al documento
-    $(document).on('dragover drop', function(e) {
-        if (!$(e.target).closest('#dropzone-pdfs').length) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    });
-    
-    // Eventos especiales para la zona de dropzone
-    $('#dropzone-pdfs').on('dragenter', function() {
-        $(this).addClass('dz-drag-hover');
-    }).on('dragleave dragend drop', function() {
-        $(this).removeClass('dz-drag-hover');
-    });
-    
-    console.log("Dropzone inicializado correctamente");
-}
-
 // Función para cargar PDFs manualmente
 $(document).on('click', '#btn-subir-pdf-manual', function() {
     const archivos = $('#pdf_archivos_manual')[0].files;
+    const id_registro = $('#pdf_id_registro').val();
+    
+    console.log("Iniciando carga manual de", archivos.length, "archivos para registro ID:", id_registro);
     
     if (archivos.length === 0) {
         $('#resultados_pdf').html('<div class="alert alert-warning">Debe seleccionar al menos un archivo PDF.</div>');
@@ -160,8 +135,10 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
     // Subir cada archivo individualmente
     for (let i = 0; i < archivos.length; i++) {
         const formData = new FormData();
-        formData.append('id_registro', $('#pdf_id_registro').val());
+        formData.append('id_registro', id_registro);
         formData.append('pdf_archivo', archivos[i]);
+        
+        console.log("Preparando archivo", i+1, "de", archivos.length, ":", archivos[i].name);
         
         // Calcular progreso aproximado para esta parte del proceso
         const progresoInicial = Math.round((i / archivos.length) * 100);
@@ -199,7 +176,7 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
                     }
                     
                     // Recargar la lista de PDFs
-                    cargarPDFs($('#pdf_id_registro').val());
+                    cargarPDFs(id_registro);
                     
                     // Limpiar campo de archivo
                     $('#pdf_archivos_manual').val('');
@@ -212,6 +189,7 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
             },
             error: function() {
                 archivosConError++;
+                console.error("Error de Ajax al subir archivo:", archivos[i].name);
                 
                 // Actualizar progreso
                 const progreso = Math.round(((archivosSubidos + archivosConError) / archivos.length) * 100);
@@ -227,7 +205,7 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
                     }
                     
                     // Recargar la lista de PDFs
-                    cargarPDFs($('#pdf_id_registro').val());
+                    cargarPDFs(id_registro);
                     
                     // Limpiar campo de archivo
                     $('#pdf_archivos_manual').val('');
@@ -244,12 +222,16 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
 
 // Función para cargar los PDFs existentes
 function cargarPDFs(id_registro) {
+    console.log("Cargando lista de PDFs para registro ID:", id_registro);
+    
     $.ajax({
         url: 'ajax/obtener_pdfs_registro.php',
         type: 'POST',
         data: { id_registro: id_registro },
         dataType: 'json',
         success: function(response) {
+            console.log("Respuesta de PDFs obtenida:", response);
+            
             let lista_html = '';
             
             if (response.success && response.pdfs.length > 0) {
@@ -273,7 +255,8 @@ function cargarPDFs(id_registro) {
             
             $('#lista_pdfs').html(lista_html);
         },
-        error: function() {
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error al cargar PDFs:", textStatus, errorThrown);
             $('#lista_pdfs').html('<div class="alert alert-danger">Error al cargar los PDFs.</div>');
         }
     });
@@ -285,12 +268,16 @@ $(document).on('click', '.eliminar-pdf', function() {
         let id_pdf = $(this).data('id');
         let id_registro = $('#pdf_id_registro').val();
         
+        console.log("Eliminando PDF ID:", id_pdf);
+        
         $.ajax({
             url: 'ajax/eliminar_pdf.php',
             type: 'POST',
             data: { id_pdf: id_pdf },
             dataType: 'json',
             success: function(response) {
+                console.log("Respuesta al eliminar PDF:", response);
+                
                 if (response.success) {
                     // Recargar la lista de PDFs
                     cargarPDFs(id_registro);
@@ -298,7 +285,8 @@ $(document).on('click', '.eliminar-pdf', function() {
                     alert('Error: ' + response.message);
                 }
             },
-            error: function() {
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error al eliminar PDF:", textStatus, errorThrown);
                 alert('Error al eliminar el documento.');
             }
         });

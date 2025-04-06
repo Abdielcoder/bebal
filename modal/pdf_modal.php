@@ -26,11 +26,13 @@
           
           <div class="mb-3">
             <label class="form-label">O arrastra los archivos aquí:</label>
-            <div class="dropzone" id="dropzone-pdfs">
-              <div class="dz-message">
-                <i class="bi bi-file-pdf fs-1"></i>
-                <h4>Arrastra los archivos PDF aquí o haz clic para seleccionarlos</h4>
-                <p class="text-muted">Puedes subir múltiples archivos a la vez</p>
+            <div class="dropzone-container">
+              <div class="dropzone" id="dropzone-pdfs">
+                <div class="dz-message">
+                  <i class="bi bi-file-pdf fs-1"></i>
+                  <h4>Arrastra los archivos PDF aquí o haz clic para seleccionarlos</h4>
+                  <p class="text-muted">Puedes subir múltiples archivos a la vez</p>
+                </div>
               </div>
             </div>
           </div>
@@ -59,6 +61,12 @@
 </div>
 
 <style>
+.dropzone-container {
+  position: relative;
+  min-height: 150px;
+  width: 100%;
+}
+
 .dropzone {
   border: 2px dashed #0087F7;
   border-radius: 5px;
@@ -67,6 +75,8 @@
   padding: 20px;
   text-align: center;
   cursor: pointer;
+  width: 100%;
+  position: relative;
 }
 
 .dropzone.dz-drag-hover {

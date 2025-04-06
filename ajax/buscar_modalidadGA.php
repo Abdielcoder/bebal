@@ -1,0 +1,144 @@
+<?php
+	include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
+	/* Connect To Database*/
+	require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
+	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
+	
+	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
+	if (isset($_GET['id'])){
+		$id_modalidad=intval($_GET['id']);
+		$query=mysqli_query($con, "SELECT * FROM modalidad_graduacion_alcoholica WHERE id=".$id_modalidad);
+		$count=mysqli_num_rows($query);
+		if ($count==1){
+			if ($delete1=mysqli_query($con,"DELETE FROM modalidad_graduacion_alcoholica WHERE id=".$id_modalidad)){
+			?>
+			<div class="alert alert-success alert-dismissible" role="alert">
+			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <strong>Aviso!</strong> Dato Eliminado Exitosamente.
+			</div>
+			<?php 
+		}else {
+			?>
+			<div class="alert alert-danger alert-dismissible" role="alert">
+			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <strong>Error!</strong> Lo siento algo ha salido mal intenta nuevamente.
+			</div>
+			<?php
+			
+		}
+			
+		} else {
+			?>
+			<div class="alert alert-danger alert-dismissible" role="alert">
+			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <strong>Error!</strong> No se pudo eliminar esta  Modaliad Graduacion Alcoholica.. 
+			</div>
+			<?php
+		}
+		
+		
+		
+	}
+	if($action == 'ajax'){
+		// escaping, additionally removing everything that could be (html/javascript-) code
+         $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
+		 $aColumns = array('descripcion_modalidad_graduacion_alcoholica');//Columnas de busqueda
+		 $sTable = "modalidad_graduacion_alcoholica";
+		 $sWhere = "";
+		if ( $_GET['q'] != "" )
+		{
+			$sWhere = "WHERE (";
+			for ( $i=0 ; $i<count($aColumns) ; $i++ )
+			{
+				$sWhere .= $aColumns[$i]." LIKE '%".$q."%' OR ";
+			}
+			$sWhere = substr_replace( $sWhere, "", -3 );
+			$sWhere .= ')';
+		}
+		$sWhere.=" ORDER BY descripcion_modalidad_graduacion_alcoholica, id";
+		include 'pagination.php'; //include pagination file
+		//pagination variables
+		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
+		$per_page = 10; //how much records you want to show
+		$adjacents  = 4; //gap between pages after number of adjacents
+		$offset = ($page - 1) * $per_page;
+		//Count the total number of row in your table*/
+		$count_query   = mysqli_query($con, "SELECT count(*) AS numrows FROM $sTable  $sWhere");
+		$row= mysqli_fetch_array($count_query);
+		$numrows = $row['numrows'];
+		$total_pages = ceil($numrows/$per_page);
+		$reload = './modalidad.php';
+		//main query to fetch the data
+		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$query = mysqli_query($con, $sql);
+		//loop through fetched data
+		if ($numrows>0){
+			
+			?>
+			<div class="table-responsive">
+			<table class="table">
+			<tr  class="success">
+			<th><font size="2">Modaldiad GA</font></th>
+			<th><font size="2">Cuenta</font></th>
+			<th><font size="2">Monto UMAS</font></th>
+			<th><font size="2">Concepto</font></th>
+			<th><font size="2">Acciones</font></th>
+					
+				</tr>
+<?php
+	while ($row=mysqli_fetch_array($query)){
+	$id=$row['id'];
+	$descripcion_modalidad_graduacion_alcoholica=$row['descripcion_modalidad_graduacion_alcoholica'];
+	$cuenta=$row['cuenta'];
+	$monto_umas=$row['monto_umas'];
+	$concepto=$row['concepto'];
+	$fecha=$row['fecha'];
+
+
+?>
+
+					
+<input type="hidden" value="<?php echo $row['id'];?>" id="id<?php echo $id;?>">
+<input type="hidden" value="<?php echo $row['descripcion_modalidad_graduacion_alcoholica'];?>" id="descripcion_modalidad_graduacion_alcoholica<?php echo $id;?>">
+<input type="hidden" value="<?php echo $cuenta;?>" id="cuenta<?php echo $id;?>">
+<input type="hidden" value="<?php echo $monto_umas;?>" id="monto_umas<?php echo $id;?>">
+<input type="hidden" value="<?php echo $concepto;?>" id="concepto<?php echo $id;?>">
+<input type="hidden" value="<?php echo $fecha;?>" id="fecha<?php echo $id;?>">
+
+
+		<tr>
+						
+		<td><font size="2"><?php echo $descripcion_modalidad_graduacion_alcoholica; ?></font></td>
+		<td><font size="2"><?php echo $cuenta; ?></font></td>
+		<td><font size="2"><?php echo $monto_umas; ?></font></td>
+		<td><font size="2"><?php echo $concepto; ?></font></td>
+		<td class='text-right'>
+<?php
+
+echo '<a href="#" class="btn btn-outline-success" title="Editar Modalidad GA" onclick="obtener_datosModalidad('.$id.');" data-bs-toggle="modal" data-bs-target="#editarModalidad"><i class="bi bi-pencil"></i></a>';
+
+echo '&nbsp;&nbsp;';
+
+echo '<a href="#" class="btn btn-outline-danger" title="Eliminar Modalidad GA" onclick="eliminar('.$id.')"><i class="bi bi-trash bg-warnig"></i></a>';
+
+
+
+
+?>
+						
+					</tr>
+					<?php
+				}
+				?>
+				<tr>
+					<td colspan=4><span class="pull-right">
+					<?php
+					 echo paginate($reload, $page, $total_pages, $adjacents);
+					?></span></td>
+				</tr>
+			  </table>
+			</div>
+			<?php
+		}
+	}
+?>

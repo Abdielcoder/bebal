@@ -18,13 +18,12 @@ $id = intval($_GET['id']);
 // Consultar datos del establecimiento
 $sql = "SELECT p.*, 
         g.descripcion_giro AS giro_desc, 
-        m.descripcion_modalidad_graduacion_alcoholica AS modalidad_desc,
+        g.horario_funcionamiento AS horario_funcionamiento, 
         mu.municipio AS municipio_desc,
         d.delegacion AS delegacion_desc,
         c.colonia AS colonia_desc
         FROM principal p
         LEFT JOIN giro g ON p.giro = g.id
-        LEFT JOIN modalidad_graduacion_alcoholica m ON p.modalidad_graduacion_alcoholica = m.id
         LEFT JOIN municipio mu ON p.id_municipio = mu.id
         LEFT JOIN delegacion d ON p.id_delegacion = d.id
         LEFT JOIN colonias c ON p.id_colonia = c.id
@@ -46,7 +45,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de Inspección - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Datos Generales - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
         @media print {
             body {
@@ -258,152 +257,169 @@ header('Content-Type: text/html; charset=utf-8');
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="img/logo_tijuana.png" alt="Logo" style="max-width: 100%;">
+                <img src="img/ayuntamientoTIJXXV.png" alt="Logo">
             </div>
             <div class="title">
                 <h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
                 <h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
-                <h2>DIRECCIÓN DE BEBIDAS ALCOHÓLICAS</h2>
-            </div>
-            <div class="date">
-                Fecha: <?php echo date('d/m/Y'); ?>
-            </div>
+	    </div>
+
+<?php
+$Folio=$datos['folio'];
+            echo '<div class="date">';
+		echo 'Fecha de Impresión: '.date('d/m/Y');
+echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
+	    echo '</div>';
+?>
         </div>
         
-        <div class="main-title">
-            <h1>RECIBO DE INSPECCIÓN</h1>
-            <h3>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h3>
-            <h3>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h3>
+	<div class="main-title">
+<center>
+<h2>SOLICITUD DEL PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h2>
+</center>
         </div>
         
         <div class="folio">
             Folio: <?php echo $datos['folio']; ?>
-        </div>
-        
-        <div class="two-column">
+	</div>
+
+
+            <div class="column">
+		<div class="section">
+<?php
+if ( $datos['operacion']=='NUEVO' ) {
+echo '<div class="section-title">TIPO DE TRAMITE : NUEVO PERMISO</div>';
+} else {
+echo '<div class="section-title">TIPO DE TRAMITE : CAMBIO </div>';
+}
+?>
+                    <table class="compact-table">
+                        <tr>
+                            <th>Giro</th>
+                            <td><?php echo $datos['giro_desc']; ?></td>
+                        </tr>
+
+                        <tr>
+                            <th>Modalidad de Graduación Alcohólica</th>
+                            <td><?php echo $datos['modalidad_graduacion_alcoholica']; ?> * [<?php echo $datos['numero_modalidad_graduacion_alcoholica']; ?>]</td>
+			</tr>
+
+                        <tr>
+                            <th>Servicios Adicionales</th>
+                            <td><?php echo $datos['servicios_adicionales']; ?> * [<?php echo $datos['numero_servicios_adicionales']; ?>]</td>
+			</tr>
+
+
+                        <tr>
+                            <th>Fecha Registro</th>
+                            <td><?php echo $datos['fecha_alta']; ?></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+
+
             <div class="column">
                 <div class="section">
                     <div class="section-title">DATOS DEL ESTABLECIMIENTO</div>
                     <table class="compact-table">
                         <tr>
-                            <th>Nombre Comercial:</th>
+                            <th>Nombre Comercial</th>
                             <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
                         </tr>
                         <tr>
-                            <th>Giro:</th>
-                            <td><?php echo $datos['giro_desc']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Modalidad:</th>
-                            <td><?php echo $datos['modalidad_desc']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Domicilio:</th>
-                            <td><?php echo $datos['calle_establecimiento'] . ' #' . $datos['numero_establecimiento'] . 
+                            <th>Domicilio</th>
+                            <td><?php echo $datos['calle_establecimiento'] . ' #' . $datos['numero_establecimiento'] .
                         (!empty($datos['numerointerno_local_establecimiento']) ? ' Int. ' . $datos['numerointerno_local_establecimiento'] : ''); ?></td>
                         </tr>
                         <tr>
-                            <th>Colonia:</th>
+                            <th>Colonia</th>
                             <td><?php echo $datos['colonia_desc']; ?></td>
                         </tr>
                         <tr>
-                            <th>Delegación:</th>
-                            <td><?php echo $datos['delegacion_desc']; ?></td>
+                            <th>Delegación / Ciudad / CP</th>
+                            <td><?php echo $datos['delegacion_desc']; ?> / <?php echo $datos['municipio_desc']; ?> / <?php echo $datos['cp_establecimiento']; ?></td>
                         </tr>
                         <tr>
-                            <th>Ciudad:</th>
-                            <td><?php echo $datos['municipio_desc']; ?></td>
+                            <th>Clave Catastral</th>
+                            <td><?php echo $datos['clave_catastral']; ?></td>
                         </tr>
                         <tr>
-                            <th>Código Postal:</th>
-                            <td><?php echo $datos['cp_establecimiento']; ?></td>
+                        <tr>
+                            <th>Número de Comensales</th>
+                            <td><?php echo $datos['capacidad_comensales_personas']; ?> Personas</td>
                         </tr>
+                        <tr>
+                            <th>Superficie</th>
+                            <td><?php echo $datos['superficie_establecimiento']; ?> Metros Cuadrados</td>
+                        </tr>
+                        <tr>
+                            <th>Horario Funcionamiento</th>
+                            <td><?php echo $datos['horario_funcionamiento']; ?> </td>
+                        </tr>
+
+
                     </table>
                 </div>
             </div>
-            
+
+
+
+
             <div class="column">
                 <div class="section">
                     <div class="section-title">DATOS DEL SOLICITANTE</div>
                     <table class="compact-table">
                         <tr>
-                            <th>Persona Física/Moral:</th>
+                            <th>Persona Física/Moral</th>
                             <td><?php echo $datos['nombre_persona_fisicamoral_solicitante']; ?></td>
                         </tr>
                         <tr>
-                            <th>Representante Legal:</th>
+                            <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
                         </tr>
                         <tr>
-                            <th>Domicilio:</th>
+                            <th>RFC</th>
+                            <td><?php echo $datos['rfc']; ?> ( <font color="blue">Persona <?php echo $datos['fisica_o_moral']; ?></font> )</td>
+                        </tr>
+                        <tr>
+                            <th>Domicilio</th>
                             <td><?php echo $datos['domicilio_solicitante']; ?></td>
                         </tr>
                         <tr>
-                            <th>Email:</th>
+                            <th>Email</th>
                             <td><?php echo $datos['email_solicitante']; ?></td>
                         </tr>
                         <tr>
-                            <th>Teléfono:</th>
+                            <th>Teléfono</th>
                             <td><?php echo $datos['telefono_solicitante']; ?></td>
                         </tr>
                     </table>
                 </div>
-                
-                <div class="section">
-                    <div class="section-title">DATOS DE LA INSPECCIÓN</div>
-                    <table class="compact-table">
-                        <tr>
-                            <th>Estatus:</th>
-                            <td><?php echo $datos['estatus']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Operación:</th>
-                            <td><?php echo $datos['operacion']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Fecha de Alta:</th>
-                            <td><?php echo $datos['fecha_alta']; ?></td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">MONTO A PAGAR</div>
-            <table class="monto-table">
-                <tr>
-                    <td class="monto-label">Total a pagar:</td>
-                    <td class="monto-value">$1,500.00 MXN</td>
-                </tr>
-            </table>
-            <p style="text-align: center; margin-top: 3px; font-size: 13px; font-weight: bold;">MIL QUINIENTOS PESOS 00/100 M.N.</p>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">INFORMACIÓN DE PAGO</div>
-            <p class="info-text">
-                El pago debe realizarse en la caja de recaudación municipal presentando este recibo. 
-                Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
-            </p>
-        </div>
-        
-        <div class="legal">
+	</div>
+
+
+        <div class="legal"><font size="1"><i>
             Mediante Acuerdo del Cabildo de fecha once de diciembre del dos mil veinticuatro en el punto de acuerdo número VI.3, 
             se autoriza a la Secretaría de Gobierno Municipal para que instrumente el programa de identificación, empadronamiento 
             y regularización de la situación jurídica y administrativa de las personas físicas o morales que se dediquen a la 
             expedición y venta, en envase cerrado y abierto, de bebidas con contenido alcohólico, a fin de que se actualice su 
             situación jurídica. Este documento no implica que se vaya a expedir un permiso nuevo y/o autorizar la regularización de uno previo.
-        </div>
-        
+        </i></font></div>
+
+<p>&nbsp;</p>
+
         <div class="signatures">
             <div class="signature">
                 <div class="signature-line"></div>
                 <p>Firma del Solicitante</p>
+       <p><?php echo $datos['nombre_representante_legal_solicitante']; ?></p>
             </div>
             <div class="signature">
                 <div class="signature-line"></div>
-                <p>Sello</p>
+                <p>MEXCAP PROJECT PARTNERS SAPI DE CV</p>
             </div>
         </div>
     </div>

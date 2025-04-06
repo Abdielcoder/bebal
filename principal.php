@@ -1,3 +1,15 @@
+<html>
+<style>
+#q:valid {
+    color: green;
+}
+#q:invalid {
+    color: red;
+}
+</style>
+
+
+
 <?php
 	session_start();
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
@@ -37,36 +49,31 @@
     <div class="container">
 	<div class="panel panel-success">
 		<div class="panel-heading d-flex justify-content-between align-items-center">
-		    <div class="d-flex align-items-center">
-				<i class='bi bi-search me-2 fs-4'></i>
-			</div>
-			<div>
-				<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal">
-					<i class="bi bi-plus-circle me-1"></i> Nuevo Registro
-				</button>
 			</div>
 		</div>
 		<div class="panel-body">
-		
-			
 			
 			<?php
 			include("modal/registro_principal.php");
 			include("modal/editar_registro.php");
 			?>
-			<form class="form-horizontal" role="form" id="datos_cotizacion">
+			<form class="form-horizontal" role="form" id="datos_principal">
 				
-						<div class="form-group row">
-							<label for="q" class="col-md-2 control-label">Dirección</label>
-							<div class="col-md-7">
-								<input type="text" class="form-control" id="q" placeholder="Escribe dirección" onkeyup='load(1);'>
-							</div>
-							<div class="col-md-3 text-end">
-								<button type="button" class="btn btn-default" onclick='load(1);'>
-									<i class="bi bi-search"></i> Buscar</button>
-								<span id="loader"></span>
-							</div>
-							
+
+
+<div class="input-group mb-1">
+  <input type="text" class="form-control" id="q" placeholder="Escribe el Folio a Buscar" aria-label="Escribe el Folio a Buscar" title="Enter Folio" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">
+  <div class="input-group-append">
+    <button class="btn btn-outline-primary" type="button" onclick="load(1);"><i class="bi bi-search"></i></button>
+<?php
+echo '<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i> Nuevo Registro</button>';
+?>
+  </div>
+</div>
+
+			<span id="loader"></span>
+
+					
 						</div>
 				
 				
@@ -114,7 +121,7 @@ echo '<script>load(1);</script>';
 <script>
 
 $( "#guardar_registroPrincipal" ).submit(function( event ) {
-  $('#guardar_datos_registroPrincipal').attr("disabled", true);
+  $('#Button_guardar_registroPrincipal').attr("disabled", true);
   
  var parametros = $(this).serialize();
 	 $.ajax({
@@ -122,39 +129,23 @@ $( "#guardar_registroPrincipal" ).submit(function( event ) {
 			url: "ajax/nuevo_registroPrincipal.php",
 			data: parametros,
 			 beforeSend: function(objeto){
-				$("#resultados_ajax").html("Mensaje: Cargando...");
+			  $("#resultados_ajaxGuardarRegistroPrincipal").html("Mensaje: Cargando...");
 			  },
 			success: function(datos){
-			$("#resultados_ajax").html(datos);
-			$('#guardar_datos_valla').attr("disabled", false);
-			load(1);
+			$("#resultados_ajaxGuardarRegistroPrincipal").html(datos);
+			$('#Button_guardar_registroPrincipal').attr("disabled", true);
+
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 2000);
+
 		  }
 	});
   event.preventDefault();
 })
 
-
-$( "#editar_valla" ).submit(function( event ) {
-  $('#actualizar_datos_valla').attr("disabled", true);
-  
- var parametros = $(this).serialize();
-	 $.ajax({
-			type: "POST",
-			url: "ajax/editar_valla.php",
-			data: parametros,
-			 beforeSend: function(objeto){
-				$("#resultados_ajax2").html("Mensaje: Cargando...");
-			  },
-			success: function(datos){
-			$("#resultados_ajax2").html(datos);
-			$('#actualizar_datos_valla').attr("disabled", false);
-
-var PAGE=document.getElementById("page").value;
-			load(PAGE);
-		  }
-	});
-  event.preventDefault();
-})
 
 
 function mapa_valla(id){

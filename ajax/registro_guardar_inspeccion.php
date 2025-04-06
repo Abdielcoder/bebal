@@ -26,29 +26,36 @@ $latitud=$_POST['latitud'];
 $longitud=$_POST['longitud'];
 $superficie_establecimiento=$_POST['superficie_establecimiento'];
 $capacidad_comensales_personas=$_POST['capacidad_comensales_personas'];
+$folio=$_POST['folio'];
 
 
 $sql="INSERT INTO inspeccion (
 id_principal,
 nombre_comercial_establecimiento,
 id_proceso_tramites,
+folio,
+superficie_establecimiento,
+capacidad_comensales_personas,
 observaciones,
 fechaRegistro ) VALUES (
 $ID,
 '$nombre_comercial_establecimiento',
 1,
+'$folio',
+$superficie_establecimiento,
+$capacidad_comensales_personas,
 '$observaciones',
 '$today')";
 $query_new_insert = mysqli_query($con,$sql);
 
 ##  de Efectuar Inspeccion  -->  Inspeccion Realizada
-$Kuery_Update="UPDATE principal SET latitud='".$latitud."', longitud='".$longitud."', superficie_establecimiento='".$superficie_establecimiento."', capacidad_comensales_personas='".$capacidad_comensales_personas."', estatus='Inspeccion Realizada' WHERE id=".$ID;
+$Kuery_Update="UPDATE principal SET latitud='".$latitud."', longitud='".$longitud."', estatus='Inspeccion Realizada' WHERE id=".$ID;
 mysqli_query($con,$Kuery_Update);
 ##
 
 
 			if ($query_new_insert) {
-				$messages[] = "Se Registro Inspeccion se Alamaceno con Exito.";
+				$messages[] = "Se Registro Inspeccion se Alamaceno con Exito.   Folio ($folio)";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

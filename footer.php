@@ -35,8 +35,10 @@
 
 
 <footer class="navbar fixed-bottom bg-primary">
-    <div class="container">
-      <div class="d-flex justify-content-between align-items-center w-100">
+<?php
+//echo '<div class="container">';
+//echo '<div class="d-flex justify-content-between align-items-center w-100">';
+?>
         <span class="text-white small">
           <a href="http://mexcapproject.com/" target="_blank" class="text-secondary text-decoration-none">
             <small>&copy; <?php echo date('Y');?> - MEXCAP PROJECT PARTNERS SAPI</small>
@@ -46,9 +48,11 @@
         <div class="clock ms-3">
           <div class="time"></div>
           <div class="date-time"></div>
-        </div>
-      </div>
-    </div>
+	</div>
+<?php
+//echo '</div>';
+//echo '</div>';
+?>
 </footer>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

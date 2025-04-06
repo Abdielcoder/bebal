@@ -61,7 +61,7 @@ if (isset($_GET['id'])) {
 if ($action == 'ajax') {
     // Escaping, additionally removing everything that could be (html/javascript-) code
     $q = mysqli_real_escape_string($con, (strip_tags($_REQUEST['q'], ENT_QUOTES)));
-    $aColumns = array('domicilio'); // Columnas de búsqueda
+    $aColumns = array('folio'); // Columnas de búsqueda
     $sTable = "principal";
     
     // Construir cláusula WHERE según perfil de usuario
@@ -148,11 +148,11 @@ if ($action == 'ajax') {
             <table class="table registro-table">
                 <thead>
                     <tr class="success">
-                        <th>IMAGEN</th>
-                        <th>DATOS ESTABLECIMIENTO</th>
-                        <th>SOLICITANTE</th>
-                        <th>OBSERVACIÓN</th>
-                        <th class="text-end">ACCIONES</th>
+                        <th width="11%"> </th>
+                        <th width="27%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
+                        <th width="27%"><font size="1">SOLICITANTE</font></th>
+                        <th width="15%"><font size="1">OBSERVACIÓN</font></th>
+                        <th class="text-end" width="20%"><font size="1">ACCIONES</font></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -166,6 +166,7 @@ if ($action == 'ajax') {
                     $numero = $row['numero_establecimiento'];
                     $numero_interno = $row['numerointerno_local_establecimiento'];
                     $estatus = $row['estatus'];
+                    $operacion = $row['operacion'];
                     $folio = $row['folio'];
                     $observaciones = $row['observaciones'];
                     $nombre_solicitante = $row['nombre_persona_fisicamoral_solicitante'];
@@ -176,32 +177,32 @@ if ($action == 'ajax') {
                     
                     // Valores ocultos para los modales y acciones
                     ?>
-                    <input type="hidden" id="folio<?php echo $id; ?>" value="<?php echo $folio; ?>">
-                    <input type="hidden" id="numero_permiso<?php echo $id; ?>" value="<?php echo isset($row['numero_permiso']) ? $row['numero_permiso'] : ''; ?>">
-                    <input type="hidden" id="mapa<?php echo $id; ?>" value="<?php echo $mapa; ?>">
-                    <input type="hidden" id="estatus<?php echo $id; ?>" value="<?php echo $estatus; ?>">
-                    <input type="hidden" id="operacion<?php echo $id; ?>" value="<?php echo isset($row['operacion']) ? $row['operacion'] : ''; ?>">
-                    <input type="hidden" id="observaciones<?php echo $id; ?>" value="<?php echo $observaciones; ?>">
-                    <input type="hidden" id="direccion<?php echo $id; ?>" value="<?php echo isset($row['direccion']) ? $row['direccion'] : ''; ?>">
-                    <input type="hidden" id="delegacion_id<?php echo $id; ?>" value="<?php echo isset($row['delegacion_id']) ? $row['delegacion_id'] : ''; ?>">
-                    <input type="hidden" id="colonia_id<?php echo $id; ?>" value="<?php echo isset($row['colonia_id']) ? $row['colonia_id'] : ''; ?>">
-                    <input type="hidden" id="COLONIA<?php echo $id; ?>" value="<?php echo isset($row['COLONIA']) ? $row['COLONIA'] : ''; ?>">
-                    <input type="hidden" id="DELEGACION<?php echo $id; ?>" value="<?php echo isset($row['DELEGACION']) ? $row['DELEGACION'] : ''; ?>">
-                    <input type="hidden" id="GIRO<?php echo $id; ?>" value="<?php echo isset($row['GIRO']) ? $row['GIRO'] : ''; ?>">
-                    <input type="hidden" id="MODALIDAD_GA<?php echo $id; ?>" value="<?php echo isset($row['MODALIDAD_GA']) ? $row['MODALIDAD_GA'] : ''; ?>">
-                    <input type="hidden" id="nombre_comercial_establecimiento<?php echo $id; ?>" value="<?php echo $nombre_comercial; ?>">
-                    <input type="hidden" id="calle_establecimiento<?php echo $id; ?>" value="<?php echo $calle; ?>">
-                    <input type="hidden" id="entre_calles_establecimiento<?php echo $id; ?>" value="<?php echo $entre_calles; ?>">
-                    <input type="hidden" id="numero_establecimiento<?php echo $id; ?>" value="<?php echo $numero; ?>">
-                    <input type="hidden" id="numerointerno_local_establecimiento<?php echo $id; ?>" value="<?php echo $numero_interno; ?>">
-                    <input type="hidden" id="cp_establecimiento<?php echo $id; ?>" value="<?php echo isset($row['cp_establecimiento']) ? $row['cp_establecimiento'] : ''; ?>">
-                    <input type="hidden" id="nombre_persona_fisicamoral_solicitante<?php echo $id; ?>" value="<?php echo $nombre_solicitante; ?>">
-                    <input type="hidden" id="nombre_representante_legal_solicitante<?php echo $id; ?>" value="<?php echo isset($row['nombre_representante_legal_solicitante']) ? $row['nombre_representante_legal_solicitante'] : ''; ?>">
-                    <input type="hidden" id="domicilio_solicitante<?php echo $id; ?>" value="<?php echo isset($row['domicilio_solicitante']) ? $row['domicilio_solicitante'] : ''; ?>">
-                    <input type="hidden" id="email_solicitante<?php echo $id; ?>" value="<?php echo $email; ?>">
-                    <input type="hidden" id="telefono_solicitante<?php echo $id; ?>" value="<?php echo $telefono; ?>">
-                    <input type="hidden" id="COLONIAyDELEGACION<?php echo $id; ?>" value="<?php echo isset($row['COLONIAyDELEGACION']) ? $row['COLONIAyDELEGACION'] : ''; ?>">
-                    <input type="hidden" id="direccion_establecimiento_completa<?php echo $id; ?>" value="<?php echo isset($row['direccion_establecimiento_completa']) ? $row['direccion_establecimiento_completa'] : ''; ?>">
+<input type="hidden" id="folio<?php echo $id; ?>" value="<?php echo $folio; ?>">
+<input type="hidden" id="numero_permiso<?php echo $id; ?>" value="<?php echo isset($row['numero_permiso']) ? $row['numero_permiso'] : ''; ?>">
+<input type="hidden" id="mapa<?php echo $id; ?>" value="<?php echo $mapa; ?>">
+<input type="hidden" id="estatus<?php echo $id; ?>" value="<?php echo $estatus; ?>">
+<input type="hidden" id="operacion<?php echo $id; ?>" value="<?php echo isset($row['operacion']) ? $row['operacion'] : ''; ?>">
+<input type="hidden" id="observaciones<?php echo $id; ?>" value="<?php echo $observaciones; ?>">
+<input type="hidden" id="direccion<?php echo $id; ?>" value="<?php echo isset($row['direccion']) ? $row['direccion'] : ''; ?>">
+<input type="hidden" id="delegacion_id<?php echo $id; ?>" value="<?php echo isset($row['delegacion_id']) ? $row['delegacion_id'] : ''; ?>">
+<input type="hidden" id="colonia_id<?php echo $id; ?>" value="<?php echo isset($row['colonia_id']) ? $row['colonia_id'] : ''; ?>">
+<input type="hidden" id="COLONIA<?php echo $id; ?>" value="<?php echo isset($row['COLONIA']) ? $row['COLONIA'] : ''; ?>">
+<input type="hidden" id="DELEGACION<?php echo $id; ?>" value="<?php echo isset($row['DELEGACION']) ? $row['DELEGACION'] : ''; ?>">
+<input type="hidden" id="GIRO<?php echo $id; ?>" value="<?php echo isset($row['GIRO']) ? $row['GIRO'] : ''; ?>">
+<input type="hidden" id="MODALIDAD_GA<?php echo $id; ?>" value="<?php echo isset($row['MODALIDAD_GA']) ? $row['MODALIDAD_GA'] : ''; ?>">
+<input type="hidden" id="nombre_comercial_establecimiento<?php echo $id; ?>" value="<?php echo $nombre_comercial; ?>">
+<input type="hidden" id="calle_establecimiento<?php echo $id; ?>" value="<?php echo $calle; ?>">
+<input type="hidden" id="entre_calles_establecimiento<?php echo $id; ?>" value="<?php echo $entre_calles; ?>">
+<input type="hidden" id="numero_establecimiento<?php echo $id; ?>" value="<?php echo $numero; ?>">
+<input type="hidden" id="numerointerno_local_establecimiento<?php echo $id; ?>" value="<?php echo $numero_interno; ?>">
+<input type="hidden" id="cp_establecimiento<?php echo $id; ?>" value="<?php echo isset($row['cp_establecimiento']) ? $row['cp_establecimiento'] : ''; ?>">
+<input type="hidden" id="nombre_persona_fisicamoral_solicitante<?php echo $id; ?>" value="<?php echo $nombre_solicitante; ?>">
+<input type="hidden" id="nombre_representante_legal_solicitante<?php echo $id; ?>" value="<?php echo isset($row['nombre_representante_legal_solicitante']) ? $row['nombre_representante_legal_solicitante'] : ''; ?>">
+<input type="hidden" id="domicilio_solicitante<?php echo $id; ?>" value="<?php echo isset($row['domicilio_solicitante']) ? $row['domicilio_solicitante'] : ''; ?>">
+<input type="hidden" id="email_solicitante<?php echo $id; ?>" value="<?php echo $email; ?>">
+<input type="hidden" id="telefono_solicitante<?php echo $id; ?>" value="<?php echo $telefono; ?>">
+<input type="hidden" id="COLONIAyDELEGACION<?php echo $id; ?>" value="<?php echo isset($row['COLONIAyDELEGACION']) ? $row['COLONIAyDELEGACION'] : ''; ?>">
+<input type="hidden" id="direccion_establecimiento_completa<?php echo $id; ?>" value="<?php echo isset($row['direccion_establecimiento_completa']) ? $row['direccion_establecimiento_completa'] : ''; ?>">
                     
                     <tr class="registro-row">
                         <td data-label="Imagen" class="imagen-celda">
@@ -276,7 +277,7 @@ if ($action == 'ajax') {
                                 </a>';
                             }
                             ?>
-                            <span class="d-block text-muted mt-2 id-info"><small>ID: <?php echo $id; ?> | Folio: <?php echo $folio; ?></small></span>
+                            <span class="d-block text-muted mt-2 id-info"><small>Folio: <?php echo $folio; ?>, <b><?php echo $operacion; ?></b></small></span>
                         </td>
                         <td data-label="Datos Establecimiento" class="datos-celda">
                             <div class="datos-establecimiento">
@@ -306,16 +307,25 @@ if ($action == 'ajax') {
                             if (empty($observaciones)) {
                                 echo '<span class="text-muted">sin observaciones</span>';
                             } else if (strlen($observaciones) > 150) {
-                                echo '<div class="observacion-texto">' . substr($observaciones, 0, 150) . '...</div>';
+                                echo '<div class="observacion-texto"><font size="1">' . substr($observaciones, 0, 150) . '...</font></div>';
                             } else {
-                                echo '<div class="observacion-texto">' . $observaciones . '</div>'; 
+                                echo '<div class="observacion-texto"><font size="1">'. $observaciones . '</font></div>'; 
                             }
                             ?>
                         </td>
                         <td data-label="Acciones" class="acciones-celda">
-                            <div class="action-buttons">
-                                <!-- Botón de editar -->
-                                <a href="detalleRegistro.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-primary-custom" title="Editar registro"><i class="bi bi-pencil"></i></a>
+			    <div class="action-buttons">
+<?php
+			if ( $operacion=='OPERACION' ) {
+			   echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Tramite Cambios"><i class="bi bi-gem"></i></a>';
+			}
+
+			##<!-- Botón de editar -->
+
+			if ( $operacion=='NUEVO' ) {
+                           echo '<a href="detalleRegistro.php?id='.$id.'&page='.$page.'" class="btn btn-sm btn-action btn-primary-custom" title="Editar Registro Nuevo"><i class="bi bi-database-add"></i></a>';
+			}
+?>
                                 
                                 <!-- Botón de coordenadas/mapa -->
                                 <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas" data-bs-toggle="modal" data-bs-target="#coordenadasModal" onclick="mapa_valla('<?php echo $id; ?>')"><i class="bi bi-geo-alt"></i></a>
@@ -356,9 +366,9 @@ if ($action == 'ajax') {
                 </div>
                 <div class="col-md-12 text-center">
                     <p class="text-muted">
-                        Mostrando <?php echo min($numrows, ($offset+1)); ?> al 
+<!--                       Mostrando <?php echo min($numrows, ($offset+1)); ?> al 
                         <?php echo min($offset+$per_page, $numrows); ?> de 
-                        <?php echo $numrows; ?> registros
+                        <?php echo $numrows; ?> registros --!>
                     </p>
                 </div>
             </div>

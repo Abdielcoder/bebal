@@ -18,38 +18,60 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 $today = date("Y-m-d");
 
 $ID=intval($_POST['idprincipal']);
-$pagina=intval($_POST['pagina']);
+##$pagina=intval($_POST['pagina']);
 $nombre_comercial_establecimiento=$_POST['nombre_comercial_establecimiento'];
 
 $fecha_pago=$_POST['fecha_pago'];
 $numero_pago=$_POST['numero_pago'];
 $monto=$_POST['monto'];
 
+$tramite_pago=$_POST['tramite_pago'];
+$tramite_pagoid=$_POST['tramite_pagoid'];
+$folio=$_POST['folio'];
+
+
 $sql="INSERT INTO pagos (
 id_principal,
+folio,
 nombre_comercial_establecimiento,
 id_proceso_tramites,
 numero_pago,
 monto,
+concepto,
+concepto_pago,
 fecha_pago,
 fechaRegistro ) VALUES (
 $ID,
+'$folio',
 '$nombre_comercial_establecimiento',
 1,
 '$numero_pago',
 '$monto',
+'$tramite_pago',
+'tramite=$tramite_pagoid',
 '$fecha_pago',
 '$today')";
 $query_new_insert = mysqli_query($con,$sql);
 
 ##
+switch ($tramite_pago) {
+    case "Análisis y Revisión Documentos - Permiso Nuevo":
+$Kuery_Update="UPDATE principal SET estatus='Análisis y Revisión Documentos' WHERE id=".$ID;
+        break;
+    case "Inspección - Permiso Nuevo":
 $Kuery_Update="UPDATE principal SET estatus='Efectuar Inspeccion' WHERE id=".$ID;
+        break;
+    default:
+$Kuery_Update="UPDATE principal SET estatus='Pago Desconocido' WHERE id=".$ID;
+}
+
+
 mysqli_query($con,$Kuery_Update);
 ##
 
 
 			if ($query_new_insert) {
-				$messages[] = "Se Registro el Pago con Exito.";
+				$messages[] = "Se Registro el Pago con Exito Folio ($folio)";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

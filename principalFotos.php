@@ -227,6 +227,8 @@ $id_municipioDB=$arregloPRINCIPAL['id_municipio'];
 $foto_principalDB=$arregloPRINCIPAL['foto'];
 $folioDB=$arregloPRINCIPAL['folio'];
 
+$modalidad_graduacion_alcoholica=$arregloPRINCIPAL['modalidad_graduacion_alcoholica'];
+
 $calle_establecimientoDB=$arregloPRINCIPAL['calle_establecimiento'];
 $entre_calles_establecimientoDB=$arregloPRINCIPAL['entre_calles_establecimiento'];
 $numero_establecimientoDB=$arregloPRINCIPAL['numero_establecimiento'];
@@ -247,10 +249,10 @@ $result_giro = mysqli_query($con,$sql_giro);
 $row_giro = mysqli_fetch_assoc($result_giro);
 $GIRO=$row_giro['descripcion_giro'];
 ##
-$sql_modalidad_graduacion_alcoholica="SELECT descripcion_modalidad_graduacion_alcoholica FROM modalidad_graduacion_alcoholica WHERE id=".$id_modalidad_graduacion_alcoholicaDB;
-$result_modalidad_graduacion_alcoholica = mysqli_query($con,$sql_modalidad_graduacion_alcoholica);
-$row_modalidad_graduacion_alcoholica = mysqli_fetch_assoc($result_modalidad_graduacion_alcoholica);
-$MODALIDAD_GA=$row_modalidad_graduacion_alcoholica['descripcion_modalidad_graduacion_alcoholica'];
+##$sql_modalidad_graduacion_alcoholica="SELECT descripcion_modalidad_graduacion_alcoholica FROM modalidad_graduacion_alcoholica WHERE id=".$id_modalidad_graduacion_alcoholicaDB;
+##$result_modalidad_graduacion_alcoholica = mysqli_query($con,$sql_modalidad_graduacion_alcoholica);
+##$row_modalidad_graduacion_alcoholica = mysqli_fetch_assoc($result_modalidad_graduacion_alcoholica);
+##$MODALIDAD_GA=$row_modalidad_graduacion_alcoholica['descripcion_modalidad_graduacion_alcoholica'];
 ##
 $sql_municipio="SELECT municipio FROM municipio WHERE id=".$id_municipioDB;
 $result_municipio = mysqli_query($con,$sql_municipio);
@@ -270,7 +272,7 @@ $COLONIA=$row_colonia['colonia'];
 
 $domicilio_establecimiento=$calle_establecimiento." #".$numero_establecimiento." ".$numerointerno_local_establecimiento." CP ".$cp_establecimiento.", ".$COLONIA." (".$DELEGACION.") ".$MUNICIPIO;
 
-echo "<h5><b>Modificar Fotos :</b> ".$folioDB.", ".$nombre_comercial_establecimientoDB." (".$GIRO.", ".$MODALIDAD_GA."), ".$domicilio_establecimiento."</h5>";
+echo "<h6><b>Modificar Fotos :</b> ".$folioDB.", ".$nombre_comercial_establecimientoDB." (".$GIRO."), ".$domicilio_establecimiento."</h5>";
 ##############################
 /* Agregar foto */
 $ret="";
@@ -279,7 +281,7 @@ if (!isset($errorfoto)) $errorfoto="";
 $ret .= '<form ENCTYPE="multipart/form-data" name="subirnuevafoto" action="principalFotos.php" method="POST">';
 
 ###
-$ret .='<h5><u>Subir Foto</u></h5>';
+$ret .='<h6><u>Subir Foto</u></h6>';
 $ret .='<table width="70%" border=0 align=center>';
 $ret .='<tr><td>';
 $ret .= "<input type=\"file\"  name=\"nuevafoto\" class='choose'>";
@@ -364,12 +366,12 @@ echo "</td>";
 echo '<input type="hidden" name="idfoto'.$i.'" value="'.$idfoto_db.'" />';
 #
 echo '<td align=center>';
-echo '<button id="eliminar'.$i.'" name="eliminar'.$i.'" type="submit" title="Eliminar Fotografia '.$numero_foto.'" class="button" style="color:red;"  /><i class="glyphicon glyphicon-trash"></i> </button>';
+echo '<button id="eliminar'.$i.'" name="eliminar'.$i.'" type="submit" title="Eliminar Fotografia '.$numero_foto.'" class="button" style="color:red;"  /><i class="bi bi-trash"></i> </button>';
 echo '</td>';
 
 echo '<td align=center>';
 
-echo '<button id="principal'.$i.'" name="principal'.$i.'" type="submit" title="Fijar Como Princial Fotografia '.$numero_foto.'" class="button" style="color:green;" /><i class="glyphicon glyphicon-thumbs-up"></i></button>';
+echo '<button id="principal'.$i.'" name="principal'.$i.'" type="submit" title="Fijar Como Princial Fotografia '.$numero_foto.'" class="button" style="color:green;" /><i class="bi bi-hand-thumbs-up"></i></button>';
 
 echo '</td>';
 echo "</tr>";
@@ -385,7 +387,10 @@ echo '<br>';
 echo '<FORM action="principal.php" name="ir_aPrincipal" method="POST">';
 echo '<input type="hidden" name="pagina" value="'.$page.'">';
 
-echo '<button class="btn btn-default" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="color:black;" /><i class="glyphicon glyphicon-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>';
+echo '<button class="btn btn-info" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>';
+
+
+
 
 echo "</FORM>";
 echo '<br><br>';

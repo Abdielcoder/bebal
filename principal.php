@@ -85,9 +85,11 @@
 	<?php
 	include("footer.php");
 	include("modal/imagenes_modal.php"); // Modal para mostrar imágenes
+	include("modal/pdf_modal.php"); // Modal para cargar PDFs
 	?>
 	<script type="text/javascript" src="js/principal.js"></script>
 	<script type="text/javascript" src="js/imagenes-modal.js"></script>
+	<script type="text/javascript" src="js/pdf-modal.js"></script>
 <?php
 
 if(!$_POST) {

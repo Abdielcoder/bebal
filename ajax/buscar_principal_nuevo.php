@@ -323,6 +323,9 @@ if ($action == 'ajax') {
                                 <!-- Botón de cámara/foto -->
                                 <a href="principalFotos.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-primary-custom" title="Gestionar Fotos"><i class="bi bi-camera"></i></a>
                                 
+                                <!-- Botón para cargar PDF -->
+                                <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Cargar PDF" data-bs-toggle="modal" data-bs-target="#pdfModal" onclick="pdf_registro('<?php echo $id; ?>')"><i class="bi bi-file-pdf"></i></a>
+                                
                                 <!-- Estatus -->
                                 <div class="estatus-badge estatus-inspeccion"><?php echo $estatus; ?></div>
                                 

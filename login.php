@@ -180,6 +180,7 @@ body {
 </head>
 <body>
   <div class="login-container">
+<center><font color="#AC905B" size="1">Secretaría de Gobierno Municipal<br></font><font size="1" color="#A4A5A8">Programa de Identificación, Empadronamiento, Regulación y Revalidación de Establecimientos Que Expiden y Venden al Público en Envase Cerrado y Abierto, Bebidas con Contenido Alcohólico</font></center><br>
     <div class="avatar-container">
       <i class="bi bi-person avatar-icon"></i>
     </div>

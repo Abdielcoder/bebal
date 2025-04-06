@@ -15,14 +15,14 @@
 			if ($delete1=mysqli_query($con,"DELETE FROM users WHERE user_id='".$user_id."'")){
 			?>
 			<div class="alert alert-success alert-dismissible" role="alert">
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong>Aviso!</strong> Datos eliminados exitosamente.
 			</div>
 			<?php 
 		}else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong>Error!</strong> Lo siento algo ha salido mal intenta nuevamente.
 			</div>
 			<?php
@@ -32,7 +32,7 @@
 		} else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
-			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong>Error!</strong> No se puede borrar el usuario administrador. 
 			</div>
 			<?php
@@ -78,66 +78,75 @@
 			
 			?>
 			<div class="table-responsive">
-			  <table class="table">
-				<tr  class="success">
-					<th>ID</th>
-					<th>Nombres</th>
-					<th>Usuario</th>
-					<th>Profile</th>
-					<th>Email</th>
-					<th>Municipio</th>
-					<th>Agregado</th>
-					<th><span class="pull-right">Acciones</span></th>
+			 <table class="table">
+			<tr  class="success">
+			<th><font size="2">Nombres</font></th>
+			<th><font size="2">Usuario</font></th>
+			<th><font size="2">Profile</font></th>
+			<th><font size="2">Email</font></th>
+			<th><font size="2">Municipio</font></th>
+			<th><font size="2">Agregado</font></th>
+			<th><span class="pull-right"><font size="2">Acciones</span></font></th>
 					
-				</tr>
-				<?php
-				while ($row=mysqli_fetch_array($query)){
-						$user_id=$row['user_id'];
-						$fullname=$row['firstname']." ".$row["lastname"];
-						$user_name=$row['user_name'];
-						$user_email=$row['user_email'];
-						$user_profile=$row['profile'];
-						$date_added= date('d/m/Y', strtotime($row['date_added']));
-						$id_municipio=$row['id_municipio'];
+			</tr>
+			<?php
+			while ($row=mysqli_fetch_array($query)){
+				$user_id=$row['user_id'];
+				$fullname=$row['firstname']." ".$row["lastname"];
+				$user_name=$row['user_name'];
+				$user_email=$row['user_email'];
+				$user_profile=$row['profile'];
+				$date_added= date('d/m/Y', strtotime($row['date_added']));
+				$id_municipio=$row['id_municipio'];
 
 
-						if ( $id_municipio==0 ) {
-						$MUNICIPIO='Todos';
-						} else {
-						if ( $id_municipio=='' || $id_municipio==NULL ) {
-						$MUNICIPIO='Sin Municipio';
-						} else {
+				if ( $id_municipio==0 ) {
+				$MUNICIPIO='Todos';
+				} else {
+				if ( $id_municipio=='' || $id_municipio==NULL ) {
+				$MUNICIPIO='Sin Municipio';
+				} else {
 
-						$sql_municipio="SELECT municipio FROM municipio WHERE id=".$id_municipio;
-						$result_municipio = mysqli_query($con,$sql_municipio);
-						$row_municipio = mysqli_fetch_assoc($result_municipio);
-						$MUNICIPIO=$row_municipio['municipio'];
+				$sql_municipio="SELECT municipio FROM municipio WHERE id=".$id_municipio;
+				$result_municipio = mysqli_query($con,$sql_municipio);
+				$row_municipio = mysqli_fetch_assoc($result_municipio);
+				$MUNICIPIO=$row_municipio['municipio'];
 
 
-						}
-						}
+				}
+				}
 
 						
-					?>
+			?>
 					
 <input type="hidden" value="<?php echo $row['firstname'];?>" id="nombres<?php echo $user_id;?>">
 <input type="hidden" value="<?php echo $row['lastname'];?>" id="apellidos<?php echo $user_id;?>">
 <input type="hidden" value="<?php echo $user_name;?>" id="usuario<?php echo $user_id;?>">
 <input type="hidden" value="<?php echo $user_email;?>" id="email<?php echo $user_id;?>">
 				
-					<tr>
-						<td><?php echo $user_id; ?></td>
-						<td><?php echo $fullname; ?></td>
-						<td ><?php echo $user_name; ?></td>
-						<td ><?php echo $user_profile; ?></td>
-						<td ><?php echo $user_email; ?></td>
-						<td ><?php echo $MUNICIPIO; ?></td>
-						<td><?php echo $date_added;?></td>
+			<tr>
+			<td><font size="2"><?php echo $fullname; ?></font></td>
+			<td><font size="2"><?php echo $user_name; ?></font></td>
+			<td><font size="2"><?php echo $user_profile; ?></font></td>
+			<td><font size="2"><?php echo $user_email; ?></font></td>
+			<td><font size="2"><?php echo $MUNICIPIO; ?></font></td>
+			<td><font size="2"><?php echo $date_added;?></font></td>
 						
-					<td ><span class="pull-right">
-<a href="#" class='btn btn-default' title='Editar usuario' onclick="obtener_datos('<?php echo $user_id;?>');" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-edit"></i></a> 
-<a href="#" class='btn btn-default' title='Cambiar contraseña' onclick="get_user_id('<?php echo $user_id;?>');" data-toggle="modal" data-target="#myModal3"><i class="glyphicon glyphicon-cog"></i></a>
-<a href="#" class='btn btn-default' title='Borrar usuario' onclick="eliminar('<? echo $user_id; ?>')"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
+			<td><span class="pull-right">
+
+<?php
+
+echo '<a href="#" class="btn btn-outline-success" title="Editar usuario" onclick="obtener_datosUsuario('.$user_id.');" data-bs-toggle="modal" data-bs-target="#editarUsuario"><i class="bi bi-pencil"></i></a> ';
+
+echo '&nbsp;&nbsp;';
+
+echo '<a href="#" class="btn btn-outline-warning" title="Cambiar contraseña" onclick="get_user_id('.$user_id.');" data-bs-toggle="modal" data-bs-target="#cambiarPassUsuario"><i class="bi bi-key"></i></a>';
+
+echo '&nbsp;&nbsp;';
+
+echo '<a href="#" class="btn btn-outline-danger" title="Borrar usuario" onclick="eliminar('.$user_id.')"><i class="bi bi-trash"></i> </a></span></td>';
+
+?>
 						
 					</tr>
 					<?php

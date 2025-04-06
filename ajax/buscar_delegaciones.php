@@ -77,34 +77,42 @@
 			?>
 			<div class="table-responsive">
 			  <table class="table">
-				<tr  class="success">
-					<th>Nombre</th>
-					<th>Descripción</th>
-					<th class='text-right'>Acciones</th>
+			<tr  class="success">
+			<th><font size="2">Nombre</font></th>
+			<th><font size="2">Descripción</font></th>
+			<th class='text-right'>Acciones</th>
 					
-				</tr>
+			</tr>
 				<?php
-				while ($row=mysqli_fetch_array($query)){
-						$id=$row['id'];
-						$delegacion=$row['delegacion'];
-						$id_municipio=$row['id_municipio'];
+			while ($row=mysqli_fetch_array($query)){
+				$id=$row['id'];
+				$delegacion=$row['delegacion'];
+				$id_municipio=$row['id_municipio'];
 
-						$sql_municipio="SELECT municipio FROM municipio WHERE id=".$id_municipio;
-						$result_municipio = mysqli_query($con,$sql_municipio);
-						$row_municipio = mysqli_fetch_assoc($result_municipio);
-						$MUNICIPIO=$row_municipio['municipio'];
+				$sql_municipio="SELECT municipio FROM municipio WHERE id=".$id_municipio;
+				$result_municipio = mysqli_query($con,$sql_municipio);
+				$row_municipio = mysqli_fetch_assoc($result_municipio);
+				$MUNICIPIO=$row_municipio['municipio'];
 
 
 
 					?>
 					<tr>
+				
+				<td><font size="2"><?php echo $delegacion; ?></font></td>
+				<td><font size="2"><?php echo $MUNICIPIO; ?></font></td>
 						
-						<td><?php echo $delegacion; ?></td>
-						<td ><?php echo $MUNICIPIO; ?></td>
-						
-					<td class='text-right'>
-						<a href="#" class='btn btn-default' title='Editar Delegación' data-nombre='<?php echo $delegacion;?>' data-descripcion='<?php echo $delegacion?>' data-id='<?php echo $id;?>' data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-edit"></i></a> 
-						<a href="#" class='btn btn-default' title='Borrar Delegación' onclick="eliminar('<?php echo $id; ?>')"><i class="glyphicon glyphicon-trash"></i> </a>
+				<td class='text-right'>
+
+
+<?php
+echo '<a href="#" class="btn btn-outline-success" title="Editar Delegación" onclick="obtener_datos('.$id.');" data-toggle="modal" data-target="#editarColonia"><i class="bi bi-pencil"></i></a>';
+
+echo '&nbsp;&nbsp;';
+
+echo '<a href="#" class="btn btn-outline-danger" title="Eliminar Delegación" onclick="eliminar('.$id.')"><i class="bi bi-trash bg-warnig"></i></a>';
+?>
+
 					</td>
 						
 					</tr>

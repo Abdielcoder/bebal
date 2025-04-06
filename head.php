@@ -13,5 +13,9 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js" defer></script>
 
+  <!-- Dropzone.js para carga de archivos con drag and drop -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+
 	<link rel="stylesheet" href="css/custom.css">
 	<link rel=icon href='img/logo-icon.png' sizes="32x32" type="image/png">

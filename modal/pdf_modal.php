@@ -14,13 +14,13 @@
           <input type="hidden" id="pdf_id_registro" name="id_registro" value="">
           
           <div class="mb-3">
-            <label for="pdf_descripcion" class="form-label">Descripción del documento</label>
-            <input type="text" class="form-control" id="pdf_descripcion" name="descripcion" required>
-          </div>
-          
-          <div class="mb-3">
-            <label for="pdf_archivo" class="form-label">Seleccionar PDF</label>
-            <input type="file" class="form-control" id="pdf_archivo" name="pdf_archivo" accept=".pdf" required>
+            <div class="dropzone" id="dropzone-pdfs">
+              <div class="dz-message">
+                <i class="bi bi-file-pdf fs-1"></i>
+                <h4>Arrastra los archivos PDF aquí o haz clic para seleccionarlos</h4>
+                <p class="text-muted">Puedes subir múltiples archivos a la vez</p>
+              </div>
+            </div>
           </div>
           
           <div id="resultados_pdf"></div>
@@ -36,8 +36,28 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="btn-subir-pdf">Subir PDF</button>
       </div>
     </div>
   </div>
-</div> 
+</div>
+
+<style>
+.dropzone {
+  border: 2px dashed #0087F7;
+  border-radius: 5px;
+  background: #f8f9fa;
+  min-height: 150px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.dropzone.dz-drag-hover {
+  border-style: solid;
+  background: #e9ecef;
+}
+
+.dz-message {
+  margin: 2em 0;
+}
+</style> 

@@ -8,7 +8,6 @@ require_once ("../config/conexion.php"); // Función que conecta a la base de da
 
 // Comprobar que se han recibido los datos necesarios
 if (!isset($_POST['id_registro']) || empty($_POST['id_registro']) ||
-    !isset($_POST['descripcion']) || empty($_POST['descripcion']) ||
     !isset($_FILES['pdf_archivo']) || empty($_FILES['pdf_archivo']['name'])) {
     
     echo json_encode(array(
@@ -19,7 +18,6 @@ if (!isset($_POST['id_registro']) || empty($_POST['id_registro']) ||
 }
 
 $id_registro = intval($_POST['id_registro']);
-$descripcion = mysqli_real_escape_string($con, $_POST['descripcion']);
 $pdf_archivo = $_FILES['pdf_archivo'];
 
 // Verificar que el archivo es un PDF
@@ -59,9 +57,12 @@ $ruta_destino = $directorio_registro . '/' . $nombre_archivo;
 
 // Mover el archivo subido al directorio destino
 if (move_uploaded_file($pdf_archivo['tmp_name'], $ruta_destino)) {
+    // Usar el nombre del archivo como descripción
+    $nombre_original = $pdf_archivo['name'];
+    
     // Guardar información en la base de datos
     $query = "INSERT INTO documentos_pdf (id_registro, descripcion, nombre_archivo) 
-              VALUES ($id_registro, '$descripcion', '$nombre_archivo')";
+              VALUES ($id_registro, '$nombre_original', '$nombre_archivo')";
     
     if (mysqli_query($con, $query)) {
         echo json_encode(array(

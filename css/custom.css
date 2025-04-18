@@ -833,9 +833,10 @@ a:hover {
 /* Estilos para botones de acción en la tabla */
 .action-buttons {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.5rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
 }
 
 .img-thumbnail-custom {
@@ -1275,8 +1276,59 @@ table.registro-table {
 .action-buttons {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 5px;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.action-row-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+/* Estilo específico para los botones amarillos que deben aparecer abajo */
+.btn-warning-custom, 
+.btn-generar-recibo,
+a[class*="btn-"][style*="background-color:#AC905B"],
+a[class*="btn-"][style*="background-color:#F0D777"],
+.amarillo-bottom {
+  width: 250px !important; /* Ancho fijo para aproximadamente 35 caracteres */
+  order: 9999 !important; /* Siempre aparecerá al final */
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+  clear: both !important;
+  display: block !important;
+  align-self: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  background-color: #F0D777 !important;
+  color: #000 !important;
+  font-weight: bold !important;
+  padding: 8px 15px !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+  position: relative !important;
+}
+
+/* Agregamos un salto de línea visible antes de los botones amarillos */
+.btn-warning-custom:before, 
+.btn-generar-recibo:before,
+a[class*="btn-"][style*="background-color:#AC905B"]:before,
+a[class*="btn-"][style*="background-color:#F0D777"]:before,
+.amarillo-bottom:before {
+  content: "";
+  display: block !important;
+  width: 100% !important;
+  height: 1px !important;
+  background-color: #eee !important;
+  margin: 5px 0 !important;
+  position: absolute !important;
+  top: -15px !important;
+  left: 0 !important;
 }
 
 /* Estilos para los botones de acción principales */
@@ -1291,36 +1343,6 @@ table.registro-table {
   transition: all 0.2s;
 }
 
-/* Estilo específico para los botones amarillos que deben aparecer abajo */
-.btn-warning-custom, 
-.btn-generar-recibo,
-a[class*="btn-"][style*="background-color:#AC905B"],
-.btn-xs[style*="background-color:#F0D777"],
-.amarillo-bottom {
-  width: 250px !important; /* Ancho fijo para aproximadamente 35 caracteres */
-  order: 9999 !important; /* Siempre aparecerá al final */
-  margin-top: 10px !important;
-  align-self: center !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  background-color: #F0D777 !important;
-  color: #000 !important;
-  font-weight: bold !important;
-  padding: 8px 15px !important;
-  border-radius: 5px !important;
-  text-align: center !important;
-  display: block !important;
-}
-
-/* Los demás botones de acción estarán en una fila */
-.action-row-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 10px;
-}
-
 /* Media queries para ajuste en móviles */
 @media (max-width: 768px) {
   .action-buttons {
@@ -1330,10 +1352,11 @@ a[class*="btn-"][style*="background-color:#AC905B"],
   .btn-warning-custom, 
   .btn-generar-recibo,
   a[class*="btn-"][style*="background-color:#AC905B"],
-  .btn-xs[style*="background-color:#F0D777"],
+  a[class*="btn-"][style*="background-color:#F0D777"],
   .amarillo-bottom {
     width: 100% !important;
     max-width: 250px !important;
+    margin-top: 25px !important;
   }
 }
 
@@ -1448,4 +1471,41 @@ a[class*="btn-"][style*="background-color:#AC905B"],
 .btn-default:hover {
   background-color: #5e2328;
   color: white;
+}
+
+/* Contenedor específico para botones amarillos */
+.yellow-button-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 25px;
+  position: relative;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+/* Estilo específico para los botones amarillos que deben aparecer abajo */
+.btn-warning-custom, 
+.btn-generar-recibo,
+a[class*="btn-"][style*="background-color:#AC905B"],
+a[class*="btn-"][style*="background-color:#F0D777"],
+.amarillo-bottom {
+  width: 250px !important; /* Ancho fijo para aproximadamente 35 caracteres */
+  order: 9999 !important; /* Siempre aparecerá al final */
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  clear: both !important;
+  display: block !important;
+  align-self: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  background-color: #F0D777 !important;
+  color: #000 !important;
+  font-weight: bold !important;
+  padding: 8px 15px !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+  position: relative !important;
 }

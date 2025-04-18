@@ -1504,8 +1504,8 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   font-size: 0.85rem !important;
   font-weight: 600 !important;
   text-align: center !important;
-  color: #000 !important;
-  background-color: #AC905B !important; /* Color cambiado como solicitado */
+  color: white !important;
+  background-color: #AC905B !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
   position: relative !important;
   max-width: 100% !important;
@@ -1514,22 +1514,23 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 .estatus-badge font {
   font-size: 0.85rem !important;
   font-weight: 600 !important;
+  color: white !important;
 }
 
 /* Estilos específicos para diferentes tipos de estatus */
 .estatus-inspeccion {
-  background-color: #AC905B !important; /* Color cambiado como solicitado */
-  color: #000 !important;
+  background-color: #AC905B !important;
+  color: white !important;
 }
 
 .estatus-realizada {
-  background-color: #AC905B !important; /* Color cambiado como solicitado */
-  color: #000 !important;
+  background-color: #AC905B !important;
+  color: white !important;
 }
 
 .estatus-generar {
-  background-color: #AC905B !important; /* Color cambiado como solicitado */
-  color: #000 !important;
+  background-color: #AC905B !important;
+  color: white !important;
 }
 
 /* Media queries para responsive */
@@ -1575,7 +1576,7 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 a[class*="btn-"][style*="background-color:#AC905B"],
 a[class*="btn-"][style*="background-color:#F0D777"],
 .amarillo-bottom {
-  width: 250px !important; /* Ancho fijo para aproximadamente 35 caracteres */
+  width: 250px !important;
   margin: 5px 0 !important;
   clear: both !important;
   display: block !important;
@@ -1583,8 +1584,8 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  background-color: #AC905B !important; /* Cambiado a #AC905B como solicitado */
-  color: #000 !important;
+  background-color: #AC905B !important;
+  color: white !important;
   font-weight: bold !important;
   padding: 8px 15px !important;
   border-radius: 5px !important;

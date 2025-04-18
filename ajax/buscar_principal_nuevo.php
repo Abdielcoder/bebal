@@ -430,19 +430,19 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 // Botón de "Permiso Autorizado"
                                 if ($operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin') {
                                     $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso(\''.$id.'\',\''.$page.'\');" class="amarillo-bottom" title="Imprimir Permiso Folio '.$folio.', '.$nombre_comercial_establecimiento.'">Permiso Autorizado</a>';
+                                    $botonAmarilloHTML .= '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso(\''.$id.'\',\''.$page.'\');" class="amarillo-bottom" style="background-color:#AC905B !important; color:white !important;" title="Imprimir Permiso Folio '.$folio.', '.$nombre_comercial_establecimiento.'">Permiso Autorizado</a>';
                                 }
                                 
                                 // Botón de "Generar Recibos IRAD"
                                 if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
                                     $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#AC905B !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
                                 }
                                 
                                 // Botón de "Presupuesto"
                                 if ($estatus == "Presupuesto") {
                                     $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" title="Presupuesto" onclick="presupuesto(\''.$id.'\')">Presupuesto</a>';
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#AC905B !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')">Presupuesto</a>';
                                 }
                                 
                                 // Si hay algún botón amarillo para mostrar, añadir el contenedor
@@ -469,7 +469,7 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     }
                                     
                                     // Mostrar el badge con el estatus correspondiente
-                                    echo '<div class="estatus-badge"><font size="1">' . $textoEstatus . '</font></div>';
+                                    echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">' . $textoEstatus . '</font></div>';
                                     ?>
                                 </div>
                             </div>

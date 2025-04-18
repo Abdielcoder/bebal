@@ -563,7 +563,7 @@ $COLONIA=$row_colonia['colonia'];
 <center><div>
 
 <?php
-echo '<a href="principal.php?page='.$page.'&action=ajax" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>&nbsp;';
+echo '<a href="principal.php?page='.$page.'&action=ajax" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Volver </font></a>&nbsp;';
 
 
 ##echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Cambio de Domicilio y Titular </font></a>&nbsp;';

@@ -1268,6 +1268,73 @@ table.registro-table {
 
 .acciones-celda {
   min-width: 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+/* Estilos para los botones de acción principales */
+.btn-action {
+  margin: 2px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  padding: 5px 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+/* Estilo específico para los botones amarillos que deben aparecer abajo */
+.btn-warning-custom, 
+.btn-generar-recibo,
+a[class*="btn-"][style*="background-color:#AC905B"],
+.btn-xs[style*="background-color:#F0D777"],
+.amarillo-bottom {
+  width: 250px !important; /* Ancho fijo para aproximadamente 35 caracteres */
+  order: 9999 !important; /* Siempre aparecerá al final */
+  margin-top: 10px !important;
+  align-self: center !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  background-color: #F0D777 !important;
+  color: #000 !important;
+  font-weight: bold !important;
+  padding: 8px 15px !important;
+  border-radius: 5px !important;
+  text-align: center !important;
+  display: block !important;
+}
+
+/* Los demás botones de acción estarán en una fila */
+.action-row-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+/* Media queries para ajuste en móviles */
+@media (max-width: 768px) {
+  .action-buttons {
+    align-items: center;
+  }
+  
+  .btn-warning-custom, 
+  .btn-generar-recibo,
+  a[class*="btn-"][style*="background-color:#AC905B"],
+  .btn-xs[style*="background-color:#F0D777"],
+  .amarillo-bottom {
+    width: 100% !important;
+    max-width: 250px !important;
+  }
 }
 
 .id-info {

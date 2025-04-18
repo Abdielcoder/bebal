@@ -369,81 +369,50 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                         </td>
                         <td data-label="Acciones" class="acciones-celda">
 			    <div class="action-buttons">
+				<div class="action-row-buttons">
 <?php
-			if ( $operacion=='Activo' ) {
-				echo '<a href="#" class="btn btn-xs btn-action  btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
-			}
-#### IMPRIMIR PERMISO
-if ( $operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin' ) {
-echo  '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso('.$id.','.$page.');" class="btn btn-sm btn-action  btn-dark" title="Imprimir Permiso  Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-postcard"></i></a>';
-}
-
-			if ( $operacion=='Tramite' ) {
-                           echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action  btn-success" title="Activo - Tramites Cambios  Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
-			}
-
-			##<!-- Botón de editar -->
-
-			if ( $operacion=='NUEVO' ) {
-				if ( $PROFILE=='inspector' ) {
-				if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
-				echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'"  class="btn btn-danger btn-xs" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
-
-				   } else {
+				if ( $operacion=='Activo' ) {
+					echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
 				}
-				} else {
-				echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action  btn-dark" title="Proceso Registro Nuevo  Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
+				#### IMPRIMIR PERMISO
+				if ( $operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin' ) {
+					echo  '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso('.$id.','.$page.');" class="btn btn-sm btn-action btn-dark amarillo-bottom" title="Imprimir Permiso Folio '.$folio.', '.$nombre_comercial_establecimiento.'">Permiso Autorizado</a>';
 				}
-			}
+
+				if ( $operacion=='Tramite' ) {
+					echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+				}
+
+				##<!-- Botón de editar -->
+				if ( $operacion=='NUEVO' ) {
+					if ( $PROFILE=='inspector' ) {
+						if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
+							echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'"  class="btn btn-danger btn-xs" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+						}
+					} else {
+						echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-dark" title="Proceso Registro Nuevo Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
+					}
+				}
                                 
-##<!-- Botón de coordenadas/mapa -->
+				##<!-- Botón de coordenadas/mapa -->
 				if ( $latitud!='' && $longitud!='' ) {
-				echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
-
-
+					echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
 				}
 ?>
-				<!-- Botón de cámara/foto -->
-<?php
-				//echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'" class="btn btn-sm btn-action btn-primary-custom" title="Gestionar Fotos"><i class="bi bi-camera"></i></a>';
-
-                                
-//<!-- Botón Ver PDFs -->
-$cuentaPT=0;
-$KueryPT="SELECT COUNT(*) AS cuentaPT FROM proceso_tramites WHERE en_proceso='Fin' AND id=$id_proceso_tramites";
-$arregloPT = mysqli_fetch_array(mysqli_query($con,$KueryPT));
-$cuentaPT=$arregloPT['cuentaPT'];
-if ( $cuentaPT>0 ) {
-echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Ver PDFs" data-bs-toggle="modal" data-bs-target="#ModalPDF'.$id.'")"><i class="bi bi-file-pdf"></i></a>';
-
-$KueryPTfiles="SELECT * FROM proceso_tramites WHERE id=$id_proceso_tramites AND en_proceso='Fin'";
-##echo $KueryPT;
-$arregloPTfiles = mysqli_fetch_array(mysqli_query($con,$KueryPTfiles));
-
-$docs_pdf1DB=$arregloPTfiles['docs_pdf1'];
-$estatus_docs_pdf1DB=$arregloPTfiles['estatus_docs_pdf1'];
-##
-$docs_pdf2DB=$arregloPTfiles['docs_pdf2'];
-$estatus_docs_pdf2DB=$arregloPTfiles['estatus_docs_pdf2'];
-##
-$docs_pdf3DB=$arregloPTfiles['docs_pdf3'];
-$estatus_docs_pdf3DB=$arregloPTfiles['estatus_docs_pdf3'];
-##
-$docs_pdf4DB=$arregloPTfiles['docs_pdf4'];
-$estatus_docs_pdf4DB=$arregloPTfiles['estatus_docs_pdf4'];
-}
-
-// echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Cargar PDF" data-bs-toggle="modal" data-bs-target="#pdfModal" onclick="pdf_registro('.$id.')"><i class="bi bi-file-pdf"></i></a>';
-?>
+				</div>
 				<!-- Estatus -->
-                                <div class="estatus-badge estatus-inspeccion"><font size="1"><?php echo $estatus; ?></font></div>
-                                
-                                <?php if ($estatus == "PENDIENTE" || $estatus == "INSPECCION"): ?>
-                                <!-- Botón de generar recibo -->
-                                <a href="#" class="btn btn-xs btn-action btn-primary-custom btn-generar-recibo mt-2" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibo Inspeccion</a>
-                                <?php endif; ?>
-                            </div>
-                        </td>
+				<div class="estatus-badge estatus-inspeccion"><font size="1"><?php echo $estatus; ?></font></div>
+				
+				<?php if ($estatus == "PENDIENTE" || $estatus == "INSPECCION"): ?>
+				<!-- Botón de generar recibo -->
+				<a href="#" class="btn btn-xs btn-action btn-primary-custom btn-generar-recibo mt-2 amarillo-bottom" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibos IRAD</a>
+				<?php endif; ?>
+
+				<?php if ($estatus == "Presupuesto"): ?>
+				<a href="#" class="btn btn-xs amarillo-bottom" style="background-color:#F0D777;" title="Presupuesto" onclick="presupuesto('<?php echo $id; ?>')">Presupuesto</a>
+				<?php endif; ?>
+			    </div>
+			</td>
                     </tr>
                 <?php
 		$ciclo++;

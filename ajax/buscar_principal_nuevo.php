@@ -393,12 +393,6 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                         }
                                     }
                                     
-                                    // Botón de "Generar Recibos IRAD" (Movido aquí)
-                                    if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                        // Usar clases similares a los otros iconos de acción
-                                        echo '<a href="#" class="btn btn-xs btn-action" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
-                                    }
-
                                     // Botón de coordenadas/mapa
                                     if ($latitud!='' && $longitud!='') {
                                         echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
@@ -427,8 +421,30 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 ?>
                                 </div>
                                 
-                                <!-- SEGUNDO: Botones amarillos (Restaurado a posición original) -->
+                                <!-- NUEVA FILA PARA BOTONES ESPECÍFICOS -->
+                                <div class="action-row-special" style="display:flex; flex-wrap:wrap; justify-content:flex-start; border-top:1px solid #eee; margin-top:10px; padding-top:10px;">
+                                    <?php
+                                    // Botón de "Generar Recibos IRAD" (Movido a esta fila)
+                                    if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                        echo '<a href="#" class="btn btn-sm btn-action" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                    }
+                                    
+                                    // Botón de "Presupuesto" (Movido a esta fila)
+                                    if ($estatus == "Presupuesto") {
+                                        echo '<button type="button" class="btn btn-sm btn-action" style="background-color:#dc3545 !important; color:white !important; margin-right:5px; margin-bottom:5px;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i> Presupuesto</button>';
+                                    }
+                                    
+                                    // Badge para "Permiso Autorizado" (Movido a esta fila como botón)
+                                    if ($estatus == "Permiso Autorizado") {
+                                        echo '<span class="btn btn-sm" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px;">Permiso Autorizado</span>';
+                                    }
+                                    ?>
+                                </div>
+                                
+                                <!-- SEGUNDO: Botones amarillos (Mantener solo para otros botones que no sean los específicos) -->
                                 <?php
+                                /*
+                                // DESHABILITADO AL MOVER LOS BOTONES A LA FILA ESPECIAL
                                 // Determinar si hay que mostrar algún botón amarillo
                                 $mostrarBotonAmarillo = false;
                                 $botonAmarilloHTML = '';
@@ -443,11 +459,14 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 if ($mostrarBotonAmarillo) {
                                     echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
                                 }
+                                */
                                 ?>
                                 
-                                <!-- TERCERO: Contenedor para estatus badges (Restaurado a posición original) -->
+                                <!-- TERCERO: Contenedor para estatus badges (Mantener por ahora, pero deshabilitar los que se movieron a la nueva fila) -->
                                 <div class="status-badges-container">
                                     <?php
+                                    /*
+                                    // DESHABILITADO AL MOVER LOS BADGES A LA FILA ESPECIAL
                                     // En lugar de un solo badge, mostraremos badges independientes
                                     
                                     // Badge para "Generar Recibos IRAD" si aplica
@@ -464,6 +483,7 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     if ($estatus == "Permiso Autorizado") {
                                         echo '<div class="estatus-badge estatus-inspeccion"><font size="1">Permiso Autorizado</font></div>';
                                     }
+                                    */
                                     
                                     // Para otros estados, mostramos el estatus original
                                     if ($estatus != "PENDIENTE" && $estatus != "INSPECCION" && $estatus != "Presupuesto" && $estatus != "Permiso Autorizado") {

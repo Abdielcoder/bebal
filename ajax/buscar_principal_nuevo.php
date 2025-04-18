@@ -420,11 +420,8 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     }
                                 ?>
                                 </div>
-
-                                <!-- SEGUNDO: Estatus badge -->
-                                <div class="estatus-badge estatus-inspeccion"><font size="1"><?php echo $estatus; ?></font></div>
                                 
-                                <!-- TERCERO: Botones amarillos SIEMPRE al final -->
+                                <!-- SEGUNDO: Botones amarillos -->
                                 <?php
                                 // Determinar si hay que mostrar algún botón amarillo
                                 $mostrarBotonAmarillo = false;
@@ -453,6 +450,9 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
                                 }
                                 ?>
+                                
+                                <!-- TERCERO: Siempre mostramos el estatus al final -->
+                                <div class="estatus-badge estatus-inspeccion"><font size="1">Permiso Autorizado</font></div>
                             </div>
                         </td>
                     </tr>

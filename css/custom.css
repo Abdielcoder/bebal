@@ -562,15 +562,23 @@ a:hover {
 }
 
 .estatus-badge {
-  display: inline-block;
-  padding: 0.35rem 0.65rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: baseline;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: block !important;
+  width: fit-content !important;
+  margin: 15px auto 5px auto !important;
+  padding: 5px 15px !important;
+  border-radius: 4px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  color: #000 !important;
+  background-color: #AC905B !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  order: 10000 !important; /* Asegura que siempre sea el último elemento */
+  position: relative !important;
+  max-width: 100% !important;
+  border-top: 1px solid #ddd !important;
+  padding-top: 10px !important;
+  margin-top: 15px !important;
 }
 
 .estatus-generar {
@@ -763,8 +771,9 @@ a:hover {
   }
   
   .estatus-badge {
-    margin: 0.5rem auto;
-    display: inline-block;
+    margin-top: 20px !important;
+    width: 100% !important;
+    max-width: 250px !important;
   }
   
   /* Ajustes para la cabecera y botones principales */
@@ -832,11 +841,10 @@ a:hover {
 
 /* Estilos para botones de acción en la tabla */
 .action-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
 .img-thumbnail-custom {
@@ -1274,11 +1282,10 @@ table.registro-table {
 }
 
 .action-buttons {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  width: 100% !important;
 }
 
 .action-row-buttons {
@@ -1286,7 +1293,7 @@ table.registro-table {
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
 
 /* Estilo específico para los botones amarillos que deben aparecer abajo */
@@ -1484,6 +1491,8 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   padding-top: 15px !important;
   border-top: 2px solid #ddd !important;
   clear: both !important;
+  margin-bottom: 5px !important;
+  padding-bottom: 5px !important;
 }
 
 /* Ajuste de los botones de acción normales */

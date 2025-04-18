@@ -7,9 +7,11 @@
 	<div class="modal fade" id="editarGiro" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
+
+<div class="modal-header"  style="background-color:#AC905B;color:white">
+
 			<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h6 class="modal-title" id="myModalLabel"><i class='glyphicon glyphicon-edit'></i> Actualizar Registro Giro</h6>
+			<h6 class="modal-title" id="myModalLabel"><i class='bi bi-pencil'></i> Actualizar Registro Giro</h6>
 		  </div>
 		  <div class="modal-body">
 			<form class="form-horizontal" method="post" id="editar_giro" name="editar_giro">
@@ -25,6 +27,7 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
 <label for="mod_cuenta" class="col-sm-3 control-label">Cuenta</label>
 <div class="col-sm-6">
@@ -32,13 +35,23 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
-<label for="mod_monto_umas" class="col-sm-3 control-label">Monto UMAS</label>
+<label for="mod_monto_umas" class="col-sm-3 control-label"><font size="1">Monto UMAS (Alta)</font></label>
 <div class="col-sm-6">
 <input type="number" class="form-control" step="0.01" id="mod_monto_umas" name="monto_umas" required>
 </div>
 </div>
 
+<br>
+<div class="form-group row">
+<label for="mod_monto_umas_revalidacion_anual" class="col-sm-3 control-label"><font size="1">Monto UMAS (Revalidación Anual)</font></label>
+<div class="col-sm-6">
+<input type="number" class="form-control" step="0.01" id="mod_monto_umas_revalidacion_anual" name="monto_umas_revalidacion_anual" required>
+</div>
+</div>
+
+<br>
 <div class="form-group row">
 <label for="mod_concepto" class="col-sm-3 control-label">Concepto</label>
 <div class="col-sm-6">
@@ -46,6 +59,7 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
 <label for="mod_horario_funcionamiento" class="col-sm-3 control-label">Horario Funcionamiento</label>
 <div class="col-sm-6">

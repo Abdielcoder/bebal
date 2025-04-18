@@ -14,10 +14,11 @@
 		$concepto=ucwords($_POST['concepto']);
 		$cuenta=strtoupper($_POST['cuenta']);
 		$monto_umas=$_POST['monto_umas'];
+		$monto_umas_revalidacion_anual=$_POST['monto_umas_revalidacion_anual'];
 		$horario_funcionamiento=strtoupper($_POST['horario_funcionamiento']);
 		###
 		$today=date("Y-m-d");
-		$sql="INSERT INTO giro (descripcion_giro, cuenta,monto_umas, concepto,horario_funcionamiento, fecha ) VALUES ('$descripcion_giro','$cuenta','$monto_umas','$concepto','$horario_funcionamiento','$today')";
+		$sql="INSERT INTO giro (descripcion_giro, cuenta,monto_umas, concepto,horario_funcionamiento, fecha, monto_umas_revalidacion_anual ) VALUES ('$descripcion_giro','$cuenta','$monto_umas','$concepto','$horario_funcionamiento','$today','.$monto_umas_revalidacion_anual.')";
 		$query_new_insert = mysqli_query($con,$sql);
 			if ($query_new_insert){
 				$messages[] = "Giro ha sido ingresado satisfactoriamente.";

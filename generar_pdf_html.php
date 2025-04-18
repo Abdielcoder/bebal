@@ -1,8 +1,19 @@
 <?php
+
+include('ajax/is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
+
 // Activar mostrado de errores para depuración
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+
+if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
+    header("location: login.php");
+    exit;
+}
+
+
 
 // Incluir configuración de base de datos
 require_once ("config/db.php");

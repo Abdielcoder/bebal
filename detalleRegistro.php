@@ -59,8 +59,9 @@ session_start();
 
 	// Eliminar la inclusión del modal de recibo que ya no usamos
 	include("modal/revisar_pago.php");
+	include("modal/revisar_pagoPresupuesto.php");
 	include("modal/eliminar_registro.php");
-	include("modal/efectuar_inspeccion.php");
+	//include("modal/efectuar_inspeccion.php");
 	include("modal/actualizar_datos_solicitante.php");
 	include("modal/actualizar_datos_establecimiento.php");
 	include("modal/actualizar_giro_modalidad_serviciosesp.php");
@@ -202,8 +203,19 @@ session_start();
 
 #################################
 if (isset($_GET['id'])) {
-    $IDPRINCIPAL = $_GET['id'];
-    $page = isset($_GET['page']) ? $_GET['page'] : 1; // Asegurarse que siempre existe page
+
+    ##$IDPRINCIPAL = $_GET['id'];
+    ##$page = isset($_GET['page']) ? $_GET['page'] : 1; // Asegurarse que siempre existe page
+
+##
+$ID = $_GET['id'];
+##$ID = intval($_GET['id']);
+$porciones = explode("--", $ID);
+$IDPRINCIPAL=intval($porciones[0]);
+$page=$porciones[1];
+$ID_TRAMITE_SOLICITADO=$porciones[2];
+
+
 } else {
     $IDPRINCIPAL = $_POST['IDPRINCIPAL'];
     $page = isset($_POST['page']) ? $_POST['page'] : 1; // Asegurarse que siempre existe page
@@ -215,9 +227,8 @@ if (isset($_GET['id'])) {
 $sqlPrincipal="SELECT * FROM principal WHERE id=".$IDPRINCIPAL;
 $row = mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
 
-
-					$principal_id=$row['id'];
-					$folio=$row['folio'];
+$principal_id=$row['id'];
+$folio=$row['folio'];
 
 $clave_catastral=$row['clave_catastral'];
 $nombre_comercial_establecimiento=$row['nombre_comercial_establecimiento'];
@@ -231,7 +242,12 @@ $nombre_representante_legal_solicitante=$row['nombre_representante_legal_solicit
 $domicilio_solicitante=$row['domicilio_solicitante'];
 $email_solicitante=$row['email_solicitante'];
 $telefono_solicitante=$row['telefono_solicitante'];
+################
+$id_tramite=$row['id_tramite'];
+$id_proceso_tramites=$row['id_proceso_tramites'];
 
+$ID_TRAMITE_SOLICITADO=$id_tramite;
+################
 $id_giro=$row['giro'];
 $modalidad_graduacion_alcoholica=$row['modalidad_graduacion_alcoholica'];
 $modalidad_graduacion_alcoholica_raw=$row['modalidad_graduacion_alcoholica_raw'];
@@ -243,29 +259,42 @@ $servicios_adicionales_raw=$row['servicios_adicionales_raw'];
 $numero_servicios_adicionales=$row['numero_servicios_adicionales'];
 $monto_umas_total_servicios_adicionales=$row['monto_umas_total_servicios_adicionales'];
 
+$numero_permiso=$row['numero_permiso'];
+$estatus=$row['estatus'];
+$operacion=$row['operacion'];
 
-	$numero_permiso=$row['numero_permiso'];
-	$estatus=$row['estatus'];
-	$operacion=$row['operacion'];
+$superficie_establecimiento=$row['superficie_establecimiento'];
+$capacidad_comensales_personas=$row['capacidad_comensales_personas'];
+$rfc=$row['rfc'];
+$fisica_o_moral=$row['fisica_o_moral'];
 
-	$superficie_establecimiento=$row['superficie_establecimiento'];
-	$capacidad_comensales_personas=$row['capacidad_comensales_personas'];
-	$rfc=$row['rfc'];
-	$fisica_o_moral=$row['fisica_o_moral'];
+$observaciones=$row['observaciones'];
+$fecha_alta=$row['fecha_alta'];
+$id_municipio=$row['id_municipio'];
+$delegacion_id=$row['id_delegacion'];
+$colonia_id=$row['id_colonia'];
+$foto=$row['foto'];
 
-	$observaciones=$row['observaciones'];
-	$fecha_alta=$row['fecha_alta'];
-	$id_municipio=$row['id_municipio'];
-	$delegacion_id=$row['id_delegacion'];
-	$colonia_id=$row['id_colonia'];
-	$foto=$row['foto'];
-
+##
+$sql_tramite0="SELECT * FROM tramite WHERE id=".$id_tramite;
+$result_tramite0 = mysqli_query($con,$sql_tramite0);
+$row_tramite0 = mysqli_fetch_assoc($result_tramite0);
+$TRAMITE=$row_tramite0['descripcion_tramite'];
+$MONTO_UMAS_tramite=$row_tramite0['monto_umas'];
+$CUENTA_tramite=$row_tramite0['cuenta'];
 ##
 $sql_giro="SELECT * FROM giro WHERE id=".$id_giro;
 $result_giro = mysqli_query($con,$sql_giro);
 $row_giro = mysqli_fetch_assoc($result_giro);
 $GIRO=$row_giro['descripcion_giro'];
 $HORARIO_FUNCIONAMIENTO=$row_giro['horario_funcionamiento'];
+$MONTO_UMAS_giro=$row_giro['monto_umas'];
+$MONTO_UMAS_REV_CAMB_giro=$row_giro['monto_umas_revalidacion_cambios'];
+$CUENTA_giro=$row_giro['cuenta'];
+
+$COBRO_UMAS_giro=$MONTO_UMAS_giro;      //##  Permiso Nuevo
+
+
 ##
 ##$sql_modalidad_graduacion_alcoholica="SELECT descripcion_modalidad_graduacion_alcoholica FROM modalidad_graduacion_alcoholica WHERE id=".$id_modalidad_graduacion_alcoholica;
 ##$result_modalidad_graduacion_alcoholica = mysqli_query($con,$sql_modalidad_graduacion_alcoholica);
@@ -300,22 +329,42 @@ $COLONIA=$row_colonia['colonia'];
             <div class="encabezado">
                 <h4>Datos del Establecimiento</h4>
             </div>
-            <div class="contenido">
+	    <div class="contenido">
+
+
                 <div class="row fila-datos">
-                    <div class="col-md-2 col-6">
+                    <div class="col-10">
+                        <div class="etiqueta">Tramite</div>
+			<div class="valor valor-destacado"><?php echo $TRAMITE; ?>  {<?php echo number_format($MONTO_UMAS_tramite,2); ?> umas}</div>
+
+
+
+                    </div>
+                    <div class="col-md-2 col-4">
                         <div class="etiqueta">Folio</div>
                         <div class="valor"><?php echo $folio; ?></div>
                     </div>
-                    <div class="col-md-5 col-6">
+                </div>
+
+
+                <div class="row fila-datos">
+                    <div class="col-4">
                         <div class="etiqueta">Giro</div>
-                        <div class="valor"><?php echo $GIRO; ?></div>
+			<div class="valor"><?php echo $GIRO; ?>   {<?php echo number_format($COBRO_UMAS_giro,2) ?> umas}</div>
                     </div>
-                    <div class="col-md-5 col-12 mt-md-0 mt-3">
+                    <div class="col-8">
+                        <div class="etiqueta">Servicios Adicionales</div>
+			<div class="valor valor-destacado"><?php echo $servicios_adicionales; ?> * [<?php echo $numero_servicios_adicionales; ?>] {<?php echo number_format($monto_umas_total_servicios_adicionales,2); ?> umas}</div>
+		    </div>
+		  </div>
+
+
+                <div class="row fila-datos">
+                    <div class="col-12">
                         <div class="etiqueta">Modalidad Graduación Alcohólica</div>
-                        <div class="valor"><?php echo $modalidad_graduacion_alcoholica; ?> * [<?php echo $numero_modalidad_graduacion_alcoholica; ?>] {<?php echo number_format($monto_umas_total_modalidad_graduacion_alcoholica); ?> umas}</div>
+			<div class="valor"><?php echo $modalidad_graduacion_alcoholica; ?> * [<?php echo $numero_modalidad_graduacion_alcoholica; ?>] {<?php echo number_format($monto_umas_total_modalidad_graduacion_alcoholica,2); ?> umas}</div>
                     </div>
                 </div>
-                
 <!-----------------------!>
                 <div class="row fila-datos">
                     <div class="col-md-9 col-6">
@@ -378,7 +427,7 @@ $COLONIA=$row_colonia['colonia'];
                 <div class="row fila-datos">
                     <div class="col-12">
                         <div class="etiqueta">Servicios Adicionales</div>
-                        <div class="valor valor-destacado"><?php echo $servicios_adicionales; ?> * [<?php echo $numero_servicios_adicionales; ?>] {<?php echo number_format($monto_umas_total_servicios_adicionales); ?> umas}</div>
+			<div class="valor valor-destacado"><?php echo $servicios_adicionales; ?> * [<?php echo $numero_servicios_adicionales; ?>] {<?php echo number_format($monto_umas_total_servicios_adicionales,2); ?> umas}</div>
                     </div>
                 </div>
 
@@ -454,11 +503,10 @@ $COLONIA=$row_colonia['colonia'];
         
         
         <!-- Botones de acción -->
-	<div class="area-botones">
-
-       <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>
+	<!-- <div class="area-botones"> --!>
+	<center><div>
+       <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>&nbsp;
           
-       <a href="generar_pdf_html.php?id=<?php echo $IDPRINCIPAL; ?>" target="_blank" class="btn btn-danger"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>
 
 
 
@@ -466,25 +514,104 @@ $COLONIA=$row_colonia['colonia'];
 <?php 	
 
 
-switch ($estatus) {
 ##
-case 'Generar Recibo Inspeccion':
-//** Inspección - Permiso Nuevo ( tabla tramites )
+if ( $estatus=='Generar Recibos IRAD' || $estatus=='Pago INS' ||  $estatus=='Pago RAD' ) {
+
+#################
+echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>&nbsp;';
+#################
+//** Inspección ( tabla tramites )
 ##
-$sql_tramite="SELECT id FROM tramite WHERE descripcion_tramite='Inspección - Permiso Nuevo'";
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";
 $result_tramite = mysqli_query($con,$sql_tramite);
 $row_tramite = mysqli_fetch_assoc($result_tramite);
 $ID_TRAMITE=$row_tramite['id'];
+$MONTO_UMAS_Inspeccion=$row_tramite['monto_umas'];
+
+#### RECIBO INSPECCION
+if ( $estatus=='Pago INS' )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Inspección</font></a>&nbsp;';
+}
+#### Revisar Pago INSP
+$ID_PAGO_INS=0;
+$ID_PAGO_RAD=0;
 ##
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="2"> Recibo Inspección</font></a>';
+$sql_pagoI="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
+$result_pagoI = mysqli_query($con,$sql_pagoI);
+if (mysqli_num_rows($result_pagoI) > 0) {
+$row_pagoI = mysqli_fetch_assoc($result_pagoI);
+$ID_PAGO_INS=$row_pagoI['id'];
+} else {
+$ID_PAGO_INS=0;
+}
+##
+if ( $estatus=='Pago INS' )  {
+$sql_pagoI2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
+$result_pagoI2 = mysqli_query($con,$sql_pagoI2);
+if (mysqli_num_rows($result_pagoI2) > 0) {
+$row_pagoI2 = mysqli_fetch_assoc($result_pagoI2);
+$fecha_pagoI2=$row_pagoI2['fecha_pago'];
+$montoI2=$row_pagoI2['monto'];
+##echo '<font size="1"><b>Inspección Pagada ('.$fecha_pagoI2.') $'.number_format($montoI2,2).'</b></font>&nbsp;';
+} else {
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP Pagado</font></a>&nbsp;';
+##echo '<font size="1" color="red"><b>Error Pago Inspeccion</b></font>&nbsp;';
+}
+} else {
+echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'"  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
+ data-total_umas_pagar="'.$MONTO_UMAS_Inspeccion.'"
+ data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger bs-sm" title="Pago Inspección"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>&nbsp;';
+}
+### RECEPCION ANALISIS DE DOCUMENTOS
+//** Análisis y Revisión Documentos ( tabla tramites )
+##
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Recepcion y Analisis Documentos'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$MONTO_UMAS_RAD=$row_tramite['monto_umas'];
+##
+if ( $estatus=='Pago RAD' )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
+}
+#### Revisar Pago RAD
+#### 
+$sql_pagoRAD="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
+$result_pagoRAD = mysqli_query($con,$sql_pagoRAD);
+if (mysqli_num_rows($result_pagoRAD) > 0) {
+$row_pagoRAD = mysqli_fetch_assoc($result_pagoRAD);
+$ID_PAGO_RAD=$row_pagoRAD['id'];
+} else {
+$ID_PAGO_RAD=0;
+}
+##
+##
+if ( $estatus=='Pago RAD' )  {
+	$sql_pagoRAD2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
+$result_pagoRAD2 = mysqli_query($con,$sql_pagoRAD2);
+if (mysqli_num_rows($result_pagoRAD2) > 0) {
+$row_pagoRAD2 = mysqli_fetch_assoc($result_pagoRAD2);
+$fecha_pagoRAD2=$row_pagoRAD2['fecha_pago'];
+$montoRAD2=$row_pagoRAD2['monto'];
+##echo '<font size="1"><b>RAD Pagado ('.$fecha_pagoRAD2.') $'.number_format($montoRAD2,2).'</b></font>&nbsp;';
+} else {
+//echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>&nbsp;';
+}
+} else {
+echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-tramite_pagoid="'.$ID_TRAMITE.'"
+ data-total_umas_pagar="'.$MONTO_UMAS_RAD.'"
+ data-tramite_pago="Recepcion y Analisis Documentos"  class="btn btn-danger bs-sm" title="Revisar Pago RA Documentos"><i class="bi bi-check-circle"></i><font size="1">Pago RADocs('.$ID_PAGO_RAD.')</font></a>&nbsp;';
+}
+###################               
+###################               
+###################               
+if ( $estatus=='Generar Recibos IRAD' ) {
 
-echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"  data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspección - Permiso Nuevo"  class="btn btn-danger bs-sm" title="Revisar Pago Inspección"><i class="bi bi-check-circle"></i><font size="2"> Revisar Pago Inspeción </font></a>';
+echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><i class="bi bi-trash"></i><font size="1" color="red"> </font></a>&nbsp;';
 
-                
-echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><i class="bi bi-trash"></i><font size="2" color="red"> Eliminar Registro</font></a>';
-
-
-##echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><i class="bi bi-pencil"></i><font size="2"> Actualizar Registro</font></a>';
 
 echo '<div class="dropup">';
 echo '<button class="dropbtn"><font size="1">Actualizar Registro</font></button>';
@@ -496,51 +623,64 @@ echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-
 echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><i class="bi bi-pencil"></i><font size="2" color="white"> Datos del Solicitante</font></a>';
 echo '</div>';
 echo '</div>';
+}
 
-break;
 
+}
+###################               
+###################               
+###################               
 ##
-case 'Efectuar Inspeccion':
-echo '<a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="2"> Registrar Inspección </font></a>';
-break;
+if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
+	##echo '<a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
 
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP-RAD Pagados</font></a>&nbsp;';
+
+	
+echo '<a href="principalFotos.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
 ##
-case 'Inspeccion Realizada':
-
-//** Análisis y Revisión Documentos - Permiso Nuevo ( tabla tramites )
-##
-$sql_tramite="SELECT id FROM tramite WHERE descripcion_tramite='Análisis y Revisión Documentos - Permiso Nuevo'";
-$result_tramite = mysqli_query($con,$sql_tramite);
-$row_tramite = mysqli_fetch_assoc($result_tramite);
-$ID_TRAMITE=$row_tramite['id'];
-##
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="2"> Recibo AR Documentos</font></a>';
-
-
-echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Análisis y Revisión Documentos - Permiso Nuevo"  class="btn btn-danger bs-sm" title="Revisar Pago AR Docuentos"><i class="bi bi-check-circle"></i><font size="2"> Revisar Pago AR Documentos</font></a>';
-
-
-break;
-##
-
-default:
-
+echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
 
 }
 
 
+###################               
+###################               
+###################               
+##
+if ( $estatus=='Presupuesto' )  {
 
+$concepto_tramite=$TRAMITE." {".number_format($MONTO_UMAS_tramite,2)." umas}";
+$concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
+$concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
+$concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
+$MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
+echo '<a href="datosParaPagar_pdf_Nuevo_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>&nbsp;';
 
+echo '<a href="#revisarPagoPresupuesto" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuesto" 
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 
+ data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" 
+ data-concepto_tramite="'.$concepto_tramite.'"  
+ data-tramite_pago="Permiso Nuevo Presupuesto"  
+ data-concepto_giro="'.$concepto_giro.'"  
+ data-id_tramite="'.$id_tramite.'"  
+ data-id_proceso_tramites="'.$id_proceso_tramites.'"  
+ data-concepto_modalidad="'.$concepto_modalidad.'"  
+ data-concepto_servicios_adicionales="'.$concepto_servicios_adicionales.'"  
+ data-total_umas_pagar="'.$MONTO_TOTAL_UMAS.'"  
+class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>&nbsp;';
 
-
-
-
+}
+ ## LOS ELIMINE
+ ##data-tramite_pagoid="'.$ID_TRAMITE.'" 
+ ##data-id_pago_ins="'.$ID_PAGO_INS.'"  
+ ##data-id_pago_rad="'.$ID_PAGO_RAD.'" 
 ?>
 
 
+	</div></center>
 
 
-        </div>
     </div>
 </div>
 
@@ -551,6 +691,7 @@ default:
 <?php include("footer.php"); ?>
 
 <script>
+
 $( "#registro_guardar_pago" ).submit(function( event ) {
   $('#Button_registro_guardar_pago').attr("disabled", true);
   
@@ -575,6 +716,35 @@ $( "#registro_guardar_pago" ).submit(function( event ) {
 	});
   event.preventDefault();
 });
+
+
+$( "#registro_guardar_pago_presupuesto" ).submit(function( event ) {
+  $('#Button_registro_guardar_pago_presupuesto').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/registro_guardar_pago_presupuesto.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxPagoPresupuesto").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxPagoPresupuesto").html(datos);
+                        $('#Button_registro_guardar_pago_presupuesto').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 3000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
 
 $( "#registro_guardar_inspeccion" ).submit(function( event ) {
   $('#Button_registro_guardar_inspeccion').attr("disabled", true);
@@ -643,8 +813,21 @@ $(document).ready(function() {
         var idPrincipal = $(this).data('idprincipal');
         var pagina = $(this).data('pagina');
         var tramite_pagoid = $(this).data('tramite_pagoid');
-        var tramite_pago = $(this).data('tramite_pago');
-        var tramite_pago = $(this).data('tramite_pago');
+	var tramite_pago = $(this).data('tramite_pago');
+
+	var id_proceso_tramites = $(this).data('id_proceso_tramites');
+
+        var id_pago_rad = $(this).data('id_pago_rad');
+	var id_pago_ins = $(this).data('id_pago_ins');
+
+        var concepto_tramite = $(this).data('concepto_tramite');
+        var concepto_giro = $(this).data('concepto_giro');
+        var concepto_modalidad = $(this).data('concepto_modalidad');
+        var concepto_servicios_adicionales = $(this).data('concepto_servicios_adicionales');
+	var total_umas_pagar = $(this).data('total_umas_pagar');
+
+	var id_tramite = $(this).data('id_tramite');
+
         
         // Abrir el modal utilizando Bootstrap 5
         var myModal = new bootstrap.Modal(document.querySelector(target));
@@ -676,6 +859,17 @@ $(document).ready(function() {
         $(target + ' #mod_servicios_adicionales').val(servicios_adicionales);
 
 	// --
+	$(target + ' #mod_concepto_tramite').val(concepto_tramite);
+	$(target + ' #mod_concepto_giro').val(concepto_giro);
+	$(target + ' #mod_concepto_modalidad').val(concepto_modalidad);
+	$(target + ' #mod_concepto_servicios_adicionales').val(concepto_servicios_adicionales);
+	$(target + ' #mod_total_umas_pagar').val(total_umas_pagar);
+
+	$(target + ' #mod_id_tramite').val(id_tramite);
+	$(target + ' #mod_id_proceso_tramites').val(id_proceso_tramites);
+
+        $(target + ' #mod_id_pago_rad').val(id_pago_rad);
+        $(target + ' #mod_id_pago_ins').val(id_pago_ins);
         $(target + ' #mod_tramite_pago').val(tramite_pago);
         $(target + ' #mod_tramite_pagoid').val(tramite_pagoid);
         $(target + ' #mod_folio').val(folio);

@@ -24,14 +24,11 @@ $MUNICIPIO=$row_municipio['municipio'];
 		  <div class="modal-body">
 			<form class="form-horizontal" method="post" id="guardar_colonia" name="guardar_colonia">
 			<div id="resultados_ajaxColonia"></div>
+
+
 <div class="form-group row">
-
-
 <?php
-
 echo '<input type="hidden" id="id_municipio" name="id_municipio" value="'.$ID_MUNICIPIO.'">';
-
-
 echo '<label for="id_delegacion" class="col-sm-3 control-label"><font color="blue">'.$MUNICIPIO.'</font>/Delegación</label>';
 ?>
 <div class="col-sm-8">
@@ -40,10 +37,8 @@ echo '<label for="id_delegacion" class="col-sm-3 control-label"><font color="blu
 echo '<option value="">Seleccione</option>';
 $query=mysqli_query($con,"SELECT * FROM delegacion WHERE id_municipio=".$ID_MUNICIPIO);
 while($row=mysqli_fetch_array($query))	{
-
 $id_delegacion=$row['id'];
 $delegacion=$row['delegacion'];
-
 echo '<option value="'.$id_delegacion.'">'.$delegacion.'</option>';
 }
 ?>
@@ -51,25 +46,25 @@ echo '<option value="'.$id_delegacion.'">'.$delegacion.'</option>';
 </div>
 </div>
 
+<br>
 
-	<div class="form-group row">
-	<label for="colonia" class="col-sm-3 control-label">Nombre Colonia</label>
-	<div class="col-sm-8">
-	<input type="text" class="form-control" id="colonia" name="colonia" required>
-	</div>
-	</div>
+<div class="form-group row">
+<label for="colonia" class="col-sm-3 control-label">Nombre Colonia</label>
+<div class="col-sm-8">
+<input type="text" class="form-control" id="colonia" name="colonia" required>
+</div>
+</div>
 			 
-				  
 			
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
-			<button type="submit" class="btn btn-primary" id="Button_guardar_colonia"> Guardar Colonia </button>
-		  </div>
-		  </form>
-		</div>
-	  </div>
-	</div>
+</div>
+ <div class="modal-footer">
+<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
+<button type="submit" class="btn btn-primary" id="Button_guardar_colonia"> Guardar Colonia </button>
+  </div>
+  </form>
+ </div>
+ </div>
+</div>
 	<?php
 		}
 	?>

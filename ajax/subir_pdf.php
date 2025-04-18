@@ -41,18 +41,19 @@ if ($pdf_archivo['size'] > $max_size) {
 }
 
 // Crear directorio para los PDFs si no existe
-$directorio_base = '../uploads/pdfs';
+$directorio_base = '../../bebal_docs';
 if (!file_exists($directorio_base)) {
     mkdir($directorio_base, 0777, true);
 }
 
-$directorio_registro = $directorio_base . '/' . $id_registro;
+$directorio_registro=$directorio_base;
 if (!file_exists($directorio_registro)) {
     mkdir($directorio_registro, 0777, true);
 }
 
 // Generar nombre único para el archivo
-$nombre_archivo = uniqid() . '_' . time() . '_' . preg_replace('/[^a-zA-Z0-9_.-]/', '', $pdf_archivo['name']);
+//$nombre_archivo = uniqid() . '_' . time() . '_' . preg_replace('/[^a-zA-Z0-9_.-]/', '', $pdf_archivo['name']);
+$nombre_archivo='chang_'.$id_registro.'.pdf';
 $ruta_destino = $directorio_registro . '/' . $nombre_archivo;
 
 // Mover el archivo subido al directorio destino

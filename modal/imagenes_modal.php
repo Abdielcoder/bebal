@@ -2,8 +2,10 @@
 <div class="modal fade" id="imagenesModal" tabindex="-1" aria-labelledby="imagenesModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="imagenesModalLabel">Imágenes del registro</h5>
+
+<div class="modal-header"  style="background-color:#AC905B;color:white">
+
+        <h6 class="modal-title" id="imagenesModalLabel">Imágenes del registro</h6>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -23,7 +25,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <a id="btnAdministrarFotos" href="#" class="btn btn-primary me-auto">Administrar fotos</a>
+<!--<a id="btnAdministrarFotos" href="#" class="btn btn-primary me-auto">Administrar fotos</a>--!>
         <button type="button" class="btn btn-dorado" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>

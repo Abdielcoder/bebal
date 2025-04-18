@@ -1,6 +1,6 @@
 		function load(page){
 			var q = $("#q").val();
-			
+
 			// Mostrar el indicador de carga
 			$("#loadingOverlay").addClass("active");
 			$("#loader").fadeIn('slow');

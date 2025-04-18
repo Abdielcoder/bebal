@@ -59,7 +59,7 @@
 		include 'pagination.php'; //include pagination file
 		//pagination variables
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 10; //how much records you want to show
+		$per_page = 5; //how much records you want to show
 		$adjacents  = 4; //gap between pages after number of adjacents
 		$offset = ($page - 1) * $per_page;
 		//Count the total number of row in your table*/
@@ -67,7 +67,23 @@
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './colonia.php';
+
+    // Validar que la página solicitada esté dentro del rango válido
+    if ($page < 1) $page = 1;
+    if ($page > $total_pages && $total_pages > 0) $page = $total_pages;
+
+    // Recalcular el offset basado en la página validada
+    $offset = ($page - 1) * $per_page;
+
+    // Definir URL de recarga para la paginación (mantiene la búsqueda)
+    $reload = './colonia.php';
+    if (!empty($q)) {
+        $reload .= "?q=" . urlencode($q) . "&";
+    } else {
+        $reload .= "?";
+    }
+
+
 		//main query to fetch the data
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
@@ -76,14 +92,17 @@
 			
 			?>
 			<div class="table-responsive">
-			<table class="table">
+			<table class="table registro-table">
+                	<thead>
 			<tr  class="success">
-			<th><font size="2">Nombre Colonia</font></th>
-			<th><font size="2">Delegación</font></th>
-			<th><font size="2">Municipio</font></th>
-			<th class='text-right'><font size="2">Acciones</font></th>
-					
-				</tr>
+			<th><font size="1">Nombre Colonia</font></th>
+			<th><font size="1">Delegación</font></th>
+			<th><font size="1">Municipio</font></th>
+			<th class='text-right'><font size="1">Acciones</font></th>
+			</tr>
+
+                	</thead>
+                	<tbody>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
 				$id=$row['id'];
@@ -113,9 +132,9 @@
 
 				<tr>
 						
-				<td><font size="2"><?php echo $colonia; ?></font></td>
-				<td><font size="2"><?php echo $DELEGACION; ?></font></td>
-				<td><font size="2"><?php echo $MUNICIPIO; ?></font></td>
+				<td><font size="1"><?php echo $colonia; ?></font></td>
+				<td><font size="1"><?php echo $DELEGACION; ?></font></td>
+				<td><font size="1"><?php echo $MUNICIPIO; ?></font></td>
 						
 				<td class='text-right'>
 <?php
@@ -124,22 +143,44 @@ echo '<a href="#" class="btn btn-outline-success" title="Editar Colonia" onclick
 echo '&nbsp;&nbsp;';
 
 echo '<a href="#" class="btn btn-outline-danger" title="Eliminar Colonia" onclick="eliminar('.$id.')"><i class="bi bi-trash bg-warnig"></i></a>';
+	echo '</td>';
+	echo '</tr>';
+	}  //** while
 ?>
-					</td>
-						
-					</tr>
-					<?php
-				}
-				?>
-				<tr>
-					<td colspan=4><span class="pull-right">
-					<?php
-					 echo paginate($reload, $page, $total_pages, $adjacents);
-					?></span></td>
-				</tr>
-			  </table>
-			</div>
-			<?php
-		}
-	}
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pagination-container text-center mt-4">
+                    <?php
+                    // Asegurarse de que la paginación use el parámetro 'page' para mantener consistencia
+                    echo paginate($reload, $page, $total_pages, $adjacents);
+                    ?>
+                </div>
+                <div class="col-md-12 text-center">
+                    <p class="text-muted">
+<!--                       Mostrando <?php echo min($numrows, ($offset+1)); ?> al
+                        <?php echo min($offset+$per_page, $numrows); ?> de
+                        <?php echo $numrows; ?> registros --!>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <?php
+    } else {
+        // No hay resultados
+        ?>
+        <div class="alert alert-warning text-center">No hay resultados para esta búsqueda.</div>
+        <?php
+    }
+} else {
+    echo "No se ha especificado una acción válida.";
+}
 ?>
+
+

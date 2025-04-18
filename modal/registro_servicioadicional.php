@@ -22,6 +22,7 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
 <label for="cuenta" class="col-sm-3 control-label">Cuenta</label>
 <div class="col-sm-6">
@@ -29,6 +30,7 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
 <label for="monto_umas" class="col-sm-3 control-label">Monto UMAS</label>
 <div class="col-sm-6">
@@ -36,6 +38,7 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
 <label for="concepto" class="col-sm-3 control-label">Concepto</label>
 <div class="col-sm-6">

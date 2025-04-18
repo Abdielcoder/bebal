@@ -12,8 +12,8 @@ $nombre_comercial_establecimiento=$_GET["nombre_comercial_establecimiento"];
 ?>
  <style>
   #map {
-  widh: 50px;
-  height: 270px; }
+  width: 450px;
+  height: 300px; }
  </style>
  
  </head>
@@ -34,13 +34,15 @@ L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 L.control.scale().addTo(map);
 <?php
-echo 'L.marker(['.$dbLat.', '.$dbLon.'], {draggable: false, title:"'.$Placas.'"}).addTo(map);';
+echo 'L.marker(['.$dbLat.', '.$dbLon.'], {draggable: false, title:"'.$nombre_comercial_establecimiento.'"}).addTo(map);';
 ?>
 
  </script>
  </body>
 <?php
-echo '<font size=1 color=skyblue>'.$nombre_comercial_establecimiento.', Lat='.$dbLat.', Lon='.$dbLon;
+echo '<br>';
+//echo '<font size=4 color=black>'.$nombre_comercial_establecimiento.', Lat='.$dbLat.', Lon='.$dbLon;
+echo '<font size=4 color=black>'.$nombre_comercial_establecimiento;
 ?>
  </html>
 

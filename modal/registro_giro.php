@@ -23,6 +23,7 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
 <label for="cuenta" class="col-sm-3 control-label">Cuenta</label>
 <div class="col-sm-6">
@@ -30,13 +31,24 @@
 </div>
 </div>
 
+<br>
 <div class="form-group row">
-<label for="monto_umas" class="col-sm-3 control-label">Monto UMAS</label>
+<label for="monto_umas" class="col-sm-3 control-label"><font size="1">Monto UMAS (ALTA)</font></label>
 <div class="col-sm-6">
 <input type="number" class="form-control" step="0.01" id="monto_umas" name="monto_umas" required>
 </div>
 </div>
 
+<br>
+
+<div class="form-group row">
+<label for="monto_umas_revalidacion_anual" class="col-sm-3 control-label"><font size="1">Monto UMAS (Revalidación Anual)</font></label>
+<div class="col-sm-6">
+<input type="number" class="form-control" step="0.01" id="monto_umas_revalidacion_anual" name="monto_umas_revalidacion_anual" required>
+</div>
+</div>
+
+<br>
 <div class="form-group row">
 <label for="concepto" class="col-sm-3 control-label">Concepto</label>
 <div class="col-sm-6">
@@ -44,6 +56,7 @@
 </div>
 </div>
 			 
+<br>
 				  
 <div class="form-group row">
 <label for="horario_funcionamiento" class="col-sm-3 control-label">Horario Funcionamiento</label>

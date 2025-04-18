@@ -17,7 +17,7 @@
 			  <strong>Aviso!</strong> Dato Eliminado Exitosamente.
 			</div>
 			<?php 
-		}else {
+		} else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
 			  <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -67,7 +67,23 @@
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './serviciosAdicionales.php';
+
+    // Validar que la página solicitada esté dentro del rango válido
+    if ($page < 1) $page = 1;
+    if ($page > $total_pages && $total_pages > 0) $page = $total_pages;
+
+    // Recalcular el offset basado en la página validada
+    $offset = ($page - 1) * $per_page;
+
+    // Definir URL de recarga para la paginación (mantiene la búsqueda)
+    $reload = './serviciosAdicionales.php';
+    if (!empty($q)) {
+        $reload .= "?q=" . urlencode($q) . "&";
+    } else {
+        $reload .= "?";
+    }
+
+
 		//main query to fetch the data
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
@@ -76,15 +92,17 @@
 			
 			?>
 			<div class="table-responsive">
-			<table class="table">
+			<table class="table  registro-table">
+                <thead>
 			<tr  class="success">
-			<th><font size="2">Servicio Adicional</font></th>
-			<th><font size="2">Cuenta</font></th>
-			<th><font size="2">Monto UMAS</font></th>
-			<th><font size="2">Concepto</font></th>
-			<th><font size="2">Acciones</font></th>
-				
-				</tr>
+			<th><font size="1">Servicio Adicional</font></th>
+			<th><font size="1">Cuenta</font></th>
+			<th><font size="1">Monto UMAS</font></th>
+			<th><font size="1">Concepto</font></th>
+			<th><font size="1">Acciones</font></th>
+			</tr>
+                </thead>
+                <tbody>
 <?php
 	while ($row=mysqli_fetch_array($query)){
 	$id=$row['id'];
@@ -109,8 +127,8 @@
 			<tr>
 						
 			<td><font size="2"><?php echo $descripcion_servicios_adicionales; ?></font></td>
-			<td><font size="2"><?php echo $cuenta; ?></font></td>
-			<td><font size="2"><?php echo $monto_umas; ?></font></td>
+			<td align="center"><font size="2"><?php echo $cuenta; ?></font></td>
+			<td align="center"><font size="2"><?php echo $monto_umas; ?></font></td>
 			<td><font size="2"><?php echo $concepto; ?></font></td>
 			<td class='text-right'>
 <?php
@@ -119,24 +137,45 @@ echo '<a href="#" class="btn btn-outline-success" title="Editar Servicio Adicion
 
 echo '&nbsp;&nbsp;';
 
-echo '<a href="#" class="btn btn-outline-danger" title="Eliminar Servicio Adicional" onclick="eliminar('.$id.')"><i class="bi bi-trash bg-warnig"></i></a>';
+echo '<a href="#" class="btn btn-outline-danger" title="Eliminar Servicio Adicional" onclick="#eliminar('.$id.')"><i class="bi bi-trash bg-warnig"></i></a>';
 
 
-?>
 						
-					</tr>
-					<?php
-				}
-				?>
-				<tr>
-					<td colspan=4><span class="pull-right">
-					<?php
-					 echo paginate($reload, $page, $total_pages, $adjacents);
-					?></span></td>
-				</tr>
-			  </table>
-			</div>
-			<?php
-		}
-	}
+	echo '</tr>';
+} //** while
+?>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pagination-container text-center mt-4">
+                    <?php
+                    // Asegurarse de que la paginación use el parámetro 'page' para mantener consistencia
+                    echo paginate($reload, $page, $total_pages, $adjacents);
+                    ?>
+                </div>
+                <div class="col-md-12 text-center">
+                    <p class="text-muted">
+<!--                       Mostrando <?php echo min($numrows, ($offset+1)); ?> al
+                        <?php echo min($offset+$per_page, $numrows); ?> de
+                        <?php echo $numrows; ?> registros --!>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <?php
+    } else {
+        // No hay resultados
+        ?>
+        <div class="alert alert-warning text-center">No hay resultados para esta búsqueda.</div>
+        <?php
+    }
+} else {
+    echo "No se ha especificado una acción válida.";
+}
 ?>

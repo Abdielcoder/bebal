@@ -27,24 +27,30 @@ background-color: #3CBC8D;
 
 	  <div class="modal-dialog modal-lg"  role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
-			<h5 class="modal-title" id="EfectuarInspeccionLabel"><i class="bi bi-clipboard-check"></i> Registrar Inspección</h5>
-<!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --!>
+
+<div class="modal-header"  style="background-color:#AC905B;color:white">
+
+			<h6 class="modal-title" id="EfectuarInspeccionLabel"><i class="bi bi-clipboard-check"></i> Registrar Inspección</h6>
+ <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
 		  </div>
 		  <div class="modal-body">
 			<form class="form-horizontal" method="post" id="registro_guardar_inspeccion" name="registro_guardar_inspeccion">
 			<div id="resultados_ajaxInspeccion"></div>
-<input type="hidden" id="mod_idprincipal" name="idprincipal">
-<input type="hidden" id="mod_pagina" name="page">
-<input type="hidden" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento">
-<input type="hidden" id="mod_folio" name="folio">
+
+
 
 			<div class="mb-3 row">
 
+
 <label for="mod_nombre_comercial_establecimiento" class="col-sm-4 col-form-label">Nombre Establecimiento</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="mod_nombre_comercial_establecimiento" name="mod_nombre_comercial_establecimiento"  disabled>
-<input type="hidden" id="mod_id" name="mod_id">
+<input type="text" class="form-control" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento"  disabled>
+
+
+
+
+
+
 </div>
 </div>
 
@@ -54,6 +60,14 @@ background-color: #3CBC8D;
 <input type="text" class="form-control" id="mod_folio" name="mod_folio"  disabled>
 </div>
 </div>
+
+<input type="hidden" id="mod_id" name="mod_id">
+<input type="hidden" id="mod_id_tramite" name="id_tramite">
+<input type="hidden" id="mod_pagina" name="pagina">
+<input type="hidden" id="mod_idprincipal" name="idprincipal">
+<input type="hidden" id="mod_id_proceso_tramites" name="id_proceso_tramites">
+<input type="hidden" id="mod_folio" name="folio">
+
 
 <?php
 ###
@@ -76,12 +90,12 @@ echo '</div>';
 <?php
 ###
 echo '<div class="mb-3 row">';
-echo '<label for="latitud" class="col-sm-2 col-form-label">Latitud</label>';
+echo '<label for="latitud" class="col-sm-2 col-form-label">Latitud<br><font size="2" color="blue">Ej: 32.5317397</font></label>';
 echo '<div class="col-sm-4">';
 echo '<input type="text" class="form-control required" title="Enter Latitud ( 32.5317387 )"  pattern="(32\.)[\d]{6,}"  id="latitud" name="latitud" maxlength="12" autocomplete="off"   required>';
 echo '</div>';
 //##
-echo '<label for="longitud" class="col-sm-2 col-form-label">Longitud</label>';
+echo '<label for="longitud" class="col-sm-2 col-form-label">Longitud<br><font size="2" color="blue">Ej: -117.019529</font></label>';
 echo '<div class="col-sm-4">';
 echo '<input type="text" class="form-control required"  title="Enter Longitud (-117.019529)"   pattern="(-)(116|117)(\.)[\d]{6,}" id="longitud" name="longitud" maxlength="12" autocomplete="off"  required>';
 echo '</div>';
@@ -107,7 +121,7 @@ echo '</div>';
 			
 		  </div>
 		  <div class="modal-footer">
-<!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>--!>
+<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
 <button type="submit" class="btn btn-primary" id="Button_registro_guardar_inspeccion"  style="background-color:#AC905B;color:black"> Registrar Inspección </button>
 		  </div>
 		  </form>

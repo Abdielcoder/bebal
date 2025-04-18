@@ -13,6 +13,7 @@ $conf['contrasena']="Mexico@_1966";
 $conf['basededatos']="bebal";
 
 // Fotos
+define("PDFS","bebal_docs/");
 define("FOTOSORIGINALES","bebal_images/originales/");
 define("FOTOSMEDIAS","bebal_images/medias/");
 define("FOTOSTHUMB","bebal_images/thumbs/");
@@ -21,5 +22,6 @@ define("ALTOMEDIO","480");
 define("ANCHOTHUMB","80");
 define("ALTOTHUMB","80");
 
+define("IPADDRESS","98.80.116.118");
 
 ?>

@@ -19,6 +19,7 @@ $ID = $_GET['id'];
 $porciones = explode("--", $ID);
 $id=intval($porciones[0]);
 $ID_TRAMITE=intval($porciones[1]);
+$ID_TRAMITE_SOLICITADO=intval($porciones[2]);
 
 ##
 $sql_tramite="SELECT * FROM tramite WHERE id=".$ID_TRAMITE;
@@ -29,6 +30,19 @@ $CUENTA=$row_tramite['cuenta'];
 $MONTO_UMAS=$row_tramite['monto_umas'];
 $CONCEPTO=$row_tramite['concepto'];
 ##
+
+##
+$sql_tramite1="SELECT * FROM tramite WHERE id=".$ID_TRAMITE_SOLICITADO;
+$result_tramite1 = mysqli_query($con,$sql_tramite1);
+$row_tramite1 = mysqli_fetch_assoc($result_tramite1);
+$DESCRIPCION_TRAMITE_SOLICITADO=$row_tramite1['descripcion_tramite'];
+$CUENTA_SOLICITADO=$row_tramite1['cuenta'];
+$MONTO_UMAS_SOLICITADO=$row_tramite1['monto_umas'];
+$CONCEPTO_SOLICITADO=$row_tramite1['concepto'];
+##
+
+
+
 
 
 // Consultar datos del establecimiento
@@ -290,7 +304,21 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
         
 	<div class="main-title">
 <?php
+
+switch ($DESCRIPCION_TRAMITE) {
+
+case "Inspeccion":
+	$DESCRIPCION_TRAMITE='Inspección';
+        break;
+case "Recepcion y Analisis Documentos":
+	$DESCRIPCION_TRAMITE='Recepción y Análisis Documentos';
+	break;
+//default:
+}
+
+
 echo '<h1>Datos Para Pago <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
             <h4>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h4>

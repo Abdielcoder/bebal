@@ -12,6 +12,7 @@
             $active_tramite = false;
             $active_modalidad = false;
             $active_serviciosAdicionales = false;
+            $active_Generales = false;
             
             // Verificar la URL actual para determinar cuál debe estar activo
             $current_page = basename($_SERVER['PHP_SELF']);
@@ -31,7 +32,9 @@
             } elseif ($current_page == 'modalidad.php') {
                 $active_modalidad = true;
             } elseif ($current_page == 'serviciosAdicionales.php') {
-                $active_serviciosAdicionales = true;
+		$active_serviciosAdicionales = true;
+            } elseif ($current_page == 'Generales.php') {
+		$active_Generales = true;
             } else {
                 // Por defecto, activar Lista si no estamos en ninguna de las páginas específicas
                 $active_principal = true;
@@ -68,10 +71,7 @@ if ( $PROFILE=='admin' ) {
 
 <li class="nav-item <?php if ($active_modalidad){echo 'active-item';}?>"><a class="nav-link <?php if ($active_modalidad){echo 'active';}?>" href="modalidad.php"><i class='bi bi-sliders'></i><font size="1"> Modalidad</font></a></li>
 <li class="nav-item <?php if ($active_serviciosAdicionales){echo 'active-item';}?>"><a class="nav-link <?php if ($active_serviciosAdicionales){echo 'active';}?>" href="serviciosAdicionales.php"><i class='bi bi-plus-circle-fill'></i><font size="1"> Serv Adicionales</font></a></li>
-<?php } else { ?>
-<li class="nav-item <?php if ($active_usuarios){echo 'active-item';}?>"><a class="nav-link <?php if ($active_usuarios){echo 'active';}?>" href="#"><i class='bi bi-people-fill'></i><font size="1"> Usuarios</font></a></li>
-<li class="nav-item <?php if ($active_colonias){echo 'active-item';}?>"><a class="nav-link <?php if ($active_colonias){echo 'active';}?>" href="#"><i class='bi bi-pin-map-fill'></i><font size="1"> Colonias</font></a></li>
-<li class="nav-item <?php if ($active_delegaciones){echo 'active-item';}?>"><a class="nav-link <?php if ($active_delegaciones){echo 'active';}?>" href="#"><i class='bi bi-building-fill'></i><font size="1"> Delegaciones</font></a></li>
+<li class="nav-item <?php if ($active_Generales){echo 'active-item';}?>"><a class="nav-link <?php if ($active_Generales){echo 'active';}?>" href="Generales.php"><i class='bi bi-asterisk'></i><font size="1"> Generales</font></a></li>
 <?php
 }
 
@@ -102,7 +102,7 @@ if ( $active_principal) {
 ?>
 
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="http://AppstravagenceSystems.com/contacto/" target='_blank'><i class='bi bi-envelope text-secondary'></i> Soporte</a></li>
+        <li class="nav-item"><a class="nav-link" href="http://https://www.mexcaptijuana.com" target='_blank'><i class='bi bi-envelope text-secondary'></i> Soporte</a></li>
 		<li class="nav-item"><a class="nav-link" href="login.php?logout"><i class='bi bi-power text-secondary'></i> Salir</a></li>
       </ul>
 <?php

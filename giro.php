@@ -45,7 +45,27 @@
 
         <?php
         include("modal/registro_giro.php");
-        include("modal/editar_giro.php");
+	include("modal/editar_giro.php");
+
+
+if(!$_POST) {
+if (isset($_GET['page'])){
+$page=$_GET['page'];
+echo '<script>load('.$page.');</script>';
+} else {
+echo '<script>load(1);</script>';
+}
+} else {
+if (isset($_POST['page'])){
+$page=$_POST['page'];
+echo '<script>load('.$page.');</script>';
+} else {
+echo '<script>load(1);</script>';
+}
+}
+
+
+
         ?>
         <form class="form-horizontal" role="form" id="datos_cotizacion">
 
@@ -148,14 +168,18 @@ function obtener_datosGiro(id){
         var horario_funcionamiento = $("#horario_funcionamiento"+id).val();
         var cuenta = $("#cuenta"+id).val();
         var monto_umas = $("#monto_umas"+id).val();
+        var monto_umas_revalidacion_cambios = $("#monto_umas_revalidacion_cambios"+id).val();
         var concepto = $("#concepto"+id).val();
+        var monto_umas_revalidacion_anual = $("#monto_umas_revalidacion_anual"+id).val();
 
         $("#mod_id").val(id);
         $("#mod_descripcion_giro").val(descripcion_giro);
         $("#mod_horario_funcionamiento").val(horario_funcionamiento);
         $("#mod_cuenta").val(cuenta);
         $("#mod_monto_umas").val(monto_umas);
+        $("#mod_monto_umas_revalidacion_cambios").val(monto_umas_revalidacion_cambios);
         $("#mod_concepto").val(concepto);
+        $("#mod_monto_umas_revalidacion_anual").val(monto_umas_revalidacion_anual);
 
 }
 

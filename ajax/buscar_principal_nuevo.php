@@ -68,6 +68,10 @@ if ($action == 'ajax') {
     if ($ID_MUNICIPIO == 0) {
         $sWhere = "";
     } else {
+
+
+if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_municipio=".$ID_MUNICIPIO;
+    else
         $sWhere = "WHERE id_municipio=".$ID_MUNICIPIO;
     }
     
@@ -104,10 +108,14 @@ if ($action == 'ajax') {
     // Configuración de paginación
     include 'pagination.php';
     $page = (isset($_REQUEST['page']) && !empty($_REQUEST['page'])) ? intval($_REQUEST['page']) : 1;
+
     $per_page = 3; // Registros por página (fijo en 3)
     $adjacents = 4; // Espacios entre páginas
     $offset = ($page - 1) * $per_page;
-    
+
+    //echo 'page='.$page.', per_page='.$per_page.', adjacents='.$adjacents.', offset='.$offset.', page='.$page.'<br>';
+
+
     // Contar registros totales
     $count_sql = "SELECT count(*) AS numrows FROM $sTable $sWhere";
     $count_query = mysqli_query($con, $count_sql);
@@ -135,6 +143,7 @@ if ($action == 'ajax') {
     
     // Consulta principal con LIMIT ajustado
     $main_sql = "SELECT * FROM $sTable $sWhere LIMIT $offset,$per_page";
+    //echo $main_sql.'<br>';
     echo "<!-- Debug SQL: " . $main_sql . " -->";
     $query = mysqli_query($con, $main_sql);
     if (!$query) {
@@ -148,11 +157,11 @@ if ($action == 'ajax') {
             <table class="table registro-table">
                 <thead>
                     <tr class="success">
-                        <th width="11%"> </th>
-                        <th width="27%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
-                        <th width="27%"><font size="1">SOLICITANTE</font></th>
-                        <th width="15%"><font size="1">OBSERVACIÓN</font></th>
-                        <th class="text-end" width="20%"><font size="1">ACCIONES</font></th>
+                        <th width="12%"> </th>
+                        <th width="25%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
+                        <th width="25%"><font size="1">SOLICITANTE</font></th>
+                        <th width="14%"><font size="1">OBSERVACIÓN</font></th>
+                        <th class="text-end" width="22%"><font size="1">ACCIONES</font></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,22 +170,41 @@ if ($action == 'ajax') {
                 while ($row = mysqli_fetch_array($query)) {
                     $id = $row['id'];
                     $nombre_comercial = $row['nombre_comercial_establecimiento'];
+                    $nombre_comercial_establecimiento = $row['nombre_comercial_establecimiento'];
                     $calle = $row['calle_establecimiento'];
                     $entre_calles = $row['entre_calles_establecimiento'];
                     $numero = $row['numero_establecimiento'];
                     $numero_interno = $row['numerointerno_local_establecimiento'];
                     $estatus = $row['estatus'];
                     $operacion = $row['operacion'];
+                    $id_giro = $row['giro'];
+                    $modalidad_graduacion_alcoholica = $row['modalidad_graduacion_alcoholica'];
                     $folio = $row['folio'];
                     $observaciones = $row['observaciones'];
+                    $fecha_autorizacion = $row['fecha_autorizacion'];
+                    $fecha_expiracion = $row['fecha_expiracion'];
                     $nombre_solicitante = $row['nombre_persona_fisicamoral_solicitante'];
                     $email = $row['email_solicitante'];
-                    $telefono = $row['telefono_solicitante'];
+		    $telefono = $row['telefono_solicitante'];
+		    $id_tramite = $row['id_tramite'];
+		    $id_proceso_tramites = $row['id_proceso_tramites'];
+
+		    $latitud = $row['latitud'];
+		    $longitud = $row['longitud'];
+
                     $foto = isset($row['foto']) ? $row['foto'] : "";
-                    $mapa = isset($row['mapa']) ? $row['mapa'] : "";
-                    
+
+##
+$sql_giro="SELECT * FROM giro WHERE id=".$id_giro;
+$result_giro = mysqli_query($con,$sql_giro);
+$row_giro = mysqli_fetch_assoc($result_giro);
+$GIRO=$row_giro['descripcion_giro'];
+$HORARIO_FUNCIONAMIENTO=$row_giro['horario_funcionamiento'];
+##
+
                     // Valores ocultos para los modales y acciones
-                    ?>
+?>
+
 <input type="hidden" id="folio<?php echo $id; ?>" value="<?php echo $folio; ?>">
 <input type="hidden" id="numero_permiso<?php echo $id; ?>" value="<?php echo isset($row['numero_permiso']) ? $row['numero_permiso'] : ''; ?>">
 <input type="hidden" id="mapa<?php echo $id; ?>" value="<?php echo $mapa; ?>">
@@ -263,7 +291,8 @@ if ($action == 'ajax') {
                                     </a>';
                                 } else {
                                     // Si no se encuentra ninguna ruta válida, intentar con URL pública directa
-                                    $url_base = "http://98.80.116.118/bebal_images/medias/";
+                                    //$url_base = "http://98.80.116.118/bebal_images/medias/";
+                                    $url_base = "http://".IPADDRESS."/bebal_images/medias/";
                                     $url_imagen = $url_base.$id."-".$foto.".jpg";
                                     
                                     echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
@@ -277,7 +306,7 @@ if ($action == 'ajax') {
                                 </a>';
                             }
                             ?>
-                            <span class="d-block text-muted mt-2 id-info"><small>Folio: <?php echo $folio; ?>, <b><?php echo $operacion; ?></b></small></span>
+                            <span class="d-block text-muted mt-2 id-info"><small>Folio: <?php echo $folio; ?>, <b><?php echo $operacion; ?><br>Giro: <?php echo $GIRO; ?></b></small></span>
                         </td>
                         <td data-label="Datos Establecimiento" class="datos-celda">
                             <div class="datos-establecimiento">
@@ -289,7 +318,7 @@ if ($action == 'ajax') {
                                 <?php if (!empty($numero_interno)): ?>
                                 <span class="direccion">Int: <?php echo $numero_interno; ?></span>
                                 <?php endif; ?>
-                            </div>
+			    </div>
                         </td>
                         <td data-label="Solicitante" class="datos-celda">
                             <div class="datos-solicitante">
@@ -303,52 +332,170 @@ if ($action == 'ajax') {
                             </div>
                         </td>
                         <td data-label="Observación" class="observacion-celda">
-                            <?php 
+<?php 
+
+if ( $operacion=='Activo' ) {
+
+echo '<font size="1" color="black">Permiso:</font> <font size="1" color="blue">'.$fecha_autorizacion.'</font><br>';
+echo '<font size="1" color="black">Autorización:</font> <font size="1" color="blue">'.$fecha_autorizacion.'</font><br>';
+echo '<font size="1" color="black">Expiracón:</font> <font size="1" color="blue">'.$fecha_expiracion.'</font><br>';
+
+
+} else {
+
+	if ( $operacion=='Tramite' ) {
+	$sql_tramite10="SELECT * FROM tramite WHERE id=".$id_tramite;
+	$result_tramite10 = mysqli_query($con,$sql_tramite10);
+	$row_tramite10 = mysqli_fetch_assoc($result_tramite10);
+	$TRAMITE_tramite_SOLICITADO=$row_tramite10['descripcion_tramite'];
+
+echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'.$TRAMITE_tramite_SOLICITADO.'</font><br>';
+
+
+	} else {
+
                             if (empty($observaciones)) {
                                 echo '<span class="text-muted">sin observaciones</span>';
                             } else if (strlen($observaciones) > 150) {
                                 echo '<div class="observacion-texto"><font size="1">' . substr($observaciones, 0, 150) . '...</font></div>';
                             } else {
                                 echo '<div class="observacion-texto"><font size="1">'. $observaciones . '</font></div>'; 
-                            }
+			    }
+	}
+
+}
+
                             ?>
                         </td>
                         <td data-label="Acciones" class="acciones-celda">
 			    <div class="action-buttons">
 <?php
-			if ( $operacion=='OPERACION' ) {
-			   echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Tramite Cambios"><i class="bi bi-gem"></i></a>';
+			if ( $operacion=='Activo' ) {
+				echo '<a href="#" class="btn btn-xs btn-action  btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
+			}
+#### IMPRIMIR PERMISO
+if ( $operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin' ) {
+echo  '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso('.$id.','.$page.');" class="btn btn-sm btn-action  btn-dark" title="Imprimir Permiso  Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-postcard"></i></a>';
+}
+
+			if ( $operacion=='Tramite' ) {
+                           echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action  btn-success" title="Activo - Tramites Cambios  Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
 			}
 
 			##<!-- Botón de editar -->
 
 			if ( $operacion=='NUEVO' ) {
-                           echo '<a href="detalleRegistro.php?id='.$id.'&page='.$page.'" class="btn btn-sm btn-action btn-primary-custom" title="Editar Registro Nuevo"><i class="bi bi-database-add"></i></a>';
+				if ( $PROFILE=='inspector' ) {
+				if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
+				echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'"  class="btn btn-danger btn-xs" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+
+				   } else {
+				}
+				} else {
+				echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action  btn-dark" title="Proceso Registro Nuevo  Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
+				}
 			}
+                                
+##<!-- Botón de coordenadas/mapa -->
+				if ( $latitud!='' && $longitud!='' ) {
+				echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
+
+
+				}
 ?>
+				<!-- Botón de cámara/foto -->
+<?php
+				//echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'" class="btn btn-sm btn-action btn-primary-custom" title="Gestionar Fotos"><i class="bi bi-camera"></i></a>';
+
                                 
-                                <!-- Botón de coordenadas/mapa -->
-                                <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas" data-bs-toggle="modal" data-bs-target="#coordenadasModal" onclick="mapa_valla('<?php echo $id; ?>')"><i class="bi bi-geo-alt"></i></a>
-                                
-                                <!-- Botón de cámara/foto -->
-                                <a href="principalFotos.php?id=<?php echo $id; ?>&page=<?php echo $page; ?>" class="btn btn-sm btn-action btn-primary-custom" title="Gestionar Fotos"><i class="bi bi-camera"></i></a>
-                                
-                                <!-- Botón para cargar PDF -->
-                                <a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Cargar PDF" data-bs-toggle="modal" data-bs-target="#pdfModal" onclick="pdf_registro('<?php echo $id; ?>')"><i class="bi bi-file-pdf"></i></a>
-                                
-                                <!-- Estatus -->
-                                <div class="estatus-badge estatus-inspeccion"><?php echo $estatus; ?></div>
+//<!-- Botón Ver PDFs -->
+$cuentaPT=0;
+$KueryPT="SELECT COUNT(*) AS cuentaPT FROM proceso_tramites WHERE en_proceso='Fin' AND id=$id_proceso_tramites";
+$arregloPT = mysqli_fetch_array(mysqli_query($con,$KueryPT));
+$cuentaPT=$arregloPT['cuentaPT'];
+if ( $cuentaPT>0 ) {
+echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Ver PDFs" data-bs-toggle="modal" data-bs-target="#ModalPDF'.$id.'")"><i class="bi bi-file-pdf"></i></a>';
+
+$KueryPTfiles="SELECT * FROM proceso_tramites WHERE id=$id_proceso_tramites AND en_proceso='Fin'";
+##echo $KueryPT;
+$arregloPTfiles = mysqli_fetch_array(mysqli_query($con,$KueryPTfiles));
+
+$docs_pdf1DB=$arregloPTfiles['docs_pdf1'];
+$estatus_docs_pdf1DB=$arregloPTfiles['estatus_docs_pdf1'];
+##
+$docs_pdf2DB=$arregloPTfiles['docs_pdf2'];
+$estatus_docs_pdf2DB=$arregloPTfiles['estatus_docs_pdf2'];
+##
+$docs_pdf3DB=$arregloPTfiles['docs_pdf3'];
+$estatus_docs_pdf3DB=$arregloPTfiles['estatus_docs_pdf3'];
+##
+$docs_pdf4DB=$arregloPTfiles['docs_pdf4'];
+$estatus_docs_pdf4DB=$arregloPTfiles['estatus_docs_pdf4'];
+}
+
+// echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Cargar PDF" data-bs-toggle="modal" data-bs-target="#pdfModal" onclick="pdf_registro('.$id.')"><i class="bi bi-file-pdf"></i></a>';
+?>
+				<!-- Estatus -->
+                                <div class="estatus-badge estatus-inspeccion"><font size="1"><?php echo $estatus; ?></font></div>
                                 
                                 <?php if ($estatus == "PENDIENTE" || $estatus == "INSPECCION"): ?>
                                 <!-- Botón de generar recibo -->
-                                <a href="#" class="btn btn-sm btn-action btn-primary-custom btn-generar-recibo mt-2" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibo Inspeccion</a>
+                                <a href="#" class="btn btn-xs btn-action btn-primary-custom btn-generar-recibo mt-2" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibo Inspeccion</a>
                                 <?php endif; ?>
                             </div>
                         </td>
                     </tr>
                 <?php
-                    $ciclo++;
-                }
+		$ciclo++;
+
+                                if ( $latitud!='' && $longitud!='' ) {
+                                ##echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
+
+                                echo '<div class="modal" id="MapaModal'.$id.'" >';
+                                echo '<div class="modal-dialog">';
+                                echo '<div class="modal-content">';
+
+                                echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+                                echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-map"></i>   Ubicación Geográfica del Establecimiento</h6>';
+                                echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+                                echo '<span aria-hidden="true">&times;</span>';
+                                echo '</button>';
+                                echo '</div>';
+                                echo '<div class="modal-body">';
+                                echo '<iframe src="map.php?dbLon='.$longitud.'&dbLat='.$latitud.'&nombre_comercial_establecimiento='.$nombre_comercial_establecimiento.'" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>';
+
+echo '<div class="modal-footer">';
+echo '<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>';
+echo '</div>';
+
+                                echo '</div>';
+                                echo '</div>';
+                                echo '</div>';
+                                echo '</div>';
+
+				}
+
+				if ( $cuentaPT>0 ) {
+				echo '<div class="modal" id="ModalPDF'.$id.'" tabindex="-1" role="dialog">';
+				echo '<div class="modal-dialog" role="document">';
+				echo '<div class="modal-content">';
+
+				echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+				echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C2</h6>';
+				echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+				echo '<span aria-hidden="true">&times;</span>';
+				echo '</button>';
+				echo '</div>';
+				echo '<div class="modal-body">';
+				echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf2DB.'"></object>';
+				echo '</div>';
+				echo '</div>';
+				echo '</div>';
+
+				}
+
+
+		}  //* while
                 ?>
                 </tbody>
             </table>

@@ -61,7 +61,7 @@
 		include 'pagination.php'; //include pagination file
 		//pagination variables
 		$page = (isset($_REQUEST['page']) && !empty($_REQUEST['page']))?$_REQUEST['page']:1;
-		$per_page = 10; //how much records you want to show
+		$per_page = 5; //how much records you want to show
 		$adjacents  = 4; //gap between pages after number of adjacents
 		$offset = ($page - 1) * $per_page;
 		//Count the total number of row in your table*/
@@ -69,7 +69,23 @@
 		$row= mysqli_fetch_array($count_query);
 		$numrows = $row['numrows'];
 		$total_pages = ceil($numrows/$per_page);
-		$reload = './usuarios.php';
+
+    // Validar que la página solicitada esté dentro del rango válido
+    if ($page < 1) $page = 1;
+    if ($page > $total_pages && $total_pages > 0) $page = $total_pages;
+
+    // Recalcular el offset basado en la página validada
+    $offset = ($page - 1) * $per_page;
+
+    // Definir URL de recarga para la paginación (mantiene la búsqueda)
+     $reload = './usuarios.php';
+    if (!empty($q)) {
+        $reload .= "?q=" . urlencode($q) . "&";
+    } else {
+        $reload .= "?";
+    }
+
+
 		//main query to fetch the data
 		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
@@ -78,17 +94,20 @@
 			
 			?>
 			<div class="table-responsive">
-			 <table class="table">
+			 <table class="table registro-table">
+	                <thead>
 			<tr  class="success">
-			<th><font size="2">Nombres</font></th>
-			<th><font size="2">Usuario</font></th>
-			<th><font size="2">Profile</font></th>
-			<th><font size="2">Email</font></th>
-			<th><font size="2">Municipio</font></th>
-			<th><font size="2">Agregado</font></th>
-			<th><span class="pull-right"><font size="2">Acciones</span></font></th>
-					
+			<th><font size="1">Nombres</font></th>
+			<th><font size="1">Usuario</font></th>
+			<th><font size="1">Profile</font></th>
+			<th><font size="1">Email</font></th>
+			<th><font size="1">Municipio</font></th>
+			<th><font size="1">Agregado</font></th>
+			<th><span class="pull-right"><font size="1">Acciones</span></font></th>
 			</tr>
+	                </thead>
+       		         <tbody>
+
 			<?php
 			while ($row=mysqli_fetch_array($query)){
 				$user_id=$row['user_id'];
@@ -146,21 +165,43 @@ echo '&nbsp;&nbsp;';
 
 echo '<a href="#" class="btn btn-outline-danger" title="Borrar usuario" onclick="eliminar('.$user_id.')"><i class="bi bi-trash"></i> </a></span></td>';
 
-?>
 						
-					</tr>
-					<?php
-				}
-				?>
-				<tr>
-					<td colspan=9><span class="pull-right">
-					<?php
-					 echo paginate($reload, $page, $total_pages, $adjacents);
-					?></span></td>
-				</tr>
-			  </table>
-			</div>
-			<?php
-		}
-	}
+  echo '</tr>';
+	}  //** while
 ?>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pagination-container text-center mt-4">
+                    <?php
+                    // Asegurarse de que la paginación use el parámetro 'page' para mantener consistencia
+                    echo paginate($reload, $page, $total_pages, $adjacents);
+                    ?>
+                </div>
+                <div class="col-md-12 text-center">
+                    <p class="text-muted">
+<!--                       Mostrando <?php echo min($numrows, ($offset+1)); ?> al
+                        <?php echo min($offset+$per_page, $numrows); ?> de
+                        <?php echo $numrows; ?> registros --!>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <?php
+    } else {
+        // No hay resultados
+        ?>
+        <div class="alert alert-warning text-center">No hay resultados para esta búsqueda.</div>
+        <?php
+    }
+} else {
+    echo "No se ha especificado una acción válida.";
+}
+?>
+

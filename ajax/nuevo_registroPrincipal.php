@@ -75,7 +75,7 @@ $MODALIDAD_GA_LISTA='('.$e01.')';
 
 for($i = 1; $i<$cuentaMGA-1; $i++) {
 
-$MODALIDAD_GA_RAW .= '--'.$MODALIDAD_GA[$i].'--';
+$MODALIDAD_GA_RAW .= '--'.$MODALIDAD_GA[$i];
 
 $porcionesi = explode("**", $MODALIDAD_GA[$i]);
 $ei0=$porcionesi[0];
@@ -152,7 +152,7 @@ $SERVICIOS_ADICIONALES_LISTA='('.$e01.')';
 #
 
 for($i = 1; $i<$cuentaSA-1; $i++) {
-$SERVICIOS_ADICIONALES_RAW .= '--'.$SERVICIOS_ADICIONALES[$i].'--';
+$SERVICIOS_ADICIONALES_RAW .= '--'.$SERVICIOS_ADICIONALES[$i];
 
 $porcionesi = explode("**", $SERVICIOS_ADICIONALES[$i]);
 $ei0=$porcionesi[0];
@@ -215,9 +215,18 @@ $email_solicitante=$_POST['email_solicitante'];
 $telefono_solicitante=$_POST['telefono_solicitante'];
 
 
+date_default_timezone_set('America/Los_Angeles');
+$today = date("Y-m-d");
+################
+################
+###  TRAMITE NUEVO
+$arregloTramite=mysqli_fetch_array(mysqli_query($con,"SELECT *  FROM `tramite` WHERE descripcion_tramite='Permiso Nuevo'"));
+$ID_TRAMITE=$arregloTramite[0];
+###############
+###############
 ###
 ##########
-$sql="INSERT INTO principal (
+$sql_principal="INSERT INTO principal (
 giro,
 modalidad_graduacion_alcoholica,
 modalidad_graduacion_alcoholica_raw,
@@ -264,7 +273,7 @@ $monto_umas_total_servicios_adicionales,
 $ID_MUNICIPIO,
 $id_delegacion,
 $id_colonia,
-'Generar Recibo Inspeccion',
+'Generar Recibos IRAD',
 'NUEVO',
 '$clave_catastral',
 '$nombre_comercial_establecimiento',
@@ -287,14 +296,15 @@ $superficie_establecimiento,
 '$fecha_datetime_hoy'
 )";
 
-$query_new_insert = mysqli_query($con,$sql);
-			if ($query_new_insert) {
-$arregloMaxid = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `principal`"));
-$ID=$arregloMaxid[0];
-$Kuery_Update="UPDATE principal SET folio='".$ID_MUNICIPIO."-".$ID."' WHERE id=".$ID;
-mysqli_query($con,$Kuery_Update);
-##
+$query_new_insert = mysqli_query($con,$sql_principal);
 
+
+if ($query_new_insert) {
+$arregloMaxid = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `principal`"));
+$ID=intval($arregloMaxid[0]);
+$folio=$ID_MUNICIPIO."-".$ID;
+############
+############
 $sqlInsert="INSERT INTO proceso_tramites (
 id_principal,
 id_tramite,
@@ -302,14 +312,78 @@ fecha_inicio,
 fechaRegistro,
 en_proceso) VALUES (
 $ID,
-1,
+$ID_TRAMITE,
 '$fecha_alta',
-'$fecha_alta',
+'$today',
 'EN PROCESO')";
-
-
-
 mysqli_query($con,$sqlInsert);
+##
+$arregloMaxid2 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `proceso_tramites`"));
+$ID_PROCESO_TRAMITE=$arregloMaxid2[0];
+#######################
+#### con el id_tramite y el id_proceso_tramites ES EL ULTIMO TRAMITE REALIZADO y CONSULTAR LOS PDFs
+$Kuery_Update="UPDATE principal SET folio='$folio', id_tramite=$ID_TRAMITE , id_proceso_tramites=$ID_PROCESO_TRAMITE  WHERE id=".$ID;
+mysqli_query($con,$Kuery_Update);
+########################
+$sql10="INSERT INTO pagos (
+id_principal,
+folio,
+id_proceso_tramites,
+concepto,
+estatus_pago,
+fechaRegistro ) VALUES (
+$ID,
+'$folio',
+$ID_PROCESO_TRAMITE,
+'Inspeccion',
+'Pendiente',
+'$today')";
+$query_new_insert1 = mysqli_query($con,$sql10);
+##
+$sql20="INSERT INTO pagos (
+id_principal,
+folio,
+id_proceso_tramites,
+concepto,
+estatus_pago,
+fechaRegistro ) VALUES (
+$ID,
+'$folio',
+$ID_PROCESO_TRAMITE,
+'Recepcion y Analisis Documentos',
+'Pendiente',
+'$today')";
+$query_new_insert2 = mysqli_query($con,$sql20);
+##
+
+$sql30="INSERT INTO inspeccion (
+id_principal,
+folio,
+id_proceso_tramites,
+fechaRegistro,
+en_proceso) VALUES (
+$ID, 
+'$folio', 
+$ID_PROCESO_TRAMITE, 
+'$today',
+'Espera Pago')";
+$query_new_insert3 = mysqli_query($con,$sql30);
+##
+$sql40="INSERT INTO recepcion_analisis_documentos (
+id_principal,
+folio,
+id_proceso_tramites,
+fechaRegistro,
+en_proceso) VALUES (
+$ID, 
+'$folio', 
+$ID_PROCESO_TRAMITE, 
+'$today',
+'Espera Pago')";
+$query_new_insert4 = mysqli_query($con,$sql40);
+##
+
+
 
 
 

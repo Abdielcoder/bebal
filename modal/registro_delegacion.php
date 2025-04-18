@@ -18,7 +18,7 @@ $MUNICIPIO=$row_municipio['municipio'];
 <div class="modal-header"  style="background-color:#AC905B;color:white">
 
 			<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h6 class="modal-title" id="myModalLabel"><i class='bi bi-edit'></i> Agregar Nueva Delegación</h6>
+			<h6 class="modal-title" id="myModalLabel"><i class='bi bi-pencil'></i> Agregar Nueva Delegación</h6>
 		  </div>
 		  <div class="modal-body">
 			<form class="form-horizontal" method="post" id="guardar_delegacion" name="guardar_delegacion">
@@ -50,6 +50,7 @@ echo '<option value="'.$id_municipio.'">'.$municipio.'</option>';
 </div>
 </div>
 
+<br>
 
 	<div class="form-group row">
 	<label for="delegacion" class="col-sm-3 control-label">Nombre Delegacón</label>

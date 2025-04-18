@@ -56,17 +56,22 @@
 			<?php
 			include("modal/registro_principal.php");
 			include("modal/editar_registro.php");
+			include("modal/elegirTramite.php");
+			include("modal/imprimir_permiso.php");
 			?>
 			<form class="form-horizontal" role="form" id="datos_principal">
 				
 
 
-<div class="input-group mb-1">
-  <input type="text" class="form-control" id="q" placeholder="Escribe el Folio a Buscar" aria-label="Escribe el Folio a Buscar" title="Enter Folio" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">
-  <div class="input-group-append">
-    <button class="btn btn-outline-primary" type="button" onclick="load(1);"><i class="bi bi-search"></i></button>
 <?php
-echo '<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i> Nuevo Registro</button>';
+echo '<div class="input-group mb-1">';
+echo '<input type="text" class="form-control" id="q" size="10" placeholder="Escribe el Folio a Buscar" aria-label="Escribe el Folio a Buscar" title="Enter Folio" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">';
+echo '<div class="input-group-append">&nbsp;&nbsp;';
+//echo '<button class="btn btn-outline-primary" type="button" onclick="load(1);"><i class="bi bi-search"></i></button>';
+if ( $PROFILE=='inspector' ) {
+} else {
+echo '<button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="2">Nuevo Registro</font></button>';
+}
 ?>
   </div>
 </div>
@@ -99,21 +104,21 @@ echo '<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
 	<script type="text/javascript" src="js/pdf-modal.js"></script>
 <?php
 
-if(!$_POST) {
-if (isset($_GET['page'])){
-$page=$_GET['page'];
-echo '<script>load('.$page.');</script>';
-} else {
-echo '<script>load(1);</script>';
-}
-} else {
-if (isset($_POST['page'])){
-$page=$_POST['page'];
-echo '<script>load('.$page.');</script>';
-} else {
-echo '<script>load(1);</script>';
-}
-}
+//if(!$_POST) {
+//if (isset($_GET['page'])){
+//$page=$_GET['page'];
+//echo '<script>load('.$page.');</script>';
+//} else {
+//echo '<script>load(5);</script>';
+//}
+//} else {
+//if (isset($_POST['page'])){
+//$page=$_POST['page'];
+//echo '<script>load('.$page.');</script>';
+//} else {
+//echo '<script>load(1);</script>';
+//}
+//}
 ?>
   </body>
 </html>
@@ -163,6 +168,24 @@ function get_valla_id(id){
 $("#id_valla").val(id);
 }
 
+function obtener_datosParaCambio(id,pagina) {
+var folio = $("#folio"+id).val();
+var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
+function obtener_datosParaCambio(id,pagina) {
+var folio = $("#folio"+id).val();
+var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
+
+$("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
+$("#mod_folio").val(folio);
+$("#mod_id").val(id);
+}
+
+
+
+$("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
+$("#mod_folio").val(folio);
+$("#mod_id").val(id);
+}
 
 function obtener_datos(id,pagina) {
 
@@ -226,6 +249,20 @@ $("#telefono_solicitante_data").val(telefono_solicitante);
 
 $("#COLONIAyDELEGACION_data").val(COLONIAyDELEGACION);
 $("#direccion_establecimiento_completa_data").val(direccion_establecimiento_completa);
+
+}
+
+
+
+function obtener_datosImprimirPermiso(id,page){
+
+var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
+var folio = $("#folio"+id).val();
+
+$("#mod_id").val(id);
+$("#mod_page").val(page);
+$("#mod_folio").val(folio);
+$("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
 
 }
 

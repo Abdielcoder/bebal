@@ -87,8 +87,9 @@ if (isset($_POST['subirnuevafoto'])) {
 
 include("functions_hm.php");
 $IDPRINCIPAL=$_POST["IDPRINCIPAL"];
+$ID_PROCESO_TRAMITES=$_POST["ID_PROCESO_TRAMITES"];
 	
-$queryINSERTA="INSERT INTO fotos (descripcion,idprincipal) VALUES ('Inserta Row, idprincipal=".$IDPRINCIPAL."',".$IDPRINCIPAL.");";
+$queryINSERTA="INSERT INTO fotos (descripcion,idprincipal,id_proceso_tramites) VALUES ('Inserta Row, idprincipal=".$IDPRINCIPAL."',".$IDPRINCIPAL.",".$ID_PROCESO_TRAMITES.");";
 if (!mysqli_query($con,$queryINSERTA)) echo mysqli_error();
 $queryMAXidfoto="SELECT MAX(idfoto) AS idfoto FROM fotos;";
 $resultMAXidfoto = mysqli_query($con,$queryMAXidfoto);
@@ -212,6 +213,9 @@ mysqli_query($con, $sqlUpdate3);
 }
 
 #################################
+
+include("modal/efectuar_inspeccion.php");
+
 #################################
 
 
@@ -226,7 +230,10 @@ $fecha_altaDB=$arregloPRINCIPAL['fecha_alta'];
 $id_municipioDB=$arregloPRINCIPAL['id_municipio'];
 $foto_principalDB=$arregloPRINCIPAL['foto'];
 $folioDB=$arregloPRINCIPAL['folio'];
-
+################
+$id_tramite=$arregloPRINCIPAL['id_tramite'];
+$id_proceso_tramites=$arregloPRINCIPAL['id_proceso_tramites'];
+################
 $modalidad_graduacion_alcoholica=$arregloPRINCIPAL['modalidad_graduacion_alcoholica'];
 
 $calle_establecimientoDB=$arregloPRINCIPAL['calle_establecimiento'];
@@ -269,10 +276,16 @@ $result_colonia = mysqli_query($con,$sql_colonia);
 $row_colonia = mysqli_fetch_assoc($result_colonia);
 $COLONIA=$row_colonia['colonia'];
 ##
+################
+$KueryPT_FINALIZADO= "SELECT COUNT(*)  AS cuentaFINALIZADO FROM inspeccion WHERE en_proceso='FIN' AND id_principal=$IDPRINCIPAL AND id_proceso_tramites=$id_tramite";
+##echo $KueryPT_FINALIZADO.'<br>';
+$arregloPT_FINALIZADO = mysqli_fetch_array(mysqli_query($con,$KueryPT_FINALIZADO));
+$cuentaFINALIZADO=$arregloPT_FINALIZADO['cuentaFINALIZADO'];
+##############################
 
 $domicilio_establecimiento=$calle_establecimiento." #".$numero_establecimiento." ".$numerointerno_local_establecimiento." CP ".$cp_establecimiento.", ".$COLONIA." (".$DELEGACION.") ".$MUNICIPIO;
 
-echo "<h6><b>Modificar Fotos :</b> ".$folioDB.", ".$nombre_comercial_establecimientoDB." (".$GIRO."), ".$domicilio_establecimiento."</h5>";
+echo "<h6><b><span style='background:#AC905B;'><font color='white'>Inspección:</span></b><font color='black'> ".$folioDB.", ".$nombre_comercial_establecimientoDB." (".$GIRO."), ".$domicilio_establecimiento."</font></h5>";
 ##############################
 /* Agregar foto */
 $ret="";
@@ -289,9 +302,10 @@ $ret .= "<input type=\"hidden\" name=\"prim\" value=\"yaentro\">";
 $ret .= "<input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"7000000\">";
 $ret .= "<input type=\"hidden\" name=\"IDPRINCIPAL\" value=\"".$IDPRINCIPAL."\">";
 $ret .= "<input type=\"hidden\" name=\"page\" value=\"".$page."\">";
+$ret .= "<input type=\"hidden\" name=\"ID_PROCESO_TRAMITES\" value=\"".$id_proceso_tramites."\">";
 $ret .='</td><td align=center>';
 
-$ret .='<button name="subirnuevafoto" class="btn btn-primary" type="submit" title="Subir Fotografia" class="button" style="color:black;" /><i class="glyphicon glyphicon-upload"></i><font color="white">&nbsp;&nbsp;Subir Fotografia</font></button>';
+$ret .='<button name="subirnuevafoto" class="btn btn-primary" type="submit" title="Subir Fotografia" class="button" style="color:white" /><i class="bi bi-upload"></i><font color="white">&nbsp;&nbsp;Subir Fotografia</font></button>';
 
 $ret .='</td><td>';
 //$ret .= '<a type="button" class="btn btn-default" href="vallas.php?pagina='.$page.'"><i class="glyphicon glyphicon-arrow-left"></i> Regresar</a>';
@@ -303,7 +317,10 @@ $ret .='<tr><td bgcolor=red>';
 $ret .= "<span class=\"error\" >$errorfoto</span>";
 $ret .='</td></tr>';
 $ret .='</table>';
+if  ( $cuentaFINALIZADO> 0 ) {
+} else {
 echo $ret;
+}
 echo '<br><br>';
 ##############################
 $foto_file='../'.FOTOSMEDIAS.$IDPRINCIPAL.'-'.$foto_principalDB.'.jpg';
@@ -363,10 +380,16 @@ echo '<img id="myImg" src="'.$foto_fileSecundaria.'" alt="Principal  '.$folioDB.
 }
 echo "</td>";
 #########
-echo '<input type="hidden" name="idfoto'.$i.'" value="'.$idfoto_db.'" />';
-#
 echo '<td align=center>';
+#
+
+if  ( $cuentaFINALIZADO> 0 ) {
+echo '<font size="2" color="black">-</font>';
+} else {
+echo '<input type="hidden" name="idfoto'.$i.'" value="'.$idfoto_db.'" />';
 echo '<button id="eliminar'.$i.'" name="eliminar'.$i.'" type="submit" title="Eliminar Fotografia '.$numero_foto.'" class="button" style="color:red;"  /><i class="bi bi-trash"></i> </button>';
+}
+
 echo '</td>';
 
 echo '<td align=center>';
@@ -387,12 +410,33 @@ echo '<br>';
 echo '<FORM action="principal.php" name="ir_aPrincipal" method="POST">';
 echo '<input type="hidden" name="pagina" value="'.$page.'">';
 
-echo '<button class="btn btn-info" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>';
+echo '<button class="btn btn-info" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>&nbsp;&nbsp;';
+
+##echo '<a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+
+
+echo '<input type="hidden" id="nombre_comercial_establecimiento" value="'.$nombre_comercial_establecimientoDB.'" >';
+echo '<input type="hidden" id="folio" value="'.$folioDB.'" >';
+echo '<input type="hidden" id="pagina" value="'.$page.'" >';
+echo '<input type="hidden" id="idprincipal" value="'.$IDPRINCIPAL.'" >';
+echo '<input type="hidden" id="id_tramite" value="'.$id_tramite.'" >';
+echo '<input type="hidden" id="id_proceso_tramites" value="'.$id_proceso_tramites.'" >';
+
+echo 'cuentaFINALIZADO='.$cuentaFINALIZADO;
+
+if  ( $cuentaFINALIZADO> 0 ) {
+echo '<font size="2" color="black"><b><u>Inspección Finalizada </u></b></font>';
+} else {
+##echo '<a href="#" class="btn btn-outline-success" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-clipboard-check"></i> Registrar Inspección </a>';
+echo '<a href="#" class="btn btn-danger" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-gear"></i> Registrar Inspección </a>';
+}
+
 
 
 
 
 echo "</FORM>";
+
 echo '<br><br>';
 ?>	
 </div>
@@ -405,4 +449,56 @@ echo '<br><br>';
   </body>
 </html>
 
+<script>
+
+$( "#registro_guardar_inspeccion" ).submit(function( event ) {
+  $('#Button_registro_guardar_inspeccion').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/registro_guardar_inspeccion.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxInspeccion").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxInspeccion").html(datos);
+                        $('#Button_registro_guardar_inspeccion').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 3000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
+function obtener_datosInspeccion(id){
+
+        var id = $("#id").val();
+        var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento").val();
+        var folio = $("#folio").val();
+        var id_tramite = $("#id_tramite").val();
+        var pagina = $("#pagina").val();
+        var idprincipal = $("#idprincipal").val();
+        var id_proceso_tramites = $("#id_proceso_tramites").val();
+
+
+        $("#mod_id").val(id);
+        $("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
+        $("#mod_folio").val(folio);
+        $("#mod_id_tramite").val(id_tramite);
+        $("#mod_pagina").val(pagina);
+        $("#mod_idprincipal").val(idprincipal);
+        $("#mod_id_proceso_tramites").val(id_proceso_tramites);
+
+}
+
+</script>
 

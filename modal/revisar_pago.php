@@ -20,6 +20,10 @@ echo '<input type="hidden" id="mod_folio" name="folio">';
 echo '<input type="hidden" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento">';
 echo '<input type="hidden" id="mod_tramite_pago" name="tramite_pago">';
 echo '<input type="hidden" id="mod_tramite_pagoid" name="tramite_pagoid">';
+echo '<input type="hidden" id="mod_id_pago_rad" name="id_pago_rad">';
+echo '<input type="hidden" id="mod_id_pago_ins" name="id_pago_ins">';
+echo '<input type="hidden" id="mod_total_umas_pagar" name="total_umas_pagar">';
+
 ?>
 
 <div class="mb-3 row">
@@ -54,7 +58,7 @@ echo '<input type="hidden" id="mod_tramite_pagoid" name="tramite_pagoid">';
 <div class="mb-3 row">
 <label for="monto" class="col-sm-4 col-form-label">Monto</label>
 <div class="col-sm-8">
-<input type="number" class="form-control" id="monto" name="monto" required>
+<input type="number" class="form-control" step="0.01" id="monto" name="monto" required>
 </div>
 </div>
 

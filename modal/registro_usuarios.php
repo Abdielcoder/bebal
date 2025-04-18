@@ -51,11 +51,12 @@
 <div class="col-sm-6">
 <select class='form-control form-select' name='user_profile' id='user_profile' required>
 <option value="">Selecciona un Profile</option>
-<option value="operador">Operador</option>
-<option value="gestion">Gestion</option>			
+<option value="super">Super</option>			
 <option value="admin">Admin</option>			
+<option value="asesor">Asesor</option>			
 <option value="inspector">Inspector</option>			
-<option value="director">Director</option>			
+<option value="cabildo">Cabildo</option>			
+<option value="comerciante">Comerciante</option>			
 </select>			  
 </div>
  </div>

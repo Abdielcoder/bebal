@@ -1,3 +1,29 @@
+<script type="text/javascript">
+function mostrarPassword(){
+
+		var cambio = document.getElementById("txtPassword");
+		if(cambio.type == "password"){
+			cambio.type = "text";
+			$('.icon').removeClass('bi bi-eye-slash-fill').addClass('bi bi-eye-fill');
+		}else{
+			cambio.type = "password";
+			$('.icon').removeClass('bi bi-eye-fill').addClass('bi bi-eye-slash-fill');
+		}
+	} 
+
+	
+	$(document).ready(function () {
+	//CheckBox mostrar contraseña
+	$('#ShowPassword').click(function () {
+		$('#Password').attr('type', $(this).is(':checked') ? 'text' : 'password');
+	});
+});
+
+
+
+
+</script>
+
 <?php
 // checking for minimum PHP version
 if (version_compare(PHP_VERSION, '5.3.7', '<')) {
@@ -222,12 +248,22 @@ body {
         <i class="bi bi-envelope form-icon"></i>
         <input type="text" class="form-control" name="user_name" placeholder="Usuario" required>
       </div>
-      
-      <div class="form-group">
+
+<div class="input-group mb-6">
+     <!--  <div class="form-group"> --!>
         <i class="bi bi-lock form-icon"></i>
-        <input type="password" class="form-control" name="user_password" placeholder="Contraseña" autocomplete="off" required>
+	<input ID="txtPassword"  type="password" class="form-control" name="user_password" placeholder="Contraseña" autocomplete="off" required>
+
+<div class="input-group-append">
+    <button id="show_password" class="btn btn-xs btn-basic" type="button" onclick="mostrarPassword()"> <i class="bi bi-eye-slash-fill icon"></i> </button>
+
+          </div>
+
       </div>
-      
+
+	<br>
+	<br>
+
       <div class="remember-group">
         <div class="remember-check">
           <input type="checkbox" id="remember">

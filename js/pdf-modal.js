@@ -5,7 +5,7 @@ let uploadingFiles = 0;
 // Función para inicializar el modal de PDF para un registro específico
 function pdf_registro(id) {
     console.log("Inicializando modal PDF para registro ID:", id);
-    
+ 
     // Establecer el ID del registro en el campo oculto
     $('#pdf_id_registro').val(id);
     

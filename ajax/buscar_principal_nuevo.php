@@ -426,12 +426,12 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     <?php
                                     // Botón de "Generar Recibos IRAD" (Movido a esta fila)
                                     if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                        echo '<a href="#" class="btn btn-sm btn-action" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                        echo '<span class="btn btn-sm" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px; text-align:center;" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</span>';
                                     }
                                     
                                     // Botón de "Presupuesto" (Movido a esta fila)
                                     if ($estatus == "Presupuesto") {
-                                        echo '<button type="button" class="btn btn-sm btn-action" style="background-color:#dc3545 !important; color:white !important; margin-right:5px; margin-bottom:5px;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i> Presupuesto</button>';
+                                        echo '<span class="btn btn-sm" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px; text-align:center;" onclick="presupuesto(\''.$id.'\')">Presupuesto</span>';
                                     }
                                     
                                     // Badge para "Permiso Autorizado" (Movido a esta fila como botón)

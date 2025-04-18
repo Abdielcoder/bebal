@@ -393,6 +393,12 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                         }
                                     }
                                     
+                                    // Botón de "Generar Recibos IRAD" (Movido aquí)
+                                    if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                        // Usar clases similares a los otros iconos de acción
+                                        echo '<a href="#" class="btn btn-xs btn-action" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                    }
+
                                     // Botón de coordenadas/mapa
                                     if ($latitud!='' && $longitud!='') {
                                         echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
@@ -426,12 +432,6 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 // Determinar si hay que mostrar algún botón amarillo
                                 $mostrarBotonAmarillo = false;
                                 $botonAmarilloHTML = '';
-                                
-                                // Botón de "Generar Recibos IRAD"
-                                if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
-                                }
                                 
                                 // Botón de "Presupuesto"
                                 if ($estatus == "Presupuesto") {

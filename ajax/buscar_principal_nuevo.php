@@ -605,40 +605,59 @@ echo '</div>';
                 
                 // Script para manejar la selección de PDFs
                 echo '<script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        // Selector para el modal específico
-                        const modalId = "#ModalPDF'.$id.'";
+                    // Función para inicializar los listeners de PDF
+                    function initPdfSelectors'.$id.'() {
+                        // Obtener todos los selectores de PDF en este modal específico
+                        const pdfSelectors = document.querySelectorAll("#ModalPDF'.$id.' .pdf-selector");
                         
-                        // Cuando el modal se muestre
-                        $(modalId).on("shown.bs.modal", function() {
-                            // Agregar listeners a todos los elementos con clase pdf-selector en este modal
-                            $(modalId + " .pdf-selector").on("click", function(e) {
+                        // Añadir el evento click a cada selector
+                        pdfSelectors.forEach(function(selector) {
+                            selector.addEventListener("click", function(e) {
                                 e.preventDefault();
                                 
                                 // Eliminar la clase active de todos los items
-                                $(modalId + " .pdf-selector").removeClass("active");
+                                pdfSelectors.forEach(function(s) {
+                                    s.classList.remove("active");
+                                });
                                 
                                 // Agregar la clase active al item seleccionado
-                                $(this).addClass("active");
+                                this.classList.add("active");
                                 
                                 // Obtener la ruta del PDF y el nombre
-                                const pdfPath = $(this).data("pdf");
-                                const pdfName = $(this).data("name");
+                                const pdfPath = this.getAttribute("data-pdf");
+                                const pdfName = this.getAttribute("data-name");
                                 
                                 // Actualizar el título
-                                $(modalId + " .pdf-title span").text(pdfName);
+                                document.querySelector("#ModalPDF'.$id.' .pdf-title span").textContent = pdfName;
                                 
-                                // Actualizar el contenedor del PDF
-                                const pdfContainer = `<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="${pdfPath}"></object>`;
-                                $(modalId + " #pdfViewer'.$id.'").html(pdfContainer);
+                                // Actualizar el contenedor del PDF - usar innerHTML para mayor compatibilidad
+                                const pdfContainer = \'<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="\' + pdfPath + \'"></object>\';
+                                document.querySelector("#ModalPDF'.$id.' #pdfViewer'.$id.'").innerHTML = pdfContainer;
+                                
+                                console.log("Documento cambiado a: " + pdfName + ", ruta: " + pdfPath);
                             });
                         });
+                    }
+                    
+                    // Ejecutar cuando el DOM esté listo
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Obtener referencia al modal
+                        const modal = document.getElementById("ModalPDF'.$id.'");
                         
-                        // Remover listeners cuando el modal se cierre para evitar duplicados
-                        $(modalId).on("hidden.bs.modal", function() {
-                            $(modalId + " .pdf-selector").off("click");
-                        });
+                        // Asegurarse de que el modal existe
+                        if (modal) {
+                            // Inicializar cuando el modal se muestre
+                            modal.addEventListener("shown.bs.modal", function() {
+                                console.log("Modal '.$id.' mostrado, inicializando selectores PDF");
+                                initPdfSelectors'.$id.'();
+                            });
+                        }
                     });
+                    
+                    // También inicializar inmediatamente por si el modal ya está abierto
+                    if (document.readyState === "complete" || document.readyState === "interactive") {
+                        setTimeout(initPdfSelectors'.$id.', 1);
+                    }
                 </script>';
                 
 				echo '</div>'; // Cierre de modal-body

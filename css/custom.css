@@ -563,22 +563,20 @@ a:hover {
 
 .estatus-badge {
   display: block !important;
-  width: fit-content !important;
-  margin: 15px auto 5px auto !important;
-  padding: 5px 15px !important;
-  border-radius: 4px !important;
-  font-size: 0.85rem !important;
-  font-weight: 600 !important;
+  background-color: #ffc107 !important;
+  color: white !important;
+  font-weight: normal !important;
   text-align: center !important;
-  color: #000 !important;
-  background-color: #AC905B !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-  order: 10000 !important; /* Asegura que siempre sea el último elemento */
-  position: relative !important;
-  max-width: 100% !important;
-  border-top: 1px solid #ddd !important;
-  padding-top: 10px !important;
-  margin-top: 15px !important;
+  padding: 5px 10px !important;
+  border-radius: 5px !important;
+  width: auto !important;
+  min-width: 150px !important;
+  max-width: 300px !important;
+  margin: 0 auto 8px auto !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 .estatus-generar {
@@ -587,8 +585,8 @@ a:hover {
 }
 
 .estatus-inspeccion {
-  background-color: #ffccd5;
-  color: #990000;
+  background-color: #ffc107 !important;
+  color: white !important;
 }
 
 .estatus-realizada {
@@ -1133,8 +1131,8 @@ table.registro-table {
 }
 
 .estatus-inspeccion {
-    background-color: #ffc107;
-    color: #212529;
+    background-color: #ffc107 !important;
+    color: white !important;
 }
 
 .estatus-realizada {
@@ -1302,23 +1300,24 @@ table.registro-table {
 a[class*="btn-"][style*="background-color:#AC905B"],
 a[class*="btn-"][style*="background-color:#F0D777"],
 .amarillo-bottom {
-  width: 250px !important; /* Ancho fijo para aproximadamente 35 caracteres */
-  order: 9999 !important; /* Siempre aparecerá al final */
-  margin-top: 20px !important;
-  margin-bottom: 10px !important;
+  width: 250px !important;
+  margin: 5px 0 !important;
   clear: both !important;
   display: block !important;
   align-self: center !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  background-color: #F0D777 !important;
-  color: #000 !important;
+  background-color: #ffc107 !important;
+  color: white !important;
   font-weight: bold !important;
   padding: 8px 15px !important;
   border-radius: 5px !important;
   text-align: center !important;
   position: relative !important;
+  border: none !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+  text-decoration: none !important;
 }
 
 /* Agregamos un salto de línea visible antes de los botones amarillos */
@@ -1482,33 +1481,32 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 
 /* Contenedor para los badges de estatus */
 .status-badges-container {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 20px !important;
-  position: relative;
-  padding-top: 10px !important;
-  border-top: 1px solid #ddd !important;
+  width: 100%;
+  margin: 10px auto 5px auto !important;
   clear: both !important;
+  padding-top: 5px !important;
 }
 
 /* Estilo para los badges de estatus */
 .estatus-badge {
   display: block !important;
-  width: fit-content !important;
-  min-width: 200px !important;
-  margin: 5px auto !important;
-  padding: 8px 15px !important;
-  border-radius: 5px !important;
-  font-size: 0.85rem !important;
-  font-weight: 600 !important;
-  text-align: center !important;
+  background-color: #ffc107 !important;
   color: white !important;
-  background-color: #AC905B !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-  position: relative !important;
-  max-width: 100% !important;
+  font-weight: normal !important;
+  text-align: center !important;
+  padding: 5px 10px !important;
+  border-radius: 5px !important;
+  width: auto !important;
+  min-width: 150px !important;
+  max-width: 300px !important;
+  margin: 0 auto 8px auto !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
 }
 
 .estatus-badge font {
@@ -1519,7 +1517,7 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 
 /* Estilos específicos para diferentes tipos de estatus */
 .estatus-inspeccion {
-  background-color: #AC905B !important;
+  background-color: #ffc107 !important;
   color: white !important;
 }
 
@@ -1584,7 +1582,7 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  background-color: #AC905B !important;
+  background-color: #ffc107 !important;
   color: white !important;
   font-weight: bold !important;
   padding: 8px 15px !important;

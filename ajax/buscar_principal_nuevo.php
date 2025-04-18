@@ -430,19 +430,19 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 // Botón de "Permiso Autorizado"
                                 if ($operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin') {
                                     $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso(\''.$id.'\',\''.$page.'\');" class="amarillo-bottom" style="background-color:#AC905B !important; color:white !important;" title="Imprimir Permiso Folio '.$folio.', '.$nombre_comercial_establecimiento.'">Permiso Autorizado</a>';
+                                    $botonAmarilloHTML .= '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso(\''.$id.'\',\''.$page.'\');" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Imprimir Permiso Folio '.$folio.', '.$nombre_comercial_establecimiento.'">Permiso Autorizado</a>';
                                 }
                                 
                                 // Botón de "Generar Recibos IRAD"
                                 if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
                                     $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#AC905B !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
                                 }
                                 
                                 // Botón de "Presupuesto"
                                 if ($estatus == "Presupuesto") {
                                     $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#AC905B !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')">Presupuesto</a>';
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')">Presupuesto</a>';
                                 }
                                 
                                 // Si hay algún botón amarillo para mostrar, añadir el contenedor
@@ -454,22 +454,27 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 <!-- TERCERO: Contenedor para estatus badges que deben aparecer al final -->
                                 <div class="status-badges-container">
                                     <?php
-                                    // Determinar qué texto del estatus mostrar basado en el estado actual
-                                    $textoEstatus = $estatus; // Valor por defecto
+                                    // En lugar de un solo badge, mostraremos badges independientes
                                     
-                                    // Si es un estado específico, personalizar el texto
+                                    // Badge para "Generar Recibos IRAD" si aplica
                                     if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                        $textoEstatus = "Generar Recibos IRAD";
-                                    }
-                                    else if ($estatus == "Presupuesto") {
-                                        $textoEstatus = "Presupuesto";
-                                    }
-                                    else if ($estatus == "Permiso Autorizado") {
-                                        $textoEstatus = "Permiso Autorizado";
+                                        echo '<div class="estatus-badge estatus-inspeccion"><font size="1">Generar Recibos IRAD</font></div>';
                                     }
                                     
-                                    // Mostrar el badge con el estatus correspondiente
-                                    echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">' . $textoEstatus . '</font></div>';
+                                    // Badge para "Presupuesto" si aplica
+                                    if ($estatus == "Presupuesto") {
+                                        echo '<div class="estatus-badge estatus-inspeccion"><font size="1">Presupuesto</font></div>';
+                                    }
+                                    
+                                    // Badge para "Permiso Autorizado" si aplica
+                                    if ($estatus == "Permiso Autorizado") {
+                                        echo '<div class="estatus-badge estatus-inspeccion"><font size="1">Permiso Autorizado</font></div>';
+                                    }
+                                    
+                                    // Para otros estados, mostramos el estatus original
+                                    if ($estatus != "PENDIENTE" && $estatus != "INSPECCION" && $estatus != "Presupuesto" && $estatus != "Permiso Autorizado") {
+                                        echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">' . $estatus . '</font></div>';
+                                    }
                                     ?>
                                 </div>
                             </div>

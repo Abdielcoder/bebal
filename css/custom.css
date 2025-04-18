@@ -1682,14 +1682,14 @@ a[class*="btn-"][style*="background-color:#F0D777"],
 }
 
 .list-group-item.pdf-selector.active {
-  background-color: #AC905B;
-  border-color: #AC905B;
-  color: white;
+  background-color: #742c32 !important;
+  border-color: #742c32 !important;
+  color: white !important;
 }
 
 .list-group-item.pdf-selector.active .badge {
   background-color: white !important;
-  color: #333 !important;
+  color: #742c32 !important;
 }
 
 .pdf-title {

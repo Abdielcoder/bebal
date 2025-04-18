@@ -521,7 +521,7 @@ echo '</div>';
                     
                     // Columna izquierda - Lista de PDFs
                     echo '<div class="col-md-4" style="border-right: 1px solid #eee;">
-                          <h6 class="mb-3">Documentos disponibles: <span class="badge bg-secondary">' . $pdfCount . '</span></h6>
+                          <h6 class="mb-3">Documentos disponibles: <span class="badge" style="background-color:#742c32 !important;">' . $pdfCount . '</span></h6>
                           <div class="list-group">';
                     
                     // Establecer el PDF activo por defecto - el primero disponible
@@ -541,7 +541,7 @@ echo '</div>';
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
                              data-pdf="../bebal_docs/'.$docs_pdf1DB.'" data-name="Documento 1">
                              <i class="bi bi-file-earmark-pdf"></i> Documento 1
-                             '.(!empty($estatus_docs_pdf1DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf1DB.'</span>' : '').'
+                             '.(!empty($estatus_docs_pdf1DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf1DB.'</span>' : '').'
                              </a>';
                     }
                     
@@ -556,7 +556,7 @@ echo '</div>';
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
                              data-pdf="../bebal_docs/'.$docs_pdf2DB.'" data-name="Documento 2">
                              <i class="bi bi-file-earmark-pdf"></i> Documento 2
-                             '.(!empty($estatus_docs_pdf2DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf2DB.'</span>' : '').'
+                             '.(!empty($estatus_docs_pdf2DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf2DB.'</span>' : '').'
                              </a>';
                     }
                     
@@ -571,7 +571,7 @@ echo '</div>';
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
                              data-pdf="../bebal_docs/'.$docs_pdf3DB.'" data-name="Documento 3">
                              <i class="bi bi-file-earmark-pdf"></i> Documento 3
-                             '.(!empty($estatus_docs_pdf3DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf3DB.'</span>' : '').'
+                             '.(!empty($estatus_docs_pdf3DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf3DB.'</span>' : '').'
                              </a>';
                     }
                     
@@ -586,7 +586,7 @@ echo '</div>';
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
                              data-pdf="../bebal_docs/'.$docs_pdf4DB.'" data-name="Documento 4">
                              <i class="bi bi-file-earmark-pdf"></i> Documento 4
-                             '.(!empty($estatus_docs_pdf4DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf4DB.'</span>' : '').'
+                             '.(!empty($estatus_docs_pdf4DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf4DB.'</span>' : '').'
                              </a>';
                     }
                     
@@ -663,7 +663,7 @@ echo '</div>';
 				echo '</div>'; // Cierre de modal-body
                 
                 echo '<div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                     <button type="button" class="btn" style="background-color:#742c32 !important; color:white !important;" data-bs-dismiss="modal">Cerrar</button>
                      </div>';
                      
 				echo '</div>';

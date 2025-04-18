@@ -427,12 +427,6 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 $mostrarBotonAmarillo = false;
                                 $botonAmarilloHTML = '';
                                 
-                                // Botón de "Permiso Autorizado"
-                                if ($operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin') {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso(\''.$id.'\',\''.$page.'\');" class="btn btn-sm btn-action" style="background-color:#ffc107 !important; color:white !important; display:inline-block;" title="Imprimir Permiso Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-file-earmark-check"></i></a>';
-                                }
-                                
                                 // Botón de "Generar Recibos IRAD"
                                 if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
                                     $mostrarBotonAmarillo = true;

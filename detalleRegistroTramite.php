@@ -563,7 +563,7 @@ $COLONIA=$row_colonia['colonia'];
 <center><div>
 
 <?php
-echo '<a href="principal.php?page='.$page.'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>&nbsp;';
+echo '<a href="principal.php?page='.$page.'&action=ajax" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>&nbsp;';
 
 
 ##echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Cambio de Domicilio y Titular </font></a>&nbsp;';
@@ -638,7 +638,7 @@ echo '<a href="#revisarPagoTramiteCambio" data-bs-toggle="modal" data-bs-target=
  data-total_umas_pagar="'.$MONTO_UMAS_Inspeccion.'"
  data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'" 
  data-id_proceso_tramites="'.$id_proceso_tramites.'" 
- data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger bs-sm" title="Pago Inspección"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>&nbsp;';
+ data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger bs-sm" title="Pago Inspeción"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>&nbsp;';
 
 } else {
 ##$sql_pagoI22="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='PAGADO' AND id_proceso_tramites=".$id_proceso_tramites;

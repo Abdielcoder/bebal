@@ -368,75 +368,93 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                             ?>
                         </td>
                         <td data-label="Acciones" class="acciones-celda">
-			    <div class="action-buttons">
-				<div class="action-row-buttons">
-<?php
-				if ( $operacion=='Activo' ) {
-					echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
-				}
+                            <div class="action-buttons">
+                                <!-- PRIMERO: Todos los botones normales -->
+                                <div class="action-row-buttons">
+                                <?php
+                                    // Botón de acción para Activo (cambios)
+                                    if ($operacion=='Activo') {
+                                        echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
+                                    }
 
-				if ( $operacion=='Tramite' ) {
-					echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
-				}
+                                    // Botón de acción para Trámite
+                                    if ($operacion=='Tramite') {
+                                        echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+                                    }
 
-				##<!-- Botón de editar -->
-				if ( $operacion=='NUEVO' ) {
-					if ( $PROFILE=='inspector' ) {
-						if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
-							echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'"  class="btn btn-danger btn-xs" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
-						}
-					} else {
-						echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-dark" title="Proceso Registro Nuevo Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
-					}
-				}
+                                    // Botón de editar
+                                    if ($operacion=='NUEVO') {
+                                        if ($PROFILE=='inspector') {
+                                            if ($estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado') {
+                                                echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+                                            }
+                                        } else {
+                                            echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-dark" title="Proceso Registro Nuevo Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
+                                        }
+                                    }
+                                    
+                                    // Botón de coordenadas/mapa
+                                    if ($latitud!='' && $longitud!='') {
+                                        echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
+                                    }
+
+                                    // Botón Ver PDFs
+                                    $cuentaPT=0;
+                                    $KueryPT="SELECT COUNT(*) AS cuentaPT FROM proceso_tramites WHERE en_proceso='Fin' AND id=$id_proceso_tramites";
+                                    $arregloPT = mysqli_fetch_array(mysqli_query($con,$KueryPT));
+                                    $cuentaPT=$arregloPT['cuentaPT'];
+                                    if ($cuentaPT>0) {
+                                        echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Ver PDFs" data-bs-toggle="modal" data-bs-target="#ModalPDF'.$id.'")"><i class="bi bi-file-pdf"></i></a>';
+
+                                        $KueryPTfiles="SELECT * FROM proceso_tramites WHERE id=$id_proceso_tramites AND en_proceso='Fin'";
+                                        $arregloPTfiles = mysqli_fetch_array(mysqli_query($con,$KueryPTfiles));
+
+                                        $docs_pdf1DB=$arregloPTfiles['docs_pdf1'];
+                                        $estatus_docs_pdf1DB=$arregloPTfiles['estatus_docs_pdf1'];
+                                        $docs_pdf2DB=$arregloPTfiles['docs_pdf2'];
+                                        $estatus_docs_pdf2DB=$arregloPTfiles['estatus_docs_pdf2'];
+                                        $docs_pdf3DB=$arregloPTfiles['docs_pdf3'];
+                                        $estatus_docs_pdf3DB=$arregloPTfiles['estatus_docs_pdf3'];
+                                        $docs_pdf4DB=$arregloPTfiles['docs_pdf4'];
+                                        $estatus_docs_pdf4DB=$arregloPTfiles['estatus_docs_pdf4'];
+                                    }
+                                ?>
+                                </div>
+
+                                <!-- SEGUNDO: Estatus badge -->
+                                <div class="estatus-badge estatus-inspeccion"><font size="1"><?php echo $estatus; ?></font></div>
                                 
-				##<!-- Botón de coordenadas/mapa -->
-				if ( $latitud!='' && $longitud!='' ) {
-					echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
-				}
-
-				// Botón Ver PDFs
-				$cuentaPT=0;
-				$KueryPT="SELECT COUNT(*) AS cuentaPT FROM proceso_tramites WHERE en_proceso='Fin' AND id=$id_proceso_tramites";
-				$arregloPT = mysqli_fetch_array(mysqli_query($con,$KueryPT));
-				$cuentaPT=$arregloPT['cuentaPT'];
-				if ( $cuentaPT>0 ) {
-					echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Ver PDFs" data-bs-toggle="modal" data-bs-target="#ModalPDF'.$id.'")"><i class="bi bi-file-pdf"></i></a>';
-
-					$KueryPTfiles="SELECT * FROM proceso_tramites WHERE id=$id_proceso_tramites AND en_proceso='Fin'";
-					$arregloPTfiles = mysqli_fetch_array(mysqli_query($con,$KueryPTfiles));
-
-					$docs_pdf1DB=$arregloPTfiles['docs_pdf1'];
-					$estatus_docs_pdf1DB=$arregloPTfiles['estatus_docs_pdf1'];
-					$docs_pdf2DB=$arregloPTfiles['docs_pdf2'];
-					$estatus_docs_pdf2DB=$arregloPTfiles['estatus_docs_pdf2'];
-					$docs_pdf3DB=$arregloPTfiles['docs_pdf3'];
-					$estatus_docs_pdf3DB=$arregloPTfiles['estatus_docs_pdf3'];
-					$docs_pdf4DB=$arregloPTfiles['docs_pdf4'];
-					$estatus_docs_pdf4DB=$arregloPTfiles['estatus_docs_pdf4'];
-				}
-?>
-				</div>
-				
-				<!-- Estatus -->
-				<div class="estatus-badge estatus-inspeccion"><font size="1"><?php echo $estatus; ?></font></div>
-				
-				<!-- Botones amarillos (siempre abajo) -->
-				<div class="yellow-button-container">
-					<?php if ($operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin'): ?>
-					<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso('<?php echo $id; ?>','<?php echo $page; ?>');" class="amarillo-bottom" title="Imprimir Permiso Folio <?php echo $folio; ?>, <?php echo $nombre_comercial_establecimiento; ?>">Permiso Autorizado</a>
-					<?php endif; ?>
-					
-					<?php if ($estatus == "PENDIENTE" || $estatus == "INSPECCION"): ?>
-					<a href="#" class="amarillo-bottom" title="Generar Recibo Inspección" onclick="generar_recibo('<?php echo $id; ?>')">Generar Recibos IRAD</a>
-					<?php endif; ?>
-
-					<?php if ($estatus == "Presupuesto"): ?>
-					<a href="#" class="amarillo-bottom" title="Presupuesto" onclick="presupuesto('<?php echo $id; ?>')">Presupuesto</a>
-					<?php endif; ?>
-				</div>
-			    </div>
-			</td>
+                                <!-- TERCERO: Botones amarillos SIEMPRE al final -->
+                                <?php
+                                // Determinar si hay que mostrar algún botón amarillo
+                                $mostrarBotonAmarillo = false;
+                                $botonAmarilloHTML = '';
+                                
+                                // Botón de "Permiso Autorizado"
+                                if ($operacion=='Activo' && $estatus=='Permiso Autorizado' && $PROFILE=='admin') {
+                                    $mostrarBotonAmarillo = true;
+                                    $botonAmarilloHTML .= '<a href="#" data-bs-toggle="modal" data-bs-target="#ImprimirPermiso" onclick="obtener_datosImprimirPermiso(\''.$id.'\',\''.$page.'\');" class="amarillo-bottom" title="Imprimir Permiso Folio '.$folio.', '.$nombre_comercial_establecimiento.'">Permiso Autorizado</a>';
+                                }
+                                
+                                // Botón de "Generar Recibos IRAD"
+                                if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                    $mostrarBotonAmarillo = true;
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                }
+                                
+                                // Botón de "Presupuesto"
+                                if ($estatus == "Presupuesto") {
+                                    $mostrarBotonAmarillo = true;
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" title="Presupuesto" onclick="presupuesto(\''.$id.'\')">Presupuesto</a>';
+                                }
+                                
+                                // Si hay algún botón amarillo para mostrar, añadir el contenedor
+                                if ($mostrarBotonAmarillo) {
+                                    echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
+                                }
+                                ?>
+                            </div>
+                        </td>
                     </tr>
                 <?php
 		$ciclo++;

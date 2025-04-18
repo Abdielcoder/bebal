@@ -1479,10 +1479,20 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 25px;
+  margin-top: 30px !important;
   position: relative;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
+  padding-top: 15px !important;
+  border-top: 2px solid #ddd !important;
+  clear: both !important;
+}
+
+/* Ajuste de los botones de acción normales */
+.action-row-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 15px !important;
 }
 
 /* Estilo específico para los botones amarillos que deben aparecer abajo */
@@ -1492,20 +1502,38 @@ a[class*="btn-"][style*="background-color:#AC905B"],
 a[class*="btn-"][style*="background-color:#F0D777"],
 .amarillo-bottom {
   width: 250px !important; /* Ancho fijo para aproximadamente 35 caracteres */
-  order: 9999 !important; /* Siempre aparecerá al final */
-  margin-top: 5px !important;
-  margin-bottom: 5px !important;
+  margin: 5px 0 !important;
   clear: both !important;
   display: block !important;
   align-self: center !important;
   white-space: nowrap !important;
   overflow: hidden !important;
   text-overflow: ellipsis !important;
-  background-color: #F0D777 !important;
+  background-color: #AC905B !important; /* Cambiado a #AC905B como solicitado */
   color: #000 !important;
   font-weight: bold !important;
   padding: 8px 15px !important;
   border-radius: 5px !important;
   text-align: center !important;
   position: relative !important;
+  border: none !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+  text-decoration: none !important;
+}
+
+/* Media queries para ajuste en móviles */
+@media (max-width: 768px) {
+  .yellow-button-container {
+    margin-top: 25px !important;
+    padding-top: 10px !important;
+  }
+  
+  .btn-warning-custom, 
+  .btn-generar-recibo,
+  a[class*="btn-"][style*="background-color:#AC905B"],
+  a[class*="btn-"][style*="background-color:#F0D777"],
+  .amarillo-bottom {
+    width: 100% !important;
+    max-width: 250px !important;
+  }
 }

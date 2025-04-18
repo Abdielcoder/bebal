@@ -421,31 +421,7 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 ?>
                                 </div>
                                 
-                                <!-- SEGUNDO: Botones amarillos -->
-                                <?php
-                                // Determinar si hay que mostrar algún botón amarillo
-                                $mostrarBotonAmarillo = false;
-                                $botonAmarilloHTML = '';
-                                
-                                // Botón de "Generar Recibos IRAD"
-                                if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
-                                }
-                                
-                                // Botón de "Presupuesto"
-                                if ($estatus == "Presupuesto") {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<button type="button" class="btn amarillo-bottom" style="background-color:#dc3545 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
-                                }
-                                
-                                // Si hay algún botón amarillo para mostrar, añadir el contenedor
-                                if ($mostrarBotonAmarillo) {
-                                    echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
-                                }
-                                ?>
-                                
-                                <!-- TERCERO: Contenedor para estatus badges que deben aparecer al final -->
+                                <!-- SEGUNDO: Contenedor para estatus badges (Movido aquí) -->
                                 <div class="status-badges-container">
                                     <?php
                                     // En lugar de un solo badge, mostraremos badges independientes
@@ -471,6 +447,30 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     }
                                     ?>
                                 </div>
+                                
+                                <!-- TERCERO: Botones amarillos (Ahora después de los badges) -->
+                                <?php
+                                // Determinar si hay que mostrar algún botón amarillo
+                                $mostrarBotonAmarillo = false;
+                                $botonAmarilloHTML = '';
+                                
+                                // Botón de "Generar Recibos IRAD"
+                                if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                    $mostrarBotonAmarillo = true;
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                }
+                                
+                                // Botón de "Presupuesto"
+                                if ($estatus == "Presupuesto") {
+                                    $mostrarBotonAmarillo = true;
+                                    $botonAmarilloHTML .= '<button type="button" class="btn amarillo-bottom" style="background-color:#dc3545 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
+                                }
+                                
+                                // Si hay algún botón amarillo para mostrar, añadir el contenedor
+                                if ($mostrarBotonAmarillo) {
+                                    echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
+                                }
+                                ?>
                             </div>
                         </td>
                     </tr>

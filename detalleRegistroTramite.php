@@ -64,6 +64,7 @@ session_start();
 	//include("modal/actualizar_datos_solicitante.php");
 	//include("modal/actualizar_datos_establecimiento.php");
 	include("modal/actualizar_datos_establecimiento_y_titular.php");
+	include("modal/actualizar_datos_titularHerencia.php");
 	include("modal/actualizar_datos_nombre_comercial.php");
 	include("modal/actualizar_giro.php");
 
@@ -830,7 +831,26 @@ echo  '<a href="#ActualizarDatosNombreComercial" data-bs-toggle="modal" data-bs-
  data-pagina="'.$page.'"
  class="btn btn-danger bs-sm" title="Actualizar Datos -  Cambio de Nombre Comercial" style="background-color:#FF0000;color:black" ><i class="bi bi-pencil"></i><font size="1" color="white"> Actualizar Datos - Cambio de Nombre Comercial</font></a>';
 ##
-    break;
+break;
+
+case 'Cambio Titular por Herencia':
+##
+echo  '<a href="#ActualizarTitularHerencia" data-bs-toggle="modal" data-bs-target="#ActualizarTitularHerencia""
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'"
+ data-idprincipal="'.$IDPRINCIPAL.'"
+ data-pagina="'.$page.'"
+ data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'"
+ data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'"
+ data-domicilio_solicitante="'.$domicilio_solicitante.'" i
+ data-email_solicitante="'.$email_solicitante.'"
+ data-telefono_solicitante="'.$telefono_solicitante.'"
+ data-fisica_o_moral="'.$fisica_o_moral.'"
+ data-rfc="'.$rfc.'"
+ class="btn btn-danger bs-sm" title="Actualizar Datos -  Cambio de Titular por Herencia" style="background-color:#FF0000;color:black" ><i class="bi bi-pencil"></i><font size="1" color="white"> Actualizar Datos - Cambio de Titular por Herecia</font></a>';
+##
+        break;
+
 
   default:
 }
@@ -1025,6 +1045,36 @@ $( "#guardar_registroPrincipalEstablecimiento_y_Titular" ).submit(function( even
         });
   event.preventDefault();
 });
+
+
+
+$( "#guardar_registroPrincipalTitularHerencia" ).submit(function( event ) {
+  $('#Button_guardar_registroPrincipalTitularHerencia').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/ActualizarDatosTitularHerencia.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxActualizarDatosTitularHerencia").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxActualizarDatosTitularHerencia").html(datos);
+                        $('#Button_guardar_registroPrincipalTitularHerencia').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 3000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
 
 
 

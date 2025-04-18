@@ -197,8 +197,8 @@ $reload = './giro.php';
 
 
 		<tr>
-		<td><font size="1"><?php echo $descripcion_giro; ?></font></td>
-		<td align="center"><font size="2"><?php echo $cuenta; ?></font></td>
+		<td><font size="2"><?php echo $descripcion_giro; ?></font></td>
+		<td align="center"><font size="1"><?php echo $cuenta; ?></font></td>
 		<td align="center"><font size="2"><?php echo number_format($monto_umas,2); ?></font></td>
 		<td align="center"><font size="2"><?php echo number_format($monto_umas_revalidacion_anual,2); ?></font></td>
 		<td><font size="1"><?php echo $horario_funcionamiento; ?></font></td>

@@ -452,7 +452,7 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 // Botón de "Presupuesto"
                                 if ($estatus == "Presupuesto") {
                                     $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<button type="button" class="btn amarillo-bottom" style="background-color:#dc3545 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
+                                    $botonAmarilloHTML .= '<button type="button" class="btn btn-sm btn-action" style="background-color:#dc3545 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
                                 }
                                 
                                 // Si hay algún botón amarillo para mostrar, añadir el contenedor

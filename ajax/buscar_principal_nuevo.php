@@ -451,8 +451,27 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 }
                                 ?>
                                 
-                                <!-- TERCERO: Siempre mostramos el estatus al final -->
-                                <div class="estatus-badge estatus-inspeccion"><font size="1">Permiso Autorizado</font></div>
+                                <!-- TERCERO: Contenedor para estatus badges que deben aparecer al final -->
+                                <div class="status-badges-container">
+                                    <?php
+                                    // Determinar qué texto del estatus mostrar basado en el estado actual
+                                    $textoEstatus = $estatus; // Valor por defecto
+                                    
+                                    // Si es un estado específico, personalizar el texto
+                                    if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                        $textoEstatus = "Generar Recibos IRAD";
+                                    }
+                                    else if ($estatus == "Presupuesto") {
+                                        $textoEstatus = "Presupuesto";
+                                    }
+                                    else if ($estatus == "Permiso Autorizado") {
+                                        $textoEstatus = "Permiso Autorizado";
+                                    }
+                                    
+                                    // Mostrar el badge con el estatus correspondiente
+                                    echo '<div class="estatus-badge"><font size="1">' . $textoEstatus . '</font></div>';
+                                    ?>
+                                </div>
                             </div>
                         </td>
                     </tr>

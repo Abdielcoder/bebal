@@ -1480,6 +1480,71 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   color: white;
 }
 
+/* Contenedor para los badges de estatus */
+.status-badges-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px !important;
+  position: relative;
+  padding-top: 10px !important;
+  border-top: 1px solid #ddd !important;
+  clear: both !important;
+}
+
+/* Estilo para los badges de estatus */
+.estatus-badge {
+  display: block !important;
+  width: fit-content !important;
+  min-width: 200px !important;
+  margin: 5px auto !important;
+  padding: 8px 15px !important;
+  border-radius: 5px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  text-align: center !important;
+  color: #000 !important;
+  background-color: #AC905B !important; /* Color cambiado como solicitado */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  position: relative !important;
+  max-width: 100% !important;
+}
+
+.estatus-badge font {
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+}
+
+/* Estilos específicos para diferentes tipos de estatus */
+.estatus-inspeccion {
+  background-color: #AC905B !important; /* Color cambiado como solicitado */
+  color: #000 !important;
+}
+
+.estatus-realizada {
+  background-color: #AC905B !important; /* Color cambiado como solicitado */
+  color: #000 !important;
+}
+
+.estatus-generar {
+  background-color: #AC905B !important; /* Color cambiado como solicitado */
+  color: #000 !important;
+}
+
+/* Media queries para responsive */
+@media (max-width: 768px) {
+  .status-badges-container {
+    margin-top: 15px !important;
+  }
+  
+  .estatus-badge {
+    min-width: 180px !important;
+    max-width: 250px !important;
+    width: 100% !important;
+  }
+}
+
 /* Contenedor específico para botones amarillos */
 .yellow-button-container {
   width: 100%;
@@ -1530,7 +1595,7 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   text-decoration: none !important;
 }
 
-/* Media queries para ajuste en móviles */
+/* Media queries para ajuste en móviles de botones amarillos */
 @media (max-width: 768px) {
   .yellow-button-container {
     margin-top: 25px !important;

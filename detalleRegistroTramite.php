@@ -564,9 +564,7 @@ $COLONIA=$row_colonia['colonia'];
 <center><div>
 
 <?php
-echo '<a href="javascript:void(0);" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Volver </font></a>&nbsp;';
-
-echo '<a href="javascript:void(0);" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#AC905B; color:white !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a página '.$page.' </font></a>&nbsp;';
+echo '<button type="button" onclick="location.replace(\'principal.php?page='.$page.'&action=ajax\')" class="btn btn-info bs-sm" style="background-color:#AC905B; color:white !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a página '.$page.' </font></button>&nbsp;';
 
 
 ##echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Cambio de Domicilio y Titular </font></a>&nbsp;';

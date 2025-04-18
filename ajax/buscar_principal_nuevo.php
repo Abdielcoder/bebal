@@ -157,11 +157,12 @@ if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_munic
             <table class="table registro-table">
                 <thead>
                     <tr class="success">
-                        <th width="12%"> </th>
-                        <th width="25%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
-                        <th width="25%"><font size="1">SOLICITANTE</font></th>
-                        <th width="14%"><font size="1">OBSERVACIÓN</font></th>
-                        <th class="text-end" width="22%"><font size="1">ACCIONES</font></th>
+                        <th width="10%"> </th>
+                        <th width="20%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
+                        <th width="20%"><font size="1">SOLICITANTE</font></th>
+                        <th width="10%"><font size="1">OBSERVACIÓN</font></th>
+                        <th width="15%"><font size="1">STATUS</font></th>
+                        <th class="text-end" width="25%"><font size="1">ACCIONES</font></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -367,6 +368,21 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
 
                             ?>
                         </td>
+                        <!-- NUEVA COLUMNA DE STATUS -->
+                        <td data-label="Status" class="status-celda">
+                            <?php
+                            // Mostrar el estado correspondiente
+                            if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">Generar Recibos IRAD</font></div>';
+                            } else if ($estatus == "Presupuesto") {
+                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">Presupuesto</font></div>';
+                            } else if ($estatus == "Permiso Autorizado") {
+                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">Permiso Autorizado</font></div>';
+                            } else {
+                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">' . $estatus . '</font></div>';
+                            }
+                            ?>
+                        </td>
                         <td data-label="Acciones" class="acciones-celda">
                             <div class="action-buttons">
                                 <!-- PRIMERO: Todos los botones normales -->
@@ -421,33 +437,17 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 ?>
                                 </div>
                                 
-                                <!-- NUEVA FILA PARA BOTONES ESPECÍFICOS -->
-                                <div class="action-row-special" style="display:flex; flex-wrap:wrap; justify-content:flex-start; border-top:1px solid #eee; margin-top:10px; padding-top:10px;">
-                                    <?php
-                                    // Botón de "Generar Recibos IRAD" (Movido a esta fila)
-                                    if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                        echo '<span class="btn btn-sm" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px; text-align:center;" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</span>';
-                                    }
-                                    
-                                    // Botón de "Presupuesto" (Movido a esta fila)
-                                    if ($estatus == "Presupuesto") {
-                                        echo '<span class="btn btn-sm" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px; text-align:center;" onclick="presupuesto(\''.$id.'\')">Presupuesto</span>';
-                                    }
-                                    
-                                    // Badge para "Permiso Autorizado" (Movido a esta fila como botón)
-                                    if ($estatus == "Permiso Autorizado") {
-                                        echo '<span class="btn btn-sm" style="background-color:#ffc107 !important; color:white !important; margin-right:5px; margin-bottom:5px;">Permiso Autorizado</span>';
-                                    }
-                                    ?>
-                                </div>
-                                
-                                <!-- SEGUNDO: Botones amarillos (Mantener solo para otros botones que no sean los específicos) -->
+                                <!-- SEGUNDO: Botones amarillos (restaurar el comportamiento original) -->
                                 <?php
-                                /*
-                                // DESHABILITADO AL MOVER LOS BOTONES A LA FILA ESPECIAL
                                 // Determinar si hay que mostrar algún botón amarillo
                                 $mostrarBotonAmarillo = false;
                                 $botonAmarilloHTML = '';
+                                
+                                // Botón de "Generar Recibos IRAD"
+                                if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                    $mostrarBotonAmarillo = true;
+                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                }
                                 
                                 // Botón de "Presupuesto"
                                 if ($estatus == "Presupuesto") {
@@ -459,38 +459,7 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 if ($mostrarBotonAmarillo) {
                                     echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
                                 }
-                                */
                                 ?>
-                                
-                                <!-- TERCERO: Contenedor para estatus badges (Mantener por ahora, pero deshabilitar los que se movieron a la nueva fila) -->
-                                <div class="status-badges-container">
-                                    <?php
-                                    /*
-                                    // DESHABILITADO AL MOVER LOS BADGES A LA FILA ESPECIAL
-                                    // En lugar de un solo badge, mostraremos badges independientes
-                                    
-                                    // Badge para "Generar Recibos IRAD" si aplica
-                                    if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                        echo '<div class="estatus-badge estatus-inspeccion"><font size="1">Generar Recibos IRAD</font></div>';
-                                    }
-                                    
-                                    // Badge para "Presupuesto" si aplica
-                                    if ($estatus == "Presupuesto") {
-                                        echo '<div class="estatus-badge estatus-inspeccion"><font size="1">Presupuesto</font></div>';
-                                    }
-                                    
-                                    // Badge para "Permiso Autorizado" si aplica
-                                    if ($estatus == "Permiso Autorizado") {
-                                        echo '<div class="estatus-badge estatus-inspeccion"><font size="1">Permiso Autorizado</font></div>';
-                                    }
-                                    */
-                                    
-                                    // Para otros estados, mostramos el estatus original
-                                    if ($estatus != "PENDIENTE" && $estatus != "INSPECCION" && $estatus != "Presupuesto" && $estatus != "Permiso Autorizado") {
-                                        echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">' . $estatus . '</font></div>';
-                                    }
-                                    ?>
-                                </div>
                             </div>
                         </td>
                     </tr>

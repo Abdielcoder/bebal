@@ -1610,3 +1610,24 @@ a[class*="btn-"][style*="background-color:#F0D777"],
     max-width: 250px !important;
   }
 }
+
+.status-celda {
+  padding: 12px 8px !important;
+}
+
+@media (max-width: 768px) {
+  .status-celda {
+    padding: 10px 0 !important;
+    display: block !important;
+    width: 100% !important;
+    text-align: center !important;
+    border-bottom: 1px solid #ddd !important;
+  }
+  
+  .status-celda:before {
+    content: attr(data-label) !important;
+    font-weight: bold !important;
+    display: block !important;
+    margin-bottom: 5px !important;
+  }
+}

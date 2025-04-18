@@ -563,7 +563,7 @@ a:hover {
 
 .estatus-badge {
   display: block !important;
-  background-color: #ffc107 !important;
+  background-color: #AC905B !important;
   color: white !important;
   font-weight: normal !important;
   text-align: center !important;
@@ -585,7 +585,7 @@ a:hover {
 }
 
 .estatus-inspeccion {
-  background-color: #ffc107 !important;
+  background-color: #AC905B !important;
   color: white !important;
 }
 
@@ -1131,7 +1131,7 @@ table.registro-table {
 }
 
 .estatus-inspeccion {
-    background-color: #ffc107 !important;
+    background-color: #AC905B !important;
     color: white !important;
 }
 
@@ -1493,7 +1493,7 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 /* Estilo para los badges de estatus */
 .estatus-badge {
   display: block !important;
-  background-color: #ffc107 !important;
+  background-color: #AC905B !important;
   color: white !important;
   font-weight: normal !important;
   text-align: center !important;
@@ -1517,7 +1517,7 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 
 /* Estilos específicos para diferentes tipos de estatus */
 .estatus-inspeccion {
-  background-color: #ffc107 !important;
+  background-color: #AC905B !important;
   color: white !important;
 }
 

@@ -373,13 +373,13 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                             <?php
                             // Mostrar el estado correspondiente
                             if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">Generar Recibos IRAD</font></div>';
+                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">Generar Recibos IRAD</font></div>';
                             } else if ($estatus == "Presupuesto") {
-                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">Presupuesto</font></div>';
+                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">Presupuesto</font></div>';
                             } else if ($estatus == "Permiso Autorizado") {
-                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">Permiso Autorizado</font></div>';
+                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">Permiso Autorizado</font></div>';
                             } else {
-                                echo '<div class="estatus-badge" style="background-color:#ffc107 !important; color:white !important;"><font size="1" style="color:white !important;">' . $estatus . '</font></div>';
+                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">' . $estatus . '</font></div>';
                             }
                             ?>
                         </td>

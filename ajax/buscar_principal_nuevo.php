@@ -495,21 +495,125 @@ echo '</div>';
 
 				if ( $cuentaPT>0 ) {
 				echo '<div class="modal" id="ModalPDF'.$id.'" tabindex="-1" role="dialog">';
-				echo '<div class="modal-dialog" role="document">';
+				echo '<div class="modal-dialog modal-lg" role="document">';
 				echo '<div class="modal-content">';
 
-				echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
-				echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C2</h6>';
+				echo '<div class="modal-header" style="background-color:#AC905B;color:white">';
+				echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i> Documentos PDF</h6>';
 				echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
 				echo '<span aria-hidden="true">&times;</span>';
 				echo '</button>';
 				echo '</div>';
 				echo '<div class="modal-body">';
-				echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf2DB.'"></object>';
+                echo '<div class="row">';
+                
+                // Columna izquierda - Lista de PDFs
+                echo '<div class="col-md-4" style="border-right: 1px solid #eee;">
+                      <h6 class="mb-3">Documentos disponibles:</h6>
+                      <div class="list-group">';
+                
+                // Verificar y mostrar cada PDF disponible
+                $tieneDocumentos = false;
+                
+                if (!empty($docs_pdf1DB)) {
+                    $tieneDocumentos = true;
+                    echo '<a href="#" class="list-group-item list-group-item-action pdf-selector" 
+                         data-pdf="../bebal_docs/'.$docs_pdf1DB.'" data-name="Documento 1">
+                         <i class="bi bi-file-earmark-pdf"></i> Documento 1
+                         '.(!empty($estatus_docs_pdf1DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf1DB.'</span>' : '').'
+                         </a>';
+                }
+                
+                if (!empty($docs_pdf2DB)) {
+                    $tieneDocumentos = true;
+                    echo '<a href="#" class="list-group-item list-group-item-action pdf-selector active" 
+                         data-pdf="../bebal_docs/'.$docs_pdf2DB.'" data-name="Documento 2">
+                         <i class="bi bi-file-earmark-pdf"></i> Documento 2
+                         '.(!empty($estatus_docs_pdf2DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf2DB.'</span>' : '').'
+                         </a>';
+                }
+                
+                if (!empty($docs_pdf3DB)) {
+                    $tieneDocumentos = true;
+                    echo '<a href="#" class="list-group-item list-group-item-action pdf-selector" 
+                         data-pdf="../bebal_docs/'.$docs_pdf3DB.'" data-name="Documento 3">
+                         <i class="bi bi-file-earmark-pdf"></i> Documento 3
+                         '.(!empty($estatus_docs_pdf3DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf3DB.'</span>' : '').'
+                         </a>';
+                }
+                
+                if (!empty($docs_pdf4DB)) {
+                    $tieneDocumentos = true;
+                    echo '<a href="#" class="list-group-item list-group-item-action pdf-selector" 
+                         data-pdf="../bebal_docs/'.$docs_pdf4DB.'" data-name="Documento 4">
+                         <i class="bi bi-file-earmark-pdf"></i> Documento 4
+                         '.(!empty($estatus_docs_pdf4DB) ? '<span class="badge bg-secondary float-end">'.$estatus_docs_pdf4DB.'</span>' : '').'
+                         </a>';
+                }
+                
+                if (!$tieneDocumentos) {
+                    echo '<div class="alert alert-warning">No hay documentos PDF disponibles</div>';
+                }
+                
+                echo '</div></div>';
+                
+                // Columna derecha - Vista previa del PDF
+                echo '<div class="col-md-8">
+                      <h6 class="mb-3 pdf-title">Vista previa: <span>Documento 2</span></h6>
+                      <div id="pdfViewer'.$id.'" class="pdf-container">
+                        <object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf2DB.'"></object>
+                      </div>
+                      </div>';
+                
+                echo '</div>'; // Cierre del row
+                
+                // Script para manejar la selección de PDFs
+                echo '<script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Selector para el modal específico
+                        const modalId = "#ModalPDF'.$id.'";
+                        
+                        // Cuando el modal se muestre
+                        $(modalId).on("shown.bs.modal", function() {
+                            // Agregar listeners a todos los elementos con clase pdf-selector en este modal
+                            $(modalId + " .pdf-selector").on("click", function(e) {
+                                e.preventDefault();
+                                
+                                // Eliminar la clase active de todos los items
+                                $(modalId + " .pdf-selector").removeClass("active");
+                                
+                                // Agregar la clase active al item seleccionado
+                                $(this).addClass("active");
+                                
+                                // Obtener la ruta del PDF y el nombre
+                                const pdfPath = $(this).data("pdf");
+                                const pdfName = $(this).data("name");
+                                
+                                // Actualizar el título
+                                $(modalId + " .pdf-title span").text(pdfName);
+                                
+                                // Actualizar el contenedor del PDF
+                                const pdfContainer = `<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="${pdfPath}"></object>`;
+                                $(modalId + " #pdfViewer'.$id.'").html(pdfContainer);
+                            });
+                        });
+                        
+                        // Remover listeners cuando el modal se cierre para evitar duplicados
+                        $(modalId).on("hidden.bs.modal", function() {
+                            $(modalId + " .pdf-selector").off("click");
+                        });
+                    });
+                </script>';
+                
+				echo '</div>'; // Cierre de modal-body
+                
+                echo '<div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                     </div>';
+                     
 				echo '</div>';
 				echo '</div>';
 				echo '</div>';
-
 				}
 
 

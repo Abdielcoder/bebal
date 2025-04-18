@@ -1662,3 +1662,40 @@ a[class*="btn-"][style*="background-color:#F0D777"],
     border-top: none !important;
   }
 }
+
+/* Estilos para el visor de PDFs */
+.pdf-container {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: #f8f9fa;
+  height: 500px;
+}
+
+.list-group-item.pdf-selector {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.list-group-item.pdf-selector:hover {
+  background-color: #f0f0f0;
+}
+
+.list-group-item.pdf-selector.active {
+  background-color: #AC905B;
+  border-color: #AC905B;
+  color: white;
+}
+
+.list-group-item.pdf-selector.active .badge {
+  background-color: white !important;
+  color: #333 !important;
+}
+
+.pdf-title {
+  color: #333;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 15px;
+}

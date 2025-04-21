@@ -384,34 +384,32 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                             ?>
                         </td>
                         <td data-label="Acciones" class="acciones-celda" style="border-left: none; padding-left: 0; text-align: center;">
-                            <div class="action-buttons">
-                                <!-- PRIMERO: Todos los botones normales -->
-                                <div class="action-row-buttons">
+                            <div class="action-buttons" style="border: none !important; background: none !important;">
                                 <?php
                                     // Botón de acción para Activo (cambios)
                                     if ($operacion=='Activo') {
-                                        echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
+                                        echo '<a href="#" class="btn btn-xs btn-action btn-success" style="margin: 2px;" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
                                     }
 
                                     // Botón de acción para Trámite
                                     if ($operacion=='Tramite') {
-                                        echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+                                        echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" style="margin: 2px;" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
                                     }
 
                                     // Botón de editar
                                     if ($operacion=='NUEVO') {
                                         if ($PROFILE=='inspector') {
                                             if ($estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado') {
-                                                echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+                                                echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'" class="btn btn-danger btn-xs" style="margin: 2px;" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
                                             }
                                         } else {
-                                            echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-dark" title="Proceso Registro Nuevo Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
+                                            echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-dark" style="margin: 2px;" title="Proceso Registro Nuevo Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
                                         }
                                     }
                                     
                                     // Botón de coordenadas/mapa
                                     if ($latitud!='' && $longitud!='') {
-                                        echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
+                                        echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" style="margin: 2px;" title="Coordenadas Latitud y Longitud" data-bs-toggle="modal" data-bs-target="#MapaModal'.$id.'")"><i class="bi bi-geo-alt"></i></a>';
                                     }
 
                                     // Botón Ver PDFs
@@ -420,7 +418,7 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     $arregloPT = mysqli_fetch_array(mysqli_query($con,$KueryPT));
                                     $cuentaPT=$arregloPT['cuentaPT'];
                                     if ($cuentaPT>0) {
-                                        echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" title="Ver PDFs" data-bs-toggle="modal" data-bs-target="#ModalPDF'.$id.'")"><i class="bi bi-file-pdf"></i></a>';
+                                        echo '<a href="#" class="btn btn-sm btn-action btn-primary-custom" style="margin: 2px;" title="Ver PDFs" data-bs-toggle="modal" data-bs-target="#ModalPDF'.$id.'")"><i class="bi bi-file-pdf"></i></a>';
 
                                         $KueryPTfiles="SELECT * FROM proceso_tramites WHERE id=$id_proceso_tramites AND en_proceso='Fin'";
                                         $arregloPTfiles = mysqli_fetch_array(mysqli_query($con,$KueryPTfiles));
@@ -434,30 +432,16 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                         $docs_pdf4DB=$arregloPTfiles['docs_pdf4'];
                                         $estatus_docs_pdf4DB=$arregloPTfiles['estatus_docs_pdf4'];
                                     }
-                                ?>
-                                </div>
                                 
-                                <!-- SEGUNDO: Botones amarillos (restaurar el comportamiento original) -->
-                                <?php
-                                // Determinar si hay que mostrar algún botón amarillo
-                                $mostrarBotonAmarillo = false;
-                                $botonAmarilloHTML = '';
                                 
                                 // Botón de "Generar Recibos IRAD"
                                 if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                    echo '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important; margin: 2px; display:inline-block;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')"><i class="bi bi-receipt"></i></a>';
                                 }
                                 
                                 // Botón de "Presupuesto"
                                 if ($estatus == "Presupuesto") {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<button type="button" class="btn btn-sm btn-action" style="background-color:#5e2328 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
-                                }
-                                
-                                // Si hay algún botón amarillo para mostrar, añadir el contenedor
-                                if ($mostrarBotonAmarillo) {
-                                    echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
+                                    echo '<button type="button" class="btn btn-sm btn-action" style="background-color:#5e2328 !important; color:white !important; margin: 2px;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
                                 }
                                 ?>
                             </div>

@@ -1724,3 +1724,51 @@ a[class*="btn-"][style*="background-color:#F0D777"],
 hr {
   display: none !important;
 }
+
+/* Eliminar todas las líneas y separaciones */
+.registro-table,
+.registro-table * {
+  border: none !important;
+  border-collapse: collapse !important;
+}
+
+.registro-table tr,
+.registro-table td,
+.registro-table th {
+  border: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+
+.acciones-celda {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.acciones-celda .action-buttons {
+  border: none !important;
+  background: transparent !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Eliminar cualquier línea horizontal que se esté generando */
+.registro-table tr::after,
+.registro-table tr::before,
+.registro-table td::after,
+.registro-table td::before,
+.action-buttons::after,
+.action-buttons::before {
+  display: none !important;
+  content: none !important;
+}
+
+/* Eliminar líneas de separación entre registros */
+.registro-table tbody tr + tr {
+  border-top: none !important;
+}

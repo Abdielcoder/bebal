@@ -708,3 +708,35 @@ echo '</div>';
     echo "No se ha especificado una acción válida.";
 }
 ?>
+
+<style>
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    border: none !important;
+}
+
+/* Eliminar cualquier línea separadora entre grupos */
+.action-buttons > div {
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Eliminar líneas y separaciones entre filas */
+tr {
+    border: none !important;
+}
+
+/* Eliminar las líneas horizontales */
+td {
+    border: none !important;
+}
+
+/* Eliminar separadores horizontales insertados dinámicamente */
+hr, .separator, .divider {
+    display: none !important;
+}
+</style>

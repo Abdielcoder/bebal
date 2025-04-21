@@ -1699,3 +1699,28 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   padding-bottom: 8px;
   margin-bottom: 15px;
 }
+
+/* Eliminar separaciones entre grupos de botones */
+.action-row-buttons, .yellow-button-container, .status-badges-container {
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Eliminar líneas horizontales en la tabla */
+.registro-table tr {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.registro-table td {
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* Eliminar separadores horizontales */
+hr {
+  display: none !important;
+}

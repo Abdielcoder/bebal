@@ -1819,3 +1819,37 @@ tr.registro-row::before {
   content: none !important;
   border: none !important;
 }
+
+/* Ajustar tamaño de los iconos en la columna de acciones */
+.acciones-celda .btn i.bi,
+.acciones-celda a i.bi,
+.acciones-celda button i.bi {
+  font-size: 1.2rem !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+/* Ajustar dimensiones de los botones para acomodar iconos más grandes */
+.acciones-celda .btn,
+.acciones-celda a.btn-xs,
+.acciones-celda a.btn-sm,
+.acciones-celda button.btn-xs,
+.acciones-celda button.btn-sm,
+.acciones-celda .amarillo-bottom {
+  padding: 6px 10px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Evitar que el texto junto a los iconos se vea desproporcionado */
+.acciones-celda .btn font,
+.acciones-celda a font,
+.acciones-celda button font {
+  font-size: 0.9rem !important;
+  vertical-align: middle !important;
+  margin-left: 4px !important;
+}

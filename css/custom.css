@@ -483,12 +483,11 @@ a:hover {
 }
 
 .registro-table tbody tr {
-  background-color: #fff;
-  transition: all 0.3s ease;
-}
-
-.registro-table tbody tr:nth-child(even) {
-  background-color: rgba(var(--color-primary-rgb), 0.05);
+  border: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  margin-bottom: 0 !important;
+  box-shadow: none !important;
 }
 
 .registro-table tbody tr:hover {
@@ -1771,4 +1770,53 @@ hr {
 /* Eliminar líneas de separación entre registros */
 .registro-table tbody tr + tr {
   border-top: none !important;
+}
+
+/* Eliminar completamente las líneas divisorias entre filas */
+.registro-table tbody tr {
+  border: none !important;
+  border-bottom: none !important;
+  border-top: none !important;
+  margin-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+.registro-table tbody tr + tr {
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* Eliminar separaciones entre filas */
+.registro-row {
+  border: none !important;
+  box-shadow: none !important;
+  margin-bottom: 0 !important;
+}
+
+/* Eliminar líneas que pueden aparecer entre registros */
+tr.registro-row::after,
+tr.registro-row::before {
+  display: none !important;
+  content: none !important;
+  height: 0 !important;
+  border: none !important;
+  background: none !important;
+}
+
+.registro-table tr td {
+  border-bottom: 0 !important;
+}
+
+/* Eliminar espacios extra entre celdas */
+.registro-table tbody td {
+  padding-bottom: 5px !important;
+  padding-top: 5px !important;
+}
+
+/* Eliminar separaciones después de los botones */
+.action-buttons::after {
+  display: none !important;
+  content: none !important;
+  border: none !important;
 }

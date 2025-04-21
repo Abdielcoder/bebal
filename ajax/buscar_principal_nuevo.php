@@ -694,6 +694,40 @@ echo '</div>';
 ?>
 
 <style>
+/* Estilos en línea para forzar la eliminación de líneas y separaciones */
+.registro-table {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
+
+.registro-table tr {
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.registro-table td {
+    border: none !important;
+    margin: 0 !important;
+}
+
+.registro-table tbody tr + tr {
+    border: none !important;
+}
+
+.registro-row {
+    border: none !important;
+}
+
+body .registro-table {
+    border-collapse: collapse !important;
+}
+
+body .registro-table * {
+    border: none !important;
+}
+
 .action-buttons {
     display: flex;
     flex-wrap: wrap;

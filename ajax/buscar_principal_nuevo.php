@@ -383,8 +383,8 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                             }
                             ?>
                         </td>
-                        <td data-label="Acciones" class="acciones-celda" style="border-left: none; padding-left: 0; text-align: center;">
-                            <div class="action-buttons" style="border: none !important; background: none !important;">
+                        <td data-label="Acciones" class="acciones-celda" style="border-left: none; padding: 0; text-align: center; vertical-align: top;">
+                            <div class="action-buttons" style="display: flex; flex-flow: row wrap; justify-content: center; align-items: flex-start; gap: 2px; margin: 0; padding: 0; border: none; background: none;">
                                 <?php
                                     // Botón de acción para Activo (cambios)
                                     if ($operacion=='Activo') {
@@ -694,67 +694,68 @@ echo '</div>';
 ?>
 
 <style>
-/* Estilos en línea para forzar la eliminación de líneas y separaciones */
-.registro-table {
+/* Eliminar cualquier espacio o fondo en las filas y la tabla */
+.registro-table, 
+.registro-table tr, 
+.registro-table td, 
+.registro-table tbody, 
+.registro-table thead {
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
     border-collapse: collapse !important;
     border-spacing: 0 !important;
-}
-
-.registro-table tr {
-    border: none !important;
-    box-shadow: none !important;
     margin: 0 !important;
     padding: 0 !important;
 }
 
+/* Quitar espacios entre celdas */
 .registro-table td {
-    border: none !important;
-    margin: 0 !important;
+    padding: 3px 5px !important;
+    vertical-align: top !important;
 }
 
-.registro-table tbody tr + tr {
-    border: none !important;
+/* Eliminar cualquier separación entre filas */
+.registro-table tr {
+    border-bottom: none !important;
+    border-top: none !important;
 }
 
-.registro-row {
-    border: none !important;
+/* Asegurar que no haya espacios grandes en la celda de acciones */
+.acciones-celda {
+    vertical-align: top !important;
+    padding: 3px !important;
 }
 
-body .registro-table {
-    border-collapse: collapse !important;
-}
-
-body .registro-table * {
-    border: none !important;
-}
-
+/* Compactar botones sin espacios verticales */
 .action-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-    border: none !important;
+    display: flex !important;
+    flex-flow: row wrap !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 2px !important;
 }
 
-/* Eliminar cualquier línea separadora entre grupos */
-.action-buttons > div {
-    border: none !important;
+/* Asegurar que los botones no tengan margen vertical */
+.btn-action, .amarillo-bottom, button {
+    margin: 1px !important;
+    padding: 3px 6px !important;
+}
+
+/* Eliminar sombras y efectos que puedan crear espacios */
+tr, td, .btn, a {
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Eliminar explícitamente el fondo gris */
+tr:nth-child(odd), tr:nth-child(even) {
+    background-color: transparent !important;
+}
+
+/* Eliminar cualquier espacio entre containers */
+.yellow-button-container, .action-row-buttons, .status-badges-container {
     margin: 0 !important;
     padding: 0 !important;
-}
-
-/* Eliminar líneas y separaciones entre filas */
-tr {
-    border: none !important;
-}
-
-/* Eliminar las líneas horizontales */
-td {
-    border: none !important;
-}
-
-/* Eliminar separadores horizontales insertados dinámicamente */
-hr, .separator, .divider {
-    display: none !important;
 }
 </style>

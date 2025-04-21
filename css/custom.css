@@ -462,8 +462,8 @@ a:hover {
 /* Estilos para las tablas de registros */
 .registro-table {
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 2rem;
@@ -488,35 +488,36 @@ a:hover {
   border-top: none !important;
   margin-bottom: 0 !important;
   box-shadow: none !important;
+  background-color: transparent !important;
 }
 
+.registro-table tbody tr:nth-child(even),
 .registro-table tbody tr:hover {
-  background-color: rgba(var(--color-secondary-rgb), 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: transparent !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .registro-table tbody td {
-  padding: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-  vertical-align: middle;
+  padding: 5px !important;
+  vertical-align: top !important;
 }
 
 .registro-table .btn-action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 2px;
-  border-radius: 4px;
-  width: 36px;
-  height: 36px;
-  transition: all 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 2px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 .registro-table .btn-action:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .registro-table .btn-primary-custom {
@@ -839,9 +840,14 @@ a:hover {
 /* Estilos para botones de acción en la tabla */
 .action-buttons {
   display: flex !important;
-  flex-direction: column !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
   align-items: center !important;
-  width: 100% !important;
+  gap: 2px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 .img-thumbnail-custom {
@@ -1278,13 +1284,6 @@ table.registro-table {
   flex-direction: column;
 }
 
-.action-buttons {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  width: 100% !important;
-}
-
 .action-row-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -1622,19 +1621,19 @@ a[class*="btn-"][style*="background-color:#F0D777"],
 
 .action-buttons {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  flex-wrap: wrap !important;
   justify-content: center !important;
-  width: 100% !important;
+  align-items: center !important;
+  gap: 2px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
 }
 
 .action-row-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100%;
-  margin-bottom: 15px !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
 }
 
 @media (max-width: 768px) {

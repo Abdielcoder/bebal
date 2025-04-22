@@ -1,8 +1,10 @@
 <?php
 include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 
-	$PROFILE=$_SESSION['user_profile'];
-	$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
+$PROFILE=$_SESSION['user_profile'];
+$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
+$ID_USER=$_SESSION['user_id'];
+
 
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['numero_pago']) || 
@@ -17,9 +19,11 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
+$todayANO = date("Y");
 
 $fecha_expiracion = strtotime ('+1 year' , strtotime($today));
 $fecha_expiracion = date ('Y-m-d',$fecha_expiracion);
+
 
 $ID=intval($_POST['idprincipal']);
 ##$pagina=intval($_POST['pagina']);
@@ -82,10 +86,107 @@ $id_proceso_tramites,
 '$tramite_pago',
 '$folio',
 '$today')";
-##
-$Kuery_Update_principal="UPDATE principal SET operacion='Activo', estatus='Permiso Autorizado', fecha_expiracion='$fecha_expiracion',  fecha_autorizacion='$today', nip='$NIPgenerado'  WHERE id=".$ID;
+######################
+############
+############
+## Numero de Permiso
 
-$Kuery_Update2="UPDATE proceso_tramites SET fecha_fin='$today', en_proceso='Fin' WHERE id_principal=".$ID;
+$id_principal=$ID;
+
+$sqlPrincipal="SELECT * FROM principal WHERE id=".$id_principal;
+$row=mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
+
+$id_giroNP=$row['giro'];
+$id_delegacionNP=$row['id_delegacion'];
+#################
+$arregloSiglasGiro=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM giro WHERE id=$id_giroNP"));
+$SIGLAS_GIRO=$arregloSiglasGiro[0];
+##echo 'SIGLAS_GIRO='.$SIGLAS_GIRO.'<br>';
+##
+$arregloSiglasDelegacion=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM delegacion WHERE id=$id_delegacionNP"));
+$SIGLAS_DELEGACION=$arregloSiglasDelegacion[0];
+##echo 'SIGLAS_DELEGACION='.$SIGLAS_DELEGACION.'<br>';
+################
+$id_giro_siglas=$id_giroNP.'-'.$SIGLAS_GIRO;
+$id_delegacion_siglas=$id_delegacionNP.'-'.$SIGLAS_DELEGACION;
+################
+################
+##echo "SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas' <br>";
+##$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas'"));
+$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_giro_siglas='$id_giro_siglas'"));
+$CUENTA=$arregloCuenta[0];
+###############
+##########
+if ( $CUENTA>0 ) {
+##echo 'El Folio ya cuenta con un Numero de permiso<br>';
+} else {
+
+################
+$NP='';
+##$siglas='E-'.$SIGLAS_GIRO.$SIGLAS_DELEGACION;
+$siglas='E-'.$SIGLAS_GIRO;
+###############
+$sql_INSERT99="INSERT INTO numero_permiso (
+folio,
+id_principal,
+user_id,
+id_giro_siglas,
+fecha ) VALUES (
+'$folio',
+$id_principal,
+$ID_USER,
+'$id_giro_siglas',
+'$today')";
+
+$query_new_insert99 = mysqli_query($con,$sql_INSERT99);
+if ($query_new_insert99) {
+$arregloMaxid99 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `numero_permiso`"));
+$IDNP=intval($arregloMaxid99[0]);
+
+$tamano=strlen($IDNP);
+
+##echo 'Tamano='.$tamano.'<br>';
+
+switch ($tamano) {
+    case 1:
+        $NP=$siglas.'00000'.$IDNP;
+        break;
+    case 2:
+        $NP=$siglas.'0000'.$IDNP;
+            break;
+    case 3:
+        $NP=$siglas.'000'.$IDNP;
+            break;
+    case 4:
+        $NP=$siglas.'00'.$IDNP;
+            break;
+    case 5:
+        $NP=$siglas.'0'.$IDNP;
+            break;
+    case 6:
+        $NP=$siglas.''.$IDNP;
+            break;
+}
+
+$Kuery_Update99="UPDATE numero_permiso SET numero_permiso='$NP'  WHERE id=".$IDNP;
+mysqli_query($con,$Kuery_Update99);
+
+}
+}
+
+############
+######################
+$arregloGIRO=mysqli_fetch_array(mysqli_query($con,"SELECT  *  FROM giro WHERE id=$id_giroNP"));
+$MES_VENCIMIENTO=$arregloGIRO[6];
+$GIRO=$arregloGIRO[1];
+##
+$MASunANO = strtotime ('+1 year' , strtotime($todayANO));
+$MASunANO = date ('Y',$MASunANO);
+$FECHA_EXPIRACION=$MASunANO.'-'.$MES_VENCIMIENTO.'-01';
+##
+$Kuery_Update_principal="UPDATE principal SET operacion='Activo', estatus='Permiso Autorizado', fecha_expiracion='$FECHA_EXPIRACION',  fecha_autorizacion='$today', nip='$NIPgenerado', numero_permiso='$NP'  WHERE id=".$ID;
+
+$Kuery_Update2="UPDATE proceso_tramites SET fecha_fin='$today', numero_permiso='$NP', nota='$GIRO',  en_proceso='Fin' WHERE id_principal=".$ID;
 
 mysqli_query($con,$sqlINSERT);
 $query_Update = mysqli_query($con,$Kuery_Update_principal);

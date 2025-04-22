@@ -213,6 +213,9 @@ $principal_id=$row['id'];
 $folio=$row['folio'];
 $fecha_autorizacion=$row['fecha_autorizacion'];
 
+$fecha_expiracion=$row['fecha_expiracion'];
+$numero_permiso=$row['numero_permiso'];
+
 $clave_catastral=$row['clave_catastral'];
 $nombre_comercial_establecimiento=$row['nombre_comercial_establecimiento'];
 $calle_establecimiento=$row['calle_establecimiento'];
@@ -309,6 +312,7 @@ $en_proceso_Alta=$arregloPT_Alta['en_proceso'];
 $fecha_inicio_Alta=$arregloPT_Alta['fecha_inicio'];
 $fecha_fin_Alta=$arregloPT_Alta['fecha_fin'];
 $nota_Alta=$arregloPT_Alta['nota'];
+$numero_permiso_Alta=$arregloPT_Alta['numero_permiso'];
 $el_cambio_Alta=$arregloPT_Alta['el_cambio'];
 #############
 $sql_Pagos_AltaINS="SELECT * FROM pagos WHERE concepto='Inspeccion' AND id_proceso_tramites=".$ID_PROCESO_TRAMITES_Alta;
@@ -328,8 +332,8 @@ $fecha_pagoINS = $ArregloPago_AltaINS[10];
 if ( $total_umas_pagarINS=='' || $total_umas_pagarINS==NULL ) $string_total_umas_pagarINS='ND';
 else $string_total_umas_pagarINS='[por pagar '.$total_umas_pagarINS.'  umas]';
 ##
-if ( $estatus_pagoINS=='' || $estatus_pagoINS==NULL ) {
-$string_pagoINS='-';
+if ( $estatus_pagoINS=='' || $estatus_pagoINS==NULL ||  $estatus_pagoINS=='Pendiente' ) {
+$string_pagoINS='Espera Pago';
 } else {
 $string_pagoINS=$estatus_pagoINS.', $'.$montoINS.' , Fecha Pago ('.$fecha_pagoINS.')';
 }
@@ -352,8 +356,8 @@ $fecha_pagoRAD = $ArregloPago_AltaRAD[10];
 if ( $total_umas_pagarRAD=='' || $total_umas_pagarRAD==NULL ) $string_total_umas_pagarRAD='ND';
 else $string_total_umas_pagarRAD='[por pagar '.$total_umas_pagarRAD.'  umas]';
 ##
-if ( $estatus_pagoRAD=='' || $estatus_pagoRAD==NULL ) {
-$string_pagoRAD='-';
+if ( $estatus_pagoRAD=='' || $estatus_pagoRAD==NULL  ||  $estatus_pagoRAD=='Pendiente'  ) {
+$string_pagoRAD='Espera Pago';
 } else {
 $string_pagoRAD=$estatus_pagoRAD.', $'.$montoRAD.' , Fecha Pago ('.$fecha_pagoRAD.')';
 }
@@ -391,8 +395,8 @@ $en_procesoTrabajoINS=$arregloAltaINS['en_proceso'];
 $fecha_inicioTrabajoINS=$arregloAltaINS['fecha_inicio'];
 $fecha_finTrabajoINS=$arregloAltaINS['fecha_fin'];
 
-if ( $en_procesoTrabajoINS=='En Proceso' ) {
-$string_TrabajoINS="<font color='blue'>".$en_procesoTrabajoINS."</font>";
+if ( $en_procesoTrabajoINS=='En Proceso' ||  $en_procesoTrabajoINS=='Espera Pago') {
+$string_TrabajoINS="<font color='red'>".$en_procesoTrabajoINS."</font>";
 } else {
 $string_TrabajoINS=$en_procesoTrabajoINS.", Fecha Fin ".$fecha_finTrabajoINS;
 }
@@ -406,8 +410,8 @@ $fecha_inicioTrabajoRAD=$arregloAltaRAD['fecha_inicio'];
 $fecha_finTrabajoRAD=$arregloAltaRAD['fecha_fin'];
 
 
-if ( $en_procesoTrabajoRAD=='En Proceso' ) {
-$string_TrabajoRAD="<font color='blue'>".$en_procesoTrabajoRAD."</font>";
+if ( $en_procesoTrabajoRAD=='En Proceso' || $en_procesoTrabajoRAD=='Espera Pago' ) {
+$string_TrabajoRAD="<font color='red'>".$en_procesoTrabajoRAD."</font>";
 } else {
 $string_TrabajoRAD=$en_procesoTrabajoRAD.", Fecha Fin ".$fecha_finTrabajoRAD;
 }
@@ -477,7 +481,25 @@ if ( $fecha_autorizacion=='' || $fecha_autorizacion==NULL ) $fecha_autorizacion=
                         <div class="etiqueta">Fecha Autorización</div>
                         <div class="valor"><font size="1"><?php echo $fecha_autorizacion;   ?></font></div>
                     </div>
-                </div>
+                    </div>
+<!-----------------------!>
+
+               <div class="row fila-datos">
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Giro</div>
+                        <div class="valor"><font size="1"><?php echo $nota_Alta; ?></font></div>
+                    </div>
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Número de Permiso</div>
+                        <div class="valor"><font size="1"><?php echo $numero_permiso_Alta; ?></font></div>
+                    </div>
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Fecha Expiración</div>
+                        <div class="valor"><font size="1"><?php echo $fecha_expiracion;   ?></font></div>
+                    </div>
+		</div>
+		</div>
+
 
             </div>
         </div>
@@ -553,8 +575,8 @@ $fecha_pagoINS = $ArregloPago_CambioINS[10];
 if ( $total_umas_pagarINS=='' || $total_umas_pagarINS==NULL ) $string_total_umas_pagarINS='ND';
 else $string_total_umas_pagarINS='[por pagar '.$total_umas_pagarINS.'  umas]';
 ##
-if ( $estatus_pagoINS=='' || $estatus_pagoINS==NULL ) {
-$string_pagoINS='-';
+if ( $estatus_pagoINS=='' || $estatus_pagoINS==NULL  ||  $estatus_pagoINS=='Pendiente' ) {
+$string_pagoINS='Espera Pago';
 } else {
 $string_pagoINS=$estatus_pagoINS.', $'.$montoINS.' , Fecha Pago ('.$fecha_pagoINS.')';
 }
@@ -587,8 +609,8 @@ $fecha_pagoRAD = $ArregloPago_CambioRAD[10];
 if ( $total_umas_pagarRAD=='' || $total_umas_pagarRAD==NULL ) $string_total_umas_pagarRAD='ND';
 else $string_total_umas_pagarRAD='[por pagar '.$total_umas_pagarRAD.'  umas]';
 ##
-if ( $estatus_pagoRAD=='' || $estatus_pagoRAD==NULL ) {
-$string_pagoRAD='-';
+if ( $estatus_pagoRAD=='' || $estatus_pagoRAD==NULL  ||  $estatus_pagoRAD=='Pendiente'  ) {
+$string_pagoRAD='Espera Pago';
 } else {
 $string_pagoRAD=$estatus_pagoRAD.', $'.$montoRAD.' , Fecha Pago ('.$fecha_pagoRAD.')';
 }

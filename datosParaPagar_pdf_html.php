@@ -286,14 +286,14 @@ header('Content-Type: text/html; charset=utf-8');
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="img/logo_tijuana.png" alt="Logo" style="max-width: 100%;">
+                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="400">
             </div>
-            <div class="title">
-                <h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
-                <h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
-	    </div>
-
 <?php
+            echo '<div class="title">';
+                //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
+                //<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
+	    echo '</div>';
+
 $Folio=$datos['folio'];
             echo '<div class="date">';
 		echo 'Fecha de Impresión: '.date('d/m/Y');

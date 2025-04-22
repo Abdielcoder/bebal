@@ -190,6 +190,7 @@ if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_munic
 		    $id_tramite = $row['id_tramite'];
 		    $id_proceso_tramites = $row['id_proceso_tramites'];
 		    $id_delegacion = $row['id_delegacion'];
+		    $numero_permiso = $row['numero_permiso'];
 
 		    $latitud = $row['latitud'];
 		    $longitud = $row['longitud'];
@@ -318,12 +319,14 @@ $DELEGACION=$arregloDelegacion[0];
                             <div class="datos-establecimiento">
                                 <span class="nombre-comercial"><?php echo ucwords($nombre_comercial); ?></span>
                                 <span class="direccion"><?php echo $calle . ' ' . $numero; ?></span>
-                                <?php if (!empty($entre_calles)): ?>
-                                <span class="direccion"><?php echo $entre_calles; ?></span>
-                                <?php endif; ?>
-                                <?php if (!empty($numero_interno)): ?>
-                                <span class="direccion">Int: <?php echo $numero_interno; ?></span>
-				<?php endif; ?>
+				<?php 
+				//if (!empty($entre_calles)):
+                                //echo '<span class="direccion">'.$entre_calles.'</span>';
+                                //endif;
+				//if (!empty($numero_interno)): 
+				//echo '<span class="direccion">Int: '.$numero_interno.'</span>';
+				//endif; 
+				?>
                                 <span class="direccion">Delg: <?php echo $DELEGACION; ?></span>
 
 			    </div>
@@ -331,19 +334,19 @@ $DELEGACION=$arregloDelegacion[0];
 if ( $operacion=='Activo' ) {
 
 ######
-$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE id_principal=$id"));
-$CUENTA_NP=$arregloCuenta[0];
-if ($CUENTA_NP>0 ) {
-$sql_NP="SELECT * FROM numero_permiso WHERE id_principal=".$id;
-$result_NP = mysqli_query($con,$sql_NP);
-$row_NP = mysqli_fetch_assoc($result_NP);
-$NUMERO_PERMISO=$row_NP['numero_permiso'];
-} else {
-$NUMERO_PERMISO='ND';
-}
+##$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE id_principal=$id"));
+##$CUENTA_NP=$arregloCuenta[0];
+##if ($CUENTA_NP>0 ) {
+##$sql_NP="SELECT * FROM numero_permiso WHERE id_principal=".$id;
+##$result_NP = mysqli_query($con,$sql_NP);
+##$row_NP = mysqli_fetch_assoc($result_NP);
+##$NUMERO_PERMISO=$row_NP['numero_permiso'];
+##} else {
+##$NUMERO_PERMISO='ND';
+##}
 
 ######
-echo '<font size="1" color="black">Permiso:</font> <font size="1" color="blue">'.$NUMERO_PERMISO.'</font><br>';
+echo '<font size="1" color="black">Permiso:</font> <font size="1" color="blue">'.$numero_permiso.'</font><br>';
 }
 ?>
 
@@ -432,8 +435,17 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     }
 
                                     // Botón de acción para Trámite
-                                    if ($operacion=='Tramite') {
-                                        echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+if ($operacion=='Tramite') {
+
+//##echo '<FORM action="detalleRegistroTramite.php" name="detalleRegistroTramite_1_'.$id.'" id=name="detalleRegistroTramite_1_'.$id.'"  method="POST">';
+//##echo '<input type="hidden" name="paginaRT" value="'.$page.'">';
+//##echo '<input type="hidden" name="idRT" value="'.$id.'">';
+//##echo '<input type="hidden" name="id_tramiteRT" value="'.$id_tramite.'">';
+//##echo '<button name="detalleRegistroTramite_1_'.$id.'" class="btn btn-sm btn-action btn-success" type="submit" title="detalle Registro Tramite Folio '.$folio.'"><i class="bi bi-arrows-fullscreen"></i><font color="black"></font></button>';
+
+echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+//##echo '</FORM>';
+
                                     }
 
                                     // Botón de editar
@@ -442,8 +454,21 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                             if ($estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado') {
                                                 echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
                                             }
-                                        } else {
-                                            echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-dark" title="Proceso Registro Nuevo Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
+					} else {
+
+//##echo '<FORM action="detalleRegistroTramite.php" name="detalleRegistroTramite_2_'.$id.'" id=name="detalleRegistroTramite_2_'.$id.'"  method="POST">';
+//##echo '<input type="hidden" name="paginaRT" value="'.$page.'">';
+//##echo '<input type="hidden" name="idRT" value="'.$id.'">';
+//##echo '<input type="hidden" name="id_tramiteRT" value="'.$id_tramite.'">';
+//##echo '<button name="detalleRegistroTramite_2_'.$id.'" class="btn btn-sm btn-action btn-success" type="submit" title="detalle Registro Tramite Folio '.$folio.'"><i class="bi bi-arrows-fullscreen"></i><font color="black"></font></button>';
+
+echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-dark" title="Proceso Registro Nuevo Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><font color="red"><i class="bi bi-gear"></i></font></a>';
+
+//##echo '</FORM>';
+
+
+
+
                                         }
                                     }
                                     

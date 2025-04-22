@@ -43,8 +43,10 @@ $id_delegacion_siglas=$id_delegacion.'-'.$SIGLAS_DELEGACION;
 
 ################
 ################
-echo "SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas' <br>";
-$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas'"));
+##echo "SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas' <br>";
+##$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas'"));
+echo "SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_giro_siglas='$id_giro_siglas' <br>";
+$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_giro_siglas='$id_giro_siglas'"));
 $CUENTA=$arregloCuenta[0];
 ###############
 ##########
@@ -54,20 +56,19 @@ echo 'El Folio ya cuenta con un Numero de permiso<br>';
 
 ################
 $NP='';
-$siglas='E-'.$SIGLAS_GIRO.$SIGLAS_DELEGACION;
+##$siglas='E-'.$SIGLAS_GIRO.$SIGLAS_DELEGACION;
+$siglas='E-'.$SIGLAS_GIRO;
 ###############
 $sql_INSERT="INSERT INTO numero_permiso (
 folio,
 id_principal,
 user_id,
 id_giro_siglas,
-id_delegacion_siglas,
 fecha ) VALUES (
 '$folio',
 $id_principal,
 $user_id,
 '$id_giro_siglas',
-'$id_delegacion_siglas',
 '$today')";
 
 $query_new_insert = mysqli_query($con,$sql_INSERT);

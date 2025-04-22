@@ -24,16 +24,16 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 
 
 <div class="form-group row">
-<label for="nombre_comercial_establecimiento" class="col-sm-3 control-label">Establecimiento</label>
+<label for="mod_nombre_comercial_establecimiento" class="col-sm-3 control-label">Establecimiento</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento" disabled>
+<input type="text" class="form-control" id="mod_nombre_comercial_establecimiento" name="mod_nombre_comercial_establecimiento" disabled>
 </div>
 </div>
 
 <div class="form-group row">
-<label for="folio" class="col-sm-3 control-label">Folio</label>
+<label for="mod_folio" class="col-sm-3 control-label">Folio</label>
 <div class="col-sm-8">
-<input type="text" class="form-control" id="mod_folio" name="folio" disabled>
+<input type="text" class="form-control" id="mod_folio" name="mod_folio" disabled>
 </div>
 </div>
 

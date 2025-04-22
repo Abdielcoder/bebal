@@ -217,11 +217,14 @@ $ID_TRAMITE_SOLICITADO=$porciones[2];
 
 
 } else {
-    $IDPRINCIPAL = $_POST['IDPRINCIPAL'];
-    $page = isset($_POST['page']) ? $_POST['page'] : 1; // Asegurarse que siempre existe page
+    $IDPRINCIPAL = $_POST['idRT'];
+    ##$page = isset($_POST['page']) ? $_POST['page'] : 1; // Asegurarse que siempre existe page
+    $page=$_POST['paginaRT'];
+    $ID_TRAMITE_SOLICITADO=$_POST['id_tramiteRT'];
 }
 #################################
 #################################
+
 
 
 $sqlPrincipal="SELECT * FROM principal WHERE id=".$IDPRINCIPAL;

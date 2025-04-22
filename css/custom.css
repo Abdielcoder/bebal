@@ -1288,15 +1288,14 @@ table.registro-table {
 }
 
 /* Estilo específico para los botones amarillos que deben aparecer abajo */
-.btn-warning-custom, 
+.btn-warning-custom,
 .btn-generar-recibo,
 a[class*="btn-"][style*="background-color:#AC905B"],
 a[class*="btn-"][style*="background-color:#F0D777"],
 .amarillo-bottom {
-  width: 250px !important;
-  margin: 5px 0 !important;
-  clear: both !important;
-  display: block !important;
+  width: auto !important;
+  margin: 2px !important;
+  display: inline-flex !important;
   align-self: center !important;
   white-space: nowrap !important;
   overflow: hidden !important;
@@ -1311,57 +1310,24 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   border: none !important;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
   text-decoration: none !important;
+  vertical-align: middle !important;
 }
-
-/* Agregamos un salto de línea visible antes de los botones amarillos */
-/* Comentado por solicitud del usuario - ESTO PROBABLEMENTE CAUSABA LA LÍNEA */
-/*
-.btn-warning-custom:before,
-.btn-generar-recibo:before,
-a[class*="btn-"][style*="background-color:#AC905B"]:before,
-a[class*="btn-"][style*="background-color:#F0D777"]:before,
-.amarillo-bottom:before {
-  content: "";
-  display: block !important;
-  width: 100% !important;
-  height: 1px !important;
-  background-color: #eee !important;
-  margin: 5px 0 !important;
-  position: absolute !important;
-  top: -15px !important;
-  left: 0 !important;
-}
-*/
-
-/* Estilos para los botones de acción principales */
-/* Comentado por solicitud del usuario para eliminar disposición en columna */
-/*
-.btn-action {
-  margin: 2px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  padding: 5px 8px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
-*/
 
 /* Media queries para ajuste en móviles */
 @media (max-width: 768px) {
   .action-buttons {
     align-items: center;
   }
-  
-  .btn-warning-custom, 
+
+  /* Ajustar botones amarillos en móvil para que no ocupen todo el ancho */
+  .btn-warning-custom,
   .btn-generar-recibo,
   a[class*="btn-"][style*="background-color:#AC905B"],
   a[class*="btn-"][style*="background-color:#F0D777"],
   .amarillo-bottom {
-    width: 100% !important;
-    max-width: 250px !important;
-    margin-top: 25px !important;
+    width: auto !important;
+    max-width: none !important;
+    margin-top: 2px !important;
   }
 }
 

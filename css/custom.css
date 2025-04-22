@@ -1547,8 +1547,6 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 }
 */
 
-/* ... existing code ... */
-
 /* Restore original inline styles and ensure no conflicting properties */
 .action-buttons {
   display: flex !important;
@@ -1562,6 +1560,14 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   background: none !important;
   width: 100%; /* Span the cell */
   vertical-align: top; /* Align content within the div */
+}
+
+/* Style the FORM inside action-buttons to flow inline */
+.action-buttons FORM {
+  display: inline-block !important; /* Make form inline */
+  margin: 0 !important; /* Remove default form margins */
+  padding: 0 !important; /* Remove default form padding */
+  vertical-align: top; /* Align with other buttons */
 }
 
 /* ... existing code ... */

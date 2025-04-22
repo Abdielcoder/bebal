@@ -1,8 +1,9 @@
 <?php
 include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 
-	$PROFILE=$_SESSION['user_profile'];
-	$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
+$PROFILE=$_SESSION['user_profile'];
+$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
+$ID_USER=$_SESSION['user_id'];
 
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['nombre_representante_legal_solicitante']) || 
@@ -237,7 +238,7 @@ $COLONIA=$row_colonia['colonia'];
 ##
 #################################
 
-$el_cambio="Permiso Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", ".$DELEGACION." ".$COLONIA.", ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
+$el_cambio="Permiso Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
 
 	
 date_default_timezone_set('America/Los_Angeles');
@@ -331,6 +332,94 @@ if ($query_new_insert) {
 $arregloMaxid = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `principal`"));
 $ID=intval($arregloMaxid[0]);
 $folio=$ID_MUNICIPIO."-".$ID;
+############
+############
+############
+## Numero de Permiso
+##$id_principal=$ID;
+
+##$sqlPrincipal="SELECT * FROM principal WHERE id=".$id_principal;
+##$row=mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
+
+##$id_giroNP=$row['giro'];
+##$id_delegacionNP=$row['id_delegacion'];
+#################
+##$arregloSiglasGiro=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM giro WHERE id=$id_giroNP"));
+##$SIGLAS_GIRO=$arregloSiglasGiro[0];
+##echo 'SIGLAS_GIRO='.$SIGLAS_GIRO.'<br>';
+##
+##$arregloSiglasDelegacion=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM delegacion WHERE id=$id_delegacionNP"));
+##$SIGLAS_DELEGACION=$arregloSiglasDelegacion[0];
+##echo 'SIGLAS_DELEGACION='.$SIGLAS_DELEGACION.'<br>';
+################
+##$id_giro_siglas=$id_giroNP.'-'.$SIGLAS_GIRO;
+##$id_delegacion_siglas=$id_delegacionNP.'-'.$SIGLAS_DELEGACION;
+################
+################
+##echo "SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas' <br>";
+##$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas'"));
+##$CUENTA=$arregloCuenta[0];
+###############
+##########
+##if ( $CUENTA>0 ) {
+##echo 'El Folio ya cuenta con un Numero de permiso<br>';
+##} else {
+
+################
+##$NP='';
+##$siglas='E-'.$SIGLAS_GIRO.$SIGLAS_DELEGACION;
+###############
+##$sql_INSERT99="INSERT INTO numero_permiso (
+##folio,
+##id_principal,
+##user_id,
+##id_giro_siglas,
+##id_delegacion_siglas,
+##fecha ) VALUES (
+##'$folio',
+##$id_principal,
+##$ID_USER,
+##'$id_giro_siglas',
+##'$id_delegacion_siglas',
+##'$today')";
+
+##$query_new_insert99 = mysqli_query($con,$sql_INSERT99);
+##if ($query_new_insert99) {
+##$arregloMaxid99 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `numero_permiso`"));
+##$IDNP=intval($arregloMaxid99[0]);
+
+##$tamano=strlen($IDNP);
+
+##echo 'Tamano='.$tamano.'<br>';
+
+
+##switch ($tamano) {
+##    case 1:
+##        $NP=$siglas.'00000'.$IDNP;
+##        break;
+##    case 2:
+##        $NP=$siglas.'0000'.$IDNP;
+##            break;
+##    case 3:
+##        $NP=$siglas.'000'.$IDNP;
+##            break;
+##    case 4:
+##        $NP=$siglas.'00'.$IDNP;
+##            break;
+##    case 5:
+##        $NP=$siglas.'0'.$IDNP;
+##            break;
+##    case 6:
+##        $NP=$siglas.''.$IDNP;
+##            break;
+##}
+
+##$Kuery_Update99="UPDATE numero_permiso SET numero_permiso='$NP'  WHERE id=".$IDNP;
+##mysqli_query($con,$Kuery_Update99);
+
+##}
+##}
+############
 ############
 ############
 $sqlInsert="INSERT INTO proceso_tramites (

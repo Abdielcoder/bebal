@@ -90,11 +90,12 @@ echo '<div class="col-sm-3"  style="background-color:#f4f0ec;color:black;">';
 echo "<select class='form-control  form-select' name='id_giro' id='id_giro' required>";
  
 echo '<option value="">Seleccione Giro</option>';
-$query_giro=mysqli_query($con,"SELECT * FROM giro");
+$query_giro=mysqli_query($con,"SELECT * FROM giro WHERE siglas!='' OR siglas!=NULL");
 while($rowGiro=mysqli_fetch_array($query_giro))	{
 $id_giroDB=$rowGiro['id'];
 $GIRO=$rowGiro['descripcion_giro'];
-echo '<option value="'.$id_giroDB.'">'.$GIRO.'</option>';
+$SIGLAS=$rowGiro['siglas'];
+echo '<option value="'.$id_giroDB.'">'.$GIRO.'-'.$SIGLAS.'</option>';
 }
 echo '</select>';
 echo '</div>';
@@ -203,17 +204,18 @@ echo "<select class='form-control  form-select' name='id_delegacion' id='id_dele
 echo '<option value="">Selecciona Delegación</option>';
 if ( $PROFILE=='admin' ) {
 ##$query_delegacion=mysqli_query($con,"SELECT * FROM delegacion ORDER BY id_municipio");
-$query_delegacion=mysqli_query($con,"SELECT * FROM delegacion WHERE id_municipio=".$ID_MUNICIPIO);
+$query_delegacion=mysqli_query($con,"SELECT * FROM delegacion WHERE id_municipio=".$ID_MUNICIPIO."  AND siglas!='' OR siglas!=NULL");
 } else {
-$query_delegacion=mysqli_query($con,"SELECT * FROM delegacion WHERE id_municipio=".$ID_MUNICIPIO);
+$query_delegacion=mysqli_query($con,"SELECT * FROM delegacion WHERE id_municipio=".$ID_MUNICIPIO."  AND siglas!='' OR siglas!=NULL");
 }
 while($row=mysqli_fetch_array($query_delegacion))	{
 
 $id_delegacion=$row['id'];
 $DELEGACION=$row['delegacion'];
 $MUNICIPIO=$row['id_municipio'];
+$SIGLASdelegacion=$row['siglas'];
 
-echo '<option value="'.$id_delegacion.'">'.$DELEGACION.'</option>';
+echo '<option value="'.$id_delegacion.'">'.$DELEGACION.'-'.$SIGLASdelegacion.'</option>';
 
 }
 

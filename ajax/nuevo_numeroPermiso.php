@@ -23,17 +23,6 @@ $id_principal=$_GET['id_principal'];
 
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
-
-################
-################
-$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio'"));
-$CUENTA=$arregloCuenta[0];
-###############
-##########
-if ( $CUENTA>0 ) {
-echo 'El Folio ya cuenta con un Numero de permiso';
-} else {
-
 #################
 $sqlPrincipal="SELECT * FROM principal WHERE id=".$id_principal;
 $row=mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
@@ -51,6 +40,18 @@ echo 'SIGLAS_DELEGACION='.$SIGLAS_DELEGACION.'<br>';
 ################
 $id_giro_siglas=$id_giro.'-'.$SIGLAS_GIRO;
 $id_delegacion_siglas=$id_delegacion.'-'.$SIGLAS_DELEGACION;
+
+################
+################
+echo "SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas' <br>";
+$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas'"));
+$CUENTA=$arregloCuenta[0];
+###############
+##########
+if ( $CUENTA>0 ) {
+echo 'El Folio ya cuenta con un Numero de permiso<br>';
+} else {
+
 ################
 $NP='';
 $siglas='E-'.$SIGLAS_GIRO.$SIGLAS_DELEGACION;

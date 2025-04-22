@@ -151,7 +151,7 @@ session_start();
             flex-wrap: wrap;
             gap: 8px;
             margin: 15px auto 50px auto;
-            max-width: 85%;
+            max-width: 90%;
             justify-content: center;
         }
         
@@ -501,11 +501,14 @@ $COLONIA=$row_colonia['colonia'];
             </div>
         </div>
         
-        
+    </div>
+</div>
+
+	
         <!-- Botones de acción -->
 	<!-- <div class="area-botones"> --!>
-	<center><div>
-       <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>&nbsp;
+	<center><div  class="area-botones">
+       <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-info" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>
           
 
 
@@ -518,7 +521,7 @@ $COLONIA=$row_colonia['colonia'];
 if ( $estatus=='Generar Recibos IRAD' || $estatus=='Pago INS' ||  $estatus=='Pago RAD' ) {
 
 #################
-echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>&nbsp;';
+echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>&nbsp;';
 #################
 //** Inspección ( tabla tramites )
 ##
@@ -531,7 +534,7 @@ $MONTO_UMAS_Inspeccion=$row_tramite['monto_umas'];
 #### RECIBO INSPECCION
 if ( $estatus=='Pago INS' )  {
 } else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Inspección</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo Inspección</font></a>';
 }
 #### Revisar Pago INSP
 $ID_PAGO_INS=0;
@@ -555,13 +558,12 @@ $fecha_pagoI2=$row_pagoI2['fecha_pago'];
 $montoI2=$row_pagoI2['monto'];
 ##echo '<font size="1"><b>Inspección Pagada ('.$fecha_pagoI2.') $'.number_format($montoI2,2).'</b></font>&nbsp;';
 } else {
-echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP Pagado</font></a>&nbsp;';
+echo '<a href="#" class="btn btn-success btn-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP Pagado</font></a>';
 ##echo '<font size="1" color="red"><b>Error Pago Inspeccion</b></font>&nbsp;';
 }
 } else {
 echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'"  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
- data-total_umas_pagar="'.$MONTO_UMAS_Inspeccion.'"
- data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger bs-sm" title="Pago Inspección"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>&nbsp;';
+ data-total_umas_pagar="'.$MONTO_UMAS_Inspeccion.'" data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger btn-sm" title="Pago Inspección"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>';
 }
 ### RECEPCION ANALISIS DE DOCUMENTOS
 //** Análisis y Revisión Documentos ( tabla tramites )
@@ -574,7 +576,7 @@ $MONTO_UMAS_RAD=$row_tramite['monto_umas'];
 ##
 if ( $estatus=='Pago RAD' )  {
 } else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
 }
 #### Revisar Pago RAD
 #### 
@@ -598,12 +600,12 @@ $montoRAD2=$row_pagoRAD2['monto'];
 ##echo '<font size="1"><b>RAD Pagado ('.$fecha_pagoRAD2.') $'.number_format($montoRAD2,2).'</b></font>&nbsp;';
 } else {
 //echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
-echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>&nbsp;';
+echo '<a href="#" class="btn btn-success btn-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>&nbsp;';
 }
 } else {
 echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-tramite_pagoid="'.$ID_TRAMITE.'"
  data-total_umas_pagar="'.$MONTO_UMAS_RAD.'"
- data-tramite_pago="Recepcion y Analisis Documentos"  class="btn btn-danger bs-sm" title="Revisar Pago RA Documentos"><i class="bi bi-check-circle"></i><font size="1">Pago RADocs('.$ID_PAGO_RAD.')</font></a>&nbsp;';
+ data-tramite_pago="Recepcion y Analisis Documentos"  class="btn btn-danger btn-sm" title="Revisar Pago RA Documentos"><i class="bi bi-check-circle"></i><font size="1">Pago RADocs('.$ID_PAGO_RAD.')</font></a>';
 }
 ###################               
 ###################               
@@ -681,12 +683,10 @@ class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-ch
 	</div></center>
 
 
-    </div>
-</div>
 
 <!-- Espacio adicional antes del footer -->
 <div style="margin-bottom: 30px;"></div>
-
+<br>
 <hr>
 <?php include("footer.php"); ?>
 

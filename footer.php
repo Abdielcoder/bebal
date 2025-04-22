@@ -41,7 +41,7 @@
 ?>
         <span class="text-white small">
           <a href="http://mexcapproject.com/" target="_blank" class="text-secondary text-decoration-none">
-            <small>&copy; <?php echo date('Y');?> - MEXCAP PROJECT PARTNERS SAPI</small>
+            <small>&copy; <?php echo date('Y');?> - MEXCAP PROJECT PARTNERS</small>
           </a>
         </span>
 

@@ -64,7 +64,9 @@ session_start();
 	//include("modal/actualizar_datos_solicitante.php");
 	//include("modal/actualizar_datos_establecimiento.php");
 	include("modal/actualizar_datos_establecimiento_y_titular.php");
+	include("modal/actualizar_datos_domicilio.php");
 	include("modal/actualizar_datos_titularHerencia.php");
+	include("modal/actualizar_datos_titular.php");
 	include("modal/actualizar_datos_nombre_comercial.php");
 	include("modal/actualizar_giro.php");
 
@@ -805,7 +807,38 @@ echo  '<a href="#ActualizarDatosEstablecimiento_y_Titular" data-bs-toggle="modal
  data-rfc="'.$rfc.'" 
  class="btn btn-danger bs-sm" title="Actualizar Datos -  Cambio de Domicilio y Cambio de Titular" style="background-color:#FF0000;color:black" ><i class="bi bi-pencil"></i><font size="1" color="white"> Actualizar Datos - Cambio de Domicilio y de Titular</font></a>';
 ##
-	break;
+break;
+
+
+case 'Cambio de Domicilio':
+##
+echo  '<a href="#ActualizarCambioDeDomicilioEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarCambioDeDomicilioEstablecimiento"   
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'"
+ data-idprincipal="'.$IDPRINCIPAL.'"
+ data-clave_catastral="'.$clave_catastral.'"
+ data-pagina="'.$page.'"
+ data-calle_establecimiento="'.$calle_establecimiento.'"
+ data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'"
+ data-numero_establecimiento="'.$numero_establecimiento.'"
+ data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'"
+ data-cp_establecimiento="'.$cp_establecimiento.'"
+ data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'"
+ data-superficie_establecimiento="'.$superficie_establecimiento.'"
+ data-colonia_id="'.$colonia_id.'"
+ data-delegacion_id="'.$delegacion_id.'"
+ data-observaciones="'.$observaciones.'"
+ data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'"
+ data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'"
+ data-domicilio_solicitante="'.$domicilio_solicitante.'" i
+ data-email_solicitante="'.$email_solicitante.'"
+ data-telefono_solicitante="'.$telefono_solicitante.'"
+ data-fisica_o_moral="'.$fisica_o_moral.'"
+ data-rfc="'.$rfc.'"
+ class="btn btn-danger bs-sm" title="Actualizar Datos -  Cambio de Domicilio" style="background-color:#FF0000;color:black" ><i class="bi bi-pencil"></i><font size="1" color="white"> Actualizar Datos - Cambio de Domicilio</font></a>';
+##
+break;
+
 case 'Cambio de Giro':
 
 $porcionesNOTA = explode("**", $NOTA_proceso_tramites);
@@ -850,6 +883,24 @@ echo  '<a href="#ActualizarTitularHerencia" data-bs-toggle="modal" data-bs-targe
  class="btn btn-danger bs-sm" title="Actualizar Datos -  Cambio de Titular por Herencia" style="background-color:#FF0000;color:black" ><i class="bi bi-pencil"></i><font size="1" color="white"> Actualizar Datos - Cambio de Titular por Herecia</font></a>';
 ##
         break;
+
+case 'Cambio de Titular':
+##
+echo  '<a href="#ActualizarCambioDeTitular" data-bs-toggle="modal" data-bs-target="#ActualizarCambioDeTitular""
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'"
+ data-idprincipal="'.$IDPRINCIPAL.'"
+ data-pagina="'.$page.'"
+ data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'"
+ data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'"
+ data-domicilio_solicitante="'.$domicilio_solicitante.'" i
+ data-email_solicitante="'.$email_solicitante.'"
+ data-telefono_solicitante="'.$telefono_solicitante.'"
+ data-fisica_o_moral="'.$fisica_o_moral.'"
+ data-rfc="'.$rfc.'"
+ class="btn btn-danger bs-sm" title="Actualizar Datos -  Cambio de Titular" style="background-color:#FF0000;color:black" ><i class="bi bi-pencil"></i><font size="1" color="white"> Actualizar Datos - Cambio de Titular</font></a>';
+##
+	break;
 
 
   default:
@@ -1048,6 +1099,33 @@ $( "#guardar_registroPrincipalEstablecimiento_y_Titular" ).submit(function( even
 
 
 
+$( "#guardar_registroPrincipalDomicilioEstablecimiento" ).submit(function( event ) {
+  $('#Button_guardar_registroPrincipalDomicilioEstablecimiento').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/ActualizarDatosDomicilio.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxActualizarDomicilioEstablecimiento").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxActualizarDomicilioEstablecimiento").html(datos);
+                        $('#Button_guardar_registroPrincipalDomicilioEstablecimiento').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 3000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
 $( "#guardar_registroPrincipalTitularHerencia" ).submit(function( event ) {
   $('#Button_guardar_registroPrincipalTitularHerencia').attr("disabled", true);
 
@@ -1075,6 +1153,30 @@ $( "#guardar_registroPrincipalTitularHerencia" ).submit(function( event ) {
 
 
 
+$( "#guardar_registroPrincipalTitular" ).submit(function( event ) {
+  $('#Button_guardar_registroPrincipalTitular').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/ActualizarDatosTitular.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxActualizarDatosTitular").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxActualizarDatosTitular").html(datos);
+                        $('#Button_guardar_registroPrincipalTitular').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 3000);
+
+                  }
+        });
+  event.preventDefault();
+});
 
 
 

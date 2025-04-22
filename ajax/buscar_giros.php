@@ -157,6 +157,7 @@ $reload = './giro.php';
 			<thead>
 			<tr  class="success">
 			<th><font size="1">Giro</font></th>
+			<th><font size="1">Siglas</font></th>
 			<th><font size="1">Cuenta</font></th>
 			<th><font size="1">Monto UMAS (ALTA)</font></th>
 			<th><font size="1">Monto UMAS (REVAL ANUAL)</font></th>
@@ -176,6 +177,7 @@ $reload = './giro.php';
 	$mes_vencimiento=$row['mes_vencimiento'];
 	$concepto=$row['concepto'];
 	$fecha=$row['fecha'];
+	$siglas=$row['siglas'];
 	$horario_funcionamiento=$row['horario_funcionamiento'];
 
 
@@ -198,9 +200,10 @@ $reload = './giro.php';
 
 		<tr>
 		<td><font size="2"><?php echo $descripcion_giro; ?></font></td>
+		<td><font size="1"><?php echo $siglas; ?></font></td>
 		<td align="center"><font size="1"><?php echo $cuenta; ?></font></td>
-		<td align="center"><font size="2"><?php echo number_format($monto_umas,2); ?></font></td>
-		<td align="center"><font size="2"><?php echo number_format($monto_umas_revalidacion_anual,2); ?></font></td>
+		<td align="center"><font size="2"><?php echo $monto_umas; ?></font></td>
+		<td align="center"><font size="2"><?php echo $monto_umas_revalidacion_anual; ?></font></td>
 		<td><font size="1"><?php echo $horario_funcionamiento; ?></font></td>
 		<td><font size="1"><?php echo $concepto.' / <font color="blue">'.$MES_LETRA; ?></font></td>
 		<td class='text-right'>

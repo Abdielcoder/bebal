@@ -157,11 +157,11 @@ if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_munic
             <table class="table registro-table">
                 <thead>
                     <tr class="success">
-                        <th width="10%"> </th>
-                        <th width="20%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
-                        <th width="20%"><font size="1">SOLICITANTE</font></th>
+                        <th width="11%"> </th>
+                        <th width="22%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
+                        <th width="22%"><font size="1">SOLICITANTE</font></th>
                         <th width="10%"><font size="1">OBSERVACIÓN</font></th>
-                        <th width="15%" style="border-right: none !important;"><font size="1">STATUS</font></th>
+                        <th width="10%" style="border-right: none !important;"><font size="1">STATUS</font></th>
                         <th class="text-center" width="25%" style="border-left: none !important;"><font size="1">ACCIONES</font></th>
                     </tr>
                 </thead>
@@ -189,6 +189,7 @@ if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_munic
 		    $telefono = $row['telefono_solicitante'];
 		    $id_tramite = $row['id_tramite'];
 		    $id_proceso_tramites = $row['id_proceso_tramites'];
+		    $id_delegacion = $row['id_delegacion'];
 
 		    $latitud = $row['latitud'];
 		    $longitud = $row['longitud'];
@@ -202,6 +203,10 @@ $row_giro = mysqli_fetch_assoc($result_giro);
 $GIRO=$row_giro['descripcion_giro'];
 $HORARIO_FUNCIONAMIENTO=$row_giro['horario_funcionamiento'];
 ##
+$arregloDelegacion=mysqli_fetch_array(mysqli_query($con,"SELECT delegacion FROM delegacion WHERE id=$id_delegacion"));
+$DELEGACION=$arregloDelegacion[0];
+###
+
 
                     // Valores ocultos para los modales y acciones
 ?>
@@ -318,8 +323,32 @@ $HORARIO_FUNCIONAMIENTO=$row_giro['horario_funcionamiento'];
                                 <?php endif; ?>
                                 <?php if (!empty($numero_interno)): ?>
                                 <span class="direccion">Int: <?php echo $numero_interno; ?></span>
-                                <?php endif; ?>
+				<?php endif; ?>
+                                <span class="direccion">Delg: <?php echo $DELEGACION; ?></span>
+
 			    </div>
+<?php
+if ( $operacion=='Activo' ) {
+
+######
+$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE id_principal=$id"));
+$CUENTA_NP=$arregloCuenta[0];
+if ($CUENTA_NP>0 ) {
+$sql_NP="SELECT * FROM numero_permiso WHERE id_principal=".$id;
+$result_NP = mysqli_query($con,$sql_NP);
+$row_NP = mysqli_fetch_assoc($result_NP);
+$NUMERO_PERMISO=$row_NP['numero_permiso'];
+} else {
+$NUMERO_PERMISO='ND';
+}
+
+######
+echo '<font size="1" color="black">Permiso:</font> <font size="1" color="blue">'.$NUMERO_PERMISO.'</font><br>';
+}
+?>
+
+
+
                         </td>
                         <td data-label="Solicitante" class="datos-celda">
                             <div class="datos-solicitante">
@@ -336,12 +365,8 @@ $HORARIO_FUNCIONAMIENTO=$row_giro['horario_funcionamiento'];
 <?php 
 
 if ( $operacion=='Activo' ) {
-
-echo '<font size="1" color="black">Permiso:</font> <font size="1" color="blue">'.$fecha_autorizacion.'</font><br>';
-echo '<font size="1" color="black">Autorización:</font> <font size="1" color="blue">'.$fecha_autorizacion.'</font><br>';
-echo '<font size="1" color="black">Expiracón:</font> <font size="1" color="blue">'.$fecha_expiracion.'</font><br>';
-
-
+echo '<font size="1" color="black">Autorización:</font> <font size="1" color="blue"><br>'.$fecha_autorizacion.'</font><br>';
+echo '<font size="1" color="black">Expiracón:</font> <font size="1" color="blue"><br>'.$fecha_expiracion.'</font><br>';
 } else {
 
 	if ( $operacion=='Tramite' ) {
@@ -367,10 +392,16 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
 }
 
                             ?>
-                        </td>
+			</td>
+
+
+<!-- ####################################################################################### --!>
+<!-- ####################################################################################### --!>
+
                         <!-- NUEVA COLUMNA DE STATUS -->
                         <td data-label="Status" class="status-celda" style="border-right: none; padding-right: 0;">
-                            <?php
+			    <?php
+
                             // Mostrar el estado correspondiente
                             if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
                                 echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">Generar Recibos IRAD</font></div>';
@@ -383,6 +414,8 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                             }
                             ?>
                         </td>
+<!-- ####################################################################################### --!>
+<!-- ####################################################################################### --!>
                         <td data-label="Acciones" class="acciones-celda" style="border-left: none; padding-left: 0; text-align: center;">
                             <div class="action-buttons">
                                 <!-- PRIMERO: Todos los botones normales -->
@@ -390,7 +423,12 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                 <?php
                                     // Botón de acción para Activo (cambios)
                                     if ($operacion=='Activo') {
-                                        echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
+					 echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
+					 if ( $estatus=='Permiso Autorizado' ) {
+					 echo '<a href="#" class="btn btn-sm btn-action btn-warning" title="Imprimir Permiso - Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosImprimirPermiso('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#imprimirpermiso"><i class="bi bi-p-square"></i></a>';
+					 }
+
+
                                     }
 
                                     // Botón de acción para Trámite
@@ -434,6 +472,11 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                         $docs_pdf4DB=$arregloPTfiles['docs_pdf4'];
                                         $estatus_docs_pdf4DB=$arregloPTfiles['estatus_docs_pdf4'];
                                     }
+echo '<FORM action="HistoricoRegistro.php" name="HistoricoRegistro'.$id.'" id=name="HistoricoRegistro'.$id.'"  method="POST">';
+echo '<input type="hidden" name="paginaHistorico" value="'.$page.'">';
+echo '<input type="hidden" name="idHistorico" value="'.$id.'">';
+echo '<button name="HistoricoRegistro'.$id.'" class="btn btn-sm btn-action btn-dark" type="submit" title="Historico Folio '.$folio.'"><i class="bi bi-clock-history"></i><font color="black"></font></button>';
+echo '</FORM>';
                                 ?>
                                 </div>
                                 
@@ -460,7 +503,7 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
                                     echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
                                 }
                                 ?>
-                            </div>
+			    </div>
                         </td>
                     </tr>
                 <?php
@@ -534,13 +577,13 @@ echo '</div>';
                         $isActive = !$defaultPdfFound ? 'active' : '';
                         if (!$defaultPdfFound) {
                             $defaultPdfPath = '../bebal_docs/'.$docs_pdf1DB;
-                            $defaultPdfName = 'Documento 1';
+                            $defaultPdfName = 'Conjunto 1';
                             $defaultPdfFound = true;
                         }
                         
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
-                             data-pdf="../bebal_docs/'.$docs_pdf1DB.'" data-name="Documento 1">
-                             <i class="bi bi-file-earmark-pdf"></i> Documento 1
+                             data-pdf="../bebal_docs/'.$docs_pdf1DB.'" data-name="Conjunto 1">
+                             <i class="bi bi-file-earmark-pdf"></i> Conjunto 1
                              '.(!empty($estatus_docs_pdf1DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf1DB.'</span>' : '').'
                              </a>';
                     }
@@ -549,13 +592,13 @@ echo '</div>';
                         $isActive = !$defaultPdfFound ? 'active' : '';
                         if (!$defaultPdfFound) {
                             $defaultPdfPath = '../bebal_docs/'.$docs_pdf2DB;
-                            $defaultPdfName = 'Documento 2';
+                            $defaultPdfName = 'Conjunto 2';
                             $defaultPdfFound = true;
                         }
                         
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
-                             data-pdf="../bebal_docs/'.$docs_pdf2DB.'" data-name="Documento 2">
-                             <i class="bi bi-file-earmark-pdf"></i> Documento 2
+                             data-pdf="../bebal_docs/'.$docs_pdf2DB.'" data-name="Conjunto 2">
+                             <i class="bi bi-file-earmark-pdf"></i> Conjunto 2
                              '.(!empty($estatus_docs_pdf2DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf2DB.'</span>' : '').'
                              </a>';
                     }
@@ -564,13 +607,13 @@ echo '</div>';
                         $isActive = !$defaultPdfFound ? 'active' : '';
                         if (!$defaultPdfFound) {
                             $defaultPdfPath = '../bebal_docs/'.$docs_pdf3DB;
-                            $defaultPdfName = 'Documento 3';
+                            $defaultPdfName = 'Conjunto 3';
                             $defaultPdfFound = true;
                         }
                         
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
-                             data-pdf="../bebal_docs/'.$docs_pdf3DB.'" data-name="Documento 3">
-                             <i class="bi bi-file-earmark-pdf"></i> Documento 3
+                             data-pdf="../bebal_docs/'.$docs_pdf3DB.'" data-name="Conjunto 3">
+                             <i class="bi bi-file-earmark-pdf"></i> Conjunto 3
                              '.(!empty($estatus_docs_pdf3DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf3DB.'</span>' : '').'
                              </a>';
                     }
@@ -579,13 +622,13 @@ echo '</div>';
                         $isActive = !$defaultPdfFound ? 'active' : '';
                         if (!$defaultPdfFound) {
                             $defaultPdfPath = '../bebal_docs/'.$docs_pdf4DB;
-                            $defaultPdfName = 'Documento 4';
+                            $defaultPdfName = 'Conjunto 4';
                             $defaultPdfFound = true;
                         }
                         
                         echo '<a href="#" class="list-group-item list-group-item-action pdf-selector ' . $isActive . '" 
-                             data-pdf="../bebal_docs/'.$docs_pdf4DB.'" data-name="Documento 4">
-                             <i class="bi bi-file-earmark-pdf"></i> Documento 4
+                             data-pdf="../bebal_docs/'.$docs_pdf4DB.'" data-name="Conjunto 4">
+                             <i class="bi bi-file-earmark-pdf"></i> Conjunto 4
                              '.(!empty($estatus_docs_pdf4DB) ? '<span class="badge float-end" style="background-color:#742c32 !important;">'.$estatus_docs_pdf4DB.'</span>' : '').'
                              </a>';
                     }

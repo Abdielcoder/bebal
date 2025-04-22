@@ -417,6 +417,27 @@ $ley_ingresos="Articulo 22, Fracción  III-B c).- Habiendo sido autorizado el ca
 $listo_presupuesto='SI';
 }
 
+###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+if ( $TRAMITE_tramite_SOLICITADO=='Cambio de Titular' && $DESCUENTO_tramite_SOLICITADO=='SI' ) {
+$MONTO_UMAS_tramite_SOLICITADO_calculo= ((100 - $MONTO_UMAS_tramite_SOLICITADO ) / 100) * $MONTO_UMAS_giro;
+$MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO_calculo;
+
+$ley_ingresos="Articulo 22, Fracción  III-B b).- Habiendo sido autorizado el cambio de titular o el cambio de domicilio, se pagará el 50% (cincuenta por ciento) y el 15% (quince por ciento) respectivamente, sobre el valor de la expedición de un permiso nuevo del giro solicitado..";
+$listo_presupuesto='SI';
+}
+
+###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+if ( $TRAMITE_tramite_SOLICITADO=='Cambio de Domicilio' && $DESCUENTO_tramite_SOLICITADO=='SI' ) {
+$MONTO_UMAS_tramite_SOLICITADO_calculo= ((100 - $MONTO_UMAS_tramite_SOLICITADO ) / 100) * $MONTO_UMAS_giro;
+$MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO_calculo;
+
+$ley_ingresos="Articulo 22, Fracción  III-B b).- Habiendo sido autorizado el cambio de titular o el cambio de domicilio, se pagará el 50% (cincuenta por ciento) y el 15% (quince por ciento) respectivamente, sobre el valor de la expedición de un permiso nuevo del giro solicitado..";
+$listo_presupuesto='SI';
+}
 
 #################################
 ############################

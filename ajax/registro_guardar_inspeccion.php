@@ -28,6 +28,7 @@ $longitud=$_POST['longitud'];
 $superficie_establecimiento=$_POST['superficie_establecimiento'];
 $capacidad_comensales_personas=$_POST['capacidad_comensales_personas'];
 $folio=$_POST['folio'];
+$mod_folio=$_POST['mod_folio'];
 $id_tramite=$_POST['id_tramite'];
 $id_proceso_tramites=$_POST['id_proceso_tramites'];
 
@@ -59,7 +60,7 @@ if (!mysqli_query($con,$Kuery_Update)) echo mysqli_error();
 
 
 			if ($query_Update) {
-				$messages[] = "Se Finalizo la  Inspección con Exito. Folio ($folio)";
+				$messages[] = "Se Finalizo la  Inspección con Exito. Folio ($folio) ($mod_folio)";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

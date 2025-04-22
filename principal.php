@@ -32,6 +32,7 @@
 	$title="bebal";
 	$PROFILE=$_SESSION['user_profile'];
 	$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
+	$ID_USER=$_SESSION['user_id'];
 
 ?>
 <!DOCTYPE html>
@@ -171,7 +172,13 @@ $("#id_valla").val(id);
 function obtener_datosParaCambio(id,pagina) {
 var folio = $("#folio"+id).val();
 var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
-function obtener_datosParaCambio(id,pagina) {
+
+$("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
+$("#mod_folio").val(folio);
+$("#mod_id").val(id);
+}
+
+function obtener_datosImprimirPermiso(id,pagina) {
 var folio = $("#folio"+id).val();
 var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
 
@@ -180,12 +187,6 @@ $("#mod_folio").val(folio);
 $("#mod_id").val(id);
 }
 
-
-
-$("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
-$("#mod_folio").val(folio);
-$("#mod_id").val(id);
-}
 
 function obtener_datos(id,pagina) {
 
@@ -252,19 +253,6 @@ $("#direccion_establecimiento_completa_data").val(direccion_establecimiento_comp
 
 }
 
-
-
-function obtener_datosImprimirPermiso(id,page){
-
-var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
-var folio = $("#folio"+id).val();
-
-$("#mod_id").val(id);
-$("#mod_page").val(page);
-$("#mod_folio").val(folio);
-$("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
-
-}
 
 
 

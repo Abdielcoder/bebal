@@ -188,11 +188,11 @@ $monto_umas_total_servicios_adicionales=0;
 		$id_delegacion=$_POST['id_delegacion'];
 		$id_colonia=$_POST['id_colonia'];
 
-		$rfc_solicitante=$_POST['rfc_solicitante'];
-		$fisica_o_moral=$_POST['fisica_o_moral'];
+$rfc_solicitante=$_POST['rfc_solicitante'];
+$fisica_o_moral=$_POST['fisica_o_moral'];
 
-		$capacidad_comensales_personas=$_POST['capacidad_comensales_personas'];
-		$superficie_establecimiento=$_POST['superficie_establecimiento'];
+$capacidad_comensales_personas=$_POST['capacidad_comensales_personas'];
+$superficie_establecimiento=$_POST['superficie_establecimiento'];
 
 		// escaping, additionally removing everything that could be (html/javascript-) code
 		$observaciones=mysqli_real_escape_string($con,(strip_tags($_POST["observaciones"],ENT_QUOTES)));
@@ -213,8 +213,33 @@ $nombre_representante_legal_solicitante=strtoupper($_POST['nombre_representante_
 $domicilio_solicitante=strtoupper($_POST['domicilio_solicitante']);
 $email_solicitante=$_POST['email_solicitante'];
 $telefono_solicitante=$_POST['telefono_solicitante'];
+#################################
+##
+$sql_giro="SELECT * FROM giro WHERE id=".$id_giro;
+$result_giro = mysqli_query($con,$sql_giro);
+$row_giro = mysqli_fetch_assoc($result_giro);
+$GIRO=$row_giro['descripcion_giro'];
+##
+$sql_municipio="SELECT municipio FROM municipio WHERE id=".$ID_MUNICIPIO;
+$result_municipio = mysqli_query($con,$sql_municipio);
+$row_municipio = mysqli_fetch_assoc($result_municipio);
+$MUNICIPIO=$row_municipio['municipio'];
+##
+$sql_delegacion="SELECT delegacion FROM delegacion WHERE id=".$id_delegacion;
+$result_delegacion = mysqli_query($con,$sql_delegacion);
+$row_delegacion = mysqli_fetch_assoc($result_delegacion);
+$DELEGACION=$row_delegacion['delegacion'];
+##
+$sql_colonia="SELECT colonia FROM colonias WHERE id=".$id_colonia;
+$result_colonia = mysqli_query($con,$sql_colonia);
+$row_colonia = mysqli_fetch_assoc($result_colonia);
+$COLONIA=$row_colonia['colonia'];
+##
+#################################
 
+$el_cambio="Permiso Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", ".$DELEGACION." ".$COLONIA.", ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
 
+	
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
 ################
@@ -300,6 +325,9 @@ $query_new_insert = mysqli_query($con,$sql_principal);
 
 
 if ($query_new_insert) {
+
+
+
 $arregloMaxid = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `principal`"));
 $ID=intval($arregloMaxid[0]);
 $folio=$ID_MUNICIPIO."-".$ID;
@@ -310,13 +338,16 @@ id_principal,
 id_tramite,
 fecha_inicio,
 fechaRegistro,
+el_cambio,
 en_proceso) VALUES (
 $ID,
 $ID_TRAMITE,
 '$fecha_alta',
 '$today',
+'$el_cambio',
 'EN PROCESO')";
 mysqli_query($con,$sqlInsert);
+
 ##
 $arregloMaxid2 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `proceso_tramites`"));
 $ID_PROCESO_TRAMITE=$arregloMaxid2[0];
@@ -325,18 +356,32 @@ $ID_PROCESO_TRAMITE=$arregloMaxid2[0];
 $Kuery_Update="UPDATE principal SET folio='$folio', id_tramite=$ID_TRAMITE , id_proceso_tramites=$ID_PROCESO_TRAMITE  WHERE id=".$ID;
 mysqli_query($con,$Kuery_Update);
 ########################
+##
+$sql_tramite0="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";
+$result_tramite0 = mysqli_query($con,$sql_tramite0);
+$row_tramite0 = mysqli_fetch_assoc($result_tramite0);
+$MONTO_UMAS_tramiteINS=$row_tramite0['monto_umas'];
+##
+$sql_tramite00="SELECT * FROM tramite WHERE descripcion_tramite='Recepcion y Analisis Documentos'";
+$result_tramite00 = mysqli_query($con,$sql_tramite00);
+$row_tramite00 = mysqli_fetch_assoc($result_tramite00);
+$MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
+##
+########################
 $sql10="INSERT INTO pagos (
 id_principal,
 folio,
 id_proceso_tramites,
 concepto,
 estatus_pago,
+total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
 $ID_PROCESO_TRAMITE,
 'Inspeccion',
 'Pendiente',
+'$MONTO_UMAS_tramiteINS',
 '$today')";
 $query_new_insert1 = mysqli_query($con,$sql10);
 ##
@@ -346,12 +391,14 @@ folio,
 id_proceso_tramites,
 concepto,
 estatus_pago,
+total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
 $ID_PROCESO_TRAMITE,
 'Recepcion y Analisis Documentos',
 'Pendiente',
+'$MONTO_UMAS_tramiteRAD',
 '$today')";
 $query_new_insert2 = mysqli_query($con,$sql20);
 ##
@@ -387,7 +434,7 @@ $query_new_insert4 = mysqli_query($con,$sql40);
 
 
 
-				$messages[] = "El Registro ha sido dado de Alta Exito Folio ($ID_MUNICIPIO - $ID ).";
+				$messages[] = "El Registro ha sido dado  de Alta Exito Folio ($ID_MUNICIPIO - $ID ).";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

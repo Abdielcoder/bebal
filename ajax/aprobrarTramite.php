@@ -78,6 +78,21 @@ mysqli_query($con,$sqlInsert);
 ##
 $arregloMaxid2 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `proceso_tramites`"));
 $ID_PROCESO_TRAMITE=$arregloMaxid2[0];
+
+########################
+##
+$sql_tramite0="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";
+$result_tramite0 = mysqli_query($con,$sql_tramite0);
+$row_tramite0 = mysqli_fetch_assoc($result_tramite0);
+$MONTO_UMAS_tramiteINS=$row_tramite0['monto_umas'];
+##
+$sql_tramite00="SELECT * FROM tramite WHERE descripcion_tramite='Recepcion y Analisis Documentos'";
+$result_tramite00 = mysqli_query($con,$sql_tramite00);
+$row_tramite00 = mysqli_fetch_assoc($result_tramite00);
+$MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
+##
+########################
+
 #####################################################
 ###  PAGO Pendiete POR Inspeccion
 $sql10="INSERT INTO pagos (
@@ -87,6 +102,7 @@ id_proceso_tramites,
 concepto,
 concepto_pago,
 estatus_pago,
+total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
@@ -94,6 +110,7 @@ $ID_PROCESO_TRAMITE,
 'Inspeccion',
 '$nota',
 'Pendiente',
+'$MONTO_UMAS_tramiteINS',
 '$today')";
 $query_new_insert10 = mysqli_query($con,$sql10);
 ######################################################
@@ -105,6 +122,7 @@ id_proceso_tramites,
 concepto,
 concepto_pago,
 estatus_pago,
+total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
@@ -112,6 +130,7 @@ $ID_PROCESO_TRAMITE,
 'Recepcion y Analisis Documentos',
 '$nota',
 'Pendiente',
+'$MONTO_UMAS_tramiteRAD',
 '$today')";
 $query_new_insert20 = mysqli_query($con,$sql20);
 ############

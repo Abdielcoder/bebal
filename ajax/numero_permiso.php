@@ -2,7 +2,9 @@
 include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 
 	$PROFILE=$_SESSION['user_profile'];
-	$ID_MUNICIPIO=$_SESSION['user_id'];
+	$ID_USER=$_SESSION['user_id'];
+	$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
+
 
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['folio']) || 
@@ -19,6 +21,9 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 		require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
 		include("../funciones.php");
 
+## E-XXYYDDDDDD		
+## XX ( Delegacion )
+## YY ( Giro )
 #####################
 
 $folio=$_POST['folio'];
@@ -27,12 +32,27 @@ $id_principal=$_POST['id_principal'];
 
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
+#################
+$sqlPrincipal="SELECT * FROM principal WHERE id=".$id_principal;
+$row=mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
 
+$id_giro=$row['giro'];
+$id_delegacion=$row['id_delegacion'];
+#################
+$arregloSiglasGiro=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM giro WHERE id=$id_giro"));
+$SIGLAS_GIRO=$arregloSiglasGiro[0];
+echo 'SIGLAS_GIRO='.$SIGLAS_GIRO.'<br>';
+##
+$arregloSiglasDelegacion=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM delegacion WHERE id=$id_delegacion"));
+$SIGLAS_DELEGACION=$arregloSiglasDelegacion[0];
+echo 'SIGLAS_DELEGACION='.$SIGLAS_DELEGACION.'<br>';
 ################
 ################
 $arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio'"));
 $CUENTA=$arregloCuenta[0];
 ###############
+$id_giro_siglas=$id_giro.'-'.$SIGLAS_GIRO;
+$id_delegacion_siglas=$id_delegacion.'-'.$SIGLAS_DELEGACION;
 ##########
 if ( $CUENTA>0 ) {
 
@@ -41,10 +61,14 @@ $sql_INSERT="INSERT INTO numero_permiso (
 folio,
 id_principal,
 user_id,
+id_giro_siglas,
+id_delegacion_siglas,
 fecha ) VALUES (
 '$folio',
 $id_principal,
 $user_id,
+'$id_giro_siglas',
+'$id_delegacion_siglas',
 '$today')";
 $query_new_insert = mysqli_query($con,$sql_INSERT);
 if ($query_new_insert) {
@@ -54,23 +78,20 @@ $ID=intval($arregloMaxid[0]);
 $tamano=strlen($ID);
 
 $NP='';
-## numero permiso  ME-XXXXXXX
-$siglas='ME-';
+$siglas='E-'.$SIGLAS_GIRO.$SIGLAS_DELEGACION;
 
 switch ($tamano) {
     case 1:
-        $NP=$siglas.'000000'.$ID;
-    case 2:
         $NP=$siglas.'00000'.$ID;
-    case 3:
+    case 2:
         $NP=$siglas.'0000'.$ID;
-    case 4:
+    case 3:
         $NP=$siglas.'000'.$ID;
-    case 5:
+    case 4:
         $NP=$siglas.'00'.$ID;
-    case 6:
+    case 5:
         $NP=$siglas.'0'.$ID;
-    case 7:
+    case 6:
         $NP=$siglas.''.$ID;
 }
 

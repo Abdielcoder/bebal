@@ -277,7 +277,7 @@ $row_colonia = mysqli_fetch_assoc($result_colonia);
 $COLONIA=$row_colonia['colonia'];
 ##
 ################
-$KueryPT_FINALIZADO= "SELECT COUNT(*)  AS cuentaFINALIZADO FROM inspeccion WHERE en_proceso='FIN' AND id_principal=$IDPRINCIPAL AND id_proceso_tramites=$id_tramite";
+$KueryPT_FINALIZADO= "SELECT COUNT(*)  AS cuentaFINALIZADO FROM inspeccion WHERE en_proceso='FIN' AND id_principal=$IDPRINCIPAL AND id_proceso_tramites=$id_proceso_tramites";
 ##echo $KueryPT_FINALIZADO.'<br>';
 $arregloPT_FINALIZADO = mysqli_fetch_array(mysqli_query($con,$KueryPT_FINALIZADO));
 $cuentaFINALIZADO=$arregloPT_FINALIZADO['cuentaFINALIZADO'];
@@ -469,7 +469,7 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });

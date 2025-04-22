@@ -102,7 +102,7 @@ if ( $active_principal) {
 ?>
 
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="http://https://www.mexcaptijuana.com" target='_blank'><i class='bi bi-envelope text-secondary'></i> Soporte</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://www.mexcaptijuana.com/" target='_blank'><i class='bi bi-envelope text-secondary'></i> Soporte</a></li>
 		<li class="nav-item"><a class="nav-link" href="login.php?logout"><i class='bi bi-power text-secondary'></i> Salir</a></li>
       </ul>
 <?php

@@ -353,7 +353,7 @@ echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
                         </tr>
                         <tr>
-                            <th>Cuenta </th>
+                            <th>Inciso </th>
                             <td><font size="2"><B><?php echo $CUENTA; ?></B></font></td>
                         </tr>
                         <tr>

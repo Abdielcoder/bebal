@@ -1282,6 +1282,9 @@ table.registro-table {
 .acciones-celda {
   padding-left: 0 !important;
   text-align: center !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+  vertical-align: top !important;
 }
 
 /* Estilo específico para los botones amarillos que deben aparecer abajo */
@@ -1311,7 +1314,9 @@ a[class*="btn-"][style*="background-color:#F0D777"],
 }
 
 /* Agregamos un salto de línea visible antes de los botones amarillos */
-.btn-warning-custom:before, 
+/* Comentado por solicitud del usuario - ESTO PROBABLEMENTE CAUSABA LA LÍNEA */
+/*
+.btn-warning-custom:before,
 .btn-generar-recibo:before,
 a[class*="btn-"][style*="background-color:#AC905B"]:before,
 a[class*="btn-"][style*="background-color:#F0D777"]:before,
@@ -1326,6 +1331,7 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   top: -15px !important;
   left: 0 !important;
 }
+*/
 
 /* Estilos para los botones de acción principales */
 /* Comentado por solicitud del usuario para eliminar disposición en columna */
@@ -1538,6 +1544,8 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 }
 
 /* Contenedor específico para botones amarillos */
+/* Comentado por solicitud del usuario - puede estar causando espacio/línea extra */
+/*
 .yellow-button-container {
   width: 100%;
   display: flex;
@@ -1551,119 +1559,88 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   margin-bottom: 5px !important;
   padding-bottom: 5px !important;
 }
+*/
 
-/* Ajuste de los botones de acción normales */
-/* Comentado por solicitud del usuario - esta clase no parece existir en el HTML generado */
+/* Agregamos un salto de línea visible antes de los botones amarillos */
+/* Comentado por solicitud del usuario - ESTO PROBABLEMENTE CAUSABA LA LÍNEA */
 /*
-.action-row-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 15px !important;
+.btn-warning-custom:before,
+.btn-generar-recibo:before,
+a[class*="btn-"][style*="background-color:#AC905B"]:before,
+a[class*="btn-"][style*="background-color:#F0D777"]:before,
+.amarillo-bottom:before {
+  content: "";
+  display: block !important;
+  width: 100% !important;
+  height: 1px !important;
+  background-color: #eee !important;
+  margin: 5px 0 !important;
+  position: absolute !important;
+  top: -15px !important;
+  left: 0 !important;
 }
 */
 
-/* Estilo específico para los botones amarillos que deben aparecer abajo */
-.btn-warning-custom, 
-.btn-generar-recibo,
-a[class*="btn-"][style*="background-color:#AC905B"],
-a[class*="btn-"][style*="background-color:#F0D777"],
-.amarillo-bottom {
-  width: 250px !important;
-  margin: 5px 0 !important;
-  clear: both !important;
-  display: block !important;
-  align-self: center !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  background-color: #ffc107 !important;
-  color: white !important;
-  font-weight: bold !important;
-  padding: 8px 15px !important;
-  border-radius: 5px !important;
-  text-align: center !important;
-  position: relative !important;
-  border: none !important;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-  text-decoration: none !important;
-}
+/* ... existing code ... */
 
-/* Media queries para ajuste en móviles de botones amarillos */
-@media (max-width: 768px) {
-  .yellow-button-container {
-    margin-top: 25px !important;
-    padding-top: 10px !important;
-  }
-  
-  .btn-warning-custom, 
-  .btn-generar-recibo,
-  a[class*="btn-"][style*="background-color:#AC905B"],
-  a[class*="btn-"][style*="background-color:#F0D777"],
-  .amarillo-bottom {
-    width: 100% !important;
-    max-width: 250px !important;
-  }
-}
-
-.status-celda {
-  padding: 12px 0 !important;
-  border-right: none !important;
-}
-
-.acciones-celda {
-  padding-left: 0 !important;
-  text-align: center !important;
-}
-
-/* Comentado por solicitud del usuario para eliminar disposición en columna */
-/*
+/* Restore original inline styles and ensure no conflicting properties */
 .action-buttons {
   display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
+  flex-flow: row wrap !important; /* Horizontal wrap */
   justify-content: center !important;
-  width: 100% !important;
+  align-items: flex-start !important; /* Align items to the start of the container */
+  gap: 2px !important;
+  margin: 0 !important;
+  padding: 0 !important; /* Ensure no padding creates space */
+  border: none !important; /* Ensure no border looks like a line */
+  background: none !important;
+  width: 100%; /* Span the cell */
+  vertical-align: top; /* Align content within the div */
 }
-*/
 
-/* Comentado por solicitud del usuario - esta clase no parece existir en el HTML generado */
+/* ... existing code ... */
+
+/* Contenedor específico para botones amarillos */
+/* Comentado por solicitud del usuario - puede estar causando espacio/línea extra */
 /*
-.action-row-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center !important;
-  align-items: center !important;
+.yellow-button-container {
   width: 100%;
-  margin-bottom: 15px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px !important;
+  position: relative;
+  padding-top: 15px !important;
+  border-top: 2px solid #ddd !important;
+  clear: both !important;
+  margin-bottom: 5px !important;
+  padding-bottom: 5px !important;
 }
 */
 
-@media (max-width: 768px) {
-  .status-celda, .acciones-celda {
-    border-bottom: none !important;
-  }
-  
-  .status-celda {
-    padding-bottom: 0 !important;
-    display: block !important;
-    width: 100% !important;
-    text-align: center !important;
-  }
-  
-  .status-celda:before {
-    content: attr(data-label) !important;
-    font-weight: bold !important;
-    display: block !important;
-    margin-bottom: 5px !important;
-  }
-  
-  .acciones-celda {
-    padding-top: 5px !important;
-    border-top: none !important;
-  }
+/* ... existing code ... */
+
+/* Agregamos un salto de línea visible antes de los botones amarillos */
+/* Comentado por solicitud del usuario - ESTO PROBABLEMENTE CAUSABA LA LÍNEA */
+/*
+.btn-warning-custom:before,
+.btn-generar-recibo:before,
+a[class*="btn-"][style*="background-color:#AC905B"]:before,
+a[class*="btn-"][style*="background-color:#F0D777"]:before,
+.amarillo-bottom:before {
+  content: "";
+  display: block !important;
+  width: 100% !important;
+  height: 1px !important;
+  background-color: #eee !important;
+  margin: 5px 0 !important;
+  position: absolute !important;
+  top: -15px !important;
+  left: 0 !important;
 }
+*/
+
+/* ... existing code ... */
 
 /* Estilos para el visor de PDFs */
 .pdf-container {

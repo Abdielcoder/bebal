@@ -838,12 +838,15 @@ a:hover {
 }
 
 /* Estilos para botones de acción en la tabla */
+/* Comentado por solicitud del usuario para eliminar disposición en columna */
+/*
 .action-buttons {
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   width: 100% !important;
 }
+*/
 
 .img-thumbnail-custom {
   width: 80px;
@@ -1144,6 +1147,8 @@ table.registro-table {
 }
 
 /* Estilos para botones de acción */
+/* Comentado por solicitud del usuario para eliminar disposición en columna */
+/*
 .btn-action {
     padding: 0.375rem 0.75rem;
     border-radius: 4px;
@@ -1152,6 +1157,7 @@ table.registro-table {
     color: white;
     transition: all 0.3s ease;
 }
+*/
 
 .btn-primary-custom {
     background-color: var(--color-primary);
@@ -1274,24 +1280,8 @@ table.registro-table {
 }
 
 .acciones-celda {
-  min-width: 100px;
-  display: flex;
-  flex-direction: column;
-}
-
-.action-buttons {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  width: 100% !important;
-}
-
-.action-row-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 10px !important;
+  padding-left: 0 !important;
+  text-align: center !important;
 }
 
 /* Estilo específico para los botones amarillos que deben aparecer abajo */
@@ -1338,6 +1328,8 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 }
 
 /* Estilos para los botones de acción principales */
+/* Comentado por solicitud del usuario para eliminar disposición en columna */
+/*
 .btn-action {
   margin: 2px;
   border-radius: 4px;
@@ -1348,6 +1340,7 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   justify-content: center;
   transition: all 0.2s;
 }
+*/
 
 /* Media queries para ajuste en móviles */
 @media (max-width: 768px) {
@@ -1560,6 +1553,8 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
 }
 
 /* Ajuste de los botones de acción normales */
+/* Comentado por solicitud del usuario - esta clase no parece existir en el HTML generado */
+/*
 .action-row-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -1567,6 +1562,7 @@ a[class*="btn-"][style*="background-color:#F0D777"]:before,
   width: 100%;
   margin-bottom: 15px !important;
 }
+*/
 
 /* Estilo específico para los botones amarillos que deben aparecer abajo */
 .btn-warning-custom, 
@@ -1621,6 +1617,8 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   text-align: center !important;
 }
 
+/* Comentado por solicitud del usuario para eliminar disposición en columna */
+/*
 .action-buttons {
   display: flex !important;
   flex-direction: column !important;
@@ -1628,7 +1626,10 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   justify-content: center !important;
   width: 100% !important;
 }
+*/
 
+/* Comentado por solicitud del usuario - esta clase no parece existir en el HTML generado */
+/*
 .action-row-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -1637,6 +1638,7 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   width: 100%;
   margin-bottom: 15px !important;
 }
+*/
 
 @media (max-width: 768px) {
   .status-celda, .acciones-celda {

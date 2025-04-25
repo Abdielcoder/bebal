@@ -123,21 +123,89 @@ echo '</div>';
 #####################
 ### Servicios Adicionales
 ##echo '<div class="form-group">';
-echo '<label for="id_serviciosA" class="col-sm-1 control-label"><font size="2">Servicios Adicionales</font></label>';
+echo '<label for="serviciosAdicionales" class="col-sm-1 control-label"><font size="2">Servicios Adicionales</font></label>';
+##echo '<label for="id_serviciosA" class="col-sm-1 control-label"><font size="2">Servicios Adicionales</font></label>';
 echo '<div class="col-sm-3" style="background-color:#f4f0ec;color:black;">';
-$query_ServiciosAd=mysqli_query($con,"SELECT * FROM servicios_adicionales");
-while($rowServiciosAd=mysqli_fetch_array($query_ServiciosAd))	{
-$id_SA=$rowServiciosAd['id'];
-$monto_umas_SA=$rowServiciosAd['monto_umas'];
-$SERVICIOS_ADICIONALES=$rowServiciosAd['descripcion_servicios_adicionales'];
-echo '<input type="checkbox" name="SERVICIOS_ADICIONALES[]" value="'.$id_SA.'**'.$SERVICIOS_ADICIONALES.'**'.$monto_umas_SA.'">&nbsp; <font size="1">'.$SERVICIOS_ADICIONALES.'</font><br>';
-}
+##$query_ServiciosAd=mysqli_query($con,"SELECT * FROM servicios_adicionales WHERE descripcion_servicios_adicionales!='Mesas de Billar, por cada Mesa'");
+##$query_ServiciosAd=mysqli_query($con,"SELECT * FROM servicios_adicionales");
+##while($rowServiciosAd=mysqli_fetch_array($query_ServiciosAd))	{
+##$id_SA=$rowServiciosAd['id'];
+##$monto_umas_SA=$rowServiciosAd['monto_umas'];
+##$SERVICIOS_ADICIONALES=$rowServiciosAd['descripcion_servicios_adicionales'];
+##echo '<input type="checkbox" name="SERVICIOS_ADICIONALES[]" value="'.$id_SA.'**'.$SERVICIOS_ADICIONALES.'**'.$monto_umas_SA.'">&nbsp; <font size="1">'.$SERVICIOS_ADICIONALES.'</font><br>';
+##}
+
+//echo '</div>';
+//echo '</div>';
 
 
+//echo '<div class="col-sm-3" style="background-color:#f4f0ec;color:black;">';
+
+echo "<select name='pista_de_baile' id='pista_de_baile' style='font-size: 0.8em;'>";
+
+echo '<option value="Zero" selected>No</option>';
+echo '<option value="1">Si</option>';
+echo '</select>';
+echo '<font size="1">&nbsp;&nbsp;Pista de Baile</font>';
+
+echo '<br><br>';
+
+##echo '<div class="col-sm-3"  style="background-color:#f4f0ec;color:black;">';
+echo "<select name='numero_mesas_de_billar' id='numero_mesas_de_billar' style='font-size: 0.8em;'>";
+ 
+echo '<option value="Zero" selected>No</option>';
+echo '<option value="1">1</option>';
+echo '<option value="2">2</option>';
+echo '<option value="3">3</option>';
+echo '<option value="4">4</option>';
+echo '<option value="5">5</option>';
+echo '<option value="6">6</option>';
+echo '<option value="7">7</option>';
+echo '<option value="8">8</option>';
+echo '<option value="9">9</option>';
+echo '<option value="10">10</option>';
+echo '<option value="11">11</option>';
+echo '<option value="12">12</option>';
+echo '<option value="13">13</option>';
+echo '<option value="14">14</option>';
+echo '<option value="15">15</option>';
+echo '<option value="16">16</option>';
+echo '<option value="17">17</option>';
+echo '<option value="18">18</option>';
+echo '<option value="19">19</option>';
+echo '<option value="20">20</option>';
+echo '</select>';
+echo '<font size="1">&nbsp;&nbsp;Mesas de Billar</font>';
+
+echo '<p> </p>';
+
+echo "<select name='musica_grabada_y_aparatos' id='musica_grabada_y_aparatos' style='font-size: 0.8em;'>";
+
+echo '<option value="Zero" selected>No</option>';
+echo '<option value="1">Si</option>';
+echo '</select>';
+echo '<font size="1">&nbsp;&nbsp;Musica Grabada y Aparatos</font>';
+
+echo '<p> </p>';
+
+echo "<select name='conjunto_musicales' id='conjunto_musicales' style='font-size: 0.8em;'>";
+
+echo '<option value="Zero" selected>No</option>';
+echo '<option value="1">Si</option>';
+echo '</select>';
+echo '<font size="1">&nbsp;&nbsp;Conjunto Musicales</font>';
+
+echo '<p> </p>';
+
+echo "<select name='espectaculos_artisticos' id='espectaculos_artisticos' style='font-size: 0.8em;'>";
+
+echo '<option value="Zero" selected>No</option>';
+echo '<option value="1">Si</option>';
+echo '</select>';
+echo '<font size="1">&nbsp;&nbsp;Espectaculos Artisticos</font>';
+
+##echo '</div>';
 echo '</div>';
-
-
-
 echo '</div>';
 
 ##########################

@@ -7,12 +7,15 @@
 	  <div class="modal-dialog">
 		<div class="modal-content">
 		  <div class="modal-header bg-danger text-white">
-			<h5 class="modal-title" id="EliminarRegistroLabel"><i class="bi bi-trash"></i> Eliminar Registro</h5>
-			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<h6 class="modal-title" id="EliminarRegistroLabel"><i class="bi bi-trash"></i> Eliminar Registro</h6>
+
+	<!--		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--!>
+
 		  </div>
 		  <div class="modal-body">
-			<form class="form-horizontal" method="post" id="editar_usuario" name="editar_usuario">
-			<div id="resultados_ajax2"></div>
+			<form class="form-horizontal" method="post" id="eliminar_registro" name="eliminar_registro">
+			<div id="resultados_ajaxeliminar_registro"></div>
+
 			<div class="mb-3 row">
 				<label for="mod_nombre_comercial_establecimiento" class="col-sm-4 col-form-label">Nombre Establecimiento</label>
 				<div class="col-sm-8">
@@ -36,12 +39,12 @@
 			</div>
 			
 			<div class="alert alert-warning">
-				<i class="bi bi-exclamation-triangle"></i> Esta acción eliminará permanentemente el registro y no se podrá recuperar.
+				<i class="bi bi-exclamation-triangle"></i><font size="2">Esta acción eliminará permanentemente el registro y no se podrá recuperar.</font>
 			</div>
 			
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+<!--<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>--!>
 			<button type="submit" class="btn btn-danger" id="eliinar_registro">
 				<i class="bi bi-trash"></i> Eliminar Registro
 			</button>

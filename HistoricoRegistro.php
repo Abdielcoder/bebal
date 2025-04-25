@@ -1,3 +1,4 @@
+
 <style>
 .dropbtn {
   background-color: #000000;
@@ -212,6 +213,7 @@ $row = mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
 $principal_id=$row['id'];
 $folio=$row['folio'];
 $fecha_autorizacion=$row['fecha_autorizacion'];
+$nip=$row['nip'];
 
 $fecha_expiracion=$row['fecha_expiracion'];
 $numero_permiso=$row['numero_permiso'];
@@ -514,7 +516,8 @@ $total_resultPT_Cambio = mysqli_num_rows($resultPT_Cambio);
 ##
 if ( $total_resultPT_Cambio> 0 ) {
 echo '<div class="seccion-datos">';
-echo '<h6>Tramites - Número de Cambios ( '.$total_resultPT_Cambio.' ) </h6>';
+echo '<h7>Tramites - Número de Cambios ( '.$total_resultPT_Cambio.' ) </h7>';
+echo '<font color="white" size="1">'.$nip.'</font>';
 echo '</div>';
 } else {
 }
@@ -689,6 +692,7 @@ echo '</div>';
 
 }
 
+
 ?>
 
 
@@ -704,7 +708,6 @@ echo '</div>';
 
     </div>
 </div>
-
 
 <hr>
 <?php include("footer.php"); ?>

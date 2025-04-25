@@ -37,7 +37,6 @@ background-color: #3CBC8D;
 			<form class="form-horizontal" method="post" id="registro_guardar_inspeccion" name="registro_guardar_inspeccion">
 			<div id="resultados_ajaxInspeccion"></div>
 
-<input type="hidden" id="mod_folio" name="folio">
 
 
 
@@ -69,6 +68,7 @@ background-color: #3CBC8D;
 <input type="hidden" id="mod_idprincipal" name="idprincipal">
 <input type="hidden" id="mod_id_proceso_tramites" name="id_proceso_tramites">
 
+<input type="hidden" id="mod_folio" name="folio">
 
 <?php
 ###

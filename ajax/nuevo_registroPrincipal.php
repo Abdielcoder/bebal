@@ -9,6 +9,11 @@ $ID_USER=$_SESSION['user_id'];
 	if (empty($_POST['nombre_representante_legal_solicitante']) || 
 	empty($_POST['nombre_comercial_establecimiento']) || 
 	empty($_POST['MODALIDAD_GA']) || 
+        empty($_POST['numero_mesas_de_billar']) || 
+        empty($_POST['pista_de_baile']) || 
+        empty($_POST['musica_grabada_y_aparatos']) || 
+        empty($_POST['conjunto_musicales']) || 
+        empty($_POST['espectaculos_artisticos']) || 
 	empty($_POST['clave_catastral'])
 	) {
 
@@ -104,90 +109,159 @@ $MODALIDAD_GA_LISTA .= ' Y ('.$eu1.')';
 #####################
 #####################
 
+##$monto_umas_total_servicios_adicionales=0;
+##if (isset($_POST['SERVICIOS_ADICIONALES']) && !empty($_POST['SERVICIOS_ADICIONALES'])) {
+##$SERVICIOS_ADICIONALES=$_POST['SERVICIOS_ADICIONALES'];
+
+##$SERVICIOS_ADICIONALES_LISTA='0';
+##$SERVICIOS_ADICIONALES_RAW='';
+##$cuentaSA=count($SERVICIOS_ADICIONALES);
+
+
+##if ( $cuentaSA==1 ) {
+##$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0];
+#
+##$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
+##$e00=$porciones0[0];
+##$e01=$porciones0[1];
+##$e02=$porciones0[2];
+##$monto_umas_total_servicios_adicionales=$e02;
+##$SERVICIOS_ADICIONALES_LISTA='('.$e01.')';
+#
+##} else {
+
+##if ( $cuentaSA==2 ) {
+##$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0].'--'.$SERVICIOS_ADICIONALES[1];
+#
+##$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
+##$e00=$porciones0[0];
+##$e01=$porciones0[1];
+##$e02=$porciones0[2];
+#
+##$porciones1 = explode("**", $SERVICIOS_ADICIONALES[1]);
+##$e10=$porciones1[0];
+##$e11=$porciones1[1];
+##$e12=$porciones1[2];
+##$monto_umas_total_servicios_adicionales=$e02+$e12;
+##$SERVICIOS_ADICIONALES_LISTA='('.$e01.') y ('.$e11.')';
+#
+##} else {
+
+##$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0];
+#
+##$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
+##$e00=$porciones0[0];
+##$e01=$porciones0[1];
+##$e02=$porciones0[2];
+##$monto_umas_total_servicios_adicionales=$e02;
+##$SERVICIOS_ADICIONALES_LISTA='('.$e01.')';
+#
+
+##for($i = 1; $i<$cuentaSA-1; $i++) {
+##$SERVICIOS_ADICIONALES_RAW .= '--'.$SERVICIOS_ADICIONALES[$i];
+
+##$porcionesi = explode("**", $SERVICIOS_ADICIONALES[$i]);
+##$ei0=$porcionesi[0];
+##$ei1=$porcionesi[1];
+##$ei2=$porcionesi[2];
+##$monto_umas_total_servicios_adicionales=$ei2+$monto_umas_total_servicios_adicionales;
+#
+
+##$SERVICIOS_ADICIONALES_LISTA.=', ('.$ei1.')';
+
+##}
+
+##$SERVICIOS_ADICIONALES_RAW .= ' --'.$SERVICIOS_ADICIONALES[$cuentaSA-1];
+##$porcionesu = explode("**", $SERVICIOS_ADICIONALES[$cuentaSA-1]);
+##$eu0=$porcionesu[0];
+##$eu1=$porcionesu[1];
+##$eu2=$porcionesu[2];
+##$monto_umas_total_servicios_adicionales=$eu2+$monto_umas_total_servicios_adicionales;
+
+##$SERVICIOS_ADICIONALES_LISTA .= ' Y ('.$eu1.')';
+##}
+##}
+
+
+
+##} else {
+##$SERVICIOS_ADICIONALES_LISTA='0';
+##$cuentaSA=0;
+##$monto_umas_total_servicios_adicionales=0;
+##}
+###########################
+###########################
+## SERVICIOS ADICIONALES
+###########################
+$SERVICIOS_ADICIONALES_LISTA='';
+$cuentaSA=0;
 $monto_umas_total_servicios_adicionales=0;
-if (isset($_POST['SERVICIOS_ADICIONALES']) && !empty($_POST['SERVICIOS_ADICIONALES'])) {
-$SERVICIOS_ADICIONALES=$_POST['SERVICIOS_ADICIONALES'];
-
-$SERVICIOS_ADICIONALES_LISTA='0';
-$SERVICIOS_ADICIONALES_RAW='';
-$cuentaSA=count($SERVICIOS_ADICIONALES);
-
-
-if ( $cuentaSA==1 ) {
-$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0];
 #
-$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
-$e00=$porciones0[0];
-$e01=$porciones0[1];
-$e02=$porciones0[2];
-$monto_umas_total_servicios_adicionales=$e02;
-$SERVICIOS_ADICIONALES_LISTA='('.$e01.')';
-#
-} else {
-
-if ( $cuentaSA==2 ) {
-$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0].'--'.$SERVICIOS_ADICIONALES[1];
-#
-$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
-$e00=$porciones0[0];
-$e01=$porciones0[1];
-$e02=$porciones0[2];
-#
-$porciones1 = explode("**", $SERVICIOS_ADICIONALES[1]);
-$e10=$porciones1[0];
-$e11=$porciones1[1];
-$e12=$porciones1[2];
-$monto_umas_total_servicios_adicionales=$e02+$e12;
-$SERVICIOS_ADICIONALES_LISTA='('.$e01.') y ('.$e11.')';
-#
-} else {
-
-$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0];
-#
-$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
-$e00=$porciones0[0];
-$e01=$porciones0[1];
-$e02=$porciones0[2];
-$monto_umas_total_servicios_adicionales=$e02;
-$SERVICIOS_ADICIONALES_LISTA='('.$e01.')';
-#
-
-for($i = 1; $i<$cuentaSA-1; $i++) {
-$SERVICIOS_ADICIONALES_RAW .= '--'.$SERVICIOS_ADICIONALES[$i];
-
-$porcionesi = explode("**", $SERVICIOS_ADICIONALES[$i]);
-$ei0=$porcionesi[0];
-$ei1=$porcionesi[1];
-$ei2=$porcionesi[2];
-$monto_umas_total_servicios_adicionales=$ei2+$monto_umas_total_servicios_adicionales;
-#
-
-$SERVICIOS_ADICIONALES_LISTA.=', ('.$ei1.')';
-
-}
-
-$SERVICIOS_ADICIONALES_RAW .= ' --'.$SERVICIOS_ADICIONALES[$cuentaSA-1];
-$porcionesu = explode("**", $SERVICIOS_ADICIONALES[$cuentaSA-1]);
-$eu0=$porcionesu[0];
-$eu1=$porcionesu[1];
-$eu2=$porcionesu[2];
-$monto_umas_total_servicios_adicionales=$eu2+$monto_umas_total_servicios_adicionales;
-
-$SERVICIOS_ADICIONALES_LISTA .= ' Y ('.$eu1.')';
-}
-}
-
-
-
-} else {
+###############
+$numero_mesas_de_billar=$_POST['numero_mesas_de_billar'];
+$pista_de_baile=$_POST['pista_de_baile'];
+$musica_grabada_y_aparatos=$_POST['musica_grabada_y_aparatos'];
+$conjunto_musicales=$_POST['conjunto_musicales'];
+$espectaculos_artisticos=$_POST['espectaculos_artisticos'];
+###############
+if ( $numero_mesas_de_billar=='Zero' && $pista_de_baile=='Zero' && $musica_grabada_y_aparatos=='Zero' && $conjunto_musicales=='Zero' && $espectaculos_artisticos=='Zero' ) {
 $SERVICIOS_ADICIONALES_LISTA='0';
 $cuentaSA=0;
 $monto_umas_total_servicios_adicionales=0;
+} else {
+	if ( $numero_mesas_de_billar!='Zero' ) {
+	$SERVICIOS_ADICIONALES_LISTA.=' ( '.$numero_mesas_de_billar.' Mesa(s) de Billar ) ';
+	$cuentaSA++;
+	} else $numero_mesas_de_billar=0;
+	#
+	if ( $pista_de_baile==1 ) {
+	$SERVICIOS_ADICIONALES_LISTA.=' ( Pista de Baile ) ';
+	$cuentaSA++;
+	} else $pista_de_baile=0;
+	#
+	if ( $musica_grabada_y_aparatos==1 ) {
+	$SERVICIOS_ADICIONALES_LISTA.=' ( Musica Grabada y Aparatos Musicales ) ';
+	$cuentaSA++;
+	} else $musica_grabada_y_aparatos=0;
+	#
+	if ( $conjunto_musicales==1 ) {
+	$SERVICIOS_ADICIONALES_LISTA.=' ( Conjunto Musicales ) ';
+	$cuentaSA++;
+	} else $conjunto_musicales=0;
+	#
+	if ( $espectaculos_artisticos==1 ) {
+	$SERVICIOS_ADICIONALES_LISTA.=' ( Espectaculos Artisticos ) ';
+	$cuentaSA++;
+	} else $espectaculos_artisticos=0;
+#
+$arregloSA_musica_grabada_y_aparatos=mysqli_fetch_array(mysqli_query($con,"SELECT monto_umas  FROM `servicios_adicionales` WHERE descripcion_servicios_adicionales='Musica Grabada y Aparatos Musicales'"));
+$umas_musica_grabada_y_aparatos=$arregloSA_musica_grabada_y_aparatos[0];
+$monto_musica_grabada_y_aparatos=$umas_musica_grabada_y_aparatos*$musica_grabada_y_aparatos;
+#
+$arregloSA_numero_mesas_de_billar=mysqli_fetch_array(mysqli_query($con,"SELECT monto_umas  FROM `servicios_adicionales` WHERE descripcion_servicios_adicionales='Mesas de Billar, por cada Mesa'"));
+$umas_numero_mesas_de_billar=$arregloSA_numero_mesas_de_billar[0];
+$monto_numero_mesas_de_billar=$umas_numero_mesas_de_billar*$numero_mesas_de_billar;
+#
+$arregloSA_pista_de_baile=mysqli_fetch_array(mysqli_query($con,"SELECT monto_umas  FROM `servicios_adicionales` WHERE descripcion_servicios_adicionales='Pista de Baile'"));
+$umas_pista_de_baile=$arregloSA_pista_de_baile[0];
+$monto_pista_de_baile=$umas_pista_de_baile*$pista_de_baile;
+#
+$arregloSA_conjunto_musicales=mysqli_fetch_array(mysqli_query($con,"SELECT monto_umas  FROM `servicios_adicionales` WHERE descripcion_servicios_adicionales='Conjunto Musicales'"));
+$umas_conjunto_musicales=$arregloSA_conjunto_musicales[0];
+$monto_conjunto_musicales=$umas_conjunto_musicales*$conjunto_musicales;
+#
+$arregloSA_espectaculos_artisticos=mysqli_fetch_array(mysqli_query($con,"SELECT monto_umas  FROM `servicios_adicionales` WHERE descripcion_servicios_adicionales='Espectaculos Artisticos'"));
+$umas_espectaculos_artisticos=$arregloSA_espectaculos_artisticos[0];
+$monto_espectaculos_artisticos=$umas_espectaculos_artisticos*$espectaculos_artisticos;
+##
+$monto_umas_total_servicios_adicionales=$monto_musica_grabada_y_aparatos+$monto_numero_mesas_de_billar+$monto_pista_de_baile+$monto_conjunto_musicales+$monto_espectaculos_artisticos;
 }
-#####################
-		$id_giro=$_POST['id_giro'];
-		$id_delegacion=$_POST['id_delegacion'];
-		$id_colonia=$_POST['id_colonia'];
+#
+###########################
+###########################
+$id_giro=$_POST['id_giro'];
+$id_delegacion=$_POST['id_delegacion'];
+$id_colonia=$_POST['id_colonia'];
 
 $rfc_solicitante=$_POST['rfc_solicitante'];
 $fisica_o_moral=$_POST['fisica_o_moral'];
@@ -259,7 +333,6 @@ modalidad_graduacion_alcoholica_raw,
 numero_modalidad_graduacion_alcoholica,
 monto_umas_total_modalidad_graduacion_alcoholica,
 servicios_adicionales,
-servicios_adicionales_raw,
 numero_servicios_adicionales,
 monto_umas_total_servicios_adicionales,
 id_municipio,
@@ -293,9 +366,8 @@ $id_giro,
 $cuentaMGA,
 $monto_umas_total_modalidad_graduacion_alcoholica,
 '$SERVICIOS_ADICIONALES_LISTA',
-'$SERVICIOS_ADICIONALES_RAW',
 $cuentaSA,
-$monto_umas_total_servicios_adicionales,
+'$monto_umas_total_servicios_adicionales',
 $ID_MUNICIPIO,
 $id_delegacion,
 $id_colonia,
@@ -334,94 +406,6 @@ $ID=intval($arregloMaxid[0]);
 $folio=$ID_MUNICIPIO."-".$ID;
 ############
 ############
-############
-## Numero de Permiso
-##$id_principal=$ID;
-
-##$sqlPrincipal="SELECT * FROM principal WHERE id=".$id_principal;
-##$row=mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
-
-##$id_giroNP=$row['giro'];
-##$id_delegacionNP=$row['id_delegacion'];
-#################
-##$arregloSiglasGiro=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM giro WHERE id=$id_giroNP"));
-##$SIGLAS_GIRO=$arregloSiglasGiro[0];
-##echo 'SIGLAS_GIRO='.$SIGLAS_GIRO.'<br>';
-##
-##$arregloSiglasDelegacion=mysqli_fetch_array(mysqli_query($con,"SELECT  siglas  FROM delegacion WHERE id=$id_delegacionNP"));
-##$SIGLAS_DELEGACION=$arregloSiglasDelegacion[0];
-##echo 'SIGLAS_DELEGACION='.$SIGLAS_DELEGACION.'<br>';
-################
-##$id_giro_siglas=$id_giroNP.'-'.$SIGLAS_GIRO;
-##$id_delegacion_siglas=$id_delegacionNP.'-'.$SIGLAS_DELEGACION;
-################
-################
-##echo "SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas' <br>";
-##$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `numero_permiso` WHERE folio='$folio' AND id_delegacion_siglas='$id_delegacion_siglas' AND id_giro_siglas='$id_giro_siglas'"));
-##$CUENTA=$arregloCuenta[0];
-###############
-##########
-##if ( $CUENTA>0 ) {
-##echo 'El Folio ya cuenta con un Numero de permiso<br>';
-##} else {
-
-################
-##$NP='';
-##$siglas='E-'.$SIGLAS_GIRO.$SIGLAS_DELEGACION;
-###############
-##$sql_INSERT99="INSERT INTO numero_permiso (
-##folio,
-##id_principal,
-##user_id,
-##id_giro_siglas,
-##id_delegacion_siglas,
-##fecha ) VALUES (
-##'$folio',
-##$id_principal,
-##$ID_USER,
-##'$id_giro_siglas',
-##'$id_delegacion_siglas',
-##'$today')";
-
-##$query_new_insert99 = mysqli_query($con,$sql_INSERT99);
-##if ($query_new_insert99) {
-##$arregloMaxid99 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `numero_permiso`"));
-##$IDNP=intval($arregloMaxid99[0]);
-
-##$tamano=strlen($IDNP);
-
-##echo 'Tamano='.$tamano.'<br>';
-
-
-##switch ($tamano) {
-##    case 1:
-##        $NP=$siglas.'00000'.$IDNP;
-##        break;
-##    case 2:
-##        $NP=$siglas.'0000'.$IDNP;
-##            break;
-##    case 3:
-##        $NP=$siglas.'000'.$IDNP;
-##            break;
-##    case 4:
-##        $NP=$siglas.'00'.$IDNP;
-##            break;
-##    case 5:
-##        $NP=$siglas.'0'.$IDNP;
-##            break;
-##    case 6:
-##        $NP=$siglas.''.$IDNP;
-##            break;
-##}
-
-##$Kuery_Update99="UPDATE numero_permiso SET numero_permiso='$NP'  WHERE id=".$IDNP;
-##mysqli_query($con,$Kuery_Update99);
-
-##}
-##}
-############
-############
-############
 $sqlInsert="INSERT INTO proceso_tramites (
 id_principal,
 id_tramite,
@@ -444,6 +428,79 @@ $ID_PROCESO_TRAMITE=$arregloMaxid2[0];
 #### con el id_tramite y el id_proceso_tramites ES EL ULTIMO TRAMITE REALIZADO y CONSULTAR LOS PDFs
 $Kuery_Update="UPDATE principal SET folio='$folio', id_tramite=$ID_TRAMITE , id_proceso_tramites=$ID_PROCESO_TRAMITE  WHERE id=".$ID;
 mysqli_query($con,$Kuery_Update);
+##########################
+##########################
+### SERVICIOS ADICIONALES
+
+if ( $SERVICIOS_ADICIONALES_LISTA=='0' ) {
+$Kuery_SAP="INSERT INTO servicios_adicionales_permisionario (
+id_principal,
+id_proceso_tramites,
+folio,
+musica_grabada_y_aparatos,
+monto_musica_grabada_y_aparatos,
+conjunto_musicales,
+monto_conjunto_musicales,
+mesas_de_billar,
+monto_mesas_de_billar,
+espectaculos_artisticos,
+monto_espectaculos_artisticos,
+pista_de_baile,
+monto_pista_de_baile,
+fecha
+) VALUES (
+$ID,
+$ID_PROCESO_TRAMITE,
+'$folio',
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+'$today')";
+
+} else {
+
+$Kuery_SAP="INSERT INTO servicios_adicionales_permisionario (
+id_principal,
+id_proceso_tramites,
+folio,
+musica_grabada_y_aparatos,
+monto_musica_grabada_y_aparatos,
+conjunto_musicales,
+monto_conjunto_musicales,
+mesas_de_billar,
+monto_mesas_de_billar,
+espectaculos_artisticos,
+monto_espectaculos_artisticos,
+pista_de_baile,
+monto_pista_de_baile,
+fecha
+) VALUES (
+$ID,
+$ID_PROCESO_TRAMITE,
+'$folio',
+$musica_grabada_y_aparatos,
+$monto_musica_grabada_y_aparatos,
+$conjunto_musicales,
+$monto_conjunto_musicales,
+$numero_mesas_de_billar,
+$monto_numero_mesas_de_billar,
+$espectaculos_artisticos,
+$monto_espectaculos_artisticos,
+$pista_de_baile,
+$monto_pista_de_baile,
+'$today')";
+}
+
+mysqli_query($con,$Kuery_SAP);
+
+########################
 ########################
 ##
 $sql_tramite0="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";

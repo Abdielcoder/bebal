@@ -598,7 +598,14 @@ echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UM
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
         </div>
-        
+
+ <style>
+@media print {
+  @page { margin: 0; }
+  body { margin: 1cm; }
+ </style>
+
+
         
     <script>
         // Auto-print when the page loads

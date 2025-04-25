@@ -75,9 +75,10 @@ background-color: #3CBC8D;
 			<h6 class="modal-title" id="myModalLabel"><i class='bi bi-pencil'></i> Actualizar Registro Datos Solicitante</h6>
 		  </div>
 		  <div class="modal-body">
-			<form class="form-horizontal" method="post" id="guardar_registroPrincipalSolicitante" name="guardar_registroPrincipalSolicitante">
-			<div id="resultados_ajaxGuardarRegistroPrincipalSolicitante"></div>
+			<form class="form-horizontal" method="post" id="guardar_PrincipalSolicitanteInicio" name="guardar_PrincipalSolicitanteInicio">
+			<div id="resultados_ajaxGuardarPrincipalSolicitanteInicio"></div>
 
+<input type="hidden" id="mod_idprincipal" name="idprincipal">
 
 
 <?php
@@ -145,7 +146,7 @@ echo '</div>';
 
 <div class="modal-footer">
 <!--<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>--!>
-<button type="submit" class="btn btn-primary" id="Button_guardar_registroPrincipalSolicitante"  style="background-color:#FF0000;color:black"> Guardar Datos </button>
+<button type="submit" class="btn btn-primary" id="Button_guardar_PrincipalSolicitanteInicio"  style="background-color:#FF0000;color:black"> Guardar Datos </button>
 </div>
 
 </form>

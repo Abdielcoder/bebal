@@ -8,25 +8,39 @@ error_reporting(E_ALL);
 require_once ("config/db.php");
 require_once ("config/conexion.php");
 
-// Verificar que se recibió el ID
-if (!isset($_GET['id']) || empty($_GET['id'])) {
-    die("Error: No se especificó un ID válido");
-}
 
-$ID = $_GET['id'];
-##$ID = intval($_GET['id']);
+$id = $_POST['IDPRINCIPAL'];
+$nip = $_POST['nip'];
 
-##$porciones = explode("--", $ID);
 
-$ID = $_GET['id'];
-##$ID = intval($_GET['id']);
+$arregloCuenta=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM principal WHERE nip='$nip' AND id='$id'"));
+$CUENTA=$arregloCuenta[0];
 
-$porciones = explode("--", $ID);
+$CUENTA=1;
 
-$id=intval($porciones[0]);
-$ID_TRAMITE_SOLICITADO=$porciones[1];
-$INSPECCION_tramite_SOLICITADO=$porciones[2];
-$RAD_tramite_SOLICITADO=$porciones[3];
+if ( $CUENTA>0 ) {
+
+
+##
+##$sql_tramite="SELECT * FROM tramite WHERE id=".$ID_TRAMITE;
+##$result_tramite = mysqli_query($con,$sql_tramite);
+##$row_tramite = mysqli_fetch_assoc($result_tramite);
+##$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
+##$CUENTA=$row_tramite['cuenta'];
+##$MONTO_UMAS=$row_tramite['monto_umas'];
+##$CONCEPTO=$row_tramite['concepto'];
+##
+
+##
+##$sql_tramite1="SELECT * FROM tramite WHERE id=".$ID_TRAMITE_SOLICITADO;
+##$result_tramite1 = mysqli_query($con,$sql_tramite1);
+##$row_tramite1 = mysqli_fetch_assoc($result_tramite1);
+##$DESCRIPCION_TRAMITE_SOLICITADO=$row_tramite1['descripcion_tramite'];
+##$CUENTA_SOLICITADO=$row_tramite1['cuenta'];
+##$MONTO_UMAS_SOLICITADO=$row_tramite1['monto_umas'];
+##$CONCEPTO_SOLICITADO=$row_tramite1['concepto'];
+##
+
 
 
 
@@ -46,23 +60,11 @@ $sql = "SELECT p.*,
 
 $resultado = mysqli_query($con, $sql);
 
-
 if (!$resultado || mysqli_num_rows($resultado) == 0) {
     die("Error: No se encontró el registro solicitado");
 }
 
 $datos = mysqli_fetch_assoc($resultado);
-##################
-##################
-#### Importante
-##################
-$estatus=$datos['estatus'];
-if ($estatus=='Presupuesto') {
-} else {
-die("Error: Estatus Sin Solucción");
-}
-##################
-##################
 
 // Cabecera que indica que esto es un documento HTML
 header('Content-Type: text/html; charset=utf-8');
@@ -285,163 +287,16 @@ header('Content-Type: text/html; charset=utf-8');
         <div class="header">
             <div class="logo">
                 <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="400">
-
-	    </div>
+            </div>
 <?php
             echo '<div class="title">';
                 //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
                 //<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
 	    echo '</div>';
-?>
-
-<?php
-
-################
-$id_tramite=$datos['id_tramite'];
-$id_proceso_tramites=$datos['id_proceso_tramites'];
-$id_giro=$datos['giro'];
-#
-$sql_tramite="SELECT * FROM tramite WHERE id=$id_tramite";
-$result_tramite = mysqli_query($con,$sql_tramite);
-$row_tramite = mysqli_fetch_assoc($result_tramite);
-$ID_TRAMITE=$row_tramite['id'];
-$CUENTA_tramite=$row_tramite['cuenta'];
-$MONTO_UMAS_tramite=$row_tramite['monto_umas'];
-$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
-#
-$sql_giro="SELECT * FROM giro WHERE id=$id_giro";
-$result_giro = mysqli_query($con,$sql_giro);
-$row_giro = mysqli_fetch_assoc($result_giro);
-$DESCRIPCION_GIRO=$row_giro['descripcion_giro'];
-$CUENTA_giro=$row_giro['cuenta'];
-$MONTO_UMAS_giro=$row_giro['monto_umas'];
-##$MONTO_UMAS_REV_CAMB_giro=$row_giro['monto_umas_revalidacion_cambios'];
-#############
-
-$COBRO_UMAS_giro=$MONTO_UMAS_giro;	//##  Permiso Nuevo
-
-##echo 'Cobro Giro='.$COBRO_UMAS_giro;
-
-$modalidad_graduacion_alcoholicaDB=$datos['modalidad_graduacion_alcoholica'];
-$modalidad_graduacion_alcoholica_rawDB=$datos['modalidad_graduacion_alcoholica_raw'];
-$numero_modalidad_graduacion_alcoholicaDB=$datos['numero_modalidad_graduacion_alcoholica'];
-$monto_umas_total_modalidad_graduacion_alcoholicaDB=$datos['monto_umas_total_modalidad_graduacion_alcoholica'];
-################################
-### Modalidad Graduacion Alcoholica
-###   raw
-###   1**Exclusivamente Cerveza**401--2**Exclusivamente Vinos de Produccion Nacional**402----3**Cerveza y Vinos de Mesa**403----4**Cerveza, Vinos y Licores**404-- --5**Bebidas Alcoholicas en Envase Abierto**405
-### numero_modalidad_graduacion_alcoholica -->  5
-###  modalidad_graduacion_alcoholica
-### (Exclusivamente Cerveza), (Exclusivamente Vinos de Produccion Nacional), (Cerveza y Vinos de Mesa), (Cerveza, Vinos y Licores) Y (Bebidas Alcoholicas en Envase Abierto)
-### monto_umas_total_modalidad_graduacion_alcoholica --> 2015
-
-
-if ( $numero_modalidad_graduacion_alcoholicaDB==0 ) {
-$STRING_MODALIDAD="-";
-} else {
-
-if ( $numero_modalidad_graduacion_alcoholicaDB==1 ) {
-$porcionesMODALIDAD = explode("**", $modalidad_graduacion_alcoholica_rawDB);
-$MODALIDADGA_ID=$porcionesMODALIDAD[0];
-$DESCRIPCION_MODALIDADGA=$porcionesMODALIDAD[1];
-$MONTO_MODALIDADGA=$porcionesMODALIDAD[2];
-$sql_Modalidad="SELECT * FROM modalidad_graduacion_alcoholica WHERE id=$MODALIDADGA_ID";
-$result_Modalidad = mysqli_query($con,$sql_Modalidad);
-$row_Modalidad = mysqli_fetch_assoc($result_Modalidad);
-$CUENTA_MODALIDAD=$row_Modalidad['cuenta'];
-
-$STRING_MODALIDAD=$DESCRIPCION_MODALIDADGA." <font size='3' color='blue'>".$CUENTA_MODALIDAD."</font> ".$MONTO_MODALIDADGA." umas";
-} 
-
-##
-if ( $numero_modalidad_graduacion_alcoholicaDB>1 ) {
-$porcionesMODALIDAD = explode("--", $modalidad_graduacion_alcoholica_rawDB);
-$cuentaMODALIDAD=count($porcionesMODALIDAD);
-
-//echo "cuentaMODALIDAD=".$cuentaMODALIDAD."<br>";
-$STRING_MODALIDAD="";
-for ($i=0;$i<$cuentaMODALIDAD;$i++) {
-$UNIDAD_porcionesMODALIDAD=$porcionesMODALIDAD[$i];
-
-$porcionesMODALIDAD_UNIDAD = explode("**", $UNIDAD_porcionesMODALIDAD);
-$MODALIDADGA_ID=$porcionesMODALIDAD_UNIDAD[0];
-$DESCRIPCION_MODALIDADGA=$porcionesMODALIDAD_UNIDAD[1];
-$MONTO_MODALIDADGA=$porcionesMODALIDAD_UNIDAD[2];
-
-//echo "MODALIDADGA_ID=$MODALIDADGA_ID, DESCRIPCION_MODALIDADGA=$DESCRIPCION_MODALIDADGA, MONTO_MODALIDADGA= $MONTO_MODALIDADGA<br>";
-
-$sql_Modalidad="SELECT * FROM modalidad_graduacion_alcoholica WHERE id=$MODALIDADGA_ID";
-$result_Modalidad = mysqli_query($con,$sql_Modalidad);
-$row_Modalidad = mysqli_fetch_assoc($result_Modalidad);
-$CUENTA_MODALIDAD=$row_Modalidad['cuenta'];
-
-$STRING_MODALIDAD.=$DESCRIPCION_MODALIDADGA." <font size='3' color='blue'>".$CUENTA_MODALIDAD."</font> <font color='red'>".$MONTO_MODALIDADGA." umas</font>";
-
-}
-}
-}
-
-#########################
-$servicios_adicionalesDB=$datos['servicios_adicionales'];
-$servicios_adicionales_rawDB=$datos['servicios_adicionales_raw'];
-$numero_servicios_adicionalesDB=$datos['numero_servicios_adicionales'];
-$monto_umas_total_servicios_adicionalesDB=$datos['monto_umas_total_servicios_adicionales'];
-################################
-### Servicios Adicionales
-###   raw
-###  1**Musica Grabada y Aparatos Musicales**301--2**Conjunto Musicales**302----3**Mesas de Billar**303----4**Espectaculos Artisticos**304-- --5**Pista de Baile**305
-###  numero_servicios_adicionales   -->   5 
-### servicios_adicionales
-### (Musica Grabada y Aparatos Musicales), (Conjunto Musicales), (Mesas de Billar), (Espectaculos Artisticos) Y (Pista de Baile)
-###  monto_umas_total_servicios_adicionalesDB -->    1515
-
-if ( $numero_servicios_adicionalesDB==0 ) {
-$STRING_SERVICIOS_ADICIONALES="-";
-} else {
-if ( $numero_servicios_adicionalesDB==1 ) {
-$porcionesSA = explode("**", $servicios_adicionales_rawDB);
-$SA_ID=$porcionesSA[0];
-$DESCRIPCION_SA=$porcionesSA[1];
-$MONTO_SA=$porcionesSA[2];
-$sql_SA="SELECT * FROM servicios_adicionales WHERE id=$SA_ID";
-$result_SA = mysqli_query($con,$sql_SA);
-$row_SA = mysqli_fetch_assoc($result_SA);
-$CUENTA_SA=$row_SA['cuenta'];
-
-$STRING_SERVICIOS_ADICIONALES=$DESCRIPCION_SA." <font size='3' color='blue'>".$CUENTA_SA."</font><font color='red'>  ".$MONTO_SA." umas</font>";
-}
-
-##
-if ( $numero_servicios_adicionalesDB>1 ) {
-$porcionesSA = explode("--", $servicios_adicionales_rawDB);
-$cuentaSA=count($porcionesSA);
-
-##echo "cuentaSA=".$cuentaSA."<br>";
-$STRING_SERVICIOS_ADICIONALES="";
-for ($j=0;$j<$cuentaSA;$j++) {
-$UNIDAD_porcionesSA=$porcionesSA[$j];
-
-$porcionesSA_UNIDAD = explode("**", $UNIDAD_porcionesSA);
-$SA_ID=$porcionesSA_UNIDAD[0];
-$DESCRIPCION_SA=$porcionesSA_UNIDAD[1];
-$MONTO_SA=$porcionesSA_UNIDAD[2];
-
-$sql_SA="SELECT * FROM servicios_adicionales WHERE id=$SA_ID";
-$result_SA = mysqli_query($con,$sql_SA);
-$row_SA = mysqli_fetch_assoc($result_SA);
-$CUENTA_SA=$row_SA['cuenta'];
-
-$STRING_SERVICIOS_ADICIONALES.=$DESCRIPCION_SA." <font size='3' color='blue'>".$CUENTA_SA."</font><font color='red'>  ".$MONTO_SA." umas</font>";
-
-}
-}
-}
-
-##############################
 
 $Folio=$datos['folio'];
             echo '<div class="date">';
-		//echo 'Fecha de Impresión: '.date('d/m/Y');
+		echo 'Fecha de Impresión: '.date('d/m/Y');
 echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
 	    echo '</div>';
 ?>
@@ -449,7 +304,21 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
         
 	<div class="main-title">
 <?php
-echo '<h1>Presupuesto  <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+
+switch ($DESCRIPCION_TRAMITE) {
+
+case "Inspeccion":
+	$DESCRIPCION_TRAMITE='Inspección';
+        break;
+case "Recepcion y Analisis Documentos":
+	$DESCRIPCION_TRAMITE='Recepción y Análisis Documentos';
+	break;
+//default:
+}
+
+
+echo '<h1>Datos Para Pago <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
             <h4>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h4>
@@ -466,49 +335,15 @@ echo '<h1>Presupuesto  <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
                         <tr>
                             <th>Nombre Comercial</th>
                             <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
-			</tr>
-
-                        <tr>
-                            <th>Tramite</th>
-			    <td><?php echo $DESCRIPCION_TRAMITE; ?> </td>
-                        </tr>
-
-
-			<tr>
-
-
-			    <th>Giro</th>
-<?php
-echo '<td>';
-echo $datos['giro_desc']; 
-echo '   <font color="blue" size="3">'.number_format($COBRO_UMAS_giro,2).' umas </font>';
-echo '</td>';
-?>
                         </tr>
                         <tr>
-                            <th>Modalidad Graduación Alcohólica</th>
-<?php
-echo '<td>';
-echo $datos['modalidad_graduacion_alcoholica']."   * [".$datos['numero_modalidad_graduacion_alcoholica']."]"; 
-echo '</td>';
-?>
-			</tr>
-
+                            <th>Giro</th>
+                            <td><?php echo $datos['giro_desc']; ?></td>
+                        </tr>
                         <tr>
-                            <th>Servicios Adicionales</th>
-<?php
-echo '<td>';
-echo $datos['servicios_adicionales']."   * [".$datos['numero_servicios_adicionales']."]"; 
-echo '   <font color="blue" size="3">'.number_format($monto_umas_total_servicios_adicionalesDB,2).' umas </font>';
-echo '</td>';
-
-
-$MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
-?>
-			</tr>
-
-
-
+                            <th>Modalidad Graduación Alcoólica</th>
+                            <td><?php echo $datos['modalidad_graduacion_alcoholica']; ?> * [<?php echo $datos['numero_modalidad_graduacion_alcoholica']; ?>]</td>
+                        </tr>
                         <tr>
                             <th>Persona Física/Moral</th>
                             <td><?php echo $datos['nombre_persona_fisicamoral_solicitante']; ?></td>
@@ -516,6 +351,14 @@ $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
                         <tr>
                             <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
+                        </tr>
+                        <tr>
+                            <th>Inciso </th>
+                            <td><font size="2"><B><?php echo $CUENTA; ?></B></font></td>
+                        </tr>
+                        <tr>
+                            <th>Concepto</th>
+                            <td><font size="2"><?php echo $CONCEPTO; ?></font></td>
                         </tr>
                         <tr>
                             <th>Descripcion</th>
@@ -532,7 +375,7 @@ $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
                 <tr>
 		    <td class="monto-label">Total a Pagar:</td>
 <?php
-echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UMAS,2).' UMAS</font></td>';
+echo '<td class="monto-value">'.number_format($MONTO_UMAS).' UMAS</td>';
 ?>
                 </tr>
             </table>
@@ -545,13 +388,7 @@ echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UM
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
         </div>
-
- <style>
-@media print {
-  @page { margin: 0; }
-  body { margin: 1cm; }
- </style>
-	
+        
         
     <script>
         // Auto-print when the page loads
@@ -562,6 +399,10 @@ echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UM
             }, 1000);
         };
     </script>
+<?php
+} else {
+die("Error: No Hay Permisos ");
+}
+?>
 </body>
 </html> 
-

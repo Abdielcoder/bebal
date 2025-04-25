@@ -75,9 +75,10 @@ background-color: #3CBC8D;
 			<h6 class="modal-title" id="myModalLabel"><i class='bi bi-pencil'></i>Actualizar Registro Datos Establecimiento</h6>
 		  </div>
 		  <div class="modal-body">
-			<form class="form-horizontal" method="post" id="guardar_registroPrincipalEstablecimiento" name="guardar_registroPrincipalEstablecimiento">
-			<div id="resultados_ajaxGuardarRegistroPrincipalEstablecimiento"></div>
+			<form class="form-horizontal" method="post" id="guardar_PrincipalEstablecimientoInicio" name="guardar_PrincipalEstablecimientoInicio">
+			<div id="resultados_ajaxGuardarPrincipalEstablecimientoInicio"></div>
 
+<input type="hidden" id="mod_idprincipal" name="idprincipal">
 
 
 <?php
@@ -138,10 +139,10 @@ $MUNICIPIO=$row_municipio['municipio'];
 ##
 
 echo '<div class="form-group row">';
-echo '<label for="mod_id_delegacion" class="col-sm-2 control-label">Delegación </label>';
+echo '<label for="id_delegacion" class="col-sm-2 control-label">Delegación </label>';
 
 echo '<div class="col-sm-4">';
-echo "<select class='form-control  form-select' name='id_delegacion' id='mod_id_delegacion' onChange='getColonias(this.value);' required>";
+echo "<select class='form-control  form-select' name='id_delegacion' id='id_delegacion' onChange='getColonias(this.value);' required>";
  
 echo '<option value="">Selecciona Delegación</option>';
 if ( $PROFILE=='admin' ) {
@@ -168,10 +169,10 @@ echo '</div>';
 
 #####################
 ### Colonias
-echo '<label for="mod_id_colonia" class="col-sm-1 control-label">Colonia</label>';
+echo '<label for="id_colonia" class="col-sm-1 control-label">Colonia</label>';
 
 echo '<div class="col-sm-4">';
-echo "<select class='form-control  form-select' name='mod_id_colonia' id='colonias-list' required>";
+echo "<select class='form-control  form-select' name='id_colonia' id='colonias-list' required>";
  
 echo '<option value="">Seleccione Colonia</option>';
 
@@ -215,7 +216,7 @@ echo '</div>';
 
 <div class="modal-footer">
 <!--<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>--!>
-<button type="submit" class="btn btn-primary" id="Button_guardar_registroPrincipalEstablecimiento"  style="background-color:#FF0000;color:black"> Guardar Datos </button>
+<button type="submit" class="btn btn-primary" id="Button_guardar_PrincipalEstablecimientoInicio"  style="background-color:#FF0000;color:black"> Guardar Datos </button>
 </div>
 
 </form>

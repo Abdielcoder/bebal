@@ -296,7 +296,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 $Folio=$datos['folio'];
             echo '<div class="date">';
-		echo 'Fecha de Impresión: '.date('d/m/Y');
+		//echo 'Fecha de Impresión: '.date('d/m/Y');
 echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
 	    echo '</div>';
 ?>
@@ -388,7 +388,11 @@ echo '<td class="monto-value">'.number_format($MONTO_UMAS).' UMAS</td>';
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
         </div>
-        
+   <style>
+@media print {
+  @page { margin: 0; }
+  body { margin: 1cm; }
+ </style>
         
     <script>
         // Auto-print when the page loads

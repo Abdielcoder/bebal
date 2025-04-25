@@ -278,7 +278,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 $Folio=$datos['folio'];
             echo '<div class="date">';
-		echo 'Fecha de Impresión: '.date('d/m/Y');
+		//echo 'Fecha de Impresión: '.date('d/m/Y');
 echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
 	    echo '</div>';
 ?>
@@ -346,12 +346,8 @@ echo '<div class="section-title">TIPO DE TRAMITE : CAMBIO </div>';
                         (!empty($datos['numerointerno_local_establecimiento']) ? ' Int. ' . $datos['numerointerno_local_establecimiento'] : ''); ?></td>
                         </tr>
                         <tr>
-                            <th>Colonia</th>
-                            <td><?php echo $datos['colonia_desc']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Delegación / Ciudad / CP</th>
-                            <td><?php echo $datos['delegacion_desc']; ?> / <?php echo $datos['municipio_desc']; ?> / <?php echo $datos['cp_establecimiento']; ?></td>
+                            <th>Colonia Delegación / Ciudad / CP</th>
+                            <td><?php echo $datos['colonia_desc']; ?> <?php echo $datos['delegacion_desc']; ?> / <?php echo $datos['municipio_desc']; ?> / <?php echo $datos['cp_establecimiento']; ?></td>
                         </tr>
                         <tr>
                             <th>Clave Catastral</th>
@@ -359,12 +355,8 @@ echo '<div class="section-title">TIPO DE TRAMITE : CAMBIO </div>';
                         </tr>
                         <tr>
                         <tr>
-                            <th>Número de Comensales</th>
-                            <td><?php echo $datos['capacidad_comensales_personas']; ?> Personas</td>
-                        </tr>
-                        <tr>
-                            <th>Superficie</th>
-                            <td><?php echo $datos['superficie_establecimiento']; ?> Metros Cuadrados</td>
+                            <th>Número de Comensales / Superficie</th>
+                            <td><?php echo $datos['capacidad_comensales_personas']; ?> Personas / <?php echo $datos['superficie_establecimiento']; ?> (m²)</td>
                         </tr>
                         <tr>
                             <th>Horario Funcionamiento</th>
@@ -400,12 +392,8 @@ echo '<div class="section-title">TIPO DE TRAMITE : CAMBIO </div>';
                             <td><?php echo $datos['domicilio_solicitante']; ?></td>
                         </tr>
                         <tr>
-                            <th>Email</th>
-                            <td><?php echo $datos['email_solicitante']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Teléfono</th>
-                            <td><?php echo $datos['telefono_solicitante']; ?></td>
+                            <th>Email / Teléfono</th>
+                            <td><?php echo $datos['email_solicitante']; ?> / <?php echo $datos['telefono_solicitante']; ?></td>
                         </tr>
                     </table>
                 </div>
@@ -425,16 +413,26 @@ echo '<div class="section-title">TIPO DE TRAMITE : CAMBIO </div>';
         <div class="signatures">
             <div class="signature">
                 <div class="signature-line"></div>
-                <p>Firma del Solicitante</p>
-       <p><?php echo $datos['nombre_representante_legal_solicitante']; ?></p>
+                Firma del Solicitante<br>
+       <b><?php echo $datos['nombre_representante_legal_solicitante']; ?></b>
             </div>
             <div class="signature">
                 <div class="signature-line"></div>
-                <p>MEXCAP PROJECT PARTNERS SAPI DE CV</p>
+                <p><b>Dr. José Alonso López Sepúlveda</b><br>
+                Director General de Gobierno<br>
+                Secretaria de Gobierno Municipal<br>
+                XV Ayuntamiento de Tijuana, Baja California
             </div>
         </div>
     </div>
-    
+
+ <style>
+@media print {
+  @page { margin: 0; }
+  body { margin: 1cm; }
+ </style>
+
+
     <script>
         // Auto-print when the page loads
         window.onload = function() {

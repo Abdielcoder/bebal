@@ -154,21 +154,6 @@ $( "#guardar_registroPrincipal" ).submit(function( event ) {
 
 
 
-function mapa_valla(id){
-var folio = $("#folio"+id).val();
-var numero_permiso = $("#numero_permiso"+id).val();
-var mapa = $("#mapa"+id).val();
-
-$("#mod_id").val(id);
-$("#folio_data2").val(folio);
-$("#numero_permiso_data2").val(numero_permiso);
-$("#mapa_data2").val(mapa);
-}
-
-function get_valla_id(id){
-$("#id_valla").val(id);
-}
-
 function obtener_datosParaCambio(id,pagina) {
 var folio = $("#folio"+id).val();
 var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
@@ -181,10 +166,12 @@ $("#mod_id").val(id);
 function obtener_datosImprimirPermiso(id,pagina) {
 var folio = $("#folio"+id).val();
 var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
+var numero_permiso = $("#numero_permiso"+id).val();
 
-$("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
-$("#mod_folio").val(folio);
-$("#mod_id").val(id);
+$("#mod_nombre_comercial_establecimiento_imprimir").val(nombre_comercial_establecimiento);
+$("#mod_id_imprimir").val(id);
+$("#mod_folio_imprimir").val(folio);
+$("#mod_numero_permiso_imprimir").val(numero_permiso);
 }
 
 
@@ -255,25 +242,4 @@ $("#direccion_establecimiento_completa_data").val(direccion_establecimiento_comp
 
 
 
-
-$('#myModal33').on('show.bs.modal', function (event) {
-var button = $(event.relatedTarget) // Button that triggered the modal
-var folio = button.data('folio') // Extract info from data-* attributes
-var numero_permiso = button.data('numero_permiso')
-var estatus = button.data('estatus')
-var direccion = button.data('direccion')
-var foto = button.data('foto')
-var id = button.data('id')
-var ID = button.data('ID')
-var modal = $(this)
-modal.find('.modal-body #mod_numero_permiso').val(numero_permiso)
-modal.find('.modal-body #mod_folio').val(folio)
-modal.find('.modal-body #mod_estatus').val(estatus)
-modal.find('.modal-body #mod_direccion').val(direccion)
-modal.find('.modal-body #mod_foto').val(foto)
-modal.find('.modal-body #mod_id').val(id)
-modal.find('.modal-body #mod_ID').val(ID)
-})
 </script>
-
-

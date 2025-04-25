@@ -61,7 +61,7 @@ session_start();
 	include("modal/revisar_pago.php");
 	include("modal/revisar_pagoPresupuesto.php");
 	include("modal/eliminar_registro.php");
-	//include("modal/efectuar_inspeccion.php");
+
 	include("modal/actualizar_datos_solicitante.php");
 	include("modal/actualizar_datos_establecimiento.php");
 	include("modal/actualizar_giro_modalidad_serviciosesp.php");
@@ -357,7 +357,7 @@ $COLONIA=$row_colonia['colonia'];
                     </div>
                     <div class="col-8">
                         <div class="etiqueta">Servicios Adicionales</div>
-			<div class="valor valor-destacado"><?php echo $servicios_adicionales; ?> * [<?php echo $numero_servicios_adicionales; ?>] {<?php echo number_format($monto_umas_total_servicios_adicionales,2); ?> umas}</div>
+			<div class="valor valor-destacado"><?php echo $servicios_adicionales; ?> * [<?php echo $numero_servicios_adicionales; ?>] {<?php echo $monto_umas_total_servicios_adicionales; ?> umas}</div>
 		    </div>
 		  </div>
 
@@ -365,7 +365,7 @@ $COLONIA=$row_colonia['colonia'];
                 <div class="row fila-datos">
                     <div class="col-12">
                         <div class="etiqueta">Modalidad Graduación Alcohólica</div>
-			<div class="valor"><?php echo $modalidad_graduacion_alcoholica; ?> * [<?php echo $numero_modalidad_graduacion_alcoholica; ?>] {<?php echo number_format($monto_umas_total_modalidad_graduacion_alcoholica,2); ?> umas}</div>
+			<div class="valor"><?php echo $modalidad_graduacion_alcoholica; ?> * [<?php echo $numero_modalidad_graduacion_alcoholica; ?>]</div>
                     </div>
                 </div>
 <!-----------------------!>
@@ -430,7 +430,7 @@ $COLONIA=$row_colonia['colonia'];
                 <div class="row fila-datos">
                     <div class="col-12">
                         <div class="etiqueta">Servicios Adicionales</div>
-			<div class="valor valor-destacado"><?php echo $servicios_adicionales; ?> * [<?php echo $numero_servicios_adicionales; ?>] {<?php echo number_format($monto_umas_total_servicios_adicionales,2); ?> umas}</div>
+			<div class="valor valor-destacado"><?php echo $servicios_adicionales; ?> * [<?php echo $numero_servicios_adicionales; ?>] {<?php echo $monto_umas_total_servicios_adicionales; ?> umas}</div>
                     </div>
                 </div>
 
@@ -615,17 +615,17 @@ echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago
 ###################               
 if ( $estatus=='Generar Recibos IRAD' ) {
 
-echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><i class="bi bi-trash"></i><font size="1" color="red"> </font></a>&nbsp;';
+echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><font color="red"><i class="bi bi-trash"></i></font></a>&nbsp;';
 
 
 echo '<div class="dropup">';
-echo '<button class="dropbtn"><font size="1">Actualizar Registro</font></button>';
+echo '<button class="dropbtn"><font size="1" color="red">Actualizar Registro</font></button>';
 echo '<div class="dropup-content">';
-echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><i class="bi bi-pencil"></i><font size="2" color="white"> Giro, Modalidad y SE</font></a>';
+echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
 ##
-echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><i class="bi bi-pencil"></i><font size="2" color="white"> Datos del Establecimiento</font></a>';
+echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
 ##
-echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><i class="bi bi-pencil"></i><font size="2" color="white"> Datos del Solicitante</font></a>';
+echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Solicitante</font></a>';
 echo '</div>';
 echo '</div>';
 }
@@ -695,6 +695,64 @@ class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-ch
 
 <script>
 
+
+
+$( "#guardar_PrincipalEstablecimientoInicio" ).submit(function( event ) {
+  $('#Button_guardar_PrincipalEstablecimientoInicio').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/ActualizarDatosEstablecimientoInicio.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxGuardarPrincipalEstablecimientoInicio").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxGuardarPrincipalEstablecimientoInicio").html(datos);
+                        $('#Button_guardar_PrincipalEstablecimientoInicio').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+$( "#guardar_PrincipalSolicitanteInicio" ).submit(function( event ) {
+  $('#Button_guardar_PrincipalSolicitanteInicio').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/ActualizarDatosSolicitanteInicio.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxGuardarPrincipalSolicitanteInicio").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxGuardarPrincipalSolicitanteInicio").html(datos);
+                        $('#Button_guardar_PrincipalSolicitanteInicio').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
+
 $( "#registro_guardar_pago" ).submit(function( event ) {
   $('#Button_registro_guardar_pago').attr("disabled", true);
   
@@ -713,7 +771,7 @@ $( "#registro_guardar_pago" ).submit(function( event ) {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
 				location.replace('principal.php');
-			}, 3000);
+			}, 2000);
 
 		  }
 	});
@@ -739,7 +797,7 @@ $( "#registro_guardar_pago_presupuesto" ).submit(function( event ) {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });
@@ -767,7 +825,7 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
 				location.replace('principal.php');
-			}, 3000);
+			}, 2000);
 
 		  }
 	});
@@ -806,6 +864,7 @@ $(document).ready(function() {
 	var colonia_id = $(this).data('colonia_id');
 	var delegacion_id = $(this).data('delegacion_id');
 	var observaciones = $(this).data('observaciones');
+	var clave_catastral = $(this).data('clave_catastral');
 	// --
 	var id_giro = $(this).data('id_giro');
 	var modalidad_graduacion_alcoholica = $(this).data('modalidad_graduacion_alcoholica');
@@ -856,6 +915,7 @@ $(document).ready(function() {
         $(target + ' #mod_id_colonia').val(colonia_id);
         $(target + ' #mod_id_delegacion').val(delegacion_id);
         $(target + ' #mod_observaciones').val(observaciones);
+        $(target + ' #mod_clave_catastral').val(clave_catastral);
 	// --
         $(target + ' #mod_id_giro').val(id_giro);
         $(target + ' #mod_modalidad_graduacion_alcoholica').val(modalidad_graduacion_alcoholica);

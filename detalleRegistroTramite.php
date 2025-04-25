@@ -60,9 +60,6 @@ session_start();
 	// Eliminar la inclusión del modal de recibo que ya no usamos
 	include("modal/revisar_pagoTramiteCambio.php");
 	include("modal/revisar_pagoPresupuestoTramite.php");
-	//include("modal/efectuar_inspeccion.php");
-	//include("modal/actualizar_datos_solicitante.php");
-	//include("modal/actualizar_datos_establecimiento.php");
 	include("modal/actualizar_datos_establecimiento_y_titular.php");
 	include("modal/actualizar_datos_domicilio.php");
 	include("modal/actualizar_datos_titularHerencia.php");
@@ -1063,7 +1060,7 @@ $( "#guardar_registroPrincipalGiro" ).submit(function( event ) {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 13000);
+                        }, 2000);
 
                   }
         });
@@ -1090,7 +1087,7 @@ $( "#guardar_registroPrincipalEstablecimiento_y_Titular" ).submit(function( even
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });
@@ -1117,7 +1114,7 @@ $( "#guardar_registroPrincipalDomicilioEstablecimiento" ).submit(function( event
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });
@@ -1144,7 +1141,7 @@ $( "#guardar_registroPrincipalTitularHerencia" ).submit(function( event ) {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });
@@ -1171,7 +1168,7 @@ $( "#guardar_registroPrincipalTitular" ).submit(function( event ) {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });
@@ -1198,7 +1195,7 @@ $( "#guardar_DatosNombreComercial" ).submit(function( event ) {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });
@@ -1226,7 +1223,7 @@ $( "#registro_guardar_pagoTramiteCambio" ).submit(function( event ) {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
 				location.replace('principal.php');
-			}, 3000);
+			}, 2000);
 
 		  }
 	});
@@ -1253,7 +1250,7 @@ $( "#registro_guardar_pago_presupuestoTramite" ).submit(function( event ) {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
                                 location.replace('principal.php');
-                        }, 3000);
+                        }, 2000);
 
                   }
         });
@@ -1281,7 +1278,7 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
 				location.replace('principal.php');
-			}, 3000);
+			}, 2000);
 
 		  }
 	});

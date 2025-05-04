@@ -61,6 +61,9 @@ $descripcion_giro=$row['descripcion_giro'];
 $monto_umas=$row['monto_umas'];
 echo '<option value="'.$id_giro.'">'.$descripcion_giro.' ('.$monto_umas.' umas)</option>';
 }
+
+##mysqli_close($con);
+
 ?>
 </select>			  
 </div>

@@ -97,6 +97,8 @@ mysqli_query($con,$Kuery_Update3_INS);
 } else {
 }
 ###
+mysqli_close($con);
+
 
 
 			if ($Kuery_Update_principal) {

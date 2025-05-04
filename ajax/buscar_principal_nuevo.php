@@ -191,6 +191,7 @@ if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_munic
 		    $id_proceso_tramites = $row['id_proceso_tramites'];
 		    $id_delegacion = $row['id_delegacion'];
 		    $numero_permiso = $row['numero_permiso'];
+		    $nombre_representante_legal_solicitante=$row['nombre_representante_legal_solicitante'];
 
 		    $latitud = $row['latitud'];
 		    $longitud = $row['longitud'];
@@ -204,8 +205,12 @@ $row_giro = mysqli_fetch_assoc($result_giro);
 $GIRO=$row_giro['descripcion_giro'];
 $HORARIO_FUNCIONAMIENTO=$row_giro['horario_funcionamiento'];
 ##
+if ( $id_delegacion=='' || $id_delegacion==NULL ) {
+$DELEGACION='ND';
+} else {
 $arregloDelegacion=mysqli_fetch_array(mysqli_query($con,"SELECT delegacion FROM delegacion WHERE id=$id_delegacion"));
 $DELEGACION=$arregloDelegacion[0];
+}
 ###
 
 
@@ -246,16 +251,16 @@ $DELEGACION=$arregloDelegacion[0];
                                 // Definir un array con todas las posibles rutas para la imagen
                                 $posibles_rutas = array(
                                     // 1. Rutas usando la constante FOTOSMEDIAS
-                                    "../".FOTOSMEDIAS.$id."-".$foto.".jpg",
-                                    FOTOSMEDIAS.$id."-".$foto.".jpg",
+                                    "../".FOTOSMEDIAS.$id."-".$id_proceso_tramites."-".$foto.".jpg",
+                                    FOTOSMEDIAS.$id."-".$id_proceso_tramites."-".$foto.".jpg",
                                     // 2. Rutas explícitas relativas
-                                    "bebal_images/medias/".$id."-".$foto.".jpg",
-                                    "../bebal_images/medias/".$id."-".$foto.".jpg",
+                                    "bebal_images/medias/".$id."-".$id_proceso_tramites."-".$foto.".jpg",
+                                    "../bebal_images/medias/".$id."-".$id_proceso_tramites."-".$foto.".jpg",
                                     // 3. Rutas con nombre de archivo alternativo
-                                    "../".FOTOSMEDIAS.$id."_".$foto.".jpg",
-                                    FOTOSMEDIAS.$id."_".$foto.".jpg",
+                                    "../".FOTOSMEDIAS.$id."_".$id_proceso_tramites."_".$foto.".jpg",
+                                    FOTOSMEDIAS.$id."_".$id_proceso_tramites."_".$foto.".jpg",
                                     // 4. Ruta absoluta desde document root (si está disponible)
-                                    (isset($_SERVER["DOCUMENT_ROOT"]) ? $_SERVER["DOCUMENT_ROOT"]."/bebal_images/medias/".$id."-".$foto.".jpg" : "")
+                                    (isset($_SERVER["DOCUMENT_ROOT"]) ? $_SERVER["DOCUMENT_ROOT"]."/bebal_images/medias/".$id."-".$id_proceso_tramites."-".$foto.".jpg" : "")
                                 );
                                 
                                 // Filtrar rutas vacías
@@ -293,22 +298,22 @@ $DELEGACION=$arregloDelegacion[0];
                                         $url_imagen = str_replace('../', '/', $url_imagen);
                                     }
                                     
-                                    echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
+                                    echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-id_proceso_tramites="'.$id_proceso_tramites.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
                                         <img class="img-thumbnail-custom" src="'.$url_imagen.'" alt="Imagen de '.$nombre_comercial.'">
                                     </a>';
                                 } else {
                                     // Si no se encuentra ninguna ruta válida, intentar con URL pública directa
                                     //$url_base = "http://98.80.116.118/bebal_images/medias/";
                                     $url_base = "http://".IPADDRESS."/bebal_images/medias/";
-                                    $url_imagen = $url_base.$id."-".$foto.".jpg";
+                                    $url_imagen = $url_base.$id."-".$id_proceso_tramites."-".$foto.".jpg";
                                     
-                                    echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
+                                    echo '<a href="#" class="disabled" data-id="'.$id.'" data-id_proceso_tramites="'.$id_proceso_tramites.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
                                         <img class="img-thumbnail-custom" src="'.$url_imagen.'" alt="Imagen de '.$nombre_comercial.'" onerror="this.src=\'img/no_imagen.jpg\'">
                                     </a>';
                                 }
                             } else {
                                 // Si no hay foto definida
-                                echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-foto="" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
+                                echo '<a href="#" class="disabled" data-id="'.$id.'" data-id_proceso_tramites="'.$id_proceso_tramites.'" data-foto="" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
                                     <img class="img-thumbnail-custom" src="img/no_imagen.jpg" alt="No Existe Foto">
                                 </a>';
                             }
@@ -354,8 +359,15 @@ echo '<font size="1" color="black">Permiso:</font> <font size="1" color="blue">'
 
                         </td>
                         <td data-label="Solicitante" class="datos-celda">
-                            <div class="datos-solicitante">
-                                <span class="nombre-comercial"><?php echo ucwords($nombre_solicitante); ?></span>
+			    <div class="datos-solicitante">
+
+<?php
+if ( $nombre_solicitante=='' || $nombre_solicitante==NULL || empty($nombre_solicitante) ) {
+echo '<span class="nombre-comercial">'.ucwords($nombre_representante_legal_solicitante).'</span>';
+} else {
+echo '<span class="nombre-comercial">'.ucwords($nombre_solicitante).'</span>';
+}
+?>
                                 <?php if (!empty($email)): ?>
                                 <span class="contacto"><span class="etiqueta">Email:</span> <?php echo $email; ?></span>
                                 <?php endif; ?>
@@ -741,6 +753,10 @@ echo '</div>';
 
 
 		}  //* while
+
+mysqli_close($con);
+
+
                 ?>
                 </tbody>
             </table>

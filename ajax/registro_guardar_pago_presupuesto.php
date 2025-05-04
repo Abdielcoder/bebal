@@ -228,7 +228,7 @@ mysqli_query($con,$Kuery_Update2);
 ##}
 ###
 
-
+mysqli_close($con);
 
 			if ($query_Update) {
 				$messages[] = "Se Registro el Pago con Exito y Autorizo  Folio ($folio)";

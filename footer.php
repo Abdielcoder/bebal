@@ -40,8 +40,8 @@
 //echo '<div class="d-flex justify-content-between align-items-center w-100">';
 ?>
         <span class="text-white small">
-          <a href="http://mexcapproject.com/" target="_blank" class="text-secondary text-decoration-none">
-            <small>&copy; <?php echo date('Y');?> - MEXCAP PROJECT PARTNERS</small>
+          <a href="http://www.tijuana.gob.mx" target="_blank" class="text-secondary text-decoration-none">
+            <small>&copy; <?php echo date('Y');?> - Secretaría de Gobierno del XV Ayuntamiento de Tijuana</small>
           </a>
         </span>
 

@@ -16,9 +16,7 @@
         $active_modalidad="";
         $active_serviciosAdicionales="";
         $active_reportes="";
-
-
-
+	$active_principal="";
 
 
 

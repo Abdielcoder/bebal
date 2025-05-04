@@ -34,7 +34,8 @@ error_log('Connection error: ' . $mysqli_connect_error());
 } else {
 
 
-$Kuery= "SELECT profile,user_id,id_municipio FROM users WHERE user_name='".$usu_usuario."' AND user_password_hash='".$usu_password."'";
+##$Kuery= "SELECT profile,user_id,id_municipio FROM users WHERE user_name='".$usu_usuario."' AND user_password_hash='".$usu_password."'";
+$Kuery= "SELECT profile,user_id,id_municipio FROM users WHERE user_name='".$usu_usuario."' AND passwd2='".$usu_password."'";
 ##echo $Kuery;
 $sql = mysqli_query($conn,$Kuery) or die(mysql_error());
 $count=mysqli_num_rows($sql);

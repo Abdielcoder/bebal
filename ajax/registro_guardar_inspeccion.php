@@ -57,10 +57,14 @@ $Kuery_Update="UPDATE principal SET latitud='".$latitud."', longitud='".$longitu
 
 if (!mysqli_query($con,$Kuery_Update)) echo mysqli_error();
 ##
+$KueryPRIN="SELECT * FROM principal WHERE id=".$ID;
+$arreglo_PRIN = mysqli_fetch_array(mysqli_query($con,$KueryPRIN));
+$FOLIO=$arreglo_PRIN['folio'];
 
+mysqli_close($con);
 
 			if ($query_Update) {
-				$messages[] = "Se Finalizo la  Inspección con Exito. Folio ($folio) ($mod_folio)";
+				$messages[] = "Se Finalizo la  Inspección con Exito Folio ($FOLIO )";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

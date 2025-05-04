@@ -8,16 +8,10 @@ $ID_USER=$_SESSION['user_id'];
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['nombre_representante_legal_solicitante']) || 
 	empty($_POST['nombre_comercial_establecimiento']) || 
-	empty($_POST['MODALIDAD_GA']) || 
-        empty($_POST['numero_mesas_de_billar']) || 
-        empty($_POST['pista_de_baile']) || 
-        empty($_POST['musica_grabada_y_aparatos']) || 
-        empty($_POST['conjunto_musicales']) || 
-        empty($_POST['espectaculos_artisticos']) || 
-	empty($_POST['clave_catastral'])
+	empty($_POST['fecha_alta'])
 	) {
 
-	if ( empty($_POST['MODALIDAD_GA']) ) $errors[] = "Campo vacío -- Modalidad Graduación Alcohólica";
+	if ( empty($_POST['nombre_comercial_establecimiento']) ) $errors[] = "Campo vacío -- nombre Comercial Establecimientol";
 	else $errors[] = "Campo vacío";
 
 
@@ -105,90 +99,6 @@ $MODALIDAD_GA_LISTA .= ' Y ('.$eu1.')';
 }
 }
 
-#####################
-#####################
-#####################
-
-##$monto_umas_total_servicios_adicionales=0;
-##if (isset($_POST['SERVICIOS_ADICIONALES']) && !empty($_POST['SERVICIOS_ADICIONALES'])) {
-##$SERVICIOS_ADICIONALES=$_POST['SERVICIOS_ADICIONALES'];
-
-##$SERVICIOS_ADICIONALES_LISTA='0';
-##$SERVICIOS_ADICIONALES_RAW='';
-##$cuentaSA=count($SERVICIOS_ADICIONALES);
-
-
-##if ( $cuentaSA==1 ) {
-##$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0];
-#
-##$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
-##$e00=$porciones0[0];
-##$e01=$porciones0[1];
-##$e02=$porciones0[2];
-##$monto_umas_total_servicios_adicionales=$e02;
-##$SERVICIOS_ADICIONALES_LISTA='('.$e01.')';
-#
-##} else {
-
-##if ( $cuentaSA==2 ) {
-##$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0].'--'.$SERVICIOS_ADICIONALES[1];
-#
-##$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
-##$e00=$porciones0[0];
-##$e01=$porciones0[1];
-##$e02=$porciones0[2];
-#
-##$porciones1 = explode("**", $SERVICIOS_ADICIONALES[1]);
-##$e10=$porciones1[0];
-##$e11=$porciones1[1];
-##$e12=$porciones1[2];
-##$monto_umas_total_servicios_adicionales=$e02+$e12;
-##$SERVICIOS_ADICIONALES_LISTA='('.$e01.') y ('.$e11.')';
-#
-##} else {
-
-##$SERVICIOS_ADICIONALES_RAW=$SERVICIOS_ADICIONALES[0];
-#
-##$porciones0 = explode("**", $SERVICIOS_ADICIONALES[0]);
-##$e00=$porciones0[0];
-##$e01=$porciones0[1];
-##$e02=$porciones0[2];
-##$monto_umas_total_servicios_adicionales=$e02;
-##$SERVICIOS_ADICIONALES_LISTA='('.$e01.')';
-#
-
-##for($i = 1; $i<$cuentaSA-1; $i++) {
-##$SERVICIOS_ADICIONALES_RAW .= '--'.$SERVICIOS_ADICIONALES[$i];
-
-##$porcionesi = explode("**", $SERVICIOS_ADICIONALES[$i]);
-##$ei0=$porcionesi[0];
-##$ei1=$porcionesi[1];
-##$ei2=$porcionesi[2];
-##$monto_umas_total_servicios_adicionales=$ei2+$monto_umas_total_servicios_adicionales;
-#
-
-##$SERVICIOS_ADICIONALES_LISTA.=', ('.$ei1.')';
-
-##}
-
-##$SERVICIOS_ADICIONALES_RAW .= ' --'.$SERVICIOS_ADICIONALES[$cuentaSA-1];
-##$porcionesu = explode("**", $SERVICIOS_ADICIONALES[$cuentaSA-1]);
-##$eu0=$porcionesu[0];
-##$eu1=$porcionesu[1];
-##$eu2=$porcionesu[2];
-##$monto_umas_total_servicios_adicionales=$eu2+$monto_umas_total_servicios_adicionales;
-
-##$SERVICIOS_ADICIONALES_LISTA .= ' Y ('.$eu1.')';
-##}
-##}
-
-
-
-##} else {
-##$SERVICIOS_ADICIONALES_LISTA='0';
-##$cuentaSA=0;
-##$monto_umas_total_servicios_adicionales=0;
-##}
 ###########################
 ###########################
 ## SERVICIOS ADICIONALES
@@ -260,34 +170,16 @@ $monto_umas_total_servicios_adicionales=$monto_musica_grabada_y_aparatos+$monto_
 ###########################
 ###########################
 $id_giro=$_POST['id_giro'];
-$id_delegacion=$_POST['id_delegacion'];
-$id_colonia=$_POST['id_colonia'];
 
-$rfc_solicitante=$_POST['rfc_solicitante'];
-$fisica_o_moral=$_POST['fisica_o_moral'];
 
-$capacidad_comensales_personas=$_POST['capacidad_comensales_personas'];
-$superficie_establecimiento=$_POST['superficie_establecimiento'];
-
-		// escaping, additionally removing everything that could be (html/javascript-) code
-		$observaciones=mysqli_real_escape_string($con,(strip_tags($_POST["observaciones"],ENT_QUOTES)));
-		$fecha_alta=$_POST['fecha_alta'];
-		$fecha_datetime_hoy=date("Y-m-d H:i:s");
-		$clave_catastral=strtoupper($_POST['clave_catastral']);
-
+// escaping, additionally removing everything that could be (html/javascript-) code
+$observaciones=mysqli_real_escape_string($con,(strip_tags($_POST["observaciones"],ENT_QUOTES)));
+$fecha_alta=$_POST['fecha_alta'];
+$fecha_datetime_hoy=date("Y-m-d H:i:s");
 
 $nombre_comercial_establecimiento=strtoupper($_POST['nombre_comercial_establecimiento']);
-$calle_establecimiento=strtoupper($_POST['calle_establecimiento']);
-$entre_calles_establecimiento=strtoupper($_POST['entre_calles_establecimiento']);
-$numero_establecimiento=$_POST['numero_establecimiento'];
-$numerointerno_local_establecimiento=$_POST['numerointerno_local_establecimiento'];
-$cp_establecimiento=$_POST['cp_establecimiento'];
 
-$nombre_persona_fisicamoral_solicitante=strtoupper($_POST['nombre_persona_fisicamoral_solicitante']);
 $nombre_representante_legal_solicitante=strtoupper($_POST['nombre_representante_legal_solicitante']);
-$domicilio_solicitante=strtoupper($_POST['domicilio_solicitante']);
-$email_solicitante=$_POST['email_solicitante'];
-$telefono_solicitante=$_POST['telefono_solicitante'];
 #################################
 ##
 $sql_giro="SELECT * FROM giro WHERE id=".$id_giro;
@@ -295,24 +187,9 @@ $result_giro = mysqli_query($con,$sql_giro);
 $row_giro = mysqli_fetch_assoc($result_giro);
 $GIRO=$row_giro['descripcion_giro'];
 ##
-$sql_municipio="SELECT municipio FROM municipio WHERE id=".$ID_MUNICIPIO;
-$result_municipio = mysqli_query($con,$sql_municipio);
-$row_municipio = mysqli_fetch_assoc($result_municipio);
-$MUNICIPIO=$row_municipio['municipio'];
-##
-$sql_delegacion="SELECT delegacion FROM delegacion WHERE id=".$id_delegacion;
-$result_delegacion = mysqli_query($con,$sql_delegacion);
-$row_delegacion = mysqli_fetch_assoc($result_delegacion);
-$DELEGACION=$row_delegacion['delegacion'];
-##
-$sql_colonia="SELECT colonia FROM colonias WHERE id=".$id_colonia;
-$result_colonia = mysqli_query($con,$sql_colonia);
-$row_colonia = mysqli_fetch_assoc($result_colonia);
-$COLONIA=$row_colonia['colonia'];
-##
 #################################
 
-$el_cambio="Permiso Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
+$el_cambio="Permiso LIGHT Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento." ]], Solicitante [[ Representante  ".$nombre_representante_legal_solicitante." ]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
 
 	
 date_default_timezone_set('America/Los_Angeles');
@@ -335,28 +212,12 @@ monto_umas_total_modalidad_graduacion_alcoholica,
 servicios_adicionales,
 numero_servicios_adicionales,
 monto_umas_total_servicios_adicionales,
-id_municipio,
-id_delegacion,
-id_colonia,
 estatus,
 operacion,
-clave_catastral,
+id_municipio,
 nombre_comercial_establecimiento,
-calle_establecimiento,
-entre_calles_establecimiento,
-numero_establecimiento,
-numerointerno_local_establecimiento,
-cp_establecimiento,
-nombre_persona_fisicamoral_solicitante,
 nombre_representante_legal_solicitante,
-domicilio_solicitante,
-email_solicitante,
-telefono_solicitante,
 fecha_alta,
-capacidad_comensales_personas,
-superficie_establecimiento,
-rfc,
-fisica_o_moral,
 observaciones,
 fecha_hora_registro
 ) VALUES (
@@ -368,28 +229,12 @@ $monto_umas_total_modalidad_graduacion_alcoholica,
 '$SERVICIOS_ADICIONALES_LISTA',
 $cuentaSA,
 '$monto_umas_total_servicios_adicionales',
-$ID_MUNICIPIO,
-$id_delegacion,
-$id_colonia,
 'Generar Recibos IRAD',
 'NUEVO',
-'$clave_catastral',
+$ID_MUNICIPIO,
 '$nombre_comercial_establecimiento',
-'$calle_establecimiento',
-'$entre_calles_establecimiento',
-'$numero_establecimiento',
-'$numerointerno_local_establecimiento',
-'$cp_establecimiento',
-'$nombre_persona_fisicamoral_solicitante',
 '$nombre_representante_legal_solicitante',
-'$domicilio_solicitante',
-'$email_solicitante',
-'$telefono_solicitante',
 '$fecha_alta',
-$capacidad_comensales_personas,
-$superficie_establecimiento,
-'$rfc_solicitante',
-'$fisica_o_moral',
 '$observaciones',
 '$fecha_datetime_hoy'
 )";
@@ -494,6 +339,7 @@ $monto_pista_de_baile,
 }
 
 mysqli_query($con,$Kuery_SAP);
+
 ####
 $arregloMaxid3 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `servicios_adicionales_permisionario`"));
 $ID_SERVICIOS_ADICIONALES_PERMISIONARIO=$arregloMaxid3[0];

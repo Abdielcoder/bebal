@@ -428,34 +428,35 @@ $STRING_SERVICIOS_ADICIONALES=$DESCRIPCION_SA." <font size='3' color='blue'>".$C
 }
 
 ##
-if ( $numero_servicios_adicionalesDB>1 ) {
-$porcionesSA = explode("--", $servicios_adicionales_rawDB);
-$cuentaSA=count($porcionesSA);
+##if ( $numero_servicios_adicionalesDB>1 ) {
+##$porcionesSA = explode("--", $servicios_adicionales_rawDB);
+##$cuentaSA=count($porcionesSA);
 
 ##echo "cuentaSA=".$cuentaSA."<br>";
-$STRING_SERVICIOS_ADICIONALES="";
-for ($j=0;$j<$cuentaSA;$j++) {
-$UNIDAD_porcionesSA=$porcionesSA[$j];
+##$STRING_SERVICIOS_ADICIONALES="";
+##for ($j=0;$j<$cuentaSA;$j++) {
+##$UNIDAD_porcionesSA=$porcionesSA[$j];
 
-$porcionesSA_UNIDAD = explode("**", $UNIDAD_porcionesSA);
-$SA_ID=$porcionesSA_UNIDAD[0];
-$DESCRIPCION_SA=$porcionesSA_UNIDAD[1];
-$MONTO_SA=$porcionesSA_UNIDAD[2];
+##$porcionesSA_UNIDAD = explode("**", $UNIDAD_porcionesSA);
+##$SA_ID=$porcionesSA_UNIDAD[0];
+##$DESCRIPCION_SA=$porcionesSA_UNIDAD[1];
+##$MONTO_SA=$porcionesSA_UNIDAD[2];
 
-$sql_SA="SELECT * FROM servicios_adicionales WHERE id=$SA_ID";
-$result_SA = mysqli_query($con,$sql_SA);
-$row_SA = mysqli_fetch_assoc($result_SA);
-$CUENTA_SA=$row_SA['cuenta'];
+##$sql_SA="SELECT * FROM servicios_adicionales WHERE id=$SA_ID";
+##$result_SA = mysqli_query($con,$sql_SA);
+##$row_SA = mysqli_fetch_assoc($result_SA);
+##$CUENTA_SA=$row_SA['cuenta'];
 
-$STRING_SERVICIOS_ADICIONALES.=$DESCRIPCION_SA." <font size='3' color='blue'>".$CUENTA_SA."</font><font color='red'>  ".$MONTO_SA." umas</font>";
+##$STRING_SERVICIOS_ADICIONALES.=$DESCRIPCION_SA." <font size='3' color='blue'>".$CUENTA_SA."</font><font color='red'>  ".$MONTO_SA." umas</font>";
 
-}
-}
+##}
+##}
 }
 
 ##############################
 
 $Folio=$datos['folio'];
+$numero_permiso=$datos['numero_permiso'];
             echo '<div class="date">';
 		//echo 'Fecha de Impresión: '.date('d/m/Y');
 echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
@@ -478,14 +479,24 @@ echo '<h1>Presupuesto  <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
             <div class="column">
                 <div class="section">
                     <div class="section-title">DATOS DEL SOLICITANTE</div>
-                    <table class="compact-table">
+		    <table class="compact-table">
+<?php
+if ( $DESCRIPCION_TRAMITE=='Permiso Nuevo' ) {
+} else {
+echo '<tr>';
+echo '<th>Número Permiso</th>';
+echo '<td><font size="2"><b>'.$numero_permiso.'</b></font></td>';
+echo '</tr>';
+}
+?>
+
                         <tr>
                             <th>Nombre Comercial</th>
                             <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
 			</tr>
 
                         <tr>
-                            <th>Trámite</th>
+			    <th>Trámite</th>
 			    <td><?php echo $DESCRIPCION_TRAMITE; ?>    <font color="blue" size="3"><?php echo $TOTAL_UMAS_PAGAR; ?> umas </font></td>
                         </tr>
 
@@ -511,7 +522,13 @@ echo '</td>';
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
                         </tr>
                         <tr>
-                            <th>Descripcion</th>
+                            <th>Descripción</th>
+<?php
+if ( $DESCRIPCION_TRAMITE=='Mantenimiento Servicios Adicionales' ) {
+$porcionesSA = explode("Quedando", $NOTA);
+$NOTA=$porcionesSA[0];
+}
+?>
                             <td><font size="2"><?php echo $NOTA; ?></font></td>
                         </tr>
                     </table>
@@ -542,7 +559,7 @@ echo '<td class="monto-value"><font color="blue">'.$TOTAL_UMAS_PAGAR.' UMAS</fon
  <style>
 @media print {
   @page { margin: 0; }
-  body { margin: 1cm; }
+  body { margin: 2cm; }
  </style>
 
         

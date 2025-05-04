@@ -20,12 +20,14 @@
 	/* Connect To Database*/
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
-
-	$active_vallas="active";
-	$active_clientes="";
-	$active_usuarios="";	
-	$active_reportes="";
-	$active_delegaciones="";
+        $active_usuarios="";
+        $active_colonias="";
+        $active_delegaciones="";
+        $active_giro="";
+        $active_tramite="";
+        $active_modalidad="";
+        $active_serviciosAdicionales="";
+        $active_reportes="";
 	$active_principal="active";
 
 
@@ -39,7 +41,6 @@
 <html lang="en">
   <head>
 
-
     <?php include("head.php");?>
   </head>
   <body>
@@ -48,13 +49,16 @@
 	?>
 	
     <div class="container">
-	<div class="panel panel-success">
-		<div class="panel-heading d-flex justify-content-between align-items-center">
-			</div>
-		</div>
+<?php
+	//<div class="panel panel-success">
+		//<div class="panel-heading d-flex justify-content-between align-items-center">
+		//</div>
+		//</div>
+?>
 		<div class="panel-body">
 			
 			<?php
+			include("modal/registro_principalLight.php");
 			include("modal/registro_principal.php");
 			include("modal/editar_registro.php");
 			include("modal/elegirTramite.php");
@@ -71,29 +75,24 @@ echo '<div class="input-group-append">&nbsp;&nbsp;';
 //echo '<button class="btn btn-outline-primary" type="button" onclick="load(1);"><i class="bi bi-search"></i></button>';
 if ( $PROFILE=='inspector' ) {
 } else {
-echo '<button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="2">Nuevo Registro</font></button>';
+echo '<button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="2">Nuevo Registro</font></button>&nbsp;';
+echo '<button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipalLight" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="2" color="pink">Registro Light</font></button>';
 }
+//</div>
+//</div>
 ?>
-  </div>
+
+<span id="loader"></span>
 </div>
-
-			<span id="loader"></span>
-
-					
-						</div>
 				
-				
-
-
 </form>
+
 <div id="resultados"></div><!-- Carga los datos ajax -->
 <div class='outer_div'></div><!-- Carga los datos ajax -->
 
-
-  </div>
 </div>
-		 
-	</div>
+</div>
+</div>
 	<hr>
 	<?php
 	include("footer.php");
@@ -149,6 +148,34 @@ $( "#guardar_registroPrincipal" ).submit(function( event ) {
 
 		  }
 	});
+  event.preventDefault();
+})
+
+
+
+$( "#guardar_registroPrincipalLight" ).submit(function( event ) {
+  $('#Button_guardar_registroPrincipalLight').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/nuevo_registroPrincipal_Light.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                          $("#resultados_ajaxGuardarRegistroPrincipalLight").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxGuardarRegistroPrincipalLight").html(datos);
+                        $('#Button_guardar_registroPrincipalLight').attr("disabled", true);
+
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 2000);
+
+                  }
+        });
   event.preventDefault();
 })
 

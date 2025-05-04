@@ -34,5 +34,5 @@ echo '<option value="99999">No Existe Colonia en Catalogo</option>';
 } else {
 echo '<option value="0">No Informacion Catalogo</option>';
 }
-
+mysqli_close($conexion);
 ?>

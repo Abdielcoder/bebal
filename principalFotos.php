@@ -76,9 +76,11 @@ session_start();
 if (isset($_GET['id'])) {
 $IDPRINCIPAL=$_GET['id'];
 $page=$_GET['page'];
+$ID_PROCESO_TRAMITES=$_GET['id_proceso_tramites'];
 } else {
 $IDPRINCIPAL=$_POST['IDPRINCIPAL'];
 $page=$_POST['page'];
+$ID_PROCESO_TRAMITES=$_POST["ID_PROCESO_TRAMITES"];
 }
 #################################
 #################################
@@ -98,7 +100,7 @@ $nextidf=$row['idfoto'];
 
 
 
-	$filename=$IDPRINCIPAL.'-'.$nextidf.'.jpg';
+	$filename=$IDPRINCIPAL.'-'.$ID_PROCESO_TRAMITES.'-'.$nextidf.'.jpg';
 	##echo "filename=".$filename."<br>";
 	if ($_FILES["nuevafoto"]['type']!='image/jpeg') {
 	  ###
@@ -137,7 +139,7 @@ $nextidf=$row['idfoto'];
 		
 	// Grabarla en la base de datos
 	// echo "** Next".$conector->next_table_id("fotos");
-$queryUPDATE="UPDATE fotos SET descripcion='OK' WHERE idfoto=".$nextidf." AND idprincipal=".$IDPRINCIPAL;
+$queryUPDATE="UPDATE fotos SET descripcion='OK' WHERE idfoto=".$nextidf." AND idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES;
 if (!mysqli_query($con,$queryUPDATE)) echo mysqli_error();
 
 ##$queryNF="INSERT INTO fotos (idfoto,descripcion,idvalla) VALUES (".$nextidf.",'',".$IDVALLA.");";
@@ -146,7 +148,7 @@ if (!mysqli_query($con,$queryUPDATE)) echo mysqli_error();
 ###
 	
 // Si hay una sola la establece como principal
-$sqlFotosCuantosReg="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL;
+$sqlFotosCuantosReg="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES;
 $resultFotosCuantosReg = mysqli_query($con, $sqlFotosCuantosReg);
 $rowsFotosCuantosReg = mysqli_num_rows($resultFotosCuantosReg);
 if ($rowsFotosCuantosReg==1) {
@@ -161,7 +163,7 @@ mysqli_query($con, $sqlUpdate1);
 #################################
 #################################
 // Establecer principal
-$sqlFotosCuantosReg1="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL;
+$sqlFotosCuantosReg1="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES;
 $resultFotosCuantosReg1 = mysqli_query($con, $sqlFotosCuantosReg1);
 $rowsFotosCuantosReg1 = mysqli_num_rows($resultFotosCuantosReg1);
 for ($i=0;$i<$rowsFotosCuantosReg1;$i++) {
@@ -178,7 +180,7 @@ for ($i=0;$i<$rowsFotosCuantosReg1;$i++) {
 #################################
 #################################
 // Eliminar
-$sqlFotosCuantosReg2="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL;
+$sqlFotosCuantosReg2="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES;
 $resultFotosCuantosReg2 = mysqli_query($con, $sqlFotosCuantosReg2);
 $rowsFotosCuantosReg2 = mysqli_num_rows($resultFotosCuantosReg2);
 for ($i=0;$i<$rowsFotosCuantosReg2;$i++) {
@@ -187,7 +189,7 @@ for ($i=0;$i<$rowsFotosCuantosReg2;$i++) {
 		$sqlUpdate2="DELETE FROM fotos WHERE idfoto=".$IDFOTO;
 		mysqli_query($con, $sqlUpdate2);
 // Si hay una sola la establece como principal
-$sqlFotosCuantosReg="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL;
+$sqlFotosCuantosReg="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES;
 $resultFotosCuantosReg = mysqli_query($con, $sqlFotosCuantosReg);
 $rowsFotosCuantosReg = mysqli_num_rows($resultFotosCuantosReg);
 
@@ -196,7 +198,7 @@ if ($rowsFotosCuantosReg==0) {
 $sqlUpdate4="UPDATE principal SET foto=NULL WHERE id=".$IDPRINCIPAL;
 mysqli_query($con, $sqlUpdate4);
 } else {
-$sqlFotos1="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL;
+$sqlFotos1="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES;
 $resultFotos1 = mysqli_query($con,$sqlFotos1);
 $rowsFotos1 = mysqli_num_rows($resultFotos1);
 for ($j=0;$j<1;$j++) {
@@ -297,7 +299,7 @@ $ret .= '<form ENCTYPE="multipart/form-data" name="subirnuevafoto" action="princ
 $ret .='<h6><u>Subir Foto</u></h6>';
 $ret .='<table width="70%" border=0 align=center>';
 $ret .='<tr><td>';
-$ret .= "<input type=\"file\"  name=\"nuevafoto\" class='choose'>";
+$ret .= "<input type=\"file\"  name=\"nuevafoto\" class='choose' accept='image/gif, image/jpeg, iamge/jpg' >";
 $ret .= "<input type=\"hidden\" name=\"prim\" value=\"yaentro\">";
 $ret .= "<input type=\"hidden\" name=\"MAX_FILE_SIZE\" value=\"7000000\">";
 $ret .= "<input type=\"hidden\" name=\"IDPRINCIPAL\" value=\"".$IDPRINCIPAL."\">";
@@ -305,7 +307,7 @@ $ret .= "<input type=\"hidden\" name=\"page\" value=\"".$page."\">";
 $ret .= "<input type=\"hidden\" name=\"ID_PROCESO_TRAMITES\" value=\"".$id_proceso_tramites."\">";
 $ret .='</td><td align=center>';
 
-$ret .='<button name="subirnuevafoto" class="btn btn-primary" type="submit" title="Subir Fotografia" class="button" style="color:white" /><i class="bi bi-upload"></i><font color="white">&nbsp;&nbsp;Subir Fotografia</font></button>';
+$ret .='<button name="subirnuevafoto" class="btn btn-primary btn-sm" type="submit" title="Subir Fotografia" class="button" style="color:white" /><i class="bi bi-upload"></i><font color="white" size="2">&nbsp;&nbsp;Subir Fotografia</font></button>';
 
 $ret .='</td><td>';
 //$ret .= '<a type="button" class="btn btn-default" href="vallas.php?pagina='.$page.'"><i class="glyphicon glyphicon-arrow-left"></i> Regresar</a>';
@@ -323,7 +325,7 @@ echo $ret;
 }
 echo '<br><br>';
 ##############################
-$foto_file='../'.FOTOSMEDIAS.$IDPRINCIPAL.'-'.$foto_principalDB.'.jpg';
+$foto_file='../'.FOTOSMEDIAS.$IDPRINCIPAL.'-'.$ID_PROCESO_TRAMITES.'-'.$foto_principalDB.'.jpg';
 echo "<table border=1 width='500' aling=center>";
 echo "<tr>";
 echo "<td style=\"background-color:#C0C0C0\" width='40%' align=center><font size='2'><b>Foto Principal</b></font></td>";
@@ -343,8 +345,9 @@ echo "</td>";
 ####
 echo "</tr>";
 echo "</table>";
-
-$sqlFotos="SELECT * FROM fotos f WHERE f.idprincipal=".$IDPRINCIPAL." ORDER BY f.idfoto;";
+//chang
+$sqlFotos="SELECT * FROM fotos f WHERE f.idprincipal=".$IDPRINCIPAL." AND f.id_proceso_tramites=".$ID_PROCESO_TRAMITES." ORDER BY f.idfoto;";
+echo $sqlFotos;
 $resultFotos = mysqli_query($con, $sqlFotos);
 $rowsFotos = mysqli_num_rows($resultFotos);
 
@@ -373,7 +376,7 @@ echo "<tr>";
 echo "<td align=center>".$numero_foto."</td>";
 #########
 echo "<td align=center>";
-$foto_fileSecundaria='../'.FOTOSMEDIAS.$IDPRINCIPAL.'-'.$idfoto_db.'.jpg';
+$foto_fileSecundaria='../'.FOTOSMEDIAS.$IDPRINCIPAL.'-'.$ID_PROCESO_TRAMITES.'-'.$idfoto_db.'.jpg';
 if ( file_exists($foto_fileSecundaria)!=1 ) echo '<img class="item-img img-responsive" src="img/no_imagen.jpg" alt="" alt=""  style="width:50px;height:50px;">';
 else {
 echo '<img id="myImg" src="'.$foto_fileSecundaria.'" alt="Principal  '.$folioDB.' / '.$numero_permisoDB.'  ('.$direccionDB.')"  style="width:90px;height:70px;">';
@@ -410,7 +413,7 @@ echo '<br>';
 echo '<FORM action="principal.php" name="ir_aPrincipal" method="POST">';
 echo '<input type="hidden" name="pagina" value="'.$page.'">';
 
-echo '<button class="btn btn-info" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>&nbsp;&nbsp;';
+echo '<button class="btn btn-info btn-sm" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>&nbsp;&nbsp;';
 
 ##echo '<a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
 
@@ -428,12 +431,12 @@ if  ( $cuentaFINALIZADO> 0 ) {
 echo '<font size="2" color="black"><b><u>Inspección Finalizada </u></b></font>';
 } else {
 ##echo '<a href="#" class="btn btn-outline-success" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-clipboard-check"></i> Registrar Inspección </a>';
-echo '<a href="#" class="btn btn-danger" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-gear"></i> Registrar Inspección </a>';
+echo '<a href="#" class="btn btn-danger btn-sm" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-gear"></i><font size="1"> Registrar Inspección </font></a>';
 }
 
 
 
-
+mysqli_close($con);
 
 echo "</FORM>";
 

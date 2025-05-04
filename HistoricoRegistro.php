@@ -294,6 +294,11 @@ $result_municipio = mysqli_query($con,$sql_municipio);
 $row_municipio = mysqli_fetch_assoc($result_municipio);
 $MUNICIPIO=$row_municipio['municipio'];
 ##
+
+if ( empty($delegacion_id) ) {
+$DELEGACION='ND';
+$COLONIA='ND';
+} else {
 $sql_delegacion="SELECT delegacion FROM delegacion WHERE id=".$delegacion_id;
 $result_delegacion = mysqli_query($con,$sql_delegacion);
 $row_delegacion = mysqli_fetch_assoc($result_delegacion);
@@ -304,6 +309,7 @@ $result_colonia = mysqli_query($con,$sql_colonia);
 $row_colonia = mysqli_fetch_assoc($result_colonia);
 $COLONIA=$row_colonia['colonia'];
 ##
+}
 ##################################################
 ##################################################
 $KueryPT_Alta="SELECT * FROM proceso_tramites WHERE id_tramite=1 AND id_principal=$IDPRINCIPAL";
@@ -550,6 +556,14 @@ echo '<div class="contenido">';
 echo '<div class="row fila-datos">';
 echo '<div class="col-10">';
 echo '<div class="etiqueta">Datos</div>';
+
+if ( $TRAMITE=='Mantenimiento Servicios Adicionales' ) {
+$porcionesSA = explode("Quedando", $el_cambio_Cambio);
+$el_cambio_Cambio=$porcionesSA[0];
+}
+
+
+
 echo '<div class="valor"><font size="1">'.$el_cambio_Cambio.'</font></div>';
 
 echo '</div>';
@@ -678,8 +692,40 @@ echo '</div>';
 echo '</div>';
 
 
+$sqlPrincipal2="SELECT * FROM principal WHERE id=".$IDPRINCIPAL;
+$row2 = mysqli_fetch_array(mysqli_query($con,$sqlPrincipal2));
+##
+$fecha_expiracion2=$row['fecha_expiracion'];
+$numero_permiso2=$row['numero_permiso'];
+$id_giro2=$row['giro'];
+##
+$sql_giro2="SELECT * FROM giro WHERE id=".$id_giro2;
+$result_giro2 = mysqli_query($con,$sql_giro2);
+$row_giro2 = mysqli_fetch_assoc($result_giro2);
+$GIRO2=$row_giro['descripcion_giro'];
 
 
+?>
+
+
+               <div class="row fila-datos">
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Giro</div>
+                        <div class="valor"><font size="1"><?php echo $GIRO; ?></font></div>
+                    </div>
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Número de Permiso</div>
+                        <div class="valor"><font size="1"><?php echo $numero_permiso2; ?></font></div>
+                    </div>
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Fecha Expiración</div>
+                        <div class="valor"><font size="1"><?php echo $fecha_expiracion2;   ?></font></div>
+                    </div>
+                </div>
+
+
+
+<?php
 
 
 
@@ -708,9 +754,14 @@ echo '</div>';
 
     </div>
 </div>
-
+<br>
 <hr>
-<?php include("footer.php"); ?>
+<?php 
+
+mysqli_close($con);
+include("footer.php"); 
+
+?>
 
 </body>
 </html>

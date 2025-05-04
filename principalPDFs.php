@@ -479,10 +479,10 @@ echo "<input type='hidden' name='conjuntoc1' value='c1'>";
 //echo '<button name="subirnuevoPDF1" class="btn btn-primary" type="submit" title="Subir PDF Conjunto 1" class="button" style="color:white;" /><i class="bi bi-upload"></i><font color="white"> </font></button>';
 
 echo '</form>';
-}
+
 //chang
 echo '<a href="#" class="btn btn-sm btn-action btn-dark" title="Cargar PDF" data-bs-toggle="modal" data-bs-target="#pdfModalc1" onclick="pdf_registro1file(\''.$IDPRINCIPAL.'\',\'c1\',\''.$folioDB.'\',\''.$id_proceso_tramites.'\')"><i class="bi bi-upload"></i>PDF 1</a>';
-// chang
+}
 
 echo '</td>';
 echo "</tr>";
@@ -774,7 +774,7 @@ echo '<table width="60%" border="0"><tr>';
 echo '<td>';
 echo '<form action="principal.php" name="ir_aPrincipal" method="POST">';
 echo '<input type="hidden" name="page" value="'.$page.'">';
-echo '<button class="btn btn-info" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>';
+echo '<button class="btn btn-info btn-sm" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>';
 echo "</form>";
 
 $KueryPT_SEPUEDECERRAR="SELECT COUNT(*) AS cuentaSEPUEDECERRAR FROM proceso_tramites WHERE en_proceso='EN PROCESO' AND id_principal=$IDPRINCIPAL AND id_tramite=$id_tramite AND id=$id_proceso_tramites AND 
@@ -802,9 +802,9 @@ if  ( $cuentaFINALIZADO>0 ) {
 echo '<font size="2" color="black"><b><u>Revisión y Análisis de Documentos  Finalizada </u></b></font>';
 } else {
 if ( $estatus_docs_pdf1DB=='OK' && $estatus_docs_pdf2DB=='OK' && $estatus_docs_pdf3DB=='OK' && $estatus_docs_pdf4DB=='OK' ) {
-echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger" style="color:white;"  /><i class="bi bi-gear"></i><font size="1">Finalizar Trabajo RAD</font></button>';
+echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger btn-sm" style="color:white;"  /><i class="bi bi-gear"></i><font size="1">Finalizar Trabajo RAD</font></button>';
 } else {
-echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger" style="color:white;" disabled  /><i class="bi bi-gear"></i><font size="1">Se Tiene que Subir los PDFs</font></button>';
+echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger btn-sm" style="color:white;" disabled  /><i class="bi bi-gear"></i><font size="1">Se Tiene que Subir los PDFs</font></button>';
 }
 }
 
@@ -818,9 +818,10 @@ echo '<br><br>';
 
 <script type="text/javascript" src="js/pdf-modal_un_file.js"></script>
 
-	<hr>
-	<?php
-	include("footer.php");
+<hr>
+<?php
+mysqli_close($con);
+include("footer.php");
 ?>
 
 

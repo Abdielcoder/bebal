@@ -94,9 +94,9 @@ $query_UpdatePrincipal = mysqli_query($con,$sql_UpdatePrincipal);
 
 ##
 
+mysqli_close($con);
 
 if ($query_UpdatePrincipal) {
-
 
 
 				$messages[] = "El Registro ha sido Actualizado Exito Folio ($folioDB)";

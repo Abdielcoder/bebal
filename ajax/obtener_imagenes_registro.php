@@ -34,6 +34,12 @@ if (mysqli_num_rows($query_registro) == 0) {
 // Obtener los datos del registro
 $registro = mysqli_fetch_assoc($query_registro);
 $foto_principal = $registro['foto'];
+$id_proceso_tramites = $registro['id_proceso_tramites'];
+
+#############################################
+###  HAY QUE HACER UN SELECT A LA TABLA fotos
+### WHERE idprincipal=$id_registro AND id_proceso_tramites=$registro['id_proceso_tramites']
+### 
 
 // Array para almacenar todas las imágenes
 $imagenes = array();
@@ -42,10 +48,10 @@ $imagenes = array();
 if (!empty($foto_principal) && is_numeric($foto_principal)) {
     // Construir rutas posibles
     $posibles_rutas = array(
-        "../".FOTOSMEDIAS.$id_registro."-".$foto_principal.".jpg", // Ruta relativa superior
-        FOTOSMEDIAS.$id_registro."-".$foto_principal.".jpg", // Ruta directa
-        "bebal_images/medias/".$id_registro."-".$foto_principal.".jpg", // Ruta específica
-        "../bebal_images/medias/".$id_registro."-".$foto_principal.".jpg" // Otra ruta alternativa
+        "../".FOTOSMEDIAS.$id_registro."-".$id_proceso_tramites."-".$foto_principal.".jpg", // Ruta relativa superior
+        FOTOSMEDIAS.$id_registro."-".$id_proceso_tramites."-".$foto_principal.".jpg", // Ruta directa
+        "bebal_images/medias/".$id_registro."-".$id_proceso_tramites."-".$foto_principal.".jpg", // Ruta específica
+        "../bebal_images/medias/".$id_registro."-".$id_proceso_tramites."-".$foto_principal.".jpg" // Otra ruta alternativa
     );
     
     $ruta_encontrada = false;
@@ -70,8 +76,8 @@ if (!empty($foto_principal) && is_numeric($foto_principal)) {
     
     // Si no se encontró la imagen principal, usar URL base fija
     if (!$ruta_encontrada) {
-        $url_base = "http://98.80.116.118/bebal_images/medias/";
-        $url_imagen = $url_base.$id_registro."-".$foto_principal.".jpg";
+        $url_base = "http://".IPADDRESS."/bebal_images/medias/";
+        $url_imagen = $url_base.$id_registro."-".$id_proceso_tramites."-".$foto_principal.".jpg";
         
         $imagenes[] = array(
             'id' => $foto_principal,
@@ -82,7 +88,7 @@ if (!empty($foto_principal) && is_numeric($foto_principal)) {
 }
 
 // Luego buscar todas las imágenes asociadas al registro
-$query_fotos = mysqli_query($con, "SELECT * FROM fotos WHERE idprincipal = $id_registro ORDER BY idfoto");
+$query_fotos = mysqli_query($con, "SELECT * FROM fotos WHERE idprincipal = $id_registro AND id_proceso_tramites=$id_proceso_tramites ORDER BY idfoto");
 if (mysqli_num_rows($query_fotos) > 0) {
     while ($foto = mysqli_fetch_assoc($query_fotos)) {
         $id_foto = $foto['idfoto'];
@@ -95,9 +101,9 @@ if (mysqli_num_rows($query_fotos) > 0) {
         // Construir rutas posibles
         $posibles_rutas = array(
             "../".FOTOSMEDIAS.$id_registro."-".$id_foto.".jpg",
-            FOTOSMEDIAS.$id_registro."-".$id_foto.".jpg",
-            "bebal_images/medias/".$id_registro."-".$id_foto.".jpg",
-            "../bebal_images/medias/".$id_registro."-".$id_foto.".jpg"
+            FOTOSMEDIAS.$id_registro."-".$id_proceso_tramites."-".$id_foto.".jpg",
+            "bebal_images/medias/".$id_registro."-".$id_proceso_tramites."-".$id_foto.".jpg",
+            "../bebal_images/medias/".$id_registro."-".$id_proceso_tramites."-".$id_foto.".jpg"
         );
         
         $ruta_encontrada = false;
@@ -122,8 +128,8 @@ if (mysqli_num_rows($query_fotos) > 0) {
         
         // Si no se encontró la imagen, usar URL base fija
         if (!$ruta_encontrada) {
-            $url_base = "http://98.80.116.118/bebal_images/medias/";
-            $url_imagen = $url_base.$id_registro."-".$id_foto.".jpg";
+            $url_base = "http://".IPADDRESS."/bebal_images/medias/";
+            $url_imagen = $url_base.$id_registro."-".$id_proceso_tramites."-".$id_foto.".jpg";
             
             $imagenes[] = array(
                 'id' => $id_foto,

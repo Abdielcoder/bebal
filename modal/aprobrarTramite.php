@@ -38,6 +38,11 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 <input type="hidden" id="mod_cambio_id_giro_solicitado" name="cambio_id_giro_solicitado">
 <input type="hidden" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento">
 
+<input type="hidden" id="mod_cambio_de_sa" name="cambio_de_sa">
+<input type="hidden" id="mod_servicios_adicionales_agregados" name="servicios_adicionales_agregados">
+<input type="hidden" id="mod_servicios_adicionales_agregados_raw" name="servicios_adicionales_agregados_raw">
+<input type="hidden" id="mod_servicios_adicionales_total" name="servicios_adicionales_total">
+<input type="hidden" id="mod_servicios_adicionales_total_raw" name="servicios_adicionales_total_raw">
 
 
 <div class="form-group row">

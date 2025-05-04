@@ -309,6 +309,10 @@ $result_municipio = mysqli_query($con,$sql_municipio);
 $row_municipio = mysqli_fetch_assoc($result_municipio);
 $MUNICIPIO=$row_municipio['municipio'];
 ##
+if ( $delegacion_id=='' || $delegacion_id==NULL ) {
+$COLONIA='ND';
+$DELEGACION='ND';
+} else {
 $sql_delegacion="SELECT delegacion FROM delegacion WHERE id=".$delegacion_id;
 $result_delegacion = mysqli_query($con,$sql_delegacion);
 $row_delegacion = mysqli_fetch_assoc($result_delegacion);
@@ -319,6 +323,7 @@ $result_colonia = mysqli_query($con,$sql_colonia);
 $row_colonia = mysqli_fetch_assoc($result_colonia);
 $COLONIA=$row_colonia['colonia'];
 ##
+}
 ?>
 
     <div class="mt-4">
@@ -621,7 +626,7 @@ echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#Elimi
 echo '<div class="dropup">';
 echo '<button class="dropbtn"><font size="1" color="red">Actualizar Registro</font></button>';
 echo '<div class="dropup-content">';
-echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
+//echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
 ##
 echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
 ##
@@ -632,7 +637,23 @@ echo '</div>';
 
 
 }
+//chang
 ###################               
+###################               
+## Revisar si ya se realizo la INSPECCION
+$sql_INSPECCION="SELECT COUNT(*) AS INSPECCION FROM  inspeccion WHERE id_principal=".$IDPRINCIPAL." AND id_proceso_tramites=".$id_proceso_tramites." AND en_proceso='FIN'";
+$result_INSPECCION = mysqli_query($con,$sql_INSPECCION);
+$row_INSPECCION = mysqli_fetch_assoc($result_INSPECCION);
+$INSPECCION=$row_INSPECCION['INSPECCION'];
+## Revisar si ya se realizo la REVISION Y ANALISIS DE DOCUMENTOS
+$sql_RAD="SELECT COUNT(*) AS RAD FROM  recepcion_analisis_documentos WHERE id_principal=".$IDPRINCIPAL." AND id_proceso_tramites=".$id_proceso_tramites." AND en_proceso='FIN'";
+$result_RAD = mysqli_query($con,$sql_RAD);
+$row_RAD = mysqli_fetch_assoc($result_RAD);
+$RAD=$row_RAD['RAD'];
+###################               
+###################               
+
+
 ###################               
 ###################               
 ##
@@ -641,19 +662,58 @@ if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RA
 
 echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP-RAD Pagados</font></a>&nbsp;';
 
-	
-echo '<a href="principalFotos.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
-##
-echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
 
+
+if ( 
+empty($calle_establecimiento) ||  
+empty($clave_catastral) ||  
+empty($domicilio_solicitante) ||  
+empty($email_solicitante) ||  
+empty($nombre_persona_fisicamoral_solicitante) ||  
+empty($telefono_solicitante) 
+) {
+
+####
+echo '<div class="dropup">';
+echo '<button class="dropbtn"><font size="1" color="red">Actualizar Registro</font></button>';
+echo '<div class="dropup-content">';
+echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
+##
+echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
+##
+echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Solicitante</font></a>';
+echo '</div>';
+echo '</div>';
+
+####	
+echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+##
+echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
+
+
+} else {
+if ( $INSPECCION>0 ) {
+} else {
+echo '<a href="principalFotos.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+}
+##
+if ( $RAD>0 ) {
+} else {
+echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
+}
+#########
+if ( $INSPECCION>0 && $RAD>0  )  {
+$Kuery_Update2="UPDATE principal SET estatus='Presupuesto' WHERE id=".$IDPRINCIPAL;
+if (!mysqli_query($con,$Kuery_Update2)) echo mysqli_error();
+}
+#########
 }
 
-
-###################               
+}
 ###################               
 ###################               
 ##
-if ( $estatus=='Presupuesto' )  {
+if ( $estatus=='Presupuesto' || ( $INSPECCION>0 && $RAD>0 ) )  {
 
 $concepto_tramite=$TRAMITE." {".number_format($MONTO_UMAS_tramite,2)." umas}";
 $concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
@@ -691,7 +751,12 @@ class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-ch
 <div style="margin-bottom: 30px;"></div>
 <br>
 <hr>
-<?php include("footer.php"); ?>
+<?php 
+
+mysqli_close($con);
+include("footer.php"); 
+
+?>
 
 <script>
 
@@ -714,7 +779,10 @@ $( "#guardar_PrincipalEstablecimientoInicio" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
                         }, 2000);
 
                   }
@@ -741,7 +809,10 @@ $( "#guardar_PrincipalSolicitanteInicio" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
                         }, 2000);
 
                   }
@@ -769,8 +840,11 @@ $( "#registro_guardar_pago" ).submit(function( event ) {
 			$('#Button_registro_guardar_pago').attr("disabled", true);
 			window.setTimeout(function() {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
-				$(this).remove();});
-				location.replace('principal.php');
+					$(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
 			}, 2000);
 
 		  }

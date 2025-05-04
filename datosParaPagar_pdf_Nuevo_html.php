@@ -412,29 +412,29 @@ $STRING_SERVICIOS_ADICIONALES=$DESCRIPCION_SA." <font size='3' color='blue'>".$C
 }
 
 ##
-if ( $numero_servicios_adicionalesDB>1 ) {
-$porcionesSA = explode("--", $servicios_adicionales_rawDB);
-$cuentaSA=count($porcionesSA);
+##if ( $numero_servicios_adicionalesDB>1 ) {
+##$porcionesSA = explode("--", $servicios_adicionales_rawDB);
+##$cuentaSA=count($porcionesSA);
 
 ##echo "cuentaSA=".$cuentaSA."<br>";
-$STRING_SERVICIOS_ADICIONALES="";
-for ($j=0;$j<$cuentaSA;$j++) {
-$UNIDAD_porcionesSA=$porcionesSA[$j];
+##$STRING_SERVICIOS_ADICIONALES="";
+###for ($j=0;$j<$cuentaSA;$j++) {
+##$UNIDAD_porcionesSA=$porcionesSA[$j];
 
-$porcionesSA_UNIDAD = explode("**", $UNIDAD_porcionesSA);
-$SA_ID=$porcionesSA_UNIDAD[0];
-$DESCRIPCION_SA=$porcionesSA_UNIDAD[1];
-$MONTO_SA=$porcionesSA_UNIDAD[2];
+###$porcionesSA_UNIDAD = explode("**", $UNIDAD_porcionesSA);
+###$SA_ID=$porcionesSA_UNIDAD[0];
+###$DESCRIPCION_SA=$porcionesSA_UNIDAD[1];
+###$MONTO_SA=$porcionesSA_UNIDAD[2];
 
-$sql_SA="SELECT * FROM servicios_adicionales WHERE id=$SA_ID";
-$result_SA = mysqli_query($con,$sql_SA);
-$row_SA = mysqli_fetch_assoc($result_SA);
-$CUENTA_SA=$row_SA['cuenta'];
+###$sql_SA="SELECT * FROM servicios_adicionales WHERE id=$SA_ID";
+###$result_SA = mysqli_query($con,$sql_SA);
+###$row_SA = mysqli_fetch_assoc($result_SA);
+###$CUENTA_SA=$row_SA['cuenta'];
 
-$STRING_SERVICIOS_ADICIONALES.=$DESCRIPCION_SA." <font size='3' color='blue'>".$CUENTA_SA."</font><font color='red'>  ".$MONTO_SA." umas</font>";
+###$STRING_SERVICIOS_ADICIONALES.=$DESCRIPCION_SA." <font size='3' color='blue'>".$CUENTA_SA."</font><font color='red'>  ".$MONTO_SA." umas</font>";
 
-}
-}
+###}
+##}
 }
 
 ##############################
@@ -549,7 +549,7 @@ echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UM
  <style>
 @media print {
   @page { margin: 0; }
-  body { margin: 1cm; }
+  body { margin: 2cm; }
  </style>
 	
         

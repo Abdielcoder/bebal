@@ -2,21 +2,29 @@
 require 'jwt.php';
 require 'database.php'; // Este archivo debería contener la conexión a la base de datos.
 
-// Función para obtener numero de Rows ($tabla) de la base de datos
-function obtenerRows($id_municipio) {
+function obtener($id_municipio,$folio) {
     global $conexionDB;
 ##
-    $sql="SELECT * FROM principal WHERE id_municipio=".$id_municipio." AND ( estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio') ";
+    $sqlCuenta="SELECT COUNT(*) FROM principal WHERE id_municipio=".$id_municipio." AND (estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio') AND folio='".$folio."'";
+
+    $stmtCuenta = $conexionDB->prepare($sqlCuenta);
+    $stmtCuenta->execute();
+    $resultadoCuenta= $stmtCuenta->fetch();
+    $CUENTA=$resultadoCuenta[0];
+    if ( $CUENTA > 0 ) {
+
+    $sqlRow="SELECT * FROM principal WHERE id_municipio=".$id_municipio." AND (estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio' ) AND folio='".$folio."'";
 ##
 ##echo json_encode(['sql' => $sql]);
-    $stmt = $conexionDB->prepare($sql);
+    $stmt = $conexionDB->prepare($sqlRow);
     $stmt->execute();
     $resultado= $stmt->fetchAll(PDO::FETCH_ASSOC);
-    ##$filas = count($resultado);
-    //### cerrar conexion PDO
+    } else {
+    $resultado="No Existe Resultado para esta Seleccion";
+    }
+
     $conexionDBsaveh=null;
     $conexionDB=null;
-    ##$conexionDBsaveh->close();
 
     return $resultado;
 
@@ -38,9 +46,9 @@ if ($authHeader) {
 ################
        	    ##$tabla = $_POST['tabla'] ?? '';
             $id_municipio = $_POST['id_municipio'] ?? '';
-            ##$estatus = $_POST['estatus'] ?? '';
+            $folio = $_POST['folio'] ?? '';
 ################
-            if ( $ROWS = obtenerRows($id_municipio) ) {
+            if ( $ROWS = obtener($id_municipio,$folio) ) {
 	      echo json_encode(['success' => true, 'data' => $ROWS,'message' => 'OK', 'errors' => null  ]);
 	    } else {
 		##header('HTTP/1.1 500 Internal Server Error');

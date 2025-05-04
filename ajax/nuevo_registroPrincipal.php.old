@@ -424,6 +424,11 @@ mysqli_query($con,$sqlInsert);
 ##
 $arregloMaxid2 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `proceso_tramites`"));
 $ID_PROCESO_TRAMITE=$arregloMaxid2[0];
+#######################
+#### con el id_tramite y el id_proceso_tramites ES EL ULTIMO TRAMITE REALIZADO y CONSULTAR LOS PDFs
+$Kuery_Update="UPDATE principal SET folio='$folio', id_tramite=$ID_TRAMITE , id_proceso_tramites=$ID_PROCESO_TRAMITE  WHERE id=".$ID;
+mysqli_query($con,$Kuery_Update);
+##########################
 ##########################
 ### SERVICIOS ADICIONALES
 
@@ -494,15 +499,7 @@ $monto_pista_de_baile,
 }
 
 mysqli_query($con,$Kuery_SAP);
-####
-$arregloMaxid3 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `servicios_adicionales_permisionario`"));
-$ID_SERVICIOS_ADICIONALES_PERMISIONARIO=$arregloMaxid3[0];
 
-#######################
-#### con el id_tramite y el id_proceso_tramites ES EL ULTIMO TRAMITE REALIZADO y CONSULTAR LOS PDFs
-$Kuery_Update="UPDATE principal SET folio='$folio', id_servicios_adicionales_permisionario=".$ID_SERVICIOS_ADICIONALES_PERMISIONARIO.", id_tramite=$ID_TRAMITE , id_proceso_tramites=$ID_PROCESO_TRAMITE  WHERE id=".$ID;
-mysqli_query($con,$Kuery_Update);
-##########################
 ########################
 ########################
 ##

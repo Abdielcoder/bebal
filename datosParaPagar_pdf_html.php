@@ -335,7 +335,20 @@ echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
                         <tr>
                             <th>Nombre Comercial</th>
                             <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
-                        </tr>
+			</tr>
+
+
+<?php
+if ( $DESCRIPCION_TRAMITE_SOLICITADO=='Permiso Nuevo' ) {
+} else {
+echo '<tr>';
+echo '<th>Número Permiso</th>';
+echo '<td><font size="2"><b>'.$datos["numero_permiso"].'</b></font></td>';
+echo '</tr>';
+}
+?>
+
+
                         <tr>
                             <th>Giro</th>
                             <td><?php echo $datos['giro_desc']; ?></td>
@@ -387,11 +400,14 @@ echo '<td class="monto-value">'.number_format($MONTO_UMAS).' UMAS</td>';
                 El pago debe realizarse en la caja de recaudación municipal presentando este recibo. 
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
-        </div>
+	</div>
    <style>
 @media print {
   @page { margin: 0; }
-  body { margin: 1cm; }
+  body { margin: 2cm; }
+ </style>
+
+
  </style>
         
     <script>

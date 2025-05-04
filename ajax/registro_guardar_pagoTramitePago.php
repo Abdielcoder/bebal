@@ -102,7 +102,7 @@ $Kuery_Update3_INS="UPDATE inspeccion SET fecha_inicio='$today', en_proceso='En 
 mysqli_query($con,$Kuery_Update3_INS);
 }
 ###
-
+mysqli_close($con);
 
 			if ($Kuery_Update_principal) {
 				$messages[] = "Se Registro el Pago con Exito Folio ($folio)";

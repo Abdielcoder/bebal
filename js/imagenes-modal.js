@@ -8,13 +8,14 @@ let todasLasImagenes = [];
 let imagenActual = 0;
 
 // Función para abrir el modal con las imágenes de un registro
-function abrirModalImagenes(idRegistro, idFoto, nombreComercial, folio) {
+function abrirModalImagenes(idRegistro, idFoto, nombreComercial, folio, id_proceso_tramites) {
     // Guardar referencia al registro actual
     registroActual = {
         id: idRegistro,
         idFoto: idFoto,
         nombreComercial: nombreComercial,
-        folio: folio
+        folio: folio,
+        id_proceso_tramites: id_proceso_tramites,
     };
     
     // Limpiar imágenes previas
@@ -29,14 +30,14 @@ function abrirModalImagenes(idRegistro, idFoto, nombreComercial, folio) {
     $('#btnAdministrarFotos').attr('href', 'principalFotos.php?id=' + idRegistro + '&page=1');
     
     // Cargar imágenes del registro
-    cargarImagenesRegistro(idRegistro, idFoto);
+    cargarImagenesRegistro(idRegistro, idFoto, id_proceso_tramites );
     
     // Mostrar el modal
     $('#imagenesModal').modal('show');
 }
 
 // Función para cargar las imágenes del registro
-function cargarImagenesRegistro(idRegistro, idFoto) {
+function cargarImagenesRegistro(idRegistro, idFoto, id_proceso_tramites) {
     $.ajax({
         url: 'ajax/obtener_imagenes_registro.php',
         type: 'GET',
@@ -110,7 +111,8 @@ $(document).ready(function() {
         const idFoto = $(this).data('foto');
         const nombreComercial = $(this).data('nombre');
         const folio = $(this).data('folio');
+        const id_proceso_tramites = $(this).data('id_proceso_tramites');
         
-        abrirModalImagenes(id, idFoto, nombreComercial, folio);
+        abrirModalImagenes(id, idFoto, nombreComercial, folio, id_proceso_tramites);
     });
 }); 

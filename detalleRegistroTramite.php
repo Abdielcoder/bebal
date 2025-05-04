@@ -234,69 +234,6 @@ $RAD_tramite_SOLICITADO=$row_tramite10['revision_analisis_docs'];
 $DESCUENTO_tramite_SOLICITADO=$row_tramite10['descuento'];
 
 
-##echo "sql_tramite10=".$sql_tramite10."<br>";
-###################################
-##$sql_proceso_tramite="SELECT COUNT(*) AS EXISTE_REG_proceso_tramite_EN_PROCESO FROM  proceso_tramites WHERE id_tramite=".$ID_TRAMITE_SOLICITADO." AND id_principal=".$IDPRINCIPAL." AND en_proceso='EN PROCESO'";
-##echo $sql_proceso_tramite;
-##$result_proceso_tramite = mysqli_query($con,$sql_proceso_tramite);
-##$row_proceso_tramite = mysqli_fetch_assoc($result_proceso_tramite);
-##$EXISTE_REG_proceso_tramite_EN_PROCESO=$row_proceso_tramite['EXISTE_REG_proceso_tramite_EN_PROCESO'];
-
-##echo "EXISTE_REGISTRO_proceso_tramite_EN_PROCESO=".$EXISTE_REG_proceso_tramite_EN_PROCESO;
-
-##if ( $EXISTE_REG_proceso_tramite_EN_PROCESO>0 ) {
-##$sql_proceso_tramite10="SELECT * FROM  proceso_tramites WHERE id_tramite=".$ID_TRAMITE_SOLICITADO." AND id_principal=".$IDPRINCIPAL." AND en_proceso='EN PROCESO'";
-##$result_proceso_tramite10 = mysqli_query($con,$sql_proceso_tramite10);
-##$row_tramite10 = mysqli_fetch_assoc($result_proceso_tramite10);
-##$ID_PROCESO_TRAMITES=$row_tramite10['id'];
-##$NOTA_proceso_tramites=$row_tramite10['nota'];
-##}
-
-#################################
-
-##if (isset($_POST['GIRO_SOLICITADO'])) {
-##$GIRO_SOLICITADO = $_POST['GIRO_SOLICITADO'];
-
-##if ( $GIRO_SOLICITADO!=0 ) {
-#
-##$sql_PRINCIPAL="SELECT giro FROM principal WHERE id=".$IDPRINCIPAL;
-##$result_sql_PRINCIPAL = mysqli_query($con,$sql_PRINCIPAL);
-##$row_sql_PRINCIPAL = mysqli_fetch_assoc($result_sql_PRINCIPAL);
-##$GIRO_PRINCIPAL=$row_sql_PRINCIPAL['giro'];
-#
-##$sql_giro_PRINCIPAL="SELECT * FROM giro WHERE id=".$GIRO_PRINCIPAL;
-##$result_giro_PRINCIPAL = mysqli_query($con,$sql_giro_PRINCIPAL);
-##$row_giro_PRINCIPAL = mysqli_fetch_assoc($result_giro_PRINCIPAL);
-##$GIRO_PRINCIPAL=$row_giro_PRINCIPAL['descripcion_giro'];
-##$MONTO_UMAS_PRINCIPAL=$row_giro_PRINCIPAL['monto_umas'];
-
-###
-##$sql_giro_solicitado="SELECT * FROM giro WHERE id=".$GIRO_SOLICITADO;
-##$result_giro_solicitado = mysqli_query($con,$sql_giro_solicitado);
-##$row_giro_solicitado = mysqli_fetch_assoc($result_giro_solicitado);
-##$GIRO_solicitado=$row_giro_solicitado['descripcion_giro'];
-##$MONTO_UMAS_giro_solicitado=$row_giro_solicitado['monto_umas'];
-###
-
-##if ( $MONTO_UMAS_PRINCIPAL < $MONTO_UMAS_giro_solicitado ) {
-##$TOTAL_UMAS_GIRO=$MONTO_UMAS_giro_solicitado-$MONTO_UMAS_PRINCIPAL;
-##} else {
-##$TOTAL_UMAS_GIRO=$MONTO_UMAS_tramite_SOLICITADO;
-##}
-
-##$MONTO_UMAS_tramite_SOLICITADO=$TOTAL_UMAS_GIRO;
-
-
-##echo "GIRO PRINCIPAL=".$GIRO_PRINCIPAL.", monto (".$MONTO_UMAS_PRINCIPAL.")";
-##echo "GIRO SOLICITADO=".$GIRO_SOLICITADO.", ".$GIRO_solicitado." (".$MONTO_UMAS_giro_solicitado.") <br> PRESUPUESTO=".$TOTAL_UMAS_GIRO;
-
-##} else {
-##echo "GIRO SOLICITADO=".$GIRO_SOLICITADO;
-##}
-
-##} else {
-##$GIRO_SOLICITADO=0;
-##}
 
 #################################
 include("modal/elegirGiro.php");
@@ -434,6 +371,13 @@ $result_colonia = mysqli_query($con,$sql_colonia);
 $row_colonia = mysqli_fetch_assoc($result_colonia);
 $COLONIA=$row_colonia['colonia'];
 ##
+
+####################
+#####################
+include("modal/modificar_serviciosAdicionales.php");
+####################
+#####################
+
 ?>
 
     <div class="mt-4">
@@ -446,7 +390,14 @@ $COLONIA=$row_colonia['colonia'];
         <div class="seccion-datos">
                 <div class="row fila-datos">
                     <div class="col-10">
-                        <div class="etiqueta">Tramite</div>
+			<div class="etiqueta">Tramite</div>
+<?php
+if ( $TRAMITE_tramite_SOLICITADO=='Mantenimiento Servicios Adicionales' ) {
+$porcionesSA = explode("Quedando", $NOTA_proceso_tramites);
+$NOTA_proceso_tramites=$porcionesSA[0];
+}
+?>
+
 			<div class="valor valor-destacado"><font color="red"><?php echo $TRAMITE_tramite_SOLICITADO; ?>  {<?php echo $MONTO_UMAS_tramite_SOLICITADO; ?> umas}</font><br><font color="black" size="1"><?php echo $NOTA_proceso_tramites; ?> </font></div>
 
 
@@ -482,9 +433,16 @@ $COLONIA=$row_colonia['colonia'];
 
 
                 <div class="row fila-datos">
-                    <div class="col-12">
+                    <div class="col-md-9 col-6">
                         <div class="etiqueta">Modalidad Graduación Alcohólica</div>
 			<div class="valor"><?php echo $modalidad_graduacion_alcoholica; ?> * [<?php echo $numero_modalidad_graduacion_alcoholica; ?>]</div>
+
+                    </div>
+                    <div class="col-md-3 col-6 mt-md-0">
+                        <div class="etiqueta">Número de Permiso</div>
+                        <div class="valor"><?php echo $numero_permiso; ?></div>
+
+
                     </div>
                 </div>
 <!-----------------------!>
@@ -566,21 +524,7 @@ $COLONIA=$row_colonia['colonia'];
 echo '<button type="button" onclick="location.replace(\'principal.php?page='.$page.'&action=ajax\')" class="btn btn-info bs-sm" style="background-color:#AC905B; color:white !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a página '.$page.' </font></button>&nbsp;';
 
 
-##echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Cambio de Domicilio y Titular </font></a>&nbsp;';
-
 if (  ( $operacion=='Tramite' || $operacion=='Activo') && ( $estatus!='Presupuesto' || $estatus=='Tramite Recibos IRAD' )  )  {
-
-//if ( $INSPECCION_tramite_SOLICITADO=='SI' ) echo 'Con Inspección';
-//if ( $RAD_tramite_SOLICITADO=='SI' ) echo 'Con Revisión y Analisis de Docuemntos';
-
-//$concepto_tramite=$TRAMITE." {".number_format($MONTO_UMAS_tramite,2)." umas}";
-//$concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
-//$concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
-//$concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
-//$MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
-
-//echo '<a href="datosParaPagar_pdf_PresupuesoCambios_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE_SOLICITADO.'--'.$INSPECCION_tramite_SOLICITADO.'--'.$RAD_tramite_SOLICITADO.'" target="_blank" class="btn btn-dark bs-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Presupuesto</font></a>&nbsp;';
-
 
 #####################################
 #####################################
@@ -730,9 +674,9 @@ echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
 ##
 if ( $estatus=='Pagos-IRAD-Cambio' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
 ##echo '<a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
-echo '<a href="principalFotos.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+echo '<a href="principalFotos.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
 ##
-echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
+echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
 
 }
 
@@ -741,11 +685,20 @@ echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'"  class="btn
 ###################               
 if ( $estatus=='Presupuesto' )  {
 
-$concepto_tramite=$TRAMITE." {".number_format($MONTO_UMAS_tramite,2)." umas}";
+  if ( is_numeric($MONTO_UMAS_tramite) ) {
+ $concepto_tramite=$TRAMITE." {".number_format($MONTO_UMAS_tramite,2)." umas}";
+ } else {
+ $concepto_tramite=$TRAMITE." {Presupuesto umas}";
+ $MONTO_UMAS_tramite=0;
+ }
 $concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
 $concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
 $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
+
+##echo ''.$MONTO_UMAS_tramite.', '.$monto_umas_total_servicios_adicionales.', '.$monto_umas_total_modalidad_graduacion_alcoholica,', '.$COBRO_UMAS_giro;
+
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
+
 
 echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>&nbsp;';
 
@@ -774,7 +727,6 @@ class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-ch
 ###################               
 ###################               
 if ( $estatus=='Pago Tramite' )  {
-
 
 switch ($TRAMITE_tramite_SOLICITADO) {
 case 'Cambio de Domicilio y Cambio de Titular':
@@ -851,7 +803,28 @@ echo  '<a href="#ActualizarGiro" data-bs-toggle="modal" data-bs-target="#Actuali
  data-nota="'.$NOTA_proceso_tramites.'" 
  data-giro_id_seleccionado="'.$GiroID_seleccionado.'"  
  class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><i class="bi bi-pencil"></i><font size="2" color="white"> Actualizar Datos - Giro </font></a>';
-	break;
+break;
+
+//chang
+
+case 'Mantenimiento Servicios Adicionales':
+
+$porcionesNOTA = explode("CHANG_SA", $NOTA_proceso_tramites);
+$SA_seleccionado=trim($porcionesNOTA[1]);
+
+echo  '<a href="#modificarServicioAdicional" data-bs-toggle="modal" data-bs-target="#modificarServicioAdicional" 
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 
+ data-folio="'.$folio.'" 
+ data-idprincipal="'.$IDPRINCIPAL.'" 
+ data-pagina="'.$page.'" 
+ data-id_giro="'.$id_giro.'" 
+ data-descripcion_giro="'.$GIRO.'" 
+ data-nota="'.$NOTA_proceso_tramites.'" 
+ data-SA_seleccionado="'.$SA_seleccionado.'"  
+ class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><i class="bi bi-pencil"></i><font size="2" color="white"> Actualizar Datos - Servicios Adicionales </font></a>';
+break;
+
+
 case 'Cambio de Nombre Comercial':
 ##
 echo  '<a href="#ActualizarDatosNombreComercial" data-bs-toggle="modal" data-bs-target="#ActualizarDatosNombreComercial"
@@ -1000,34 +973,6 @@ echo  '<a href="#ActualizarCambioDeTitular" data-bs-toggle="modal" data-bs-targe
         <!-- Botones de acción -->
 	<!-- <div class="area-botones"> --!>
 	<center><div>
-          
-
-<?php 	
-
-###################               
-###################               
-###################               
-##if ( $estatus=='Generar Recibos IRAD' ) {
-
-##echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><i class="bi bi-trash"></i><font size="1" color="red"> </font></a>&nbsp;';
-
-
-##echo '<div class="dropup">';
-##echo '<button class="dropbtn"><font size="1">Actualizar Registro</font></button>';
-##echo '<div class="dropup-content">';
-##echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><i class="bi bi-pencil"></i><font size="2" color="white"> Giro, Modalidad y SE</font></a>';
-##
-##echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><i class="bi bi-pencil"></i><font size="2" color="white"> Datos del Establecimiento</font></a>';
-##
-##echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><i class="bi bi-pencil"></i><font size="2" color="white"> Datos del Solicitante</font></a>';
-##echo '</div>';
-##echo '</div>';
-##}
-
-
-?>
-
-
 	</div></center>
 
 
@@ -1038,9 +983,42 @@ echo  '<a href="#ActualizarCambioDeTitular" data-bs-toggle="modal" data-bs-targe
 <div style="margin-bottom: 30px;"></div>
 
 <hr>
-<?php include("footer.php"); ?>
+<?php 
+
+mysqli_close($con);
+include("footer.php"); 
+
+?>
 
 <script>
+
+$( "#modificar_ServiciosAdicionales" ).submit(function( event ) {
+  $('#Buttonmodificar_ServiciosAdicionales').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/ActualizarDatosSA.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxGuardarServicioAdicional").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxGuardarServicioAdicional").html(datos);
+                        $('#Buttonmodificar_ServiciosAdicionales').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
 
 $( "#guardar_registroPrincipalGiro" ).submit(function( event ) {
   $('#Button_guardar_registroPrincipalGiro').attr("disabled", true);
@@ -1222,7 +1200,12 @@ $( "#registro_guardar_pagoTramiteCambio" ).submit(function( event ) {
 			window.setTimeout(function() {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
-				location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
+
+
 			}, 2000);
 
 		  }
@@ -1249,7 +1232,10 @@ $( "#registro_guardar_pago_presupuestoTramite" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
                         }, 2000);
 
                   }

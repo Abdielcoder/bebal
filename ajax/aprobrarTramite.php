@@ -31,6 +31,12 @@ $cambio_giro_solicitado=$_POST['cambio_giro_solicitado'];
 $descripcion_tramite_solicitado=$_POST['descripcion_tramite_solicitado'];
 $tramite_solicitado=$_POST['tramite_solicitado'];
 
+$cambio_de_sa=$_POST['cambio_de_sa'];  //## 1 Servicios Adicionales   0   No Servicios Adicionales
+$servicios_adicionales_agregados=$_POST['servicios_adicionales_agregados'];
+$servicios_adicionales_agregados_raw=$_POST['servicios_adicionales_agregados_raw'];
+$servicios_adicionales_total=$_POST['servicios_adicionales_total'];
+$servicios_adicionales_total_raw=$_POST['servicios_adicionales_total_raw'];
+
 ###############
 
 $todo= 'monto_umas_tramite_solicitado='.$monto_umas_tramite_solicitado.' )
@@ -45,17 +51,22 @@ cambio_giro_solicitado='.$cambio_giro_solicitado.' )
 descripcion_tramite_solicitado='.$descripcion_tramite_solicitado.' )
 tramite_solicitado='.$tramite_solicitado.' )';
 
-
-
 ################
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
 ################
 
+### en el caso del CAMBIO DE GIRO los 2 ** para tomar el GIRO que se cambiara ( usando un xplode y split )
 if ( $cambio_de_giro=="SI" ) {
 $nota="Tramite ($descripcion_tramite_solicitado), Giro Solicitado ($cambio_giro_solicitado ** $cambio_id_giro_solicitado ** ),  por un monto de $monto_umas_tramite_solicitado umas, para el establecimiento $nombre_comercial_establecimiento Folio ($folio) $today";
 } else {
-$nota="Tramite ($descripcion_tramite_solicitado) por un monto de ($monto_umas_tramite_solicitado) umas, para el establecimiento ($nombre_comercial_establecimiento Folio) ($folio) $today";
+
+	if ( $cambio_de_sa==1 ) {
+	$nota="Tramite ($descripcion_tramite_solicitado), Servicios Adicionales ($servicios_adicionales_total) Solicitado ($servicios_adicionales_agregados) Quedando (CHANG_SA $servicios_adicionales_agregados_raw CHANG_SA) total SA ($servicios_adicionales_total) ";
+	} else {
+
+	$nota="Tramite ($descripcion_tramite_solicitado) por un monto de ($monto_umas_tramite_solicitado) umas, para el establecimiento ($nombre_comercial_establecimiento Folio) ($folio) $today";
+	}
 }
 
 $conceptoPagoPresupuesto="Tramite Cambio ($descripcion_tramite_solicitado), monto ($monto_umas_tramite_solicitado) umas $today";
@@ -185,6 +196,9 @@ $query_new_insert60 = mysqli_query($con,$sqlINSERT60);
 #### con el id_tramite y el id_proceso_tramites ES EL ULTIMO TRAMITE REALIZADO y CONSULTAR LOS PDFs
 $Kuery_Update="UPDATE principal SET operacion='Tramite', estatus='Tramite Recibos IRAD', id_tramite=$ID_TRAMITE , id_proceso_tramites=$ID_PROCESO_TRAMITE  WHERE id=".$ID;
 $query_Update100 = mysqli_query($con,$Kuery_Update);
+
+mysqli_close($con);
+
 
 			if ($query_Update100) {
 

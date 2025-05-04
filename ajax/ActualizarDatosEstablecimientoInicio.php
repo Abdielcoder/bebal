@@ -122,6 +122,7 @@ WHERE id=".$idprincipal;
 $query_UpdatePrincipal = mysqli_query($con,$sql_UpdatePrincipal);
 
 ##
+mysqli_close($con);
 
 if ($query_UpdatePrincipal) {
 

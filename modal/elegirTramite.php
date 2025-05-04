@@ -45,7 +45,7 @@ echo '<label for="ID_TRAMITE_SOLICITADO" class="col-sm-3 control-label">Tramite<
 <select class='form-control  form-select' name='ID_TRAMITE_SOLICITADO' id='ID_TRAMITE_SOLICITADO' required>
 <?php 
 echo '<option value="">Seleccione</option>';
-$query=mysqli_query($con,"SELECT * FROM tramite WHERE operacion='Cambio'");
+$query=mysqli_query($con,"SELECT * FROM tramite WHERE operacion='Cambio' OR operacion='Imprimir' OR operacion='Revalidacion' ORDER BY operacion");
 while($row=mysqli_fetch_array($query))	{
 $id_tramite=$row['id'];
 $descripcion_tramite=$row['descripcion_tramite'];
@@ -59,6 +59,9 @@ $COBRO=$monto_umas.' UMAS';
 }
 echo '<option value="'.$id_tramite.'">'.$descripcion_tramite.' ('.$COBRO.')</option>';
 }
+
+##mysqli_close($con);
+
 ?>
 </select>			  
 </div>

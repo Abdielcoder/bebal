@@ -521,7 +521,7 @@ $NOTA_proceso_tramites=$porcionesSA[0];
 <center><div>
 
 <?php
-echo '<button type="button" onclick="location.replace(\'principal.php?page='.$page.'&action=ajax\')" class="btn btn-info bs-sm" style="background-color:#AC905B; color:white !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a página '.$page.' </font></button>&nbsp;';
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#AC905B; color:white !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a página '.$page.' </font></button>&nbsp;';
 
 
 if (  ( $operacion=='Tramite' || $operacion=='Activo') && ( $estatus!='Presupuesto' || $estatus=='Tramite Recibos IRAD' )  )  {

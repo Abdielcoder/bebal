@@ -97,9 +97,7 @@ EOT;
 }
 
 // --- Ejecución de la prueba ---
-echo "=== Test de conexión SMTP para AWS SES (PHP) ===
-
-";
+echo "=== Test de conexión SMTP para AWS SES (PHP) ===\n\n";
 
 // Valores por defecto (puedes modificarlos o pasarlos como argumentos si lo necesitas)
 $smtp_username = "AKIAWN26JPWKZ4JKCU5L";

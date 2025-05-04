@@ -1,24 +1,10 @@
 <?php
-// Importar clases de PHPMailer al espacio de nombres global
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-// Cargar el autoloader de Composer
 require 'vendor/autoload.php';
 
-/**
- * Envía un correo de prueba usando PHPMailer con configuración para AWS SES SMTP.
- *
- * @param string $username Usuario SMTP (AWS SES Key ID).
- * @param string $password Contraseña SMTP (AWS SES Secret Key).
- * @param string $sender Dirección de correo del remitente (debe estar verificada en SES).
- * @param string $recipient Dirección de correo del destinatario.
- * @param string $host Servidor SMTP de AWS SES.
- * @param int $port Puerto SMTP (587 para STARTTLS, 465 para TLS directo).
- * @param bool $verbose Activar modo detallado para diagnóstico.
- * @return bool True si el correo se envió (o la conexión fue exitosa en modo verificación), False en caso de error.
- */
 function enviarCorreoPrueba(
     string $username = "AKIAWN26JPWKZ4JKCU5L", 
     string $password = "BFRd9qXYsp2DONqo2GDZPMQdt5d5LxXF/DWaRG4IDqR0", 
@@ -29,36 +15,30 @@ function enviarCorreoPrueba(
     bool $verbose = false
 ): bool 
 {
-    // Crear una instancia de PHPMailer; pasar `true` habilita excepciones
     $mail = new PHPMailer(true);
 
     try {
-        // Configuración del servidor SMTP
         if ($verbose) {
-            // Habilita salida de depuración detallada
             $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
         }
-        $mail->isSMTP();                                     // Enviar usando SMTP
-        $mail->Host       = $host;                           // Servidor SMTP a usar
-        $mail->SMTPAuth   = true;                            // Habilitar autenticación SMTP
-        $mail->Username   = $username;                       // Usuario SMTP
-        $mail->Password   = $password;                       // Contraseña SMTP
+        $mail->isSMTP();                                     
+        $mail->Host       = $host;                           
+        $mail->SMTPAuth   = true;                            
+        $mail->Username   = $username;                       
+        $mail->Password   = $password;                       
         
-        // Determinar el tipo de cifrado basado en el puerto
         if ($port == 465) {
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Habilitar cifrado TLS implícito
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
         } else {
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Habilitar cifrado STARTTLS
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
         }
         
-        $mail->Port       = $port;                           // Puerto TCP para conectar
+        $mail->Port       = $port;                           
 
-        // Remitente y Destinatarios
-        $mail->setFrom($sender, 'Remitente de Prueba'); // Quién envía el correo
-        $mail->addAddress($recipient);                   // A quién se envía el correo
+        $mail->setFrom($sender, 'Remitente de Prueba'); 
+        $mail->addAddress($recipient);                   
 
-        // Contenido del correo
-        $mail->isHTML(true);                                 // Establecer formato de correo a HTML
+        $mail->isHTML(true);                                 
         $mail->Subject = 'Prueba de conexión SMTP AWS SES desde PHP';
         
         $cuerpo_html = <<<EOT
@@ -77,55 +57,38 @@ EOT;
 EOT;
 
         $mail->Body    = $cuerpo_html;
-        $mail->AltBody = $cuerpo_plain; // Cuerpo alternativo para clientes de correo que no soportan HTML
+        $mail->AltBody = $cuerpo_plain; 
 
-        echo "Intentando conectar a {$host}:{$port} y enviar correo...
-";
+        echo "Intentando conectar a {$host}:{$port} y enviar correo...\n";
         $mail->send();
-        echo "✅ Mensaje enviado exitosamente a {$recipient}
-";
+        echo "✅ Mensaje enviado exitosamente a {$recipient}\n";
         return true;
 
     } catch (Exception $e) {
-        echo "❌ Error al enviar el mensaje: {$mail->ErrorInfo}
-";
-        // Descomentar para ver más detalles del error general si es necesario
-        // echo "Detalle de la excepción: {$e->getMessage()}
-"; 
+        echo "❌ Error al enviar el mensaje: {$mail->ErrorInfo}\n";
         return false;
     }
 }
 
-// --- Ejecución de la prueba ---
 echo "=== Test de conexión SMTP para AWS SES (PHP) ===\n\n";
 
-// Valores por defecto (puedes modificarlos o pasarlos como argumentos si lo necesitas)
 $smtp_username = "AKIAWN26JPWKZ4JKCU5L";
 $smtp_password = "BFRd9qXYsp2DONqo2GDZPMQdt5d5LxXF/DWaRG4IDqR0";
-$email_sender = "mchang@cycsoftware.awsapps.com";
+$email_sender = "mchang@cycsoftware.awsapps.com"; 
 $email_recipient = "abdiel@astrasoft.mx";
 $smtp_host = "email-smtp.us-east-1.amazonaws.com";
-$smtp_port = 587; // Usar 587 para STARTTLS o 465 para TLS directo
-$enable_verbose = false; // Cambiar a true para ver depuración SMTP
+$smtp_port = 587; 
+$enable_verbose = false; 
 
-echo "Host SMTP:       {$smtp_host}
-";
-echo "Puerto:          {$smtp_port}
-";
-echo "Método:          " . ($smtp_port == 465 ? 'TLS directo' : 'STARTTLS') . "
-";
-echo "Usuario:         {$smtp_username}
-";
-echo "Remitente:       {$email_sender}
-";
-echo "Destinatario:    {$email_recipient}
-";
-echo "Modo verbose:    " . ($enable_verbose ? 'Activado' : 'Desactivado') . "
-";
-echo "-------------------------------------------
-";
+echo "Host SMTP:       {$smtp_host}\n";
+echo "Puerto:          {$smtp_port}\n";
+echo "Método:          " . ($smtp_port == 465 ? 'TLS directo' : 'STARTTLS') . "\n";
+echo "Usuario:         {$smtp_username}\n";
+echo "Remitente:       {$email_sender}\n";
+echo "Destinatario:    {$email_recipient}\n";
+echo "Modo verbose:    " . ($enable_verbose ? 'Activado' : 'Desactivado') . "\n";
+echo "-------------------------------------------\n";
 
-// Llamar a la función para enviar el correo de prueba
 enviarCorreoPrueba(
     $smtp_username,
     $smtp_password,
@@ -136,8 +99,6 @@ enviarCorreoPrueba(
     $enable_verbose
 );
 
-echo "
-=== Fin del Test ===
-";
+echo "\n=== Fin del Test ===\n";
 
 ?> 

@@ -1,3 +1,6 @@
+
+
+
 <?php
 // Importar clases de PHPMailer al espacio de nombres global
 use PHPMailer\PHPMailer\PHPMailer;
@@ -102,11 +105,11 @@ echo "=== Test de conexión SMTP para AWS SES (PHP) ===\n\n";
 // Valores por defecto (puedes modificarlos o pasarlos como argumentos si lo necesitas)
 $smtp_username = "AKIAWN26JPWKZ4JKCU5L";
 $smtp_password = "BFRd9qXYsp2DONqo2GDZPMQdt5d5LxXF/DWaRG4IDqR0";
-$email_sender = "mchang@cycsoftware.awsapps.com"; // Asegúrate que esta dirección esté verificada en SES
+$email_sender = "mchang@cycsoftware.awsapps.com"; 
 $email_recipient = "abdiel@astrasoft.mx";
 $smtp_host = "email-smtp.us-east-1.amazonaws.com";
-$smtp_port = 587; // Usar 587 para STARTTLS o 465 para TLS directo
-$enable_verbose = false; // Cambiar a true para ver depuración SMTP
+$smtp_port = 587; 
+$enable_verbose = false;
 
 echo "Host SMTP:       {$smtp_host}
 ";

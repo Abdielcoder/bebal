@@ -142,21 +142,26 @@
 
 		// Inicializar carga al cargar la página
 		$(document).ready(function(){
+			// Obtener el parámetro 'page' de la URL actual
+			const urlParams = new URLSearchParams(window.location.search);
+			let currentPage = parseInt(urlParams.get('page')) || 1; // Usar página de URL o 1 por defecto
+
 			// Asegurarse de que la conexión a la base de datos está disponible
-			load(1);
+			load(currentPage); // <<<--- Usar la página actual de la URL
 			
 			// Si después de 5 segundos sigue cargando, intentar recargar automáticamente
 			setTimeout(function() {
 				if ($(".outer_div").is(':empty') || $(".outer_div").html().trim() === '') {
 					console.log("Contenedor sigue vacío, recargando automáticamente...");
-					load(1);
+					// Intentar recargar la misma página que se intentó cargar originalmente
+					load(currentPage); // <<<--- Usar la página actual de la URL
 				}
 			}, 5000);
 			
 			// Interceptar el evento de envío del formulario de búsqueda
 			$("#datos_cotizacion").on("submit", function(e) {
 				e.preventDefault();
-				load(1);
+				load(1); // <<<--- La búsqueda sí debe ir a la página 1
 			});
 		});
 

@@ -39,7 +39,7 @@ function enviarCorreoPrueba(
         $mail->addAddress($recipient);                   
 
         $mail->isHTML(true);                                 
-        $mail->Subject = 'Prueba de conexión SMTP AWS SES desde PHP';
+        $mail->Subject = 'Prueba de conexión SMTP AWS SES desde PHP Abdiel';
         
         $cuerpo_html = <<<EOT
         <h1>Prueba de Conexión SMTP</h1>

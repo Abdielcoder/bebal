@@ -3,7 +3,7 @@ let dropzoneInstance;
 let uploadingFiles = 0;
 
 // Función para inicializar el modal de PDF para un registro específico
-function pdf_registro1file(id,conjunto,folio,id_proceso_tramites) {
+function pdf_registro1file(id,conjunto,folio,id_proceso_tramites,page) {
     console.log("Inicializando modal PDF para registro ID:", id);
  
 //alert("id="+id+", conjunto="+conjunto+", folio="+folio+", id_proceso_tramites="+id_proceso_tramites);
@@ -12,6 +12,7 @@ function pdf_registro1file(id,conjunto,folio,id_proceso_tramites) {
     $('#pdf_conjunto').val(conjunto);
     $('#pdf_folio').val(folio);
     $('#pdf_id_proceso_tramites').val(id_proceso_tramites);
+    $('#page').val(page);
     
     // Limpiar resultados previos
     $('#resultados_pdf').html('');
@@ -120,16 +121,19 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
     const conjunto = $('#pdf_conjunto').val();
     const folio = $('#pdf_folio').val();
     const id_proceso_tramites = $('#pdf_id_proceso_tramites').val();
+    const page = $('#page').val();
     
+//alert("btn-subir-pdf-manual--> id="+id_registro+", conjunto="+conjunto+", folio="+folio+", id_proceso_tramites="+id_proceso_tramites);
+	//
     console.log("Iniciando carga manual de", archivos.length, "archivos para registro Folio:", folio);
     
     if (archivos.length === 0) {
-        $('#resultados_pdf').html('<div class="alert alert-warning">Debe seleccionar al menos un archivo PDF.</div>');
+        $('#resultados_pdf').html('<div class="alert alert-warning">Debe seleccionar un archivo PDF.</div>');
         return;
     }
     
     // Mostrar mensaje de carga
-    $('#resultados_pdf').html('<div class="alert alert-info">Preparando archivos para subir... <div class="loading-spinner"></div></div>');
+    $('#resultados_pdf').html('<div class="alert alert-info">Preparando archivo para subir... <div class="loading-spinner"></div></div>');
     
     // Mostrar barra de progreso
     $('#upload-progress-container').removeClass('d-none');
@@ -146,6 +150,7 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
         formData.append('conjunto', conjunto);
         formData.append('folio', folio);
         formData.append('id_proceso_tramites', id_proceso_tramites);
+        formData.append('page', page);
         formData.append('pdf_archivo', archivos[i]);
         
         console.log("Preparando archivo", i+1, "de", archivos.length, ":", archivos[i].name);
@@ -178,7 +183,7 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
                 if ((archivosSubidos + archivosConError) === archivos.length) {
                     // Actualizar mensaje según resultado
                     if (archivosConError === 0) {
-                        $('#resultados_pdf').html('<div class="alert alert-success">El archivo ha subido correctamente.</div>');
+                        $('#resultados_pdf').html('<div class="alert alert-success">El archivo ha subido correctamente. Espere un Momento  la ventana se cerrará Automáticamente..</div>');
                     } else if (archivosSubidos === 0) {
                         $('#resultados_pdf').html('<div class="alert alert-danger">No se pudo subir ningún archivo. Por favor, inténtelo nuevamente.</div>');
                     } else {
@@ -196,6 +201,17 @@ $(document).on('click', '#btn-subir-pdf-manual', function() {
                         $('#upload-progress-container').addClass('d-none');
                     }, 1000);
                 }
+
+
+
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+            location.replace('principalPDFs.php?id='+id_registro+'&page='+page+'&id_proceso_tramites='+id_proceso_tramites);
+                        }, 3000);
+
+
+
             },
             error: function() {
                 archivosConError++;

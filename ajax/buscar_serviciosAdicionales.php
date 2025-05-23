@@ -98,6 +98,7 @@
 			<th><font size="1">Servicio Adicional</font></th>
 			<th><font size="1">Cuenta</font></th>
 			<th><font size="1">Monto UMAS</font></th>
+			<th><font size="1">Monto UMAS Temp</font></th>
 			<th><font size="1">Concepto</font></th>
 			<th><font size="1">Acciones</font></th>
 			</tr>
@@ -109,6 +110,7 @@
 	$descripcion_servicios_adicionales=$row['descripcion_servicios_adicionales'];
 	$cuenta=$row['cuenta'];
 	$monto_umas=$row['monto_umas'];
+	$monto_umas_permiso_temporal=$row['monto_umas_permiso_temporal'];
 	$concepto=$row['concepto'];
 	$fecha=$row['fecha'];
 
@@ -120,6 +122,7 @@
 <input type="hidden" value="<?php echo $row['descripcion_servicios_adicionales'];?>" id="descripcion_servicios_adicionales<?php echo $id;?>">
 <input type="hidden" value="<?php echo $cuenta;?>" id="cuenta<?php echo $id;?>">
 <input type="hidden" value="<?php echo $monto_umas;?>" id="monto_umas<?php echo $id;?>">
+<input type="hidden" value="<?php echo $monto_umas_permiso_temporal;?>" id="monto_umas_permiso_temporal<?php echo $id;?>">
 <input type="hidden" value="<?php echo $concepto;?>" id="concepto<?php echo $id;?>">
 <input type="hidden" value="<?php echo $fecha;?>" id="fecha<?php echo $id;?>">
 
@@ -129,6 +132,7 @@
 			<td><font size="2"><?php echo $descripcion_servicios_adicionales; ?></font></td>
 			<td align="center"><font size="2"><?php echo $cuenta; ?></font></td>
 			<td align="center"><font size="2"><?php echo $monto_umas; ?></font></td>
+			<td align="center"><font size="2"><?php echo $monto_umas_permiso_temporal; ?></font></td>
 			<td><font size="2"><?php echo $concepto; ?></font></td>
 			<td class='text-right'>
 <?php

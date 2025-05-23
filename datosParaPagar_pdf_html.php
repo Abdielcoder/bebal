@@ -19,9 +19,30 @@ $ID = $_GET['id'];
 $porciones = explode("--", $ID);
 $id=intval($porciones[0]);
 $ID_TRAMITE=intval($porciones[1]);
-$ID_TRAMITE_SOLICITADO=intval($porciones[2]);
+$ID_TRAMITE_SOLICITADO=$porciones[2];
 
 ##
+
+if ($ID_TRAMITE_SOLICITADO=='0X') {
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
+$CUENTA=$row_tramite['cuenta'];
+$MONTO_UMAS=$row_tramite['monto_umas'];
+$CONCEPTO=$row_tramite['concepto'];
+
+
+$sql_tramite1="SELECT * FROM tramite WHERE descripcion_tramite='Revalidacion del Permiso'";
+$result_tramite1 = mysqli_query($con,$sql_tramite1);
+$row_tramite1 = mysqli_fetch_assoc($result_tramite1);
+$DESCRIPCION_TRAMITE_SOLICITADO=$row_tramite1['descripcion_tramite'];
+$CUENTA_SOLICITADO=$row_tramite1['cuenta'];
+$MONTO_UMAS_SOLICITADO=$row_tramite1['monto_umas'];
+$CONCEPTO_SOLICITADO=$row_tramite1['concepto'];
+
+} else {
+$ID_TRAMITE_SOLICITADO=intval($porciones[2]);
 $sql_tramite="SELECT * FROM tramite WHERE id=".$ID_TRAMITE;
 $result_tramite = mysqli_query($con,$sql_tramite);
 $row_tramite = mysqli_fetch_assoc($result_tramite);
@@ -41,6 +62,7 @@ $MONTO_UMAS_SOLICITADO=$row_tramite1['monto_umas'];
 $CONCEPTO_SOLICITADO=$row_tramite1['concepto'];
 ##
 
+}
 
 
 

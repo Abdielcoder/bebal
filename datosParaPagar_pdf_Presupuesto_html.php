@@ -20,6 +20,12 @@ $ID = $_GET['id'];
 
 $ID = $_GET['id'];
 $id = $_GET['id'];
+
+if (isset($_GET['ri']) ) {
+$RI=$_GET['ri'];
+} else {
+$RI='ND';
+}
 ##$ID = intval($_GET['id']);
 
 ##$porciones = explode("--", $ID);
@@ -58,7 +64,7 @@ $datos = mysqli_fetch_assoc($resultado);
 #### Importante
 ##################
 $estatus=$datos['estatus'];
-if ($estatus=='Presupuesto') {
+if ($estatus=='Presupuesto' || $estatus=='IP Proceso' || str_contains($estatus, 'Cierre Temporal')  ) {
 } else {
 die("Error: Estatus Sin Solucción");
 }
@@ -67,6 +73,72 @@ die("Error: Estatus Sin Solucción");
 
 $id_tramite_principal=$datos['id_tramite'];
 $id_proceso_tramites_principal=$datos['id_proceso_tramites'];
+
+$id_tramite=$datos['id_tramite'];
+$id_proceso_tramites=$datos['id_proceso_tramites'];
+
+if ( $RI=='0X' ) {
+$sql_pago="SELECT * FROM pagos WHERE id_principal=".$ID." AND id_proceso_tramites=0 AND concepto='Revalidacion'";
+$result_pago = mysqli_query($con,$sql_pago);
+$row_pago = mysqli_fetch_assoc($result_pago);
+$TOTAL_UMAS_PAGAR=$row_pago['total_umas_pagar'];
+$CONCEPTO_PAGO=$row_pago['concepto_pago'];
+$NOTA='Revalidación del Permiso';
+#
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Revalidacion del Permiso'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$CUENTA_tramite=$row_tramite['cuenta'];
+$MONTO_UMAS_tramite=$row_tramite['monto_umas'];
+$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
+
+} else {
+
+
+if ( $RI=='1X' ) {
+
+$sql_pago="SELECT * FROM pagos WHERE id_principal=".$ID." AND id_proceso_tramites=0 AND concepto='Impresion Permiso'";
+$result_pago = mysqli_query($con,$sql_pago);
+$row_pago = mysqli_fetch_assoc($result_pago);
+$TOTAL_UMAS_PAGAR=$row_pago['total_umas_pagar'];
+$CONCEPTO_PAGO=$row_pago['concepto_pago'];
+$NOTA='Impresión Permiso';
+#
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Impresión de Permiso'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$CUENTA_tramite=$row_tramite['cuenta'];
+$MONTO_UMAS_tramite=$row_tramite['monto_umas'];
+$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
+
+} else {
+
+### Cierre Temporal
+if ( str_contains($RI, 'Z')  ) {
+
+$piecesRI=explode("Z", $RI);
+$id_tramite=$piecesRI[0];
+$id_cierre_temporal=$piecesRI[1];
+
+$sql_pago="SELECT * FROM pagos WHERE id_principal=".$ID." AND id_proceso_tramites=".$id_cierre_temporal." AND concepto='Cierre Temporal'";
+$result_pago = mysqli_query($con,$sql_pago);
+$row_pago = mysqli_fetch_assoc($result_pago);
+$TOTAL_UMAS_PAGAR=$row_pago['total_umas_pagar'];
+$CONCEPTO_PAGO=$row_pago['concepto_pago'];
+$NOTA='Impresión Permiso';
+#
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Cierre Temporal'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$CUENTA_tramite=$row_tramite['cuenta'];
+$MONTO_UMAS_tramite=$row_tramite['monto_umas'];
+$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
+
+} else {
+
 
 ###########################
 $sql_proceso_tramites="SELECT * FROM  proceso_tramites WHERE id_tramite=".$id_tramite_principal." AND id_principal=".$ID." AND en_proceso='EN PROCESO' AND id=".$id_proceso_tramites_principal;
@@ -80,7 +152,17 @@ $row_pago = mysqli_fetch_assoc($result_pago);
 $TOTAL_UMAS_PAGAR=$row_pago['total_umas_pagar'];
 $CONCEPTO_PAGO=$row_pago['concepto_pago'];
 ###########################
-
+#
+$sql_tramite="SELECT * FROM tramite WHERE id=$id_tramite";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$CUENTA_tramite=$row_tramite['cuenta'];
+$MONTO_UMAS_tramite=$row_tramite['monto_umas'];
+$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
+}
+}
+}
 
 // Cabecera que indica que esto es un documento HTML
 header('Content-Type: text/html; charset=utf-8');
@@ -314,17 +396,8 @@ header('Content-Type: text/html; charset=utf-8');
 <?php
 
 ################
-$id_tramite=$datos['id_tramite'];
-$id_proceso_tramites=$datos['id_proceso_tramites'];
-$id_giro=$datos['giro'];
 #
-$sql_tramite="SELECT * FROM tramite WHERE id=$id_tramite";
-$result_tramite = mysqli_query($con,$sql_tramite);
-$row_tramite = mysqli_fetch_assoc($result_tramite);
-$ID_TRAMITE=$row_tramite['id'];
-$CUENTA_tramite=$row_tramite['cuenta'];
-$MONTO_UMAS_tramite=$row_tramite['monto_umas'];
-$DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
+$id_giro=$datos['giro'];
 #
 $sql_giro="SELECT * FROM giro WHERE id=$id_giro";
 $result_giro = mysqli_query($con,$sql_giro);

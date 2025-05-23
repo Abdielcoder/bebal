@@ -377,6 +377,7 @@ echo "<td align=center>".$numero_foto."</td>";
 #########
 echo "<td align=center>";
 $foto_fileSecundaria='../'.FOTOSMEDIAS.$IDPRINCIPAL.'-'.$ID_PROCESO_TRAMITES.'-'.$idfoto_db.'.jpg';
+//echo $foto_fileSecundaria.'<br>';
 if ( file_exists($foto_fileSecundaria)!=1 ) echo '<img class="item-img img-responsive" src="img/no_imagen.jpg" alt="" alt=""  style="width:50px;height:50px;">';
 else {
 echo '<img id="myImg" src="'.$foto_fileSecundaria.'" alt="Principal  '.$folioDB.' / '.$numero_permisoDB.'  ('.$direccionDB.')"  style="width:90px;height:70px;">';
@@ -413,7 +414,10 @@ echo '<br>';
 echo '<FORM action="principal.php" name="ir_aPrincipal" method="POST">';
 echo '<input type="hidden" name="pagina" value="'.$page.'">';
 
-echo '<button class="btn btn-info btn-sm" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>&nbsp;&nbsp;';
+
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF; color:black !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a Página '.$page.' </font></button>&nbsp;';
+
+
 
 ##echo '<a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
 
@@ -471,7 +475,11 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+
                         }, 2000);
 
                   }

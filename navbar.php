@@ -1,3 +1,49 @@
+<head>
+<style>
+.dropbtn {
+  background-color: #661C32;
+  color: white;
+  padding: 14px;
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.Mydropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.Mydropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.Mydropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.Mydropdown-content a:hover {background-color: #f1f1f1;}
+
+.Mydropdown:hover .Mydropdown-content {
+  display: block;
+}
+
+.Mydropdown:hover .dropbtn {
+  background-color: #AC905B;
+}
+</style>
+</head>
+
+
 <?php
 
 		if (isset($title))
@@ -5,6 +51,7 @@
             // Establecer el elemento Lista como activo por defecto si no hay otra selección
             // Asegurar que solo un elemento esté activo a la vez
             $active_principal = false;
+            $active_principal_temp = false;
             $active_usuarios = false;
             $active_colonias = false;
             $active_delegaciones = false; 
@@ -19,6 +66,8 @@
             
             if ($current_page == 'principal.php') {
                 $active_principal = true;
+            } elseif ($current_page == 'principal_temp.php') {
+                $active_principal_temp = true;
             } elseif ($current_page == 'usuarios.php') {
                 $active_usuarios = true;
             } elseif ($current_page == 'colonia.php') {
@@ -44,8 +93,8 @@
 <?php
 // <div class="container-fluid">
 // <div class="navbar-brand">
-	echo '<span style="font-style:oblique;font-size:10px;" class="text-secondary">bebal</span>';
-	echo '<br><span style="font-size:8px;" class="text-white"><br>'.$PROFILE.'-'.$ID_MUNICIPIO.'</span>';
+	echo '<p style="font-style:oblique;font-size:8px;">bebal</p>';
+	echo '<p style="font-size:8px;">'.$PROFILE.'-'.$ID_MUNICIPIO.'</p>';
 //echo '<a class="navbar-brand" href="#">Stock X</a>';
 ?>
     </div>
@@ -57,7 +106,30 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item <?php if ($active_principal){echo 'active-item';}?>">
           <a class="nav-link <?php if ($active_principal){echo 'active';}?>" href="principal.php"><i class='bi bi-house-fill'></i> Lista</a>
+	</li>
+
+
+
+        <li class="nav-item <?php if ($active_principal_temp){echo 'active-item';}?>">
+          <a class="nav-link <?php if ($active_principal_temp){echo 'active';}?>" href="principal_temp.php"><font size="2"><i class='bi bi-dice-6'></i> <b>Temporal</b></font></a>
         </li>
+
+
+<div class="Mydropdown" style="float:letf;">
+  <button class="dropbtn"><font size="2"><i class='bi bi-card-checklist'></i> <b>Reportes</b></font></button>
+  <div class="Mydropdown-content">
+  <a href="reporte_registrosNuevos.php"><font size="1">Registros Nuevos Completos</font></a>
+  <a href="#"><font size="1">Registros Nuevos en Proceso</font></a>
+  <a href="#"><font size="1">Tramites</font></a>
+  <a href="#"><font size="1">Revalidaciones</font></a>
+  <a href="#"><font size="1">Permisos Vencidos</font></a>
+  <a href="#"><font size="1">Impresiones</font></a>
+  <a href="#"><font size="1">Cierres Temporales</font></a>
+  </div>
+</div>
+&nbsp;
+
+
 
 <?php
 if ( $PROFILE=='admin' ) {
@@ -84,16 +156,11 @@ $anio=date("Y");
 
 
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-graph-up-arrow"></i><font size="1"> Reportes </font></a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="reporte1.php"><i class="bi bi-play-fill text-secondary"></i> Reporte 1</a></li>
-            <li><a class="dropdown-item" href="reporte_Por_Mes.php?m=<?php echo $mes_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play-fill text-secondary"></i> Por Mes (<?php echo $mes_actual;?>)</a></li>
-            <li><a class="dropdown-item" href="reporte_Por_Semana.php?w=<?php echo $semana_actual;?>&y=<?php echo $anio;?>"><i class="bi bi-play-fill text-secondary"></i> Por Semana <?php echo $semana_actual;?></a></li>
-          </ul>
-        </li>
-      </ul>
+
+
+
+
+</ul>
 
 <?php
 if ( $active_principal) {
@@ -102,7 +169,7 @@ if ( $active_principal) {
 ?>
 
       <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link" href="https://www.mexcaptijuana.com/" target='_blank'><i class='bi bi-envelope text-secondary'></i> Soporte</a></li>
+        <li class="nav-item"><a class="nav-link" href="https://www.https://www.tijuana.gob.mx/" target='_blank'><i class='bi bi-envelope text-secondary'></i> Soporte</a></li>
 		<li class="nav-item"><a class="nav-link" href="login.php?logout"><i class='bi bi-power text-secondary'></i> Salir</a></li>
       </ul>
 <?php

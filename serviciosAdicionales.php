@@ -17,6 +17,7 @@
 	$active_modalidad="";
 	$active_serviciosAdicionales="active";
 	$active_reportes="";
+	$active_principal_temp="";
 
 
 	$title="Servicios Adicionales | Bebal";
@@ -143,12 +144,14 @@ function obtener_datosServicioAdicional(id){
         var descripcion_servicios_adicionales = $("#descripcion_servicios_adicionales"+id).val();
         var cuenta = $("#cuenta"+id).val();
         var monto_umas = $("#monto_umas"+id).val();
+        var monto_umas = $("#monto_umas_permiso_temporal"+id).val();
         var concepto = $("#concepto"+id).val();
 
         $("#mod_id").val(id);
         $("#mod_descripcion_servicios_adicionales").val(descripcion_servicios_adicionales);
         $("#mod_cuenta").val(cuenta);
         $("#mod_monto_umas").val(monto_umas);
+        $("#mod_monto_umas_permiso_temporal").val(monto_umas_permiso_temporal);
         $("#mod_concepto").val(concepto);
 
 }

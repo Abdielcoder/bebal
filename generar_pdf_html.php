@@ -447,7 +447,7 @@ echo '<td>'.$datos['nombre_representante_legal_solicitante'].'</td>';
 echo '</tr>';
 echo '<tr>';
 echo '<th>RFC</th>';
-echo '<td>'.$datos['rfc'].' <font color="blue">Persona '.$datos['fisica_o_moral'].'</font> )</td>';
+echo '<td>'.$datos['rfc'].' <font color="blue">Persona ( '.$datos['fisica_o_moral'].'</font> )</td>';
 echo '</tr>';
 echo '<tr>';
 echo '<th>Domicilio</th>';

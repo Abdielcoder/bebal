@@ -22,6 +22,7 @@ $pdf_archivo = $_FILES['pdf_archivo'];
 $conjunto = $_POST['conjunto'];
 $folio = $_POST['folio'];
 $id_proceso_tramites = $_POST['id_proceso_tramites'];
+$page = $_POST['page'];
 
 // Verificar que el archivo es un PDF
 $tipo_archivo = strtolower(pathinfo($pdf_archivo['name'], PATHINFO_EXTENSION));

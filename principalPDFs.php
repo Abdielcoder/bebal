@@ -60,6 +60,9 @@ session_start();
 
 
 	include("modal/pdf_modal_c1.php"); // Modal para cargar PDFs
+	include("modal/pdf_modal_c2.php"); // Modal para cargar PDFs
+	include("modal/pdf_modal_c3.php"); // Modal para cargar PDFs
+	include("modal/pdf_modal_c4.php"); // Modal para cargar PDFs
 
 
 ?>
@@ -481,7 +484,7 @@ echo "<input type='hidden' name='conjuntoc1' value='c1'>";
 echo '</form>';
 
 //chang
-echo '<a href="#" class="btn btn-sm btn-action btn-dark" title="Cargar PDF" data-bs-toggle="modal" data-bs-target="#pdfModalc1" onclick="pdf_registro1file(\''.$IDPRINCIPAL.'\',\'c1\',\''.$folioDB.'\',\''.$id_proceso_tramites.'\')"><i class="bi bi-upload"></i>PDF 1</a>';
+echo '<a href="#" class="btn btn-sm btn-action btn-dark" title="Cargar PDF1" data-bs-toggle="modal" data-bs-target="#pdfModalc1" onclick="pdf_registro1file(\''.$IDPRINCIPAL.'\',\'c1\',\''.$folioDB.'\',\''.$id_proceso_tramites.'\',\''.$page.'\')"><i class="bi bi-upload"></i>PDF 1</a>';
 }
 
 echo '</td>';
@@ -554,11 +557,12 @@ echo '<font color="black">-</font>';
 echo '<form ENCTYPE="multipart/form-data" name="subirnuevoPDF2 action="principalPDFs.php" method="POST">';
 ?>
 <div class="input_container">
-<label for="files2" class="btn btn-info btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">PDF 2</font></label>
-<input id="files2" name="nuevoPDF2" style="display:none;" type="file" accept=".pdf">
-</div>
-<p></p>
+
 <?php
+//<label for="files2" class="btn btn-info btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">PDF 2</font></label>
+//<input id="files2" name="nuevoPDF2" style="display:none;" type="file" accept=".pdf">
+echo '</div>';
+echo '<p></p>';
 ##echo "<input type='file'   name='nuevoPDF' class='choose'>";
 echo "<input type='hidden' name='prim' value='yaentro'>";
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='15000000'>";
@@ -571,9 +575,12 @@ echo "<input type='hidden' name='column1_Updatec2' value='docs_pdf2'>";
 echo "<input type='hidden' name='column2_Updatec2' value='estatus_docs_pdf2'>";
 echo "<input type='hidden' name='conjuntoc2' value='c2'>";
 
-echo '<button name="subirnuevoPDF2" class="btn btn-primary" type="submit" title="Subir PDF Conjunto 1" class="button" style="color:white;" /><i class="bi bi-upload"></i><font color="white"> </font></button>';
+//echo '<button name="subirnuevoPDF2" class="btn btn-primary" type="submit" title="Subir PDF Conjunto 1" class="button" style="color:white;" /><i class="bi bi-upload"></i><font color="white"> </font></button>';
 
 echo '</form>';
+//chang
+echo '<a href="#" class="btn btn-sm btn-action btn-dark" title="Cargar PDF2" data-bs-toggle="modal" data-bs-target="#pdfModalc2" onclick="pdf_registro1file_c2(\''.$IDPRINCIPAL.'\',\'c2\',\''.$folioDB.'\',\''.$id_proceso_tramites.'\',\''.$page.'\')"><i class="bi bi-upload"></i>PDF 2</a>';
+
 }
 echo '</td>';
 echo "</tr>";
@@ -646,11 +653,11 @@ echo '<font color="black">-</font>';
 echo '<form ENCTYPE="multipart/form-data" name="subirnuevoPDF3" action="principalPDFs.php" method="POST">';
 ?>
 <div class="input_container">
-<label for="files3" class="btn btn-info btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">PDF 3</font></label>
-<input id="files3" name="nuevoPDF3" style="display:none;" type="file" accept=".pdf">
-</div>
-<p></p>
 <?php
+//<label for="files3" class="btn btn-info btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">PDF 3</font></label>
+//<input id="files3" name="nuevoPDF3" style="display:none;" type="file" accept=".pdf">
+echo '</div>';
+echo '<p></p>';
 ##echo "<input type='file'   name='nuevoPDF' class='choose'>";
 echo "<input type='hidden' name='prim' value='yaentro'>";
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='15000000'>";
@@ -663,9 +670,13 @@ echo "<input type='hidden' name='column1_Updatec3' value='docs_pdf3'>";
 echo "<input type='hidden' name='column2_Updatec3' value='estatus_docs_pdf3'>";
 echo "<input type='hidden' name='conjuntoc3' value='c3'>";
 
-echo '<button name="subirnuevoPDF3" class="btn btn-primary" type="submit" title="Subir PDF Conjunto 1" class="button" style="color:white;" /><i class="bi bi-upload"></i><font color="white"> </font></button>';
+//echo '<button name="subirnuevoPDF3" class="btn btn-primary" type="submit" title="Subir PDF Conjunto 1" class="button" style="color:white;" /><i class="bi bi-upload"></i><font color="white"> </font></button>';
 
 echo '</form>';
+
+//chang
+echo '<a href="#" class="btn btn-sm btn-action btn-dark" title="Cargar PDF3" data-bs-toggle="modal" data-bs-target="#pdfModalc3" onclick="pdf_registro1file_c3(\''.$IDPRINCIPAL.'\',\'c3\',\''.$folioDB.'\',\''.$id_proceso_tramites.'\',\''.$page.'\')"><i class="bi bi-upload"></i>PDF 3</a>';
+
 }
 echo '</td>';
 echo "</tr>";
@@ -740,11 +751,11 @@ echo '<font color="black">-</font>';
 echo '<form ENCTYPE="multipart/form-data" name="subirnuevoPDF4" action="principalPDFs.php" method="POST">';
 ?>
 <div class="input_container">
-<label for="files4" class="btn btn-info btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">PDF 4</font></label>
-<input id="files4" name="nuevoPDF4" style="display:none;" type="file" accept=".pdf">
-</div>
-<p></p>
 <?php
+//<label for="files4" class="btn btn-info btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">PDF 4</font></label>
+//<input id="files4" name="nuevoPDF4" style="display:none;" type="file" accept=".pdf">
+echo '</div>';
+echo '<p></p>';
 ##echo "<input type='file'   name='nuevoPDF' class='choose'>";
 echo "<input type='hidden' name='prim' value='yaentro'>";
 echo "<input type='hidden' name='MAX_FILE_SIZE' value='15000000'>";
@@ -757,9 +768,13 @@ echo "<input type='hidden' name='column1_Updatec4' value='docs_pdf4'>";
 echo "<input type='hidden' name='column2_Updatec4' value='estatus_docs_pdf4'>";
 echo "<input type='hidden' name='conjuntoc4' value='c4'>";
 
-echo '<button name="subirnuevoPDF4" class="btn btn-primary" type="submit" title="Subir PDF Conjunto 1" class="button" style="color:white;" /><i class="bi bi-upload"></i><font color="white"> </font></button>';
+//echo '<button name="subirnuevoPDF4" class="btn btn-primary" type="submit" title="Subir PDF Conjunto 1" class="button" style="color:white;" /><i class="bi bi-upload"></i><font color="white"> </font></button>';
 
 echo '</form>';
+
+//chang
+echo '<a href="#" class="btn btn-sm btn-action btn-dark" title="Cargar PDF4" data-bs-toggle="modal" data-bs-target="#pdfModalc4" onclick="pdf_registro1file_c4(\''.$IDPRINCIPAL.'\',\'c4\',\''.$folioDB.'\',\''.$id_proceso_tramites.'\',\''.$page.'\')"><i class="bi bi-upload"></i>PDF 4</a>';
+
 }
 
 echo '</td>';
@@ -774,7 +789,9 @@ echo '<table width="60%" border="0"><tr>';
 echo '<td>';
 echo '<form action="principal.php" name="ir_aPrincipal" method="POST">';
 echo '<input type="hidden" name="page" value="'.$page.'">';
-echo '<button class="btn btn-info btn-sm" name="ir_aPrincipal" type="submit" title="Regresar" class="button" style="background-color:#FFFFFF;"  /><i class="bi bi-arrow-left"></i><font color="black">&nbsp;&nbsp;Regresar</font></button>';
+
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF; color:black !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a página '.$page.' </font></button>&nbsp;';
+
 echo "</form>";
 
 $KueryPT_SEPUEDECERRAR="SELECT COUNT(*) AS cuentaSEPUEDECERRAR FROM proceso_tramites WHERE en_proceso='EN PROCESO' AND id_principal=$IDPRINCIPAL AND id_tramite=$id_tramite AND id=$id_proceso_tramites AND 
@@ -816,7 +833,6 @@ echo '<br><br>';
 ?>	
 </div>
 
-<script type="text/javascript" src="js/pdf-modal_un_file.js"></script>
 
 <hr>
 <?php
@@ -825,3 +841,7 @@ include("footer.php");
 ?>
 
 
+<script type="text/javascript" src="js/pdf-modal_un_file.js"></script>
+<script type="text/javascript" src="js/pdf-modal_un_file_c2.js"></script>
+<script type="text/javascript" src="js/pdf-modal_un_file_c3.js"></script>
+<script type="text/javascript" src="js/pdf-modal_un_file_c4.js"></script>

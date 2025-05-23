@@ -516,7 +516,14 @@ $COLONIA=$row_colonia['colonia'];
         <!-- Botones de acción -->
 	<!-- <div class="area-botones"> --!>
 	<center><div  class="area-botones">
-       <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-info" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>
+
+<?php
+
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;" > <i class="bi bi-arrow-left"></i><font size="1"> Regresar</font></button>&nbsp;';
+//<a href="principal.php?page='.$page.'" class="btn btn-info" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>
+
+?>
+
           
 
 
@@ -870,7 +877,12 @@ $( "#registro_guardar_pago_presupuesto" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+
+
                         }, 2000);
 
                   }

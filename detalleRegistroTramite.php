@@ -59,7 +59,16 @@ session_start();
 
 	// Eliminar la inclusión del modal de recibo que ya no usamos
 	include("modal/revisar_pagoTramiteCambio.php");
+
+	include("modal/revisar_pagoInspRAD_CierreTemporal.php");
+
+	include("modal/revisar_pagoRevalidacion.php");
+
 	include("modal/revisar_pagoPresupuestoTramite.php");
+	include("modal/revisar_pagoPresupuestoTramiteRevalidacion.php");
+	include("modal/revisar_pagoPresupuestoCierreTemporal.php");
+	include("modal/revisar_pagoPresupuestoImprimirPermiso.php");
+
 	include("modal/actualizar_datos_establecimiento_y_titular.php");
 	include("modal/actualizar_datos_domicilio.php");
 	include("modal/actualizar_datos_titularHerencia.php");
@@ -223,7 +232,9 @@ $ID_TRAMITE_SOLICITADO=$porciones[2];
 
 ###################################
 
-$sql_tramite10="SELECT * FROM tramite WHERE id=".$ID_TRAMITE_SOLICITADO;
+
+if ( $ID_TRAMITE_SOLICITADO=='0X' ) {
+$sql_tramite10="SELECT * FROM tramite WHERE descripcion_tramite='Revalidacion del Permiso'";
 $result_tramite10 = mysqli_query($con,$sql_tramite10);
 $row_tramite10 = mysqli_fetch_assoc($result_tramite10);
 $TRAMITE_tramite_SOLICITADO=$row_tramite10['descripcion_tramite'];
@@ -233,6 +244,34 @@ $INSPECCION_tramite_SOLICITADO=$row_tramite10['inspeccion'];
 $RAD_tramite_SOLICITADO=$row_tramite10['revision_analisis_docs'];
 $DESCUENTO_tramite_SOLICITADO=$row_tramite10['descuento'];
 
+} else  {
+
+
+if ( $ID_TRAMITE_SOLICITADO=='1X' ) {
+
+$sql_tramite10="SELECT * FROM tramite WHERE descripcion_tramite='Impresión de Permiso'";
+$result_tramite10 = mysqli_query($con,$sql_tramite10);
+$row_tramite10 = mysqli_fetch_assoc($result_tramite10);
+$TRAMITE_tramite_SOLICITADO=$row_tramite10['descripcion_tramite'];
+$MONTO_UMAS_tramite_SOLICITADO=$row_tramite10['monto_umas'];
+$CUENTA_tramite_SOLICITADO=$row_tramite10['cuenta'];
+$INSPECCION_tramite_SOLICITADO=$row_tramite10['inspeccion'];
+$RAD_tramite_SOLICITADO=$row_tramite10['revision_analisis_docs'];
+$DESCUENTO_tramite_SOLICITADO=$row_tramite10['descuento'];
+
+} else {
+$sql_tramite10="SELECT * FROM tramite WHERE id=".$ID_TRAMITE_SOLICITADO;
+$result_tramite10 = mysqli_query($con,$sql_tramite10);
+$row_tramite10 = mysqli_fetch_assoc($result_tramite10);
+$TRAMITE_tramite_SOLICITADO=$row_tramite10['descripcion_tramite'];
+##$MONTO_UMAS_tramite_SOLICITADO=$row_tramite10['monto_umas'];
+$CUENTA_tramite_SOLICITADO=$row_tramite10['cuenta'];
+$INSPECCION_tramite_SOLICITADO=$row_tramite10['inspeccion'];
+$RAD_tramite_SOLICITADO=$row_tramite10['revision_analisis_docs'];
+$DESCUENTO_tramite_SOLICITADO=$row_tramite10['descuento'];
+}
+
+}
 
 
 #################################
@@ -244,6 +283,8 @@ $row = mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
 
 $principal_id=$row['id'];
 $folio=$row['folio'];
+$estatus=$row['estatus'];
+$operacion=$row['operacion'];
 
 $clave_catastral=$row['clave_catastral'];
 $nombre_comercial_establecimiento=$row['nombre_comercial_establecimiento'];
@@ -262,6 +303,35 @@ $id_tramite=$row['id_tramite'];
 $id_proceso_tramites=$row['id_proceso_tramites'];
 ###
 ##$sql_pagoTramite="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Tramite Cambio' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
+#########################
+#########################
+#########################
+if ($TRAMITE_tramite_SOLICITADO=='Revalidacion del Permiso') {
+$sql_pagoTramite="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Revalidacion' AND id_proceso_tramites=0 AND estatus_pago='Pendiente'";
+$result_pagoTramite = mysqli_query($con,$sql_pagoTramite);
+$row_pagoTramite = mysqli_fetch_assoc($result_pagoTramite);
+$MONTO_UMAS_tramite_SOLICITADO=$row_pagoTramite['total_umas_pagar'];
+##
+$ID_PROCESO_TRAMITES=0;
+$NOTA_proceso_tramites='';
+
+} else {
+
+if ($TRAMITE_tramite_SOLICITADO=='Impresión de Permiso') {
+
+##$MONTO_UMAS_tramite_SOLICITADO=$row_tramite10['monto_umas'];
+
+} else {
+
+if ($TRAMITE_tramite_SOLICITADO=='Cierre Temporal') {
+
+$MONTO_UMAS_tramite_SOLICITADO=$row_tramite10['monto_umas'];
+
+$piecesOperacion=explode("-", $operacion);
+$id_cierre_temporal=$piecesOperacion[1]; 
+
+} else {
+
 $sql_pagoTramite="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Tramite Cambio' AND id_proceso_tramites=".$id_proceso_tramites;
 $result_pagoTramite = mysqli_query($con,$sql_pagoTramite);
 $row_pagoTramite = mysqli_fetch_assoc($result_pagoTramite);
@@ -272,8 +342,18 @@ $result_proceso_tramite10 = mysqli_query($con,$sql_proceso_tramite10);
 $row_tramite10 = mysqli_fetch_assoc($result_proceso_tramite10);
 $ID_PROCESO_TRAMITES=$row_tramite10['id'];
 $NOTA_proceso_tramites=$row_tramite10['nota'];
-################
+}
+}
+}
+#########################
+#########################
+$fecha_autorizacion=$row['fecha_autorizacion'];
+$fecha_expiracion=$row['fecha_expiracion'];
+$numero_permiso=$row['numero_permiso'];
 $id_giro=$row['giro'];
+include("modal/revalidacion_permiso.php");
+#########################
+################
 $modalidad_graduacion_alcoholica=$row['modalidad_graduacion_alcoholica'];
 $modalidad_graduacion_alcoholica_raw=$row['modalidad_graduacion_alcoholica_raw'];
 $monto_umas_total_modalidad_graduacion_alcoholica=$row['monto_umas_total_modalidad_graduacion_alcoholica'];
@@ -285,9 +365,6 @@ $numero_servicios_adicionales=$row['numero_servicios_adicionales'];
 $monto_umas_total_servicios_adicionales=$row['monto_umas_total_servicios_adicionales'];
 
 
-	$numero_permiso=$row['numero_permiso'];
-	$estatus=$row['estatus'];
-	$operacion=$row['operacion'];
 
 	$superficie_establecimiento=$row['superficie_establecimiento'];
 	$capacidad_comensales_personas=$row['capacidad_comensales_personas'];
@@ -301,8 +378,6 @@ $monto_umas_total_servicios_adicionales=$row['monto_umas_total_servicios_adicion
 	$colonia_id=$row['id_colonia'];
 	$foto=$row['foto'];
 
-	$fecha_autorizacion=$row['fecha_autorizacion'];
-	$fecha_expiracion=$row['fecha_expiracion'];
 
 ##
 $sql_tramite0="SELECT * FROM tramite WHERE id=".$id_tramite;
@@ -325,37 +400,6 @@ $COBRO_UMAS_giro=$MONTO_UMAS_giro;      //##  Permiso Nuevo
 
 
 ##################################################
-#####  TRAMITE :
-####	Cambio de Giro
-###################################################
-###if ( $TRAMITE_tramite_SOLICITADO=='Cambio de Giro' ) {
-###$CAMBIO_DE_GIRO="SI";
-###} else {
-###$CAMBIO_DE_GIRO="NO";
-###}
-##################################################
-#####  TRAMITE :
-####	Cambio de Domicilio y Cambio de Titular
-###################################################
-
-###if ( $TRAMITE_tramite_SOLICITADO=='Cambio de Domicilio y Cambio de Titular' && $DESCUENTO_tramite_SOLICITADO=='SI' ) {
-##$MONTO_UMAS_tramite_SOLICITADO_calculo= ((100 - $MONTO_UMAS_tramite_SOLICITADO ) / 100) * $MONTO_UMAS_giro;
-##$MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO_calculo;
-###}
-
-###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-
-#################################
-############################
-
-##
-##$sql_modalidad_graduacion_alcoholica="SELECT descripcion_modalidad_graduacion_alcoholica FROM modalidad_graduacion_alcoholica WHERE id=".$id_modalidad_graduacion_alcoholica;
-##$result_modalidad_graduacion_alcoholica = mysqli_query($con,$sql_modalidad_graduacion_alcoholica);
-##$row_modalidad_graduacion_alcoholica = mysqli_fetch_assoc($result_modalidad_graduacion_alcoholica);
-##$MODALIDAD_GA=$row_modalidad_graduacion_alcoholica['descripcion_modalidad_graduacion_alcoholica'];
-##
 $sql_municipio="SELECT municipio FROM municipio WHERE id=".$id_municipio;
 $result_municipio = mysqli_query($con,$sql_municipio);
 $row_municipio = mysqli_fetch_assoc($result_municipio);
@@ -382,8 +426,18 @@ include("modal/modificar_serviciosAdicionales.php");
 
     <div class="mt-4">
         <!-- Encabezado del programa -->
-        <div class="encabezado-programa">
-            <h6 class="mb-0">Moduló de Cambios - Registro Establecimiento y Solicitante Operación</h6>
+	<div class="encabezado-programa">
+<?php
+if ($TRAMITE_tramite_SOLICITADO=='Revalidacion del Permiso') {
+echo '<h6 class="mb-0">Revalidación del Permiso</h6>';
+} else {
+if ($TRAMITE_tramite_SOLICITADO=='Impresión de Permiso') {
+echo '<h6 class="mb-0">Impresión de Permiso</h6>';
+} else {
+echo '<h6 class="mb-0">Moduló de Cambios - Registro Establecimiento y Solicitante Operación</h6>';
+}
+}
+?>
         </div>
 
         <!-- Sección de datos del establecimiento -->
@@ -440,7 +494,7 @@ $NOTA_proceso_tramites=$porcionesSA[0];
                     </div>
                     <div class="col-md-3 col-6 mt-md-0">
                         <div class="etiqueta">Número de Permiso</div>
-                        <div class="valor"><?php echo $numero_permiso; ?></div>
+                        <div class="valor"><font color="blue"><?php echo $numero_permiso; ?></font></div>
 
 
                     </div>
@@ -521,14 +575,16 @@ $NOTA_proceso_tramites=$porcionesSA[0];
 <center><div>
 
 <?php
-echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#AC905B; color:white !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar a página '.$page.' </font></button>&nbsp;';
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font size="1" color="black"> Regresar</font></button>&nbsp;';
 
+#####################################
+#####################################
+###  REVISA PAGOS DE TRAMITES
+#####################################
+
+##echo 'operacion='.$operacion.', estatus='.$estatus;
 
 if (  ( $operacion=='Tramite' || $operacion=='Activo') && ( $estatus!='Presupuesto' || $estatus=='Tramite Recibos IRAD' )  )  {
-
-#####################################
-#####################################
-#####################################
 
 #################
 //** Inspección ( tabla tramites )
@@ -585,9 +641,6 @@ echo '<a href="#revisarPagoTramiteCambio" data-bs-toggle="modal" data-bs-target=
  data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger bs-sm" title="Pago Inspeción"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>&nbsp;';
 
 } else {
-##$sql_pagoI22="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='PAGADO' AND id_proceso_tramites=".$id_proceso_tramites;
-###$result_pagoI22 = mysqli_query($con,$sql_pagoI22);
-###if (mysqli_num_rows($result_pagoI22) > 0) {
 if ( $RECIBO_INSPECCION_PAGADO=="SI") {
 echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP Pagado</font></a>&nbsp;';
 } else {
@@ -639,7 +692,6 @@ if ( $estatus=='Pago RAD-Cambio' || $ID_PAGO_RAD!=0 )  {
 $sql_pagoRAD2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
 $result_pagoRAD2 = mysqli_query($con,$sql_pagoRAD2);
 if (mysqli_num_rows($result_pagoRAD2) > 0) {
-##if ( $RECIBO_RAD_PAGADO=="NO" ) {
 $row_pagoRAD2 = mysqli_fetch_assoc($result_pagoRAD2);
 $fecha_pagoRAD2=$row_pagoRAD2['fecha_pago'];
 $montoRAD2=$row_pagoRAD2['monto'];
@@ -664,11 +716,251 @@ echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
 
 ###################
 ###################
-###################
 
 }
 
 
+#####################################
+#####################################
+###  REVISA PAGOS DE CIERRE TEMPORAL
+#####################################
+
+##echo 'operacion='.$operacion.', estatus='.$estatus;
+//chang
+
+if ( str_contains($operacion, 'Cierre Temporal') && $estatus=='CTemp Recibo Insp' )  {
+
+$piecesOperacion=explode("-", $operacion);
+$id_cierre_temporal=$piecesOperacion[1]; 
+## vamos a usar el  id_cierre_temporal  ( id_proceso_tramites )
+#################
+//** Inspección ( tabla tramites )
+##
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$MONTO_UMAS_Inspeccion=$row_tramite['monto_umas'];
+###$$$$
+$RECIBO_INSPECCION_PAGADO="";
+$sql_pagoI22="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='PAGADO' AND id_proceso_tramites=".$id_cierre_temporal;
+$result_pagoI22 = mysqli_query($con,$sql_pagoI22);
+if (mysqli_num_rows($result_pagoI22) > 0) {
+$RECIBO_INSPECCION_PAGADO="SI";
+} else {
+$RECIBO_INSPECCION_PAGADO="NO";
+}
+##echo "RECIBO_INSPECCION_PAGADO=".$RECIBO_INSPECCION_PAGADO;
+###$$$$
+#### RECIBO INSPECCION
+if ( ($estatus=='Pago INS-Cambio' || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_INSPECCION_PAGADO=='SI'  )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Inspección</font></a>&nbsp;';
+}
+#### Revisar Pago INSP
+$ID_PAGO_INS=0;
+$ID_PAGO_RAD=0;
+##
+$sql_pagoI="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_cierre_temporal;
+##echo $sql_pagoI;
+$result_pagoI = mysqli_query($con,$sql_pagoI);
+if (mysqli_num_rows($result_pagoI) > 0) {
+$row_pagoI = mysqli_fetch_assoc($result_pagoI);
+$ID_PAGO_INS=$row_pagoI['id'];
+} else {
+$ID_PAGO_INS=0;
+}
+##
+if ( $estatus=='Pago INS-Cambio' || $ID_PAGO_INS!=0 )  {
+$sql_pagoI2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_cierre_temporal;
+##echo $sql_pagoI2;
+$result_pagoI2 = mysqli_query($con,$sql_pagoI2);
+if (mysqli_num_rows($result_pagoI2) > 0) {
+$row_pagoI2 = mysqli_fetch_assoc($result_pagoI2);
+$fecha_pagoI2=$row_pagoI2['fecha_pago'];
+$montoI2=$row_pagoI2['monto'];
+##echo '<font size="1"><b>[Inspección Pagada ('.$fecha_pagoI2.') $'.number_format($montoI2,2).'] </b></font>&nbsp;';
+
+echo '<a href="#revisarPagoInspRAD_CierreTemporal" data-bs-toggle="modal" data-bs-target="#revisarPagoInspRAD_CierreTemporal" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'"  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
+ data-total_umas_pagar="'.$MONTO_UMAS_Inspeccion.'"
+ data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'" 
+ data-id_proceso_tramites="'.$id_cierre_temporal.'" 
+ data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger bs-sm" title="Pago Inspeción"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>&nbsp;';
+
+} else {
+if ( $RECIBO_INSPECCION_PAGADO=="SI") {
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP Pagado</font></a>&nbsp;';
+} else {
+echo '<font size="1" color="red"><b>Error Pago Inspeccion</b></font>&nbsp;';
+}
+}
+}
+
+### RECEPCION ANALISIS DE DOCUMENTOS
+//** Análisis y Revisión Documentos ( tabla tramites )
+##
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Recepcion y Analisis Documentos'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$MONTO_UMAS_RAD=$row_tramite['monto_umas'];
+###$$$$
+$RECIBO_RAD_PAGADO="";
+$sql_pagoRAD22="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='PAGADO' AND id_proceso_tramites=".$id_cierre_temporal;
+$result_pagoRAD22 = mysqli_query($con,$sql_pagoRAD22);
+if (mysqli_num_rows($result_pagoRAD22) > 0) {
+$RECIBO_RAD_PAGADO="SI";
+} else {
+$RECIBO_RAD_PAGADO="NO";
+}
+##echo "RECIBO_RAD_PAGADO=".$RECIBO_RAD_PAGADO;
+###$$$$
+##
+##  RECIBO AR Docs
+if ( ( $estatus=='Pago RAD-Cambio'  || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_RAD_PAGADO=='SI' )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
+}
+#### Revisar Pago RAD
+####
+
+$sql_pagoRAD="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_cierre_temporal;
+
+$result_pagoRAD = mysqli_query($con,$sql_pagoRAD);
+if (mysqli_num_rows($result_pagoRAD) > 0) {
+$row_pagoRAD = mysqli_fetch_assoc($result_pagoRAD);
+$ID_PAGO_RAD=$row_pagoRAD['id'];
+} else {
+$ID_PAGO_RAD=0;
+}
+##
+##
+if ( $estatus=='Pago RAD-Cambio' || $ID_PAGO_RAD!=0 )  {
+$sql_pagoRAD2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_cierre_temporal;
+$result_pagoRAD2 = mysqli_query($con,$sql_pagoRAD2);
+if (mysqli_num_rows($result_pagoRAD2) > 0) {
+$row_pagoRAD2 = mysqli_fetch_assoc($result_pagoRAD2);
+$fecha_pagoRAD2=$row_pagoRAD2['fecha_pago'];
+$montoRAD2=$row_pagoRAD2['monto'];
+##echo '<font size="1"><b> [RAD Pagado ('.$fecha_pagoRAD2.') $'.number_format($montoRAD2,2).']</b></font>&nbsp;';
+
+echo '<a href="#revisarPagoInspRAD_CierreTemporal" data-bs-toggle="modal" data-bs-target="#revisarPagoInspRAD_CierreTemporal" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-tramite_pagoid="'.$ID_TRAMITE.'"
+ data-total_umas_pagar="'.$MONTO_UMAS_RAD.'"
+ data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'"  
+ data-id_proceso_tramites="'.$id_cierre_temporal.'" 
+ data-tramite_pago="Recepcion y Analisis Documentos"  class="btn btn-danger bs-sm" title="Revisar Pago RA Documentos"><i class="bi bi-check-circle"></i><font size="1">Pago RADocs('.$ID_PAGO_RAD.')</font></a>&nbsp;';
+
+} else {
+$sql_pagoRAD22="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='PAGADO' AND id_proceso_tramites=".$id_cierre_temporal;
+$result_pagoRAD22 = mysqli_query($con,$sql_pagoRAD22);
+if (mysqli_num_rows($result_pagoRAD22) > 0) {
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>&nbsp;';
+} else {
+echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
+}
+}
+}
+
+###################
+###################
+###################
+}
+
+
+###################
+###################
+###################
+
+if ( $estatus=='IP Proceso'  )  {
+echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri=1X" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>&nbsp;';
+
+echo '<a href="#revisarPagoPresupuestoImprimirPermiso" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoImprimirPermiso"
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
+ data-concepto_tramite="'.$concepto_tramite.'"
+ data-tramite_pago="Impresión de Permiso"
+ data-concepto_giro="'.$concepto_giro.'"
+ data-id_tramite="'.$id_tramite.'"
+ data-concepto_modalidad="'.$concepto_modalidad.'"
+ data-concepto_servicios_adicionales="'.$concepto_servicios_adicionales.'"
+ data-id_proceso_tramites="'.$id_proceso_tramites.'"
+ data-total_umas_pagar="'.$MONTO_TOTAL_UMAS.'"
+class="btn btn-danger bs-sm" title="Revisar Pago Imprimir Permiso"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>&nbsp;';
+
+}
+
+#################################################
+#################################################
+## Revisa Pago Inspeccion - Revalidacion
+#################################################
+
+if (  $operacion=='Revalidando' &&  $estatus=='Revalidando Recibo Inpeccion'  )  {
+
+##
+$sql_tramite="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";
+$result_tramite = mysqli_query($con,$sql_tramite);
+$row_tramite = mysqli_fetch_assoc($result_tramite);
+$ID_TRAMITE=$row_tramite['id'];
+$MONTO_UMAS_Inspeccion=$row_tramite['monto_umas'];
+###$$$$
+$RECIBO_INSPECCION_PAGADO="";
+$sql_pagoI22="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion Revalidacion' AND `estatus_pago`='PAGADO' AND id_proceso_tramites=0";
+##echo $sql_pagoI22;
+$result_pagoI22 = mysqli_query($con,$sql_pagoI22);
+if (mysqli_num_rows($result_pagoI22) > 0) {
+$RECIBO_INSPECCION_PAGADO="SI";
+} else {
+$RECIBO_INSPECCION_PAGADO="NO";
+}
+##echo "RECIBO_INSPECCION_PAGADO=".$RECIBO_INSPECCION_PAGADO;
+###$$$$
+#### RECIBO INSPECCION
+if ($estatus=='Pago INSP-Revalidacion' || $RECIBO_INSPECCION_PAGADO=='SI')  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--0X" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Inspección</font></a>&nbsp;';
+}
+#### Revisar Pago INSP
+$ID_PAGO_INS=0;
+$ID_PAGO_RAD=0;
+##
+$sql_pagoI="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion Revalidacion' AND `estatus_pago`='Pendiente Revalidacion' AND id_proceso_tramites=0";
+##echo $sql_pagoI;
+$result_pagoI = mysqli_query($con,$sql_pagoI);
+if (mysqli_num_rows($result_pagoI) > 0) {
+$row_pagoI = mysqli_fetch_assoc($result_pagoI);
+$ID_PAGO_INS=$row_pagoI['id'];
+} else {
+$ID_PAGO_INS=0;
+}
+##
+if ( $estatus=='Pago INSP-Revalidacion' || $ID_PAGO_INS!=0 )  {
+$sql_pagoI2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion Revalidacion' AND `estatus_pago`='Pendiente Revalidacion' AND id_proceso_tramites=0";
+##echo $sql_pagoI2;
+$result_pagoI2 = mysqli_query($con,$sql_pagoI2);
+if (mysqli_num_rows($result_pagoI2) > 0) {
+$row_pagoI2 = mysqli_fetch_assoc($result_pagoI2);
+$fecha_pagoI2=$row_pagoI2['fecha_pago'];
+$montoI2=$row_pagoI2['monto'];
+##echo '<font size="1"><b>[Inspección Pagada ('.$fecha_pagoI2.') $'.number_format($montoI2,2).'] </b></font>&nbsp;';
+
+echo '<a href="#revisarPagoTramiteRevalidacion" data-bs-toggle="modal" data-bs-target="#revisarPagoTramiteRevalidacion" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'"  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
+ data-total_umas_pagar="'.$MONTO_UMAS_Inspeccion.'"
+ data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'"
+ data-id_proceso_tramites="'.$id_proceso_tramites.'"
+ data-tramite_pagoid="'.$ID_TRAMITE.'" data-tramite_pago="Inspeccion"  class="btn btn-danger bs-sm" title="Pago Inspeción"><i class="bi bi-check-circle"></i><font size="1">Pago Inspeción('.$ID_PAGO_INS.')</font></a>&nbsp;';
+
+} else {
+if ( $RECIBO_INSPECCION_PAGADO=="SI") {
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP Pagado</font></a>&nbsp;';
+} else {
+echo '<font size="1" color="red"><b>Error Pago Inspeccion</b></font>&nbsp;';
+}
+}
+}
+
+###################               
+###################               
+}
 ###################               
 ###################               
 ##
@@ -680,10 +972,30 @@ echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_t
 
 }
 
+###################
+###################
+##
+if ( $estatus=='Pago INSP-Revalidacion' )  {
+
+echo '<a href="principalFotosRevalidacion.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+##
+
+}
+
+###################
+###################
+##
+if ( $estatus=='Pago IRAD-CierreTemporal' )  {
+
+echo '<a href="principalFotosCierreTemporal.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'&id_cierre_temporal='.$id_cierre_temporal.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+##
+
+}
+
 
 ###################               
 ###################               
-if ( $estatus=='Presupuesto' )  {
+if ( $estatus=='Presupuesto' || $estatus=='Cierre Temporal' )  {
 
   if ( is_numeric($MONTO_UMAS_tramite) ) {
  $concepto_tramite=$TRAMITE." {".number_format($MONTO_UMAS_tramite,2)." umas}";
@@ -699,15 +1011,60 @@ $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_ad
 
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
 
+if ($operacion=='Revalidando' ) {
+echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri=0X" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto Revalidación</font></a>&nbsp;';
 
-echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>&nbsp;';
+echo '<a href="#revisarPagoPresupuestoTramiteRevalidacion" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoTramiteRevalidacion" 
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
+ data-concepto_tramite="'.$concepto_tramite.'"
+ data-tramite_pago="Revalidación del Permiso"
+ data-concepto_giro="'.$concepto_giro.'"
+ data-id_tramite="'.$id_tramite.'"
+ data-concepto_modalidad="'.$concepto_modalidad.'"
+ data-concepto_servicios_adicionales="'.$concepto_servicios_adicionales.'"
+ data-id_proceso_tramites="'.$id_proceso_tramites.'"
+ data-total_umas_pagar="'.$MONTO_TOTAL_UMAS.'"
+class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>&nbsp;';
+
+
+
+
+} else {
+
+
+if ( str_contains($operacion, 'Cierre Temporal')  ) {
+
+$piecesOperacion=explode("-", $operacion);
+$id_cierre_temporal=$piecesOperacion[1]; 
+
+echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri='.$ID_TRAMITE_SOLICITADO.'Z'.$id_cierre_temporal.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Cierre Temporal</font></a>&nbsp;';
+
+echo '<a href="#revisarPagoPresupuestoCierreTemporal" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoCierreTemporal"
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
+ data-concepto_tramite="'.$concepto_tramite.'"
+ data-tramite_pago="Cierre Temporal"
+ data-concepto_giro="'.$concepto_giro.'"
+ data-id_tramite="'.$id_tramite.'"
+ data-concepto_modalidad="'.$concepto_modalidad.'"
+ data-concepto_servicios_adicionales="'.$concepto_servicios_adicionales.'"
+ data-id_proceso_tramites="'.$id_cierre_temporal.'"
+ data-total_umas_pagar="'.$MONTO_TOTAL_UMAS.'"
+class="btn btn-danger bs-sm" title="Revisar Pago Cierre Temporal"><i class="bi bi-check-circle"></i><font size="1">Pago Cierre Temporal</font></a>&nbsp;';
+
+} else {
+
+
+
+echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>&nbsp;';
 
 
 echo '<a href="#revisarPagoPresupuestoTramite" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoTramite"
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
  data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'"
  data-concepto_tramite="'.$concepto_tramite.'"
- data-tramite_pago="Permiso Nuevo Presupuesto"
+ data-tramite_pago="Tramite Presupuesto"
  data-concepto_giro="'.$concepto_giro.'"
  data-id_tramite="'.$id_tramite.'"
  data-concepto_modalidad="'.$concepto_modalidad.'"
@@ -715,6 +1072,8 @@ echo '<a href="#revisarPagoPresupuestoTramite" data-bs-toggle="modal" data-bs-ta
  data-id_proceso_tramites="'.$id_proceso_tramites.'" 
  data-total_umas_pagar="'.$MONTO_TOTAL_UMAS.'"
 class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>&nbsp;';
+}
+}
 
 }
  ## LOS ELIMINE
@@ -726,7 +1085,7 @@ class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-ch
 
 ###################               
 ###################               
-if ( $estatus=='Pago Tramite' )  {
+if ( $estatus=='Pago Tramite' || $estatus=='Pago Revalidacion' || $estatus=='Pago Cierre Temporal' )  {
 
 switch ($TRAMITE_tramite_SOLICITADO) {
 case 'Cambio de Domicilio y Cambio de Titular':
@@ -805,7 +1164,7 @@ echo  '<a href="#ActualizarGiro" data-bs-toggle="modal" data-bs-target="#Actuali
  class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><i class="bi bi-pencil"></i><font size="2" color="white"> Actualizar Datos - Giro </font></a>';
 break;
 
-//chang
+##
 
 case 'Mantenimiento Servicios Adicionales':
 
@@ -870,7 +1229,58 @@ echo  '<a href="#ActualizarCambioDeTitular" data-bs-toggle="modal" data-bs-targe
  data-rfc="'.$rfc.'"
  class="btn btn-danger bs-sm" title="Actualizar Datos -  Cambio de Titular" style="background-color:#FF0000;color:black" ><i class="bi bi-pencil"></i><font size="1" color="white"> Actualizar Datos - Cambio de Titular</font></a>';
 ##
-	break;
+break;
+
+
+
+
+
+case 'Revalidacion del Permiso':
+##
+echo  '<a href="#RevaldacionPermiso" data-bs-toggle="modal" data-bs-target="#RevaldacionPermiso"
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'"
+ data-numero_permiso="'.$numero_permiso.'"
+ data-fecha_expiracion="'.$fecha_expiracion.'"
+ data-idprincipal="'.$IDPRINCIPAL.'"
+ data-pagina="'.$page.'"
+ class="btn btn-danger bs-sm" title="Revalidación Permiso" style="background-color:#FF0000;color:black" ><i class="bi bi-r-square"></i><font size="1" color="white"> Revalidación Permiso</font></a>';
+##
+break;
+
+
+case 'Cierre Temporal':
+
+$piecesOperacion=explode("-", $operacion);
+$id_cierre_temporal=$piecesOperacion[1];
+
+##
+include("modal/cierre_temporal.php");
+##
+
+echo  '<a href="#CierreTemporal" data-bs-toggle="modal" data-bs-target="#CierreTemporal"
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'"
+ data-numero_permiso="'.$numero_permiso.'"
+ data-fecha_expiracion="'.$fecha_expiracion.'"
+ data-idprincipal="'.$IDPRINCIPAL.'"
+ data-pagina="'.$page.'"
+ class="btn btn-danger bs-sm" title="Cierre Temporal" style="background-color:#FF0000;color:black" ><i class="bi bi-c-square"></i><font size="1" color="white"> Cierre Temporal</font></a>';
+##
+break;
+
+case 'Impresión de Permiso':
+##
+echo  '<a href="#RevaldacionPermiso" data-bs-toggle="modal" data-bs-target="#RevaldacionPermiso"
+ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-folio="'.$folio.'"
+ data-numero_permiso="'.$numero_permiso.'"
+ data-fecha_expiracion="'.$fecha_expiracion.'"
+ data-idprincipal="'.$IDPRINCIPAL.'"
+ data-pagina="'.$page.'"
+ class="btn btn-danger bs-sm" title="Imprimir Permiso" style="background-color:#FF0000;color:black" ><i class="bi bi-p-square"></i><font size="1" color="white"> Imprimir Permiso</font></a>';
+##
+        break;
 
 
   default:
@@ -992,8 +1402,70 @@ include("footer.php");
 
 <script>
 
+
+$( "#guardar_CierreTemporal" ).submit(function( event ) {
+  $('#Button_guardar_CierreTemporal').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/cierre_temporal.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxDatosCierreTemporal").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxDatosCierreTemporal").html(datos);
+                        $('#Button_guardar_CierreTemporal').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+$( "#guardar_RevaldacionPermiso" ).submit(function( event ) {
+  $('#Button_guardar_registroPrincipalEstablecimiento_y_Titular').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/revalidacion_permiso.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxDatosRevalidacionPermiso").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxDatosRevalidacionPermiso").html(datos);
+                        $('#Button_guardar_registroPrincipalEstablecimiento_y_Titular').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
 $( "#modificar_ServiciosAdicionales" ).submit(function( event ) {
-  $('#Buttonmodificar_ServiciosAdicionales').attr("disabled", true);
+  $('#Button_guardar_RevalidacionPermiso').attr("disabled", true);
 
  var parametros = $(this).serialize();
          $.ajax({
@@ -1009,7 +1481,11 @@ $( "#modificar_ServiciosAdicionales" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+
                         }, 2000);
 
                   }
@@ -1037,7 +1513,10 @@ $( "#guardar_registroPrincipalGiro" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -1064,7 +1543,10 @@ $( "#guardar_registroPrincipalEstablecimiento_y_Titular" ).submit(function( even
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -1091,7 +1573,10 @@ $( "#guardar_registroPrincipalDomicilioEstablecimiento" ).submit(function( event
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -1118,7 +1603,10 @@ $( "#guardar_registroPrincipalTitularHerencia" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -1145,7 +1633,10 @@ $( "#guardar_registroPrincipalTitular" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -1172,7 +1663,10 @@ $( "#guardar_DatosNombreComercial" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -1183,20 +1677,20 @@ $( "#guardar_DatosNombreComercial" ).submit(function( event ) {
 
 
 
-$( "#registro_guardar_pagoTramiteCambio" ).submit(function( event ) {
-  $('#Button_registro_guardar_pagoTramiteCambio').attr("disabled", true);
+$( "#registro_guardar_pago_presupuestoTramiteCierreTemporal" ).submit(function( event ) {
+  $('#Button_registro_guardar_pago_presupuestoTramiteCierreTemporal').attr("disabled", true);
   
  var parametros = $(this).serialize();
 	 $.ajax({
 			type: "POST",
-			url: "ajax/registro_guardar_pagoTramitePago.php",
+			url: "ajax/revisar_pagoPresupuestoCierreTemporal.php",
 			data: parametros,
 			 beforeSend: function(objeto){
-				$("#resultados_ajaxPagoTramiteCambio").html("Mensaje: Cargando...");
+				$("#resultados_ajaxPagoPresupuestoTramiteCierreTemporal").html("Mensaje: Cargando...");
 			  },
 			success: function(datos){
-			$("#resultados_ajaxPagoTramiteCambio").html(datos);
-			$('#Button_registro_guardar_pagoTramiteCambio').attr("disabled", true);
+			$("#resultados_ajaxPagoPresupuestoTramiteCierreTemporal").html(datos);
+			$('#Button_registro_guardar_pago_presupuestoTramiteCierreTemporal').attr("disabled", true);
 			window.setTimeout(function() {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
@@ -1213,6 +1707,169 @@ echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page.
   event.preventDefault();
 });
 
+
+
+$( "#registro_guardar_pagoTramiteRevalidacion" ).submit(function( event ) {
+  $('#Button_registro_guardar_pagoTramiteRevalidacion').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/registro_guardar_pagoTramiteRevalidacionPago.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxPagoTramiteRevalidacion").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxPagoTramiteRevalidacion").html(datos);
+                        $('#Button_registro_guardar_pagoTramiteRevalidacion').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
+
+
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
+$( "#registro_guardar_pagoTramiteCambio" ).submit(function( event ) {
+  $('#Button_registro_guardar_pagoTramiteCambio').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/registro_guardar_pagoTramitePago.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxPagoTramiteCambio").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxPagoTramiteCambio").html(datos);
+                        $('#Button_registro_guardar_pagoTramiteCambio').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
+
+
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
+$( "#registro_guardar_PagoInspRAD_CierreTemporal" ).submit(function( event ) {
+  $('#Button_registro_guardar_PagoInspRAD_CierreTemporal').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/registro_guardar_pagoInspRAD_CierreTemporal.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxPagoInspRAD_CierreTemporal").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxPagoInspRAD_CierreTemporal").html(datos);
+                        $('#Button_registro_guardar_PagoInspRAD_CierreTemporal').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
+
+
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
+
+
+$( "#registro_guardar_pago_presupuestoImprimirPermiso" ).submit(function( event ) {
+  $('#Button_registro_guardar_pago_presupuestoImprimirPermiso').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/registro_guardar_ImprimirPermiso.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxPagoPresupuestoImprimirPermiso").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxPagoPresupuestoImprimirPermiso").html(datos);
+                        $('#Button_registro_guardar_pago_presupuestoImprimirPermiso').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
+
+
+$( "#registro_guardar_pago_presupuestoTramiteRevalidacion" ).submit(function( event ) {
+  $('#Button_registro_guardar_pago_presupuestoTramiteRevalidacion').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/registro_guardar_TramitePresupuestoRevalidacion.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxPagoPresupuestoTramiteRevalidacion").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxPagoPresupuestoTramiteRevalidacion").html(datos);
+                        $('#Button_registro_guardar_pago_presupuestoTramiteRevalidacion').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page."--0X');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
 
 
 $( "#registro_guardar_pago_presupuestoTramite" ).submit(function( event ) {
@@ -1245,7 +1902,6 @@ echo "location.replace('detalleRegistroTramite.php?id=".$IDPRINCIPAL."--".$page.
 
 
 
-
 $( "#registro_guardar_inspeccion" ).submit(function( event ) {
   $('#Button_registro_guardar_inspeccion').attr("disabled", true);
   
@@ -1263,7 +1919,11 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
 			window.setTimeout(function() {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
-				location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+
 			}, 2000);
 
 		  }

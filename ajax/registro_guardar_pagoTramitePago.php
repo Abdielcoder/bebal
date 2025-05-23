@@ -47,9 +47,7 @@ $ID_PROCESO_TRAMITE=$_POST['id_proceso_tramites'];
 switch ($tramite_pago) {
     case "Recepcion y Analisis Documentos":
 ##
-$sql20="UPDATE pagos SET 
-estatus_pago='PAGADO', numero_pago='$numero_pago', monto='$monto', fecha_pago='$today' 
- WHERE id=".$id_pago_rad;
+$sql20="UPDATE pagos SET estatus_pago='PAGADO', numero_pago='$numero_pago', monto='$monto', fecha_pago='$today' WHERE id=".$id_pago_rad;
 $query_Update20 = mysqli_query($con,$sql20);
 ###########
 $Kuery_Update_principal="UPDATE principal SET estatus='Pago RAD-Cambio' WHERE id=".$ID;
@@ -57,9 +55,7 @@ break;
     case "Inspeccion":
 ##
 ##
-$sql200="UPDATE pagos SET 
-estatus_pago='PAGADO', numero_pago='$numero_pago', monto='$monto', fecha_pago='$today' 
- WHERE id=".$id_pago_ins;
+$sql200="UPDATE pagos SET estatus_pago='PAGADO', numero_pago='$numero_pago', monto='$monto', fecha_pago='$today' WHERE id=".$id_pago_ins;
 $query_Update20 = mysqli_query($con,$sql200);
 ##
 $Kuery_Update_principal="UPDATE principal SET estatus='Pago INS-Cambio' WHERE id=".$ID;

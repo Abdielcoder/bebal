@@ -571,7 +571,7 @@ a:hover {
   border-radius: 5px !important;
   width: auto !important;
   min-width: 150px !important;
-  max-width: 300px !important;
+  max-width: 230px !important;
   margin: 0 auto 8px auto !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
   overflow: hidden !important;
@@ -771,7 +771,7 @@ a:hover {
   .estatus-badge {
     margin-top: 20px !important;
     width: 100% !important;
-    max-width: 250px !important;
+    max-width: 200px !important;
   }
   
   /* Ajustes para la cabecera y botones principales */
@@ -1466,7 +1466,7 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   border-radius: 5px !important;
   width: auto !important;
   min-width: 150px !important;
-  max-width: 300px !important;
+  max-width: 200px !important;
   margin: 0 auto 8px auto !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15) !important;
   overflow: hidden !important;
@@ -1504,7 +1504,7 @@ a[class*="btn-"][style*="background-color:#F0D777"],
   
   .estatus-badge {
     min-width: 180px !important;
-    max-width: 250px !important;
+    max-width: 230px !important;
     width: 100% !important;
   }
 }

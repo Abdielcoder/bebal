@@ -53,6 +53,14 @@
 
 <br>
 <div class="form-group row">
+<label for="mod_monto_umas" class="col-sm-3 control-label"><font size="1">Monto UMAS Temporal</font></label>
+<div class="col-sm-6">
+<input type="number" class="form-control" step="0.01" id="mod_monto_umas_permiso_temporal" name="monto_umas_permiso_temporal" required>
+</div>
+</div>
+
+<br>
+<div class="form-group row">
 <label for="mod_concepto" class="col-sm-3 control-label">Concepto</label>
 <div class="col-sm-6">
 <input type="text" class="form-control" id="mod_concepto" name="concepto" required>

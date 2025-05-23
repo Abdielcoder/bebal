@@ -161,6 +161,7 @@ $reload = './giro.php';
 			<th><font size="1">Cuenta</font></th>
 			<th><font size="1">Monto UMAS (ALTA)</font></th>
 			<th><font size="1">Monto UMAS (REVAL ANUAL)</font></th>
+			<th><font size="1">Monto UMAS Temporal</font></th>
 			<th><font size="1">Horario Funcionamiento</font></th>
 			<th><font size="1">Concepto/MesV</font></th>
 			<th><font size="1">Acciones</font></th>
@@ -173,6 +174,7 @@ $reload = './giro.php';
 	$descripcion_giro=$row['descripcion_giro'];
 	$cuenta=$row['cuenta'];
 	$monto_umas=$row['monto_umas'];
+	$monto_umas_permiso_temporal=$row['monto_umas_permiso_temporal'];
 	$monto_umas_revalidacion_anual=$row['monto_umas_revalidacion_anual'];
 	$mes_vencimiento=$row['mes_vencimiento'];
 	$concepto=$row['concepto'];
@@ -192,6 +194,7 @@ $reload = './giro.php';
 <input type="hidden" value="<?php echo $row['mes_vencimiento'];?>" id="mes_vencimiento<?php echo $id;?>">
 <input type="hidden" value="<?php echo $cuenta;?>" id="cuenta<?php echo $id;?>">
 <input type="hidden" value="<?php echo $monto_umas;?>" id="monto_umas<?php echo $id;?>">
+<input type="hidden" value="<?php echo $monto_umas_permiso_temporal;?>" id="monto_umas_permiso_temporal<?php echo $id;?>">
 <input type="hidden" value="<?php echo $monto_umas_revalidacion_anual;?>" id="monto_umas_revalidacion_anual<?php echo $id;?>">
 <input type="hidden" value="<?php echo $concepto;?>" id="concepto<?php echo $id;?>">
 <input type="hidden" value="<?php echo $horario_funcionamiento;?>" id="horario_funcionamiento<?php echo $id;?>">
@@ -204,6 +207,7 @@ $reload = './giro.php';
 		<td align="center"><font size="1"><?php echo $cuenta; ?></font></td>
 		<td align="center"><font size="2"><?php echo $monto_umas; ?></font></td>
 		<td align="center"><font size="2"><?php echo $monto_umas_revalidacion_anual; ?></font></td>
+		<td align="center"><font size="2"><?php echo $monto_umas_permiso_temporal; ?></font></td>
 		<td><font size="1"><?php echo $horario_funcionamiento; ?></font></td>
 		<td><font size="1"><?php echo $concepto.' / <font color="blue">'.$MES_LETRA; ?></font></td>
 		<td class='text-right'>

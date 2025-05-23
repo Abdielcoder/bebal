@@ -29,6 +29,7 @@
         $active_serviciosAdicionales="";
         $active_reportes="";
 	$active_principal="active";
+	$active_principal_temp="";
 
 
 	$title="bebal";
@@ -64,26 +65,31 @@
 			include("modal/elegirTramite.php");
 			include("modal/imprimir_permiso.php");
 			?>
-			<form class="form-horizontal" role="form" id="datos_principal">
-				
+<form class="form-horizontal" role="form" id="datos_principal">
 
 
 <?php
 echo '<div class="input-group mb-1">';
-echo '<input type="text" class="form-control" id="q" size="10" placeholder="Escribe el Folio a Buscar" aria-label="Escribe el Folio a Buscar" title="Enter Folio" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">';
-echo '<div class="input-group-append">&nbsp;&nbsp;';
-//echo '<button class="btn btn-outline-primary" type="button" onclick="load(1);"><i class="bi bi-search"></i></button>';
+echo '<table width="100%" border="0" align="right"><tr>';
+echo '<td width="20%"><span id="loader"></span></td>';
 if ( $PROFILE=='inspector' ) {
+echo '<td width="50%"></td>';
+echo '<td width="30%">';
+echo '<input type="text" style="height:30px; width:250px"  id="q" size="10" placeholder="Buscar..." aria-label="Escribe el Folio a Buscar" title="Buscar Folio, Nombre establecimiento, Nombre Solicitante, Operación y Estatus" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">';
+echo '</td><td width="20%">';
 } else {
-echo '<button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="2">Nuevo Registro</font></button>&nbsp;';
-echo '<button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipalLight" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="2" color="pink">Registro Light</font></button>';
+echo '<td width="10%"></td>';
+echo '<td width="70%" align="right">';
+echo '<input type="text" style="height:30px; width:250px"  id="q" size="10" placeholder="Buscar..." aria-label="Escribe el Folio a Buscar" title="Buscar Folio, Nombre establecimiento, Nombre Solicitante, Operación y Estatus" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">&nbsp;<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="1">Nuevo Registro</font></button>&nbsp;<button type="button" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipalLight" ><i class="bi bi-plus-circle me-1"></i><font size="1" color="pink">Registro Light</font></button>';
 }
+echo '</td></tr>';
+echo '</table>';
 //</div>
 //</div>
+//</div>
+//<span id="loader"></span>
 ?>
 
-<span id="loader"></span>
-</div>
 				
 </form>
 
@@ -101,7 +107,7 @@ echo '<button type="button" class="btn btn-xs btn-danger" data-bs-toggle="modal"
 	?>
 	<script type="text/javascript" src="js/principal.js"></script>
 	<script type="text/javascript" src="js/imagenes-modal.js"></script>
-	<script type="text/javascript" src="js/pdf-modal.js"></script>
+<script type="text/javascript" src="js/pdf-modal.js"></script>
 <?php
 
 //if(!$_POST) {
@@ -183,11 +189,14 @@ $( "#guardar_registroPrincipalLight" ).submit(function( event ) {
 
 function obtener_datosParaCambio(id,pagina) {
 var folio = $("#folio"+id).val();
+var page = $("#page"+id).val();
 var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
 
 $("#mod_nombre_comercial_establecimiento").val(nombre_comercial_establecimiento);
 $("#mod_folio").val(folio);
 $("#mod_id").val(id);
+$("#pagina").val(pagina);
+$("#mod_page").val(page);
 }
 
 function obtener_datosImprimirPermiso(id,pagina) {

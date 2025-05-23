@@ -6,7 +6,7 @@ require 'database.php'; // Este archivo debería contener la conexión a la base
 function obtenerRows($id_municipio) {
     global $conexionDB;
 ##
-    $sql="SELECT * FROM principal WHERE id_municipio=".$id_municipio." AND ( estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio') ";
+    $sql="SELECT * FROM principal WHERE id_municipio=".$id_municipio." AND ( estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio' OR  estatus='Pago INSP-Revalidacion'  OR  estatus='Pago IRAD-CierreTemporal' ) ";
 ##
 ##echo json_encode(['sql' => $sql]);
     $stmt = $conexionDB->prepare($sql);

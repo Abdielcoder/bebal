@@ -17,6 +17,7 @@
 	$active_modalidad="";
 	$active_serviciosAdicionales="";
 	$active_reportes="";
+	$active_principal_temp="";
 
 
 	$title="Colonias | Bebal";

@@ -6,6 +6,95 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 $ID_USER=$_SESSION['user_id'];
 
 
+
+
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php';
+include_once('../config/conf.php');
+
+
+function enviarCorreo(
+    string $username,
+    string $password,
+    string $sender,
+    string $recipient1,
+    string $recipient2,
+    string $host,
+    int $port = 587,
+    bool $verbose = false,
+    string $mensajeEmail
+): bool
+{
+    $mail = new PHPMailer(true);
+
+    try {
+        if ($verbose) {
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+        }
+        $mail->CharSet = "UTF-8";
+        $mail->isSMTP();
+        $mail->Host       = $host;
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $username;
+        $mail->Password   = $password;
+
+        if ($port == 465) {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } else {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        }
+
+        $mail->Port       = $port;
+
+        $mail->setFrom($sender, 'Ayuntamiento de Tijuana XXV');
+        $mail->addAddress($recipient1);
+        $mail->addAddress($recipient2);
+        $mail->addAttachment('../img/ayuntamientoTIJXXV.png');
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Programa de Identificación, Empadronamiento, Regulación y Revalidación de Establecimientos Que Expiden y Venden al Público en Envase Cerrado y Abierto, Bebidas con Contenido Alcohólico';
+
+        $cuerpo_html = <<<EOT
+        <h1>Ayuntamiento de Tijuana XXV</h1>
+        <h3>Secretaria de Gobierno</h3>
+        <p>Programa de Identificación, Empadronamiento, Regulación y Revalidación de Establecimientos Que Expiden y Venden al Público en Envase Cerrado y Abierto, Bebidas con Contenido Alcohólico</p>
+        $mensajeEmail
+EOT;
+        $cuerpo_plain = <<<EOT
+        Ayuntamiento de Tijuana XXV - Secretaria de Gobierno
+        -----------------------
+Programa de Identificación, Empadronamiento, Regulación y Revalidación de Establecimientos Que Expiden y Venden al Público en Envase Cerrado y Abierto, Bebidas con Contenido Alcohólico.
+EOT;
+
+        $mail->Body    = $cuerpo_html;
+        $mail->AltBody = $cuerpo_plain;
+
+        $mail->Timeout =   20;
+        echo "Intentando conectar a {$host}:{$port} y enviar correo...\n";
+        $mail->Send();
+        $mail->smtpClose();
+
+        $resultadoEnvio= "✅ Mensaje enviado exitosamente a {$recipient}\n";
+        ##return true;
+        return $resultadoEnvio;
+
+    } catch (Exception $e) {
+        $resultadoEnvio= "❌ Error al enviar el mensaje: {$mail->ErrorInfo}\n";
+        ##return false;
+        return $resultadoEnvio;
+    }
+}
+
+
+
+
+
+
+
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['numero_pago']) || 
 	empty($_POST['fecha_pago'])
@@ -230,8 +319,42 @@ mysqli_query($con,$Kuery_Update2);
 
 mysqli_close($con);
 
-			if ($query_Update) {
-				$messages[] = "Se Registro el Pago con Exito y Autorizo  Folio ($folio)";
+$mensajeEmail="<span style='background:pink;color:black;font-family:Lucida Console, Courier New;font-weight: normal;font-size: 12px;'>NUEVO REGISTRO el Permiso Número $NP ( $nombre_comercial_establecimiento ) Folio ( $folio ) Giro ( $GIRO ).</span> <i><u>Para imprimir el Permiso debes de usar el siguiente</i></u> <b>NIP: $NIPgenerado </b>";
+
+if ($query_Update) {
+
+##$email_recipient1="mchangmx@yahoo.com";
+##$email_recipient2="lanaranjamecanica.mx@gmail.com";
+##$email_recipient2="lic.georginabarraza@gmail.com";
+
+$email_recipient1=$conf['email_recipient1'];
+$email_recipient2=$conf['email_recipient2'];
+
+##################################
+$smtp_username=$conf['smtp_username'];
+$smtp_password=$conf['smtp_password'];
+$email_sender=$conf['email_sender'];
+$smtp_host=$conf['smtp_host'];
+$smtp_port=$conf['smtp_port'];
+$enable_verbose=$conf['enable_verbose'];
+#################
+$resultadoEnvio=enviarCorreo(
+    $smtp_username,
+    $smtp_password,
+    $email_sender,
+    $email_recipient1,
+    $email_recipient2,
+    $smtp_host,
+    $smtp_port,
+    $enable_verbose,
+    $mensajeEmail
+);
+
+
+
+
+
+$messages[] = "Se Registro el Pago con Exito y Autorizo  Folio ($folio)  - Se envio Correo $resultadoEnvio";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

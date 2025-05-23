@@ -61,7 +61,7 @@ if (isset($_GET['id'])) {
 if ($action == 'ajax') {
     // Escaping, additionally removing everything that could be (html/javascript-) code
     $q = mysqli_real_escape_string($con, (strip_tags($_REQUEST['q'], ENT_QUOTES)));
-    $aColumns = array('folio'); // Columnas de búsqueda
+    $aColumns = array('folio','nombre_comercial_establecimiento','nombre_persona_fisicamoral_solicitante','operacion','estatus'); // Columnas de búsqueda
     $sTable = "principal";
     
     // Construir cláusula WHERE según perfil de usuario
@@ -70,7 +70,7 @@ if ($action == 'ajax') {
     } else {
 
 
-if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_municipio=".$ID_MUNICIPIO;
+	    if ( $PROFILE=='inspector' ) $sWhere = "WHERE ( estatus='Pagos IRAD' OR estatus='Inspeccion Realizada' OR estatus='RAD Realizado' OR estatus='Pago INSP-Revalidacion' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio' ) AND id_municipio=".$ID_MUNICIPIO;
     else
         $sWhere = "WHERE id_municipio=".$ID_MUNICIPIO;
     }
@@ -157,12 +157,12 @@ if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_munic
             <table class="table registro-table">
                 <thead>
                     <tr class="success">
-                        <th width="11%"> </th>
-                        <th width="22%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
-                        <th width="22%"><font size="1">SOLICITANTE</font></th>
-                        <th width="10%"><font size="1">OBSERVACIÓN</font></th>
-                        <th width="10%" style="border-right: none !important;"><font size="1">STATUS</font></th>
-                        <th class="text-center" width="25%" style="border-left: none !important;"><font size="1">ACCIONES</font></th>
+                        <th width="14%"> </th>
+                        <th width="24%"><font size="1">DATOS ESTABLECIMIENTO</font></th>
+                        <th width="24%"><font size="1">SOLICITANTE</font></th>
+                        <th width="14%"><font size="1">OBSERVACIÓN</font></th>
+<!-- <th width="10%" style="border-right: none !important;"><font size="1">STATUS</font></th> --!>
+                        <th class="text-center" width="24%" style="border-left: none !important;"><font size="1">ESTATUS-ACCIONES</font></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -191,6 +191,8 @@ if ( $PROFILE=='inspector' ) $sWhere = "WHERE estatus='Pagos IRAD' AND  id_munic
 		    $id_proceso_tramites = $row['id_proceso_tramites'];
 		    $id_delegacion = $row['id_delegacion'];
 		    $numero_permiso = $row['numero_permiso'];
+		    $clave_catastral = $row['clave_catastral'];
+		    $domicilio_solicitante = $row['domicilio_solicitante'];
 		    $nombre_representante_legal_solicitante=$row['nombre_representante_legal_solicitante'];
 
 		    $latitud = $row['latitud'];
@@ -218,6 +220,7 @@ $DELEGACION=$arregloDelegacion[0];
 ?>
 
 <input type="hidden" id="folio<?php echo $id; ?>" value="<?php echo $folio; ?>">
+<input type="hidden" id="page<?php echo $id; ?>" value="<?php echo $page; ?>">
 <input type="hidden" id="numero_permiso<?php echo $id; ?>" value="<?php echo isset($row['numero_permiso']) ? $row['numero_permiso'] : ''; ?>">
 <input type="hidden" id="mapa<?php echo $id; ?>" value="<?php echo $mapa; ?>">
 <input type="hidden" id="estatus<?php echo $id; ?>" value="<?php echo $estatus; ?>">
@@ -318,7 +321,7 @@ $DELEGACION=$arregloDelegacion[0];
                                 </a>';
                             }
                             ?>
-                            <span class="d-block text-muted mt-2 id-info"><small>Folio: <?php echo $folio; ?>, <b><?php echo $operacion; ?><br>Giro: <?php echo $GIRO; ?></b></small></span>
+                            <span class="d-block text-muted mt-2 id-info"><small>Folio: <?php echo $folio; ?>, <b><font color="blue"><?php echo $operacion; ?></font><br>Giro: <?php echo $GIRO; ?></b></small></span>
                         </td>
                         <td data-label="Datos Establecimiento" class="datos-celda">
                             <div class="datos-establecimiento">
@@ -414,57 +417,114 @@ echo '<font size="1" color="black">Tramite:</font> <font size="1" color="blue">'
 <!-- ####################################################################################### --!>
 
                         <!-- NUEVA COLUMNA DE STATUS -->
-                        <td data-label="Status" class="status-celda" style="border-right: none; padding-right: 0;">
-			    <?php
+<?php
 
+//echo '<td data-label="Status" class="status-celda" style="border-right: none; padding-right: 0;">';
                             // Mostrar el estado correspondiente
-                            if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">Generar Recibos IRAD</font></div>';
-                            } else if ($estatus == "Presupuesto") {
-                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">Presupuesto</font></div>';
-                            } else if ($estatus == "Permiso Autorizado") {
-                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">Permiso Autorizado</font></div>';
-                            } else {
-                                echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">' . $estatus . '</font></div>';
-                            }
-                            ?>
-                        </td>
+//if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+//   echo '<div class="estatus-badge" style="background-color:#AC905B;font-size:10px; !important; color:white !important;">Generar Recibos IRAD</div>';
+//   } else if ($estatus == "Presupuesto") {
+//   echo '<div class="estatus-badge" style="background-color:#AC905B;font-size:10px; !important; color:white !important;">Presupuesto</div>';
+//   } else if ($estatus == "Permiso Autorizado") {
+//   echo '<div class="estatus-badge" style="background-color:#AC905B;font-size:10px; !important; color:white !important;">Permiso Autorizado</div>';
+//   } else {
+//   ##echo '<div class="estatus-badge" style="background-color:#AC905B !important; color:white !important;"><font size="1" style="color:white !important;">' . $estatus . '</font></div>';
+//   echo '<div class="estatus-badge" style="background-color:#AC905B;font-size:10px; !important;color:white !important;">'.$estatus.'</div>';
+//    }
+//echo '</td>';
+?>
 <!-- ####################################################################################### --!>
 <!-- ####################################################################################### --!>
-                        <td data-label="Acciones" class="acciones-celda" style="border-left: none; padding-left: 0; text-align: center;">
+<td data-label="Acciones" class="acciones-celda" style="border-left: none; padding-left: 0; text-align: center;">
+<?php
+echo '<div class="estatus-badge" style="background-color:#AC905B;font-size:10px; !important;color:white !important;">'.$estatus.'</div>';
+?>
                             <div class="action-buttons">
                                 <!-- PRIMERO: Todos los botones normales -->
                                 <div class="action-row-buttons">
                                 <?php
-                                    // Botón de acción para Activo (cambios)
-                                    if ($operacion=='Activo') {
-					 echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
-					 if ( $estatus=='Permiso Autorizado' ) {
-					 echo '<a href="#" class="btn btn-sm btn-action btn-warning" title="Imprimir Permiso - Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosImprimirPermiso('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#imprimirpermiso"><i class="bi bi-p-square"></i></a>';
-					 }
+// Botón de acción para Activo (cambios)
+if ($operacion=='Activo') {
+
+	if ($estatus=='IP Proceso' || $estatus=='Imprimir Permiso') {
+	} else {
+	echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Tramite Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosParaCambio('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramite"><i class="bi bi-arrows-fullscreen"></i></a>';
+	}
+	if ( $estatus=='Permiso Autorizado' || $estatus=='Imprimir Permiso' ) {
+	 echo '<a href="#" class="btn btn-sm btn-action btn-warning" title="Imprimir Permiso - Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosImprimirPermiso('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#imprimirpermiso"><i class="bi bi-p-square"></i></a>';
+	 ##echo '<a href="permiso_pdf_html.php?id='.$id.'" target="_blank" class="btn btn-sm btn-action btn-warning"><i class="bi bi-p-square"></i><font size="1"> </font></a>&nbsp;';
+	 }
 
 
-                                    }
+}
 
-                                    // Botón de acción para Trámite
-if ($operacion=='Tramite') {
+// Botón de acción para Trámite
+if ( $operacion=='Tramite' ) {
+echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+}
 
+if ( str_contains($operacion, 'Cierre Temporal') ) {
+
+##
+$sql_tramite00="SELECT * FROM tramite WHERE descripcion_tramite='Cierre Temporal'";
+$result_tramite00 = mysqli_query($con,$sql_tramite00);
+$row_tramite00 = mysqli_fetch_assoc($result_tramite00);
+$ID_TRAMITE=$row_tramite00['id'];
+##
+if ( $estatus=='En Curso') {
+## Hay que Revalidar
+echo '<a href="#?id='.$id.'--'.$page.'--'.$ID_TRAMITE.'" class="btn btn-xs btn-action btn-success" title="Hay Que Revalidar - Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-R-square"></i></a>';
+} else {
+echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$ID_TRAMITE.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+}
+}
 //##echo '<FORM action="detalleRegistroTramite.php" name="detalleRegistroTramite_1_'.$id.'" id=name="detalleRegistroTramite_1_'.$id.'"  method="POST">';
 //##echo '<input type="hidden" name="paginaRT" value="'.$page.'">';
 //##echo '<input type="hidden" name="idRT" value="'.$id.'">';
 //##echo '<input type="hidden" name="id_tramiteRT" value="'.$id_tramite.'">';
 //##echo '<button name="detalleRegistroTramite_1_'.$id.'" class="btn btn-sm btn-action btn-success" type="submit" title="detalle Registro Tramite Folio '.$folio.'"><i class="bi bi-arrows-fullscreen"></i><font color="black"></font></button>';
-
-echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class="btn btn-xs btn-action btn-success" title="Activo - Tramites Cambios Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+if ( $operacion=='Revalidando' ) {
+echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--0X" class="btn btn-xs btn-action btn-success" title="Revalidar Permiso - Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
 //##echo '</FORM>';
+}
 
-                                    }
+if ( $estatus=='IP Proceso' ) {
+echo '<a href="detalleRegistroTramite.php?id='.$id.'--'.$page.'--1X" class="btn btn-xs btn-action btn-success" title="Imprimir Permimso - Folio '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-arrows-fullscreen"></i></a>';
+//##echo '</FORM>';
+}
 
                                     // Botón de editar
                                     if ($operacion=='NUEVO') {
-                                        if ($PROFILE=='inspector') {
-                                            if ($estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado') {
-                                                echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+					    if ($PROFILE=='inspector') {
+
+
+	 					if ($estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado' || $estatus=='Pago INSP-Revalidacion' || $estatus=='Pago RAD-Cambio' || $estatus=='Pagos-IRAD-Cambio' || $estatus=='Pago IRAD-CierreTemporal'  ) {
+
+						if ($estatus=='Pago INSP-Revalidacion' ) {
+							echo '<a href="principalFotosRevalidacion.php?id='.$id.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+
+						} else {
+
+                                                if ($estatus=='Pago IRAD-CierreTemporal' ) {
+                                                        echo '<a href="principalFotosCierreTemporal.php?id='.$id.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+
+                                                } else {
+
+
+
+							if (
+							empty($calle) ||
+							empty($clave_catastral) ||
+							empty($domicilio_solicitante) ||
+							empty($nombre_solicitante) ||
+							empty($telefono)
+							) {
+							echo '<a href="#" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Registro Incompleto</font></a>';
+							} else {
+							echo '<a href="principalFotos.php?id='.$id.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'" class="btn btn-danger btn-xs" title="Registrar Inspección"><i class="bi bi-clipboard-check"></i><font size="1">Inspección</font></a>';
+							}
+						}
+						}
                                             }
 					} else {
 
@@ -524,16 +584,16 @@ echo '</FORM>';
                                 $botonAmarilloHTML = '';
                                 
                                 // Botón de "Generar Recibos IRAD"
-                                if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
-                                }
+                                ##if ($estatus == "PENDIENTE" || $estatus == "INSPECCION") {
+                                ##    $mostrarBotonAmarillo = true;
+                                ##    $botonAmarilloHTML .= '<a href="#" class="amarillo-bottom" style="background-color:#ffc107 !important; color:white !important;" title="Generar Recibo Inspección" onclick="generar_recibo(\''.$id.'\')">Generar Recibos IRAD</a>';
+                                ##}
                                 
                                 // Botón de "Presupuesto"
-                                if ($estatus == "Presupuesto") {
-                                    $mostrarBotonAmarillo = true;
-                                    $botonAmarilloHTML .= '<button type="button" class="btn btn-sm btn-action" style="background-color:#5e2328 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
-                                }
+                                ##if ($estatus == "Presupuesto") {
+                                ##    $mostrarBotonAmarillo = true;
+                                ##    $botonAmarilloHTML .= '<button type="button" class="btn btn-sm btn-action" style="background-color:#5e2328 !important; color:white !important;" title="Presupuesto" onclick="presupuesto(\''.$id.'\')"><i class="bi bi-receipt"></i></button>';
+                                ##}
                                 
                                 // Si hay algún botón amarillo para mostrar, añadir el contenedor
                                 if ($mostrarBotonAmarillo) {

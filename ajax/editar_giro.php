@@ -14,12 +14,14 @@
 		$concepto=ucwords($_POST['concepto']);
 		$cuenta=strtoupper($_POST['cuenta']);
 		$monto_umas=$_POST['monto_umas'];
+		$monto_umas_permiso_temporal=$_POST['monto_umas_permiso_temporal'];
 		$monto_umas_revalidacion_anual=$_POST['monto_umas_revalidacion_anual'];
 		$id=$_POST['mod_id'];
 		$horario_funcionamiento=strtoupper($_POST['horario_funcionamiento']);
 		###
 		$today=date("Y-m-d");
-		$sql="UPDATE giro SET descripcion_giro='$descripcion_giro', cuenta='$cuenta',monto_umas='$monto_umas', monto_umas_revalidacion_anual='$monto_umas_revalidacion_anual',  concepto='$concepto', horario_funcionamiento='$horario_funcionamiento', fecha='$today' WHERE id=$id";
+		##$sql="UPDATE giro SET descripcion_giro='$descripcion_giro', cuenta='$cuenta',monto_umas='$monto_umas', monto_umas_revalidacion_anual='$monto_umas_revalidacion_anual',  concepto='$concepto', horario_funcionamiento='$horario_funcionamiento', fecha='$today' WHERE id=$id";
+		$sql="UPDATE giro SET monto_umas_permiso_temporal='$monto_umas_permiso_temporal', cuenta='$cuenta',monto_umas='$monto_umas', monto_umas_revalidacion_anual='$monto_umas_revalidacion_anual',  concepto='$concepto', horario_funcionamiento='$horario_funcionamiento', fecha='$today' WHERE id=$id";
 		$query_update = mysqli_query($con,$sql);
 			if ($query_update){
 				$messages[] = "Giro ha sido Actulizado satisfactoriamente.";

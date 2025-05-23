@@ -38,9 +38,7 @@ $id_tramite=$_POST['id_tramite'];
 
 ##
 
-$sql20="UPDATE pagos SET
-estatus_pago='PAGADO', numero_pago='$numero_pago', monto='$monto', fecha_pago='$fecha_pago'
- WHERE id_principal=".$ID." AND id_proceso_tramites=".$id_proceso_tramites;
+$sql20="UPDATE pagos SET estatus_pago='PAGADO', numero_pago='$numero_pago', monto='$monto', fecha_pago='$fecha_pago' WHERE id_principal=".$ID." AND id_proceso_tramites=".$id_proceso_tramites;
 $query_Update20 = mysqli_query($con,$sql20);
 
 ##

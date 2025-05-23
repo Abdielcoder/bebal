@@ -5,7 +5,7 @@ require 'database.php'; // Este archivo debería contener la conexión a la base
 function obtener($id_municipio,$folio) {
     global $conexionDB;
 ##
-    $sqlCuenta="SELECT COUNT(*) FROM principal WHERE id_municipio=".$id_municipio." AND (estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio') AND folio='".$folio."'";
+    $sqlCuenta="SELECT COUNT(*) FROM principal WHERE id_municipio=".$id_municipio." AND (estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio'  OR  estatus='Pago IRAD-CierreTemporal') AND folio='".$folio."'";
 
     $stmtCuenta = $conexionDB->prepare($sqlCuenta);
     $stmtCuenta->execute();
@@ -13,7 +13,7 @@ function obtener($id_municipio,$folio) {
     $CUENTA=$resultadoCuenta[0];
     if ( $CUENTA > 0 ) {
 
-    $sqlRow="SELECT * FROM principal WHERE id_municipio=".$id_municipio." AND (estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio' ) AND folio='".$folio."'";
+    $sqlRow="SELECT * FROM principal WHERE id_municipio=".$id_municipio." AND (estatus='RAD Realizado' OR estatus='Pagos IRAD' OR estatus='Pago RAD-Cambio' OR estatus='Pagos-IRAD-Cambio'  OR  estatus='Pago IRAD-CierreTemporal' ) AND folio='".$folio."'";
 ##
 ##echo json_encode(['sql' => $sql]);
     $stmt = $conexionDB->prepare($sqlRow);

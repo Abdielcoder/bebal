@@ -17,6 +17,7 @@
         $active_serviciosAdicionales="";
         $active_reportes="";
 	$active_principal="";
+	$active_principal_temp="";
 
 
 

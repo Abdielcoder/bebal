@@ -15,6 +15,7 @@
 	$active_usuarios="";	
 	$active_reportes="";
 	$active_colonias="";
+	$active_principal_temp="";
 
 
 	$title="Delegacion | bebal";

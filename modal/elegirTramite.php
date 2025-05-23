@@ -21,6 +21,7 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 
 
 <input type="hidden" id="mod_id" name="IDPRINCIPAL">
+<input type="hidden" id="pagina" name="page">
 
 
 <div class="form-group row">
@@ -44,7 +45,7 @@ echo '<label for="ID_TRAMITE_SOLICITADO" class="col-sm-3 control-label">Tramite<
 <div class="col-sm-8">
 <select class='form-control  form-select' name='ID_TRAMITE_SOLICITADO' id='ID_TRAMITE_SOLICITADO' required>
 <?php 
-echo '<option value="">Seleccione</option>';
+echo '<option value="">Seleccione Tramite</option>';
 $query=mysqli_query($con,"SELECT * FROM tramite WHERE operacion='Cambio' OR operacion='Imprimir' OR operacion='Revalidacion' ORDER BY operacion");
 while($row=mysqli_fetch_array($query))	{
 $id_tramite=$row['id'];

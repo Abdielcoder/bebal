@@ -17,6 +17,7 @@
 	$active_modalidad="";
 	$active_serviciosAdicionales="";
 	$active_reportes="";
+	$active_principal_temp="";
 
 
 	$title="Giros | Bebal";
@@ -168,6 +169,7 @@ function obtener_datosGiro(id){
         var horario_funcionamiento = $("#horario_funcionamiento"+id).val();
         var cuenta = $("#cuenta"+id).val();
         var monto_umas = $("#monto_umas"+id).val();
+        var monto_umas_permiso_temporal = $("#monto_umas_permiso_temporal"+id).val();
         var monto_umas_revalidacion_cambios = $("#monto_umas_revalidacion_cambios"+id).val();
         var concepto = $("#concepto"+id).val();
         var monto_umas_revalidacion_anual = $("#monto_umas_revalidacion_anual"+id).val();
@@ -177,6 +179,7 @@ function obtener_datosGiro(id){
         $("#mod_horario_funcionamiento").val(horario_funcionamiento);
         $("#mod_cuenta").val(cuenta);
         $("#mod_monto_umas").val(monto_umas);
+        $("#mod_monto_umas_permiso_temporal").val(monto_umas_permiso_temporal);
         $("#mod_monto_umas_revalidacion_cambios").val(monto_umas_revalidacion_cambios);
         $("#mod_concepto").val(concepto);
         $("#mod_monto_umas_revalidacion_anual").val(monto_umas_revalidacion_anual);

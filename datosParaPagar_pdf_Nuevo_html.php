@@ -72,7 +72,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de Inspección - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Recibo Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
         @media print {
             body {

@@ -29,6 +29,7 @@
             <input type="hidden" id="pdf_conjunto" name="conjunto" value=""> 
             <input type="hidden" id="pdf_folio" name="folio" value=""> 
             <input type="hidden" id="pdf_id_proceso_tramites" name="id_proceso_tramites" value=""> 
+            <input type="hidden" id="page" name="page" value=""> 
 <!--           <div class="fallback">
               <input name="pdf_archivo" type="file" multiple />
             </div>

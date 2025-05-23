@@ -59,6 +59,9 @@ session_start();
 
 include("modal/elegirGiro.php");
 include("modal/aprobrarTramite.php");
+include("modal/aprobrarTramiteCierreTemporal.php");
+include("modal/aprobrarTramiteRevalidacion.php");
+include("modal/aprobrarImprimrPermiso.php");
 
 
         $active_usuarios="";
@@ -238,7 +241,7 @@ $RAD_tramite_SOLICITADO=$row_tramite10['revision_analisis_docs'];
 $DESCUENTO_tramite_SOLICITADO=$row_tramite10['descuento'];
 $OPERACION_tramite_SOLICITADO=$row_tramite10['operacion'];
 
-##echo "TRAMITE_tramite_SOLICITADO=".$TRAMITE_tramite_SOLICITADO;
+#echo "TRAMITE_tramite_SOLICITADO=".$TRAMITE_tramite_SOLICITADO;
 ###################################
 $sql_proceso_tramite="SELECT COUNT(*) AS EXISTE_REG_proceso_tramite_EN_PROCESO FROM  proceso_tramites WHERE id_tramite=".$ID_TRAMITE_SOLICITADO." AND en_proceso='EN PROCESO'";
 $result_proceso_tramite = mysqli_query($con,$sql_proceso_tramite);
@@ -574,12 +577,13 @@ $listo_presupuesto='SI';
 #####  TRAMITE :
 ####    Cierre Temporal
 ###################################################
-
+$CIERRE_TEMPORAL=0;
 if ( $TRAMITE_tramite_SOLICITADO=='Cierre Temporal' && $DESCUENTO_tramite_SOLICITADO=='NO' ) {
 $MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO;
 
 $ley_ingresos="Articulo 22, Fracción  V.-Autorización respecto de cierre temporal y aviso de no inconveniente de intención de ceder derechos del permiso, de acuerdo a lo siguiente:  A).- Autorización respecto a cierre temporal.";
 $listo_presupuesto='SI';
+$CIERRE_TEMPORAL=1;
 }
 ##################################################
 #####  TRAMITE :
@@ -587,7 +591,6 @@ $listo_presupuesto='SI';
 ###################################################
 if ( $TRAMITE_tramite_SOLICITADO=='Ceder Permiso' && $DESCUENTO_tramite_SOLICITADO=='NO' ) {
 $MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO;
-
 $ley_ingresos="Articulo 22, Fracción  V.-Autorización respecto de cierre temporal y aviso de no inconveniente de intención de ceder derechos del permiso, de acuerdo a lo siguiente:  B).- Autorización respecto a aviso de no inconveniente de intención de ceder los derechos de permiso.";
 $listo_presupuesto='SI';
 }
@@ -595,19 +598,23 @@ $listo_presupuesto='SI';
 #####  TRAMITE :
 ####    Impresión de Permiso
 ###################################################
+$IMPRIMIR_PERMISO=0;
 if ( $TRAMITE_tramite_SOLICITADO=='Impresión de Permiso' && $DESCUENTO_tramite_SOLICITADO=='NO' ) {
 $MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO;
 $ley_ingresos="Articulo 22, Fracción  VI-.-Expedición de nueva impresión de permisos otorgados.";
 $listo_presupuesto='SI';
+$IMPRIMIR_PERMISO=1;
 }
 ##################################################
 #####  TRAMITE :
-####   Anuencia o Revalidacion
+####   Revalidacion del Permiso
 ###################################################
-if ( $TRAMITE_tramite_SOLICITADO=='Anuencia o Revalidacion' && $DESCUENTO_tramite_SOLICITADO=='NO' ) {
-$MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_REVALIDACION_ANUAL;
+$REVALIDACION=0;
+if ( $TRAMITE_tramite_SOLICITADO=='Revalidacion del Permiso' && $DESCUENTO_tramite_SOLICITADO=='NO' ) {
+$MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_REVALIDACION_ANUAL + $monto_umas_total_servicios_adicionalesDB;
 $ley_ingresos="Articulo 22, Fracción  VII.-Derechos por revalidación anual de permisos.";
 $listo_presupuesto='SI';
+$REVALIDACION=1;
 }
 ###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 ###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
@@ -824,7 +831,8 @@ echo '<div class="valor valor-destacado">'.$servicios_adicionalesDB.' * ['.$nume
 <center><div>
 
 <?php
-echo '<a href="principal.php?page='.$page.'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>&nbsp;';
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF; color:black !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar </font></button>&nbsp;';
+
 
 #######################
 #### Seleccionar Giro
@@ -842,7 +850,6 @@ echo '<a href="#elegirServicioAdicional" data-bs-toggle="modal" data-bs-target="
 
 
 
-//chang
 if ( $listo_presupuesto=='SI') {
 
 if ( $SERVICIOS_ADICIONALES_SOLICITADO==1 && isset($_POST['elegir_ServiciosAdicionales']) ) {
@@ -868,6 +875,65 @@ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
  class="btn btn-dark" title="Aprobrar Tramite - '.$TRAMITE_tramite_SOLICITADO.' - '.number_format($MONTO_UMAS_tramite_SOLICITADO,2).' umas" ><i class="bi bi-list-check"></i><font size="1">Aprobar Tramite</font></a>&nbsp;';
 
 } else {
+
+
+if ( $REVALIDACION==1 ) {
+
+echo '<a href="#aprobrarTramiteRevalidacion" data-bs-toggle="modal" data-bs-target="#aprobrarTramiteRevalidacion" data-idprincipal="'.$IDPRINCIPAL.'" data-folio="'.$folio.'" data-pagina="'.$page.'"
+data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'"
+ data-descripcion_giro="'.$GIRO.'"
+
+ data-tramite_solicitado="'.$TRAMITE_tramite_SOLICITADO.'"
+ data-descripcion_tramite_solicitado="'.$TRAMITE_tramite_SOLICITADO.'"
+
+ data-monto_umas_tramite_solicitado="'.number_format($MONTO_UMAS_tramite_SOLICITADO,2).'"
+ class="btn btn-danger" title="Aprobrar Tramite - '.$TRAMITE_tramite_SOLICITADO.' - '.number_format($MONTO_UMAS_tramite_SOLICITADO,2).' umas"><i class="bi bi-r-square"></i><font size="1">Aprobar Revalidación</font></a>&nbsp;';
+
+
+} else {
+
+if ( $IMPRIMIR_PERMISO==1 ) {
+
+echo '<a href="#aprobrarImpresionPermiso" data-bs-toggle="modal" data-bs-target="#aprobrarImpresionPermiso" data-idprincipal="'.$IDPRINCIPAL.'" data-folio="'.$folio.'" data-pagina="'.$page.'"
+data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'"
+ data-descripcion_giro="'.$GIRO.'"
+
+ data-tramite_solicitado="'.$TRAMITE_tramite_SOLICITADO.'"
+ data-descripcion_tramite_solicitado="'.$TRAMITE_tramite_SOLICITADO.'"
+
+ data-monto_umas_tramite_solicitado="'.number_format($MONTO_UMAS_tramite_SOLICITADO,2).'"
+ class="btn btn-action btn-warning" title="Aprobrar - '.$TRAMITE_tramite_SOLICITADO.' - '.number_format($MONTO_UMAS_tramite_SOLICITADO,2).' umas"><i class="bi bi-p-square"></i><font size="1">Aprobar Impresión de Permiso</font></a>&nbsp;';
+
+} else {
+
+//chang
+if ( $CIERRE_TEMPORAL==1 ) {
+
+echo '<a href="#aprobrarTramiteCierreTemporal" data-bs-toggle="modal" data-bs-target="#aprobrarTramiteCierreTemporal" data-idprincipal="'.$IDPRINCIPAL.'" data-folio="'.$folio.'" data-pagina="'.$page.'"
+data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
+ data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'"
+ data-descripcion_giro="'.$GIRO.'"
+
+ data-tramite_solicitado="'.$TRAMITE_tramite_SOLICITADO.'"
+ data-descripcion_tramite_solicitado="'.$TRAMITE_tramite_SOLICITADO.'"
+ data-cambio_giro_solicitado="'.$GIRO_solicitado.'"
+ data-cambio_id_giro_solicitado="'.$GIRO_SOLICITADO.'"
+ data-cambio_de_giro="'.$CAMBIO_DE_GIRO.'"
+
+ data-cambio_de_sa="'.$SERVICIOS_ADICIONALES_SOLICITADO.'"
+ data-servicios_adicionales_agregados="ND"
+ data-servicios_adicionales_agregados_raw="ND"
+ data-servicios_adicionales_total="ND"
+ data-servicios_adicionales_total_raw="ND"
+
+ data-monto_umas_tramite_solicitado="'.number_format($MONTO_UMAS_tramite_SOLICITADO,2).'"
+ class="btn btn-dark" title="Aprobrar Cierre Temporal - '.$TRAMITE_tramite_SOLICITADO.' - '.number_format($MONTO_UMAS_tramite_SOLICITADO,2).' umas"><i class="bi bi-c-square"></i><font size="1" color="red">Aprobar Cierre Temporal</font></a>&nbsp;';
+
+} else {
+
+## TODOS LOS TRAMITES ( EXEPTO Servicios Adicionales, Imprimir Permiso y Revalidacion )
 echo '<a href="#aprobrarTramite" data-bs-toggle="modal" data-bs-target="#aprobrarTramite" data-idprincipal="'.$IDPRINCIPAL.'" data-folio="'.$folio.'" data-pagina="'.$page.'" 
 data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 
  data-id_tramite_solicitado="'.$ID_TRAMITE_SOLICITADO.'" 
@@ -887,6 +953,10 @@ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
 
  data-monto_umas_tramite_solicitado="'.number_format($MONTO_UMAS_tramite_SOLICITADO,2).'"  
  class="btn btn-dark" title="Aprobrar Tramite - '.$TRAMITE_tramite_SOLICITADO.' - '.number_format($MONTO_UMAS_tramite_SOLICITADO,2).' umas"><i class="bi bi-list-check"></i><font size="1">Aprobar Tramite</font></a>&nbsp;';
+
+}
+}
+}
 }
 }
 
@@ -914,6 +984,96 @@ include("footer.php");
 
 <script>
 
+$( "#aprobrarTramiteImpresionPermiso" ).submit(function( event ) {
+  $('#Button_aprobrarTramiteImpresionPermiso').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/aprobrarImpresionPermiso.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                           $("#resultados_ajaxaprobrarTramiteImpresionPermiso").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxaprobrarTramiteImpresionPermiso").html(datos);
+                        $('#Button_aprobrarTramiteImpresionPermiso').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+$( "#aprobrarTramitePostRevalidacion" ).submit(function( event ) {
+  $('#Button_aprobrarTramiteRevalidacion').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/aprobrarRevalidacion.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                           $("#resultados_ajaxaprobrarTramiteRevalidacion").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxaprobrarTramiteRevalidacion").html(datos);
+                        $('#Button_aprobrarTramiteRevalidacion').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+				$(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+$( "#aprobrarTramitePostCierreTemporal" ).submit(function( event ) {
+  $('#Button_aprobrarTramiteCierreTemporal').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/aprobrarTramiteCierreTemporal.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                           $("#resultados_ajaxaprobrarTramiteCierreTemporal").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxaprobrarTramiteCierreTemporal").html(datos);
+                        $('#Button_aprobrarTramiteCierreTemporal').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
+
 
 $( "#aprobrarTramitePost" ).submit(function( event ) {
   $('#Button_aprobrarTramite').attr("disabled", true);
@@ -932,7 +1092,10 @@ $( "#aprobrarTramitePost" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -960,7 +1123,10 @@ $( "#registro_guardar_pagoTramiteCambio" ).submit(function( event ) {
 			window.setTimeout(function() {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
-				location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
 			}, 2000);
 
 		  }
@@ -986,7 +1152,10 @@ $( "#registro_guardar_pago_presupuesto" ).submit(function( event ) {
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
-                                location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
                         }, 2000);
 
                   }
@@ -1014,7 +1183,10 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
 			window.setTimeout(function() {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
-				location.replace('principal.php');
+<?php
+//location.replace('principal.php');
+echo "location.replace('principal.php?page=".$page."&action=ajax');";
+?>
 			}, 2000);
 
 		  }

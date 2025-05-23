@@ -1,3 +1,38 @@
+
+<style>
+
+.content {
+  background: #A4A5A8;
+  color: #fff;
+}
+
+.content2 {
+  background: #AC905B;
+  color: #fff;
+}
+
+.content3 {
+  background: #FF0000;
+  color: #fff;
+}
+
+
+      .blink {
+        animation: blink-animation 1s steps(5, start) infinite;
+        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+      }
+      @keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
+      @-webkit-keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
+</style>
+
 <script>
 
 function getColonias(val) {
@@ -14,10 +49,90 @@ echo 'url: "ajax/get_colonias.php",';
         });
 }
 
+function procesando() {
+  var element = document.getElementById("Respuesta");
+  element.classList.remove("content2");
+  element.classList.toggle("content");
+  element.classList.toggle("blink");
+document.getElementById("Respuesta").innerHTML = "Procesando Consulta Sistema Predial .......";
+}
+
+function finalizado() {
+document.getElementById("mensaje").innerHTML = "Finalizado";
+}
+
+function getPredial(forma) {
+var val=forma.clave_catastral.value;
+
+val = val.toUpperCase();
+val = val.replace("-", "");
+val = val.replace("-", "");
+
+if (val === "") {
+alert("Número Predial Vacio");
+} else {
+alert("Consultar Predial: "+val);
+procesando();
+
+setTimeout(() => {
+
+$.ajax({
+type: "POST",
+url: "wsAyuntamientoTij/ws-Predial.php",
+data:'referencia='+val,
+//async : false,
+  timeout: 5000,
+  success: function(data){
+  //alert('success'+data);
+  var xmlDoc = data;
+  var propietarioX = xmlDoc.documentElement.getElementsByTagName("propietario")[0];
+  var propietario = propietarioX.childNodes[0];
+  var direccionX = xmlDoc.documentElement.getElementsByTagName("direccion")[0];
+  var direccion = direccionX.childNodes[0];
+  var CuentaX = xmlDoc.documentElement.getElementsByTagName("Cuenta")[0];
+  var Cuenta = CuentaX.childNodes[0];
+  var MensajeX = xmlDoc.documentElement.getElementsByTagName("Mensaje")[0];
+  var Mensaje = MensajeX.childNodes[0];
+  var AdeudoX = xmlDoc.documentElement.getElementsByTagName("Adeudo")[0];
+  var Adeudo = AdeudoX.childNodes[0];
+
+  //alert('Propietario: '+propietario.nodeValue+', Direccion: '+direccion.nodeValue);
+  //alert('Clave Catastral: '+Cuenta.nodeValue+', Adeudo: '+Mensaje.nodeValue+' $'+Adeudo.nodeValue);
+
+  //document.getElementById("propietario").innerHTML = propietario.nodeValue;
+  //document.getElementById("direccion").innerHTML = direccion.nodeValue;
+  //document.getElementById("Cuenta").innerHTML = Cuenta.nodeValue;
+  //document.getElementById("Mensaje").innerHTML = Mensaje.nodeValue;
+  //document.getElementById("Adeudo").innerHTML = Adeudo.nodeValue;
+  var Respuesta="[Pago: "+Mensaje.nodeValue+", $"+Adeudo.nodeValue+"] "+propietario.nodeValue+" ["+direccion.nodeValue+"] "+Cuenta.nodeValue;
+  var element = document.getElementById("Respuesta");
+  element.classList.remove("blink");
+  element.classList.toggle("content2");
+
+  document.getElementById("Respuesta").innerHTML = Respuesta;
+
+  },
+  error: function(){
+  var elemento = document.getElementById("Respuesta");
+  elemento.classList.remove("blink");
+  elemento.classList.toggle("content3");
+  document.getElementById("Respuesta").innerHTML = "Fallo Consulte Sistema Predial !!";
+
+  alert('Fallo Consulta Sistema Predial');
+  }
+});
+}, 2000);
+
+}
+} 
+
 </script>
 
 
 <style> 
+
+
+
 input[type=text] {
   padding: 12px 20px;
   margin: 8px 0;
@@ -211,6 +326,8 @@ echo '</div>';
 ##########################
 ##########################
 echo '<h4><span style="background:black"><font color="white" size="3">Datos del Establecimiento</font></span></h4>';
+//## Respuesta del WS Predial
+echo '<div id="Respuesta" style="color:black;font-size:12px;"></div>';
 ###
 echo '<div class="form-group row">';
 echo '<label for="nombre_comercial_establecimiento" class="col-sm-2 control-label">Nombre Comercial</label>';
@@ -219,7 +336,9 @@ echo '<input type="text" class="form-control form-control-sm" style="text-transf
 echo '</div>';
 //##
 
-echo '<label for="clave_catastral" class="col-sm-2 control-label" align="right"><font color="blue">Número Catastro</font></label>';
+echo '<label for="clave_catastral" class="col-sm-2 control-label" align="right"><font color="blue">Número Catastro</font>';
+echo '<br><a href="javascript:getPredial(document.guardar_registroPrincipal)" style="background-color:#000000;color:white"><font size="1">Consultar Predial</font></a>';
+echo '</label>';
 echo '<div class="col-sm-2 form-check">';
 //echo '<label class="form-check-label" for="clave_catastral">Dato Número Catastral</label>';
 echo '<input type="text" class="form-control required" id="clave_catastral" name="clave_catastral"   pattern="[A-Z]{2}(-)[0-9]{3}(-){1}[0-9]{3}"  title="Formato VALIDO -->  AA-NNN-NNN" minlength="10" maxlength="10" autocomplete="off"  required>';

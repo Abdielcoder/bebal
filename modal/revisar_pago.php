@@ -1,4 +1,109 @@
-	<?php
+<style>
+
+.content {
+  background: #A4A5A8;
+  color: #fff;
+}
+
+.content2 {
+  background: #AC905B;
+  color: #fff;
+}
+
+.content3 {
+  background: #FF0000;
+  color: #fff;
+}
+
+
+      .blink {
+        animation: blink-animation 1s steps(5, start) infinite;
+        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+      }
+      @keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
+      @-webkit-keyframes blink-animation {
+        to {
+          visibility: hidden;
+        }
+      }
+</style>
+
+
+<script>
+
+function procesando() {
+  var element = document.getElementById("Respuesta");
+  element.classList.remove("content2");
+  element.classList.toggle("content");
+  element.classList.toggle("blink");
+document.getElementById("Respuesta").innerHTML = "Procesando Consulta Sistema Tesoreria .......";
+}
+
+function finalizado() {
+document.getElementById("mensaje").innerHTML = "Finalizado";
+}
+
+
+function getRecibo(forma) {
+var val=forma.numero_pago.value;
+
+if (val === "") {
+alert("Numero de Pago Vacio");
+} else {
+alert("Consultar Recibo Numero de Pago: "+val);
+procesando();
+
+setTimeout(() => {
+$.ajax({
+type: "POST",
+url: "wsAyuntamientoTij/ws-ConsultaRecibo.php",
+data:'referencia='+val,
+//async : false,
+timeout: 5000,
+  success: function(data){
+  //alert('success'+data);
+  var xmlDoc = data;
+  var mensajeX = xmlDoc.documentElement.getElementsByTagName("mensaje")[0];
+  var mensaje = mensajeX.childNodes[0];
+  var importeX = xmlDoc.documentElement.getElementsByTagName("importe")[0];
+  var importe = importeX.childNodes[0];
+  var idstatusX = xmlDoc.documentElement.getElementsByTagName("idstatus")[0];
+  var idstatus = idstatusX.childNodes[0];
+
+  //alert('mensaje: '+mensaje.nodeValue+', importe: '+importe.nodeValue);
+
+  //document.getElementById("mensaje").innerHTML = mensaje.nodeValue;
+  //document.getElementById("importe").innerHTML = importe.nodeValue;
+  //document.getElementById("idstatus").innerHTML = idstatus.nodeValue;
+  var Respuesta=mensaje.nodeValue+" $"+importe.nodeValue+" estatus ("+idstatus.nodeValue+")";
+
+  var element = document.getElementById("Respuesta");
+  element.classList.remove("blink");
+  element.classList.toggle("content2");
+
+  document.getElementById("Respuesta").innerHTML = Respuesta;
+  },
+  error: function(){
+  var element = document.getElementById("Respuesta");
+  element.classList.remove("blink");
+  element.classList.toggle("content3");
+
+  document.getElementById("Respuesta").innerHTML = 'Fallo Consulta del Recibo de Pago';
+    alert('Fallo Consulta del Recibo de Pago');
+  }
+});
+}, 2000);
+}
+}
+</script>
+
+
+
+<?php
 		if (isset($con))
 		{
 	?>
@@ -49,9 +154,18 @@ echo '<input type="hidden" id="mod_total_umas_pagar" name="total_umas_pagar">';
 </div>
 
 <div class="mb-3 row">
-<label for="numero_pago" class="col-sm-4 col-form-label">Número de Pago</label>
-<div class="col-sm-8">
-<input type="text" class="form-control" id="numero_pago" name="numero_pago" required>
+<?php
+echo '<div class="col-sm-4">';
+echo '<label for="numero_pago" class="col-form-label"><font size="2">Número de Pago</font></label>';
+echo '<a href="javascript:getRecibo(document.registro_guardar_pago)" style="background-color:#000000;color:white"><font size="1">Consultar Recibo</font></a>';
+echo '</div>';
+echo '<div class="col-sm-8">';
+echo '<input type="text" class="form-control" id="numero_pago" name="numero_pago" pattern="[2025]{4}[0-9]{11}"  title="Formato VALIDO -->  AAAANNNNNNNNNNN" minlength="15" maxlength="15" autocomplete="off"  required>';
+echo '<div id="Respuesta" style="color:black;font-size:12px;"></div>';
+echo '</div>';
+echo '<div class="col-sm-2">';
+
+?>
 </div>
 </div>
 

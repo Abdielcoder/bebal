@@ -1,44 +1,39 @@
 
 <style>
 .dropbtn {
-  background-color: #000000;
+  background-color: #04AA6D;
   color: white;
-  padding: 10px;
+  padding: 16px;
   font-size: 16px;
   border: none;
 }
 
-.dropup {
+.dropdown {
   position: relative;
   display: inline-block;
 }
 
-.dropup-content {
+.dropdown-content {
   display: none;
   position: absolute;
-  bottom: 35px;
   background-color: #f1f1f1;
-  min-width: 220px;
+  min-width: 120px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 
-.dropup-content a {
+.dropdown-content a {
   color: black;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
 }
 
-.dropup-content a:hover {background-color: #ccc}
+.dropdown-content a:hover {background-color: #ddd;}
 
-.dropup:hover .dropup-content {
-  display: block;
-}
+.dropdown:hover .dropdown-content {display: block;}
 
-.dropup:hover .dropbtn {
-  background-color: #FF0000;
-}
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
 </style>
 
 
@@ -202,9 +197,10 @@ session_start();
 <div class="container">
 <?php
 
+
 ################################
 $IDPRINCIPAL = $_POST['idHistorico'];
-$page = isset($_POST['paginaHistorico']);
+$page = $_POST['paginaHistorico'];
 #################################
 
 $sqlPrincipal="SELECT * FROM principal WHERE id=".$IDPRINCIPAL;
@@ -440,8 +436,125 @@ if ( $fecha_autorizacion=='' || $fecha_autorizacion==NULL ) $fecha_autorizacion=
         
         <!-- Sección de datos del establecimiento -->
         <div class="seccion-datos">
-            <div class="encabezado">
-                <h4>Proceso Permiso Nuevo - Alta</h4>
+	    <div class="encabezado">
+<?php
+
+##############
+$KueryPT="SELECT * FROM proceso_tramites WHERE id_principal=$IDPRINCIPAL AND id=$ID_PROCESO_TRAMITES_Alta";
+##echo $KueryPT;
+$arregloPT = mysqli_fetch_array(mysqli_query($con,$KueryPT));
+
+$en_proceso=$arregloPT['en_proceso'];
+
+$docs_pdf1DB=$arregloPT['docs_pdf1'];
+$estatus_docs_pdf1DB=$arregloPT['estatus_docs_pdf1'];
+##
+$docs_pdf2DB=$arregloPT['docs_pdf2'];
+$estatus_docs_pdf2DB=$arregloPT['estatus_docs_pdf2'];
+##
+$docs_pdf3DB=$arregloPT['docs_pdf3'];
+$estatus_docs_pdf3DB=$arregloPT['estatus_docs_pdf3'];
+##
+$docs_pdf4DB=$arregloPT['docs_pdf4'];
+$estatus_docs_pdf4DB=$arregloPT['estatus_docs_pdf4'];
+##############
+echo '<h4>Proceso Permiso Nuevo - Alta ';
+	
+echo '<div class="dropdown">';
+//echo '<button class="dropbtn">Dropdown</button>';
+echo '<font size="1">&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-file-earmark-pdf"></i>&nbsp;<u>PDFs</u></font>';
+echo '<div class="dropdown-content">';
+
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF1"><i class="bi bi-file-earmark-pdf"></i> PDF C1</a>';
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF2"><i class="bi bi-file-earmark-pdf"></i> PDF C2</a>';
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF3"><i class="bi bi-file-earmark-pdf"></i> PDF C3</a>';
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF4"><i class="bi bi-file-earmark-pdf"></i> PDF C4</a>';
+
+echo '</div>';
+echo '</div>';
+
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#myScrollGalleryAlta"><font color="white" size="1">&nbsp;&nbsp;&nbsp;<i class="bi bi-card-image"></i>&nbsp;<u>Imagenes</u> </font></a>';
+echo '</h4>';
+
+
+########################################################
+###  MODAL PDFs
+#
+echo '<div class="modal" id="ModalPDF1" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C1  '.$docs_pdf1DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf1DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf1DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+#
+echo '<div class="modal" id="ModalPDF2" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C2  '.$docs_pdf2DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf2DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf2DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+#
+echo '<div class="modal" id="ModalPDF3" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C3  '.$docs_pdf3DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf3DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf3DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+#
+echo '<div class="modal" id="ModalPDF4" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C4   '.$docs_pdf4DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf4DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf4DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+########################################################
+
+
+?>
             </div>
 	    <div class="contenido">
 
@@ -514,6 +627,56 @@ if ( $fecha_autorizacion=='' || $fecha_autorizacion==NULL ) $fecha_autorizacion=
 
 <?php
 
+##########################
+##########################
+###  Scroll Gallery
+$ciclo='Alta';
+echo '<div class="modal fade" id="myScrollGallery'.$ciclo.'" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"  align="center">';
+
+
+echo '<div class="modal-dialog modal-lg">';
+echo '<div class="modal-content"  style="background-color: black;">';
+echo '<div class="modal-body">';
+
+$sqlFotos="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES_Alta;
+##echo $sqlFotos;
+$resultFotos2 = mysqli_query($con, $sqlFotos);
+$rowsFotosCuantosReg2 = mysqli_num_rows($resultFotos2);
+
+echo "<h6><font color='white'>Proceso Permiso Nuevo - Alta<br>Folio: ".$folio." / ".$nombre_comercial_establecimiento."  (".$GIRO.")</font></h6>";
+echo "<p><font color='white'>Número de Fotografias: ".$rowsFotosCuantosReg2."</font></p>";
+
+echo '<div class="scroll-container">';
+for ($jj=0;$jj<$rowsFotosCuantosReg2;$jj++) {
+$rowFotos= mysqli_fetch_array($resultFotos2,MYSQLI_NUM);
+$idfoto_db=$rowFotos[0];
+$idprincipal_db=$rowFotos[2];
+$id_proceso_tramites_db=$rowFotos[3];
+
+##85-130-354.jpg  ejemplo Nombre Archivo
+#
+$foto_fileCarusel='../../'.FOTOSMEDIAS.$idprincipal_db.'-'.$id_proceso_tramites_db.'-'.$idfoto_db.'.jpg';
+echo '<img class="img-size" src="'.$foto_fileCarusel.'" alt="Trabajo '.$jj.'" style="width:200px;height:180;"  >';
+}
+
+
+echo '</div>';
+#############
+echo '<div class="modal-footer">';
+echo '<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>';
+echo '</div>';
+
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+##############################
+
+
+
+
+
+
 echo '<br>';
 $KueryPT_Cambio="SELECT * FROM proceso_tramites WHERE id_tramite!=1 AND id_principal=$IDPRINCIPAL";
 ##echo $KueryPT;
@@ -523,7 +686,7 @@ $total_resultPT_Cambio = mysqli_num_rows($resultPT_Cambio);
 if ( $total_resultPT_Cambio> 0 ) {
 echo '<div class="seccion-datos">';
 echo '<h7>Tramites - Número de Cambios ( '.$total_resultPT_Cambio.' ) </h7>';
-echo '<font color="white" size="1">'.$nip.'</font>';
+//echo '<font color="white" size="1">'.$nip.'</font>';
 echo '</div>';
 } else {
 }
@@ -549,7 +712,28 @@ $TRAMITE=$row_tramite0['descripcion_tramite'];
 
 echo '<div class="seccion-datos">';
 echo '<div class="encabezado">';
-echo '<h4>Tramite Cambio - ('.$TRAMITE.')</h4>';
+// chang
+echo '<h4>Tramite Cambio - ('.$TRAMITE.')  ';
+
+
+echo '<div class="dropdown">';
+//echo '<button class="dropbtn">Dropdown</button>';
+echo '<font size="1">&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-file-earmark-pdf"></i>&nbsp;<u>PDFs</u></font>';
+echo '<div class="dropdown-content">';
+
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF1_'.$i.'"><i class="bi bi-file-earmark-pdf"></i> PDF C1</a>';
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF2_'.$i.'"><i class="bi bi-file-earmark-pdf"></i> PDF C2</a>';
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF3_'.$i.'"><i class="bi bi-file-earmark-pdf"></i> PDF C3</a>';
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#ModalPDF4_'.$i.'"><i class="bi bi-file-earmark-pdf"></i> PDF C4</a>';
+
+echo '</div>';
+echo '</div>';
+
+echo '<a href="#" data-bs-toggle="modal" data-bs-target="#myScrollGallery'.$i.'"><font color="white" size="1">&nbsp;&nbsp;&nbsp;<i class="bi bi-card-image"></i>&nbsp;<u>Imagenes</u> </font></a>';
+
+##echo '<a href="#" data-bs-toggle="modal" data-bs-target="#myScrollGallery'.$i.'"><font color="white" size="1">   <u>Imagenes</u> </font></a>';
+echo '</h4>';
+##########
 echo '</div>';
 echo '<div class="contenido">';
 
@@ -731,8 +915,147 @@ $GIRO2=$row_giro['descripcion_giro'];
 
 echo '</div>';
 echo '</div>';
+##############
+$KueryPT="SELECT * FROM proceso_tramites WHERE id_principal=$IDPRINCIPAL AND id=$ID_PROCESO_TRAMITES_Cambio";
+##echo $KueryPT;
+$arregloPT = mysqli_fetch_array(mysqli_query($con,$KueryPT));
+
+$en_proceso=$arregloPT['en_proceso'];
+
+$docs_pdf1DB=$arregloPT['docs_pdf1'];
+$estatus_docs_pdf1DB=$arregloPT['estatus_docs_pdf1'];
+##
+$docs_pdf2DB=$arregloPT['docs_pdf2'];
+$estatus_docs_pdf2DB=$arregloPT['estatus_docs_pdf2'];
+##
+$docs_pdf3DB=$arregloPT['docs_pdf3'];
+$estatus_docs_pdf3DB=$arregloPT['estatus_docs_pdf3'];
+##
+$docs_pdf4DB=$arregloPT['docs_pdf4'];
+$estatus_docs_pdf4DB=$arregloPT['estatus_docs_pdf4'];
+##############
+
+########################################################
+###  MODAL PDFs
+#
+echo '<div class="modal" id="ModalPDF1_'.$i.'" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C1 '.$docs_pdf1DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf1DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf1DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+#
+echo '<div class="modal" id="ModalPDF2_'.$i.'" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C2  '.$docs_pdf2DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf2DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf2DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+#
+echo '<div class="modal" id="ModalPDF3_'.$i.'" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C3  '.$docs_pdf3DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf3DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf3DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+#
+echo '<div class="modal" id="ModalPDF4_'.$i.'" tabindex="-1" role="dialog">';
+echo '<div class="modal-dialog" role="document">';
+echo '<div class="modal-content">';
+
+echo '<div class="modal-header"  style="background-color:#AC905B;color:white">';
+echo '<h6 class="modal-title" id="myModalLabel"><i class="bi bi-file-earmark-pdf"></i>PDF C4  '.$docs_pdf4DB.'</h6>';
+echo '<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">';
+echo '<span aria-hidden="true">&times;</span>';
+echo '</button>';
+echo '</div>';
+echo '<div class="modal-body">';
+//echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf4DB.'"></object>';
+echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf4DB.'"></object>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+########################################################
 
 
+##########################
+##########################
+###  Scroll Gallery
+
+echo '<div class="modal fade" id="myScrollGallery'.$i.'" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"  align="center">';
+
+
+echo '<div class="modal-dialog modal-lg">';
+echo '<div class="modal-content"  style="background-color: black;">';
+echo '<div class="modal-body">';
+
+$sqlFotos="SELECT * FROM fotos WHERE idprincipal=".$IDPRINCIPAL." AND id_proceso_tramites=".$ID_PROCESO_TRAMITES_Cambio;
+##echo $sqlFotos;
+$resultFotos2 = mysqli_query($con, $sqlFotos);
+$rowsFotosCuantosReg2 = mysqli_num_rows($resultFotos2);
+
+echo "<h6><font color='white'>Tramite Cambio - (".$TRAMITE.") <br>Folio: ".$folio." / ".$nombre_comercial_establecimiento."  (".$GIRO.")</font></h6>";
+echo "<p><font color='white'>Número de Fotografias: ".$rowsFotosCuantosReg2."</font></p>";
+
+echo '<div class="scroll-container">';
+for ($jj=0;$jj<$rowsFotosCuantosReg2;$jj++) {
+$rowFotos= mysqli_fetch_array($resultFotos2,MYSQLI_NUM);
+$idfoto_db=$rowFotos[0];
+$idprincipal_db=$rowFotos[2];
+$id_proceso_tramites_db=$rowFotos[3];
+
+##85-130-354.jpg  ejemplo Nombre Archivo
+#
+$foto_fileCarusel='../../'.FOTOSMEDIAS.$idprincipal_db.'-'.$id_proceso_tramites_db.'-'.$idfoto_db.'.jpg';
+echo '<img class="img-size" src="'.$foto_fileCarusel.'" alt="Trabajo '.$jj.'" style="width:200px;height:180;"  >';
+}
+
+
+echo '</div>';
+#############
+echo '<div class="modal-footer">';
+echo '<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>';
+echo '</div>';
+
+echo '</div>';
+echo '</div>';
+echo '</div>';
+echo '</div>';
+##############################
 
 
 
@@ -750,7 +1073,14 @@ echo '</div>';
         <!-- Botones de acción -->
 	<!-- <div class="area-botones"> --!>
 	<center><div>
-       <a href="principal.php?page=<?php echo $page; ?>" class="btn btn-info bs-sm" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>&nbsp;
+
+
+<?php
+
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF; color:black !important;"> <i class="bi bi-arrow-left"></i><font size="1"> Regresar</font></button>';
+echo '<font color="white" size="1">'.$nip.'</font>';
+
+?>
 
     </div>
 </div>

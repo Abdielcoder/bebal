@@ -29,12 +29,11 @@ async function probarEndpointEstablecimiento() {
       console.log('✅ Consulta exitosa');
       console.log('📊 Datos obtenidos:');
       console.log('   - Folio:', data.data.folio);
-      console.log('   - Nombre comercial:', data.data.establecimiento.nombre_comercial);
-      console.log('   - Giro:', data.data.tipo_tramite.giro);
-      console.log('   - Operación:', data.data.tipo_tramite.operacion);
-      console.log('   - Domicilio:', data.data.establecimiento.domicilio);
-      console.log('   - Representante Legal:', data.data.solicitante.representante_legal);
-      console.log('   - RFC:', data.data.solicitante.rfc);
+      console.log('   - Nombre comercial:', data.data.nombre_comercial);
+      console.log('   - Giro:', data.data.giro);
+      console.log('   - Domicilio:', data.data.domicilio);
+      console.log('   - Clave catastral:', data.data.clave_catastral);
+      console.log('   - Horario:', data.data.horario_funcionamiento);
     } else {
       console.log('❌ Error en consulta:', data.message);
     }

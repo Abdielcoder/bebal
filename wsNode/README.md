@@ -356,33 +356,18 @@ GET http://localhost:5014/api/consultas/establecimiento/1
 {
   "success": true,
   "data": {
-    "folio": "3-8",
-    "tipo_tramite": {
-      "operacion": "NUEVO",
-      "giro": "Tienda de Autoservicio y Licorería",
-      "modalidad_graduacion_alcoholica": "(Cerveza, Vinos y Licores) y (Bebidas Alcoholicas en Envase Cerrado)",
-      "numero_modalidad_graduacion_alcoholica": "2",
-      "servicios_adicionales": "0",
-      "numero_servicios_adicionales": "0",
-      "fecha_registro": "2025-05-27"
-    },
-    "establecimiento": {
-      "nombre_comercial": "7-ELEVEN MEXICO, S. A. DE C. V.",
-      "domicilio": "BLVD. FRANCISCO BLAKE MORA #8202",
-      "colonia_delegacion_ciudad_cp": "EJIDO MATAMOROS SECCION TORRES La Presa / Tijuana / 22510",
-      "clave_catastral": "EV-402-001",
-      "comensales_superficie": "0 Personas / 191 (m²)",
-      "horario_funcionamiento": "DE LAS 10:00 HORAS A LAS 24:00 HORAS"
-    },
-    "solicitante": {
-      "persona_fisica_moral": "7-ELEVEN MEXICO, S. A. DE C. V.",
-      "representante_legal": "Juan Pérez García",
-      "rfc": "SEV123456789",
-      "tipo_persona": "MORAL",
-      "domicilio": "Av. Principal #123, Col. Centro",
-      "email": "contacto@7eleven.com.mx",
-      "telefono": "664-123-4567"
-    }
+    "folio": "3-79",
+    "giro": "Tienda de Autoservicio y Licorería",
+    "modalidad_graduacion_alcoholica": "(Cerveza, Vinos y Licores) y (Bebidas Alcoholicas en Envase Cerrado)",
+    "servicios_adicionales": "0",
+    "numero_servicios_adicionales": "N/A",
+    "fecha_registro": "2025-04-25T00:00:00.000Z",
+    "nombre_comercial": "OXXO SILBONA",
+    "domicilio": "AVE. DEL AGUILA REAL #19500",
+    "colonia_delegacion_ciudad_cp": "BAJA MAQ.EL AGUILA Cerro Colorado / Tijuana / 22416",
+    "clave_catastral": "GY-003-038",
+    "comensales_superficie": "N/A Personas / 227 (m²)",
+    "horario_funcionamiento": "DE LAS 10:00 HORAS A LAS 24:00 HORAS"
   },
   "message": "Datos del establecimiento obtenidos correctamente",
   "error": null

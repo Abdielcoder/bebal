@@ -231,42 +231,25 @@ class ConsultaController {
       // Construir comensales/superficie
       const comensalesSuperficie = `${datos.capacidad_comensales_personas || 'N/A'} Personas / ${datos.superficie_establecimiento || 'N/A'} (m²)`;
 
-      // Retornar solo los campos específicos mostrados en la imagen
+      // Retornar todos los campos directamente en data
       const datosLimitados = {
         // Información básica
         folio: datos.folio,
         
-        // Tipo de trámite
-        tipo_tramite: {
-          operacion: datos.operacion || 'N/A',
-          giro: datos.giro_desc || 'N/A',
-          modalidad_graduacion_alcoholica: datos.modalidad_graduacion_alcoholica || 'N/A',
-          numero_modalidad_graduacion_alcoholica: datos.numero_modalidad_graduacion_alcoholica || 'N/A',
-          servicios_adicionales: datos.servicios_adicionales || 'N/A',
-          numero_servicios_adicionales: datos.numero_servicios_adicionales || 'N/A',
-          fecha_registro: datos.fecha_alta || 'N/A'
-        },
+        // Tipo de trámite (sin operacion y sin numero_modalidad_graduacion_alcoholica)
+        giro: datos.giro_desc || 'N/A',
+        modalidad_graduacion_alcoholica: datos.modalidad_graduacion_alcoholica || 'N/A',
+        servicios_adicionales: datos.servicios_adicionales || 'N/A',
+        numero_servicios_adicionales: datos.numero_servicios_adicionales || 'N/A',
+        fecha_registro: datos.fecha_alta || 'N/A',
 
         // Datos del establecimiento
-        establecimiento: {
-          nombre_comercial: datos.nombre_comercial_establecimiento || 'N/A',
-          domicilio: domicilioEstablecimiento || 'N/A',
-          colonia_delegacion_ciudad_cp: ubicacionCompleta,
-          clave_catastral: datos.clave_catastral || 'N/A',
-          comensales_superficie: comensalesSuperficie,
-          horario_funcionamiento: datos.horario_funcionamiento || 'N/A'
-        },
-
-        // Datos del solicitante
-        solicitante: {
-          persona_fisica_moral: datos.nombre_persona_fisicamoral_solicitante || 'N/A',
-          representante_legal: datos.nombre_representante_legal_solicitante || 'N/A',
-          rfc: datos.rfc || 'N/A',
-          tipo_persona: datos.fisica_o_moral || 'N/A',
-          domicilio: datos.domicilio_solicitante || 'N/A',
-          email: datos.email_solicitante || 'N/A',
-          telefono: datos.telefono_solicitante || 'N/A'
-        }
+        nombre_comercial: datos.nombre_comercial_establecimiento || 'N/A',
+        domicilio: domicilioEstablecimiento || 'N/A',
+        colonia_delegacion_ciudad_cp: ubicacionCompleta,
+        clave_catastral: datos.clave_catastral || 'N/A',
+        comensales_superficie: comensalesSuperficie,
+        horario_funcionamiento: datos.horario_funcionamiento || 'N/A'
       };
 
       // Retornar los datos en formato JSON

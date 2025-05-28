@@ -356,20 +356,32 @@ GET http://localhost:5014/api/consultas/establecimiento/1
 {
   "success": true,
   "data": {
-    "establecimiento": {
-      "id": 1,
-      "folio": "TIJ-2024-001",
-      "nombre_comercial_establecimiento": "Restaurante El Ejemplo",
-      "giro_desc": "Restaurante",
-      "horario_funcionamiento": "08:00 - 22:00",
-      "municipio_desc": "Tijuana",
-      "delegacion_desc": "Centro",
-      "colonia_desc": "Zona Centro",
-      // ... todos los demás campos
+    "folio": "3-8",
+    "tipo_tramite": {
+      "operacion": "NUEVO",
+      "giro": "Tienda de Autoservicio y Licorería",
+      "modalidad_graduacion_alcoholica": "(Cerveza, Vinos y Licores) y (Bebidas Alcoholicas en Envase Cerrado)",
+      "numero_modalidad_graduacion_alcoholica": "2",
+      "servicios_adicionales": "0",
+      "numero_servicios_adicionales": "0",
+      "fecha_registro": "2025-05-27"
     },
-    "metadata": {
-      "consulta_fecha": "2024-12-19T10:30:00.000Z",
-      "id_consultado": 1
+    "establecimiento": {
+      "nombre_comercial": "7-ELEVEN MEXICO, S. A. DE C. V.",
+      "domicilio": "BLVD. FRANCISCO BLAKE MORA #8202",
+      "colonia_delegacion_ciudad_cp": "EJIDO MATAMOROS SECCION TORRES La Presa / Tijuana / 22510",
+      "clave_catastral": "EV-402-001",
+      "comensales_superficie": "0 Personas / 191 (m²)",
+      "horario_funcionamiento": "DE LAS 10:00 HORAS A LAS 24:00 HORAS"
+    },
+    "solicitante": {
+      "persona_fisica_moral": "7-ELEVEN MEXICO, S. A. DE C. V.",
+      "representante_legal": "Juan Pérez García",
+      "rfc": "SEV123456789",
+      "tipo_persona": "MORAL",
+      "domicilio": "Av. Principal #123, Col. Centro",
+      "email": "contacto@7eleven.com.mx",
+      "telefono": "664-123-4567"
     }
   },
   "message": "Datos del establecimiento obtenidos correctamente",

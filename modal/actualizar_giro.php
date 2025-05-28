@@ -95,16 +95,20 @@ echo '</div>';
 
 echo '<br>';
 
+$porcionesNOTAmodal = explode("**", $NOTA_proceso_tramites);
+$GiroID_seleccionado_modal=trim($porcionesNOTAmodal[1]);
+
+##echo 'GiroID_seleccionado_modal='.$GiroID_seleccionado_modal;
 #####################
 ### Giro
 echo '<div class="form-group row">';
 echo '<label for="mod_giro_id_seleccionado" class="col-sm-1 control-label">Giro</label>';
 
-echo '<div class="col-sm-3"  style="background-color:#f4f0ec;color:black;">';
+echo '<div class="col-sm-4"  style="background-color:#f4f0ec;color:black;">';
 echo "<select class='form-control  form-select' name='id_giro' id='mod_giro_id_seleccionado' required>";
  
 echo '<option value="">Seleccione Giro</option>';
-$query_giro=mysqli_query($con,"SELECT * FROM giro");
+$query_giro=mysqli_query($con,"SELECT * FROM giro WHERE id=".$GiroID_seleccionado_modal);
 while($rowGiro=mysqli_fetch_array($query_giro))	{
 $id_giroDB=$rowGiro['id'];
 $GIRO=$rowGiro['descripcion_giro'];
@@ -113,6 +117,37 @@ echo '<option value="'.$id_giroDB.'">'.$GIRO.'</option>';
 echo '</select>';
 echo '</div>';
 echo '</div>';
+
+echo '<br>';
+
+#####################
+### Modalidad de Graduacion Alcoholica
+##echo 'Modalidad Graduaccion Alcoholica: '.$modalidad_graduacion_alcoholica.'<br>';
+echo '<div class="form-group">';
+echo '<label for="id_modalidad_GA" class="col-sm-4 control-label"><font size="2">Modalidad Graduación Alcohólica</font></label>';
+echo '<div class="col-sm-6" style="background-color:#f4f0ec;color:black;">';
+
+//echo "<select multiple class='form-control' name='id_modalidad_GA' id='id_modalidad_GA' required>";
+$query_modalidad_GA=mysqli_query($con,"SELECT * FROM modalidad_graduacion_alcoholica");
+while($rowmodalidad_GA=mysqli_fetch_array($query_modalidad_GA)) {
+$id_modalidad_GADB=$rowmodalidad_GA['id'];
+$monto_umas_MODALIDAD=$rowmodalidad_GA['monto_umas'];
+$MODALIDAD=$rowmodalidad_GA['descripcion_modalidad_graduacion_alcoholica'];
+
+if (str_contains($modalidad_graduacion_alcoholica,$MODALIDAD)) {
+echo '<input type="checkbox" name="MODALIDAD_GA[]" value="'.$id_modalidad_GADB.'**'.$MODALIDAD.'**'.$monto_umas_MODALIDAD.'" checked>&nbsp; <font size="1">'.$MODALIDAD.'</font><br>';
+} else {
+echo '<input type="checkbox" name="MODALIDAD_GA[]" value="'.$id_modalidad_GADB.'**'.$MODALIDAD.'**'.$monto_umas_MODALIDAD.'">&nbsp; <font size="1">'.$MODALIDAD.'</font><br>';
+}
+//echo '<option value="'.$id_modalidad_GADB.'">'.$MODALIDAD.'</option>';
+}
+//echo '</select>';
+echo '</div>';
+echo '</div>';
+
+####
+
+
 
 
 ?>

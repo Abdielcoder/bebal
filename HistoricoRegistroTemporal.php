@@ -459,8 +459,11 @@ $estatus_docs_pdf3DB=$arregloPT['estatus_docs_pdf3'];
 $docs_pdf4DB=$arregloPT['docs_pdf4'];
 $estatus_docs_pdf4DB=$arregloPT['estatus_docs_pdf4'];
 ##############
-echo '<h4>Proceso Permiso Nuevo - Alta ';
-	
+echo '<h4>Proceso Permiso Temporal - Alta ';
+
+
+if ( $estatus=='Permiso Temporal Autorizado' ) {
+
 echo '<div class="dropdown">';
 //echo '<button class="dropbtn">Dropdown</button>';
 echo '<font size="1">&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-file-earmark-pdf"></i>&nbsp;<u>PDFs</u></font>';
@@ -554,6 +557,7 @@ echo '</div>';
 echo '</div>';
 ########################################################
 
+}
 
 ?>
             </div>
@@ -643,6 +647,7 @@ $sqlFotos="SELECT * FROM fotos_temp WHERE idprincipal=".$IDPRINCIPAL." AND id_pr
 ##echo $sqlFotos;
 $resultFotos2 = mysqli_query($con, $sqlFotos);
 $rowsFotosCuantosReg2 = mysqli_num_rows($resultFotos2);
+
 
 echo "<h6><font color='white'>Proceso Permiso Temporal - Alta<br>Folio: ".$folio." / ".$nombre_comercial_establecimiento."  (".$GIRO.")</font></h6>";
 echo "<p><font color='white'>Número de Fotografias: ".$rowsFotosCuantosReg2."</font></p>";

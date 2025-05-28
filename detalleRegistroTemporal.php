@@ -62,8 +62,8 @@ session_start();
 	include("modal/revisar_pagoPresupuestoTemp.php");
 	include("modal/eliminar_registro.php");
 
-	include("modal/actualizar_datos_solicitante.php");
-	include("modal/actualizar_datos_establecimiento.php");
+	include("modal/actualizar_datos_solicitanteTemporal.php");
+	include("modal/actualizar_datos_establecimientoTemporal.php");
 	include("modal/actualizar_giro_modalidad_serviciosesp.php");
 
 	$active_principal="active";
@@ -519,7 +519,7 @@ $COLONIA=$row_colonia['colonia'];
 
 <?php
 
-echo '<button type="button" onclick="window.location.href=\'principal_temp.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;" > <i class="bi bi-arrow-left"></i><font size="1"> Regresar</font></button>&nbsp;';
+echo '<button type="button" onclick="window.location.href=\'principal_temp.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;" > <i class="bi bi-arrow-left"></i><font size="1"> Regresar</font></button>';
 //<a href="principal.php?page='.$page.'" class="btn btn-info" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>
 
 ?>
@@ -536,7 +536,7 @@ echo '<button type="button" onclick="window.location.href=\'principal_temp.php?p
 if ( $estatus=='Generar Recibos IRAD' || $estatus=='Pago INS' ||  $estatus=='Pago RAD' ) {
 
 #################
-echo '<a href="generarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>&nbsp;';
+echo '<a href="generarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>';
 #################
 //** Inspección ( tabla tramites )
 ##
@@ -591,7 +591,7 @@ $MONTO_UMAS_RAD=$row_tramite['monto_umas'];
 ##
 if ( $estatus=='Pago RAD' )  {
 } else {
-echo '<a href="datosParaPagarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
+echo '<a href="datosParaPagarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>';
 }
 #### Revisar Pago RAD
 #### 
@@ -615,7 +615,7 @@ $montoRAD2=$row_pagoRAD2['monto'];
 ##echo '<font size="1"><b>RAD Pagado ('.$fecha_pagoRAD2.') $'.number_format($montoRAD2,2).'</b></font>&nbsp;';
 } else {
 //echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
-echo '<a href="#" class="btn btn-success btn-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>&nbsp;';
+echo '<a href="#" class="btn btn-success btn-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>';
 }
 } else {
 echo '<a href="#revisarPagoTemp" data-bs-toggle="modal" data-bs-target="#revisarPagoTemp" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-tramite_pagoid="'.$ID_TRAMITE.'"
@@ -627,7 +627,7 @@ echo '<a href="#revisarPagoTemp" data-bs-toggle="modal" data-bs-target="#revisar
 ###################               
 if ( $estatus=='Generar Recibos IRAD' ) {
 
-echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><font color="red"><i class="bi bi-trash"></i></font></a>&nbsp;';
+echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><font color="red"><i class="bi bi-trash"></i></font></a>';
 
 
 echo '<div class="dropup">';
@@ -635,9 +635,9 @@ echo '<button class="dropbtn"><font size="1" color="red">Actualizar Registro</fo
 echo '<div class="dropup-content">';
 //echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
 ##
-echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
+echo  '<a href="#ActualizarDatosEstablecimientoTemporal" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimientoTemporal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
 ##
-echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Solicitante</font></a>';
+echo  '<a href="#ActualizarDatosSolicitanteTemporal" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitanteTemporal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Solicitante</font></a>';
 echo '</div>';
 echo '</div>';
 }
@@ -666,7 +666,7 @@ $RAD=$row_RAD['RAD'];
 ##
 if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
 
-echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP-RAD Pagados</font></a>&nbsp;';
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP-RAD Pagados</font></a>';
 
 
 
@@ -685,27 +685,27 @@ echo '<button class="dropbtn"><font size="1" color="red">Actualizar Registro</fo
 echo '<div class="dropup-content">';
 echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
 ##
-echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
+echo  '<a href="#ActualizarDatosEstablecimientoTemporal" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimientoTemporal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
 ##
-echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Solicitante</font></a>';
+echo  '<a href="#ActualizarDatosSolicitanteTemporal" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitanteTemporal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Solicitante</font></a>';
 echo '</div>';
 echo '</div>';
 
 ####	
-echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>';
 ##
-echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
+echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>';
 
 
 } else {
 if ( $INSPECCION>0 ) {
 } else {
-echo '<a href="principalFotosTemporal.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+echo '<a href="principalFotosTemporal.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>';
 }
 ##
 if ( $RAD>0 ) {
 } else {
-echo '<a href="principalPDFsTemporal.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
+echo '<a href="principalPDFsTemporal.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>';
 }
 #########
 if ( $INSPECCION>0 && $RAD>0  )  {
@@ -726,7 +726,7 @@ $concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
 $concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
 $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
-echo '<a href="datosParaPagar_pdf_Temporal_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_Temporal_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>';
 
 echo '<a href="#revisarPagoPresupuestoTemp" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoTemp" 
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 
@@ -739,7 +739,7 @@ echo '<a href="#revisarPagoPresupuestoTemp" data-bs-toggle="modal" data-bs-targe
  data-concepto_modalidad="'.$concepto_modalidad.'"  
  data-concepto_servicios_adicionales="'.$concepto_servicios_adicionales.'"  
  data-total_umas_pagar="'.$MONTO_TOTAL_UMAS.'"  
-class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>&nbsp;';
+class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>';
 
 }
  ## LOS ELIMINE
@@ -768,26 +768,26 @@ include("footer.php");
 
 
 
-$( "#guardar_PrincipalEstablecimientoInicio" ).submit(function( event ) {
-  $('#Button_guardar_PrincipalEstablecimientoInicio').attr("disabled", true);
+$( "#guardar_PrincipalEstablecimientoInicioTemporal" ).submit(function( event ) {
+  $('#Button_guardar_PrincipalEstablecimientoInicioTemporal').attr("disabled", true);
 
  var parametros = $(this).serialize();
          $.ajax({
                         type: "POST",
-                        url: "ajax/ActualizarDatosEstablecimientoInicio.php",
+                        url: "ajax/ActualizarDatosEstablecimientoInicioTemporal.php",
                         data: parametros,
                          beforeSend: function(objeto){
-                                $("#resultados_ajaxGuardarPrincipalEstablecimientoInicio").html("Mensaje: Cargando...");
+                                $("#resultados_ajaxGuardarPrincipalEstablecimientoInicioTemporal").html("Mensaje: Cargando...");
                           },
                         success: function(datos){
-                        $("#resultados_ajaxGuardarPrincipalEstablecimientoInicio").html(datos);
-                        $('#Button_guardar_PrincipalEstablecimientoInicio').attr("disabled", true);
+                        $("#resultados_ajaxGuardarPrincipalEstablecimientoInicioTemporal").html(datos);
+                        $('#Button_guardar_PrincipalEstablecimientoInicioTemporal').attr("disabled", true);
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
 <?php
 //location.replace('principal.php');
-echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+echo "location.replace('detalleRegistroTemporal.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
 ?>
                         }, 2000);
 
@@ -798,26 +798,26 @@ echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$I
 
 
 
-$( "#guardar_PrincipalSolicitanteInicio" ).submit(function( event ) {
-  $('#Button_guardar_PrincipalSolicitanteInicio').attr("disabled", true);
+$( "#guardar_PrincipalSolicitanteInicioTemporal" ).submit(function( event ) {
+  $('#Button_guardar_PrincipalSolicitanteInicioTemporal').attr("disabled", true);
 
  var parametros = $(this).serialize();
          $.ajax({
                         type: "POST",
-                        url: "ajax/ActualizarDatosSolicitanteInicio.php",
+                        url: "ajax/ActualizarDatosSolicitanteInicioTemporal.php",
                         data: parametros,
                          beforeSend: function(objeto){
-                                $("#resultados_ajaxGuardarPrincipalSolicitanteInicio").html("Mensaje: Cargando...");
+                                $("#resultados_ajaxGuardarPrincipalSolicitanteInicioTemporal").html("Mensaje: Cargando...");
                           },
                         success: function(datos){
-                        $("#resultados_ajaxGuardarPrincipalSolicitanteInicio").html(datos);
-                        $('#Button_guardar_PrincipalSolicitanteInicio').attr("disabled", true);
+                        $("#resultados_ajaxGuardarPrincipalSolicitanteInicioTemporal").html(datos);
+                        $('#Button_guardar_PrincipalSolicitanteInicioTemporal').attr("disabled", true);
                         window.setTimeout(function() {
                                 $(".alert").fadeTo(150, 0).slideUp(150, function(){
                                 $(this).remove();});
 <?php
 //location.replace('principal.php');
-echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+echo "location.replace('detalleRegistroTemporal.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
 ?>
                         }, 2000);
 

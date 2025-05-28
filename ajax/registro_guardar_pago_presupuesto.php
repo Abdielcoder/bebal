@@ -208,6 +208,8 @@ $CUENTA=$arregloCuenta[0];
 ##########
 if ( $CUENTA>0 ) {
 ##echo 'El Folio ya cuenta con un Numero de permiso<br>';
+$arregloNP=mysqli_fetch_array(mysqli_query($con,"SELECT  numero_permiso  FROM `numero_permiso` WHERE folio='$folio' AND id_giro_siglas='$id_giro_siglas'"));
+$NP=$arregloNP[0];
 } else {
 
 ################
@@ -228,7 +230,6 @@ $ID_USER,
 '$today')";
 
 $query_new_insert99 = mysqli_query($con,$sql_INSERT99);
-if ($query_new_insert99) {
 $arregloMaxid99 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `numero_permiso`"));
 $IDNP=intval($arregloMaxid99[0]);
 
@@ -261,12 +262,11 @@ $Kuery_Update99="UPDATE numero_permiso SET numero_permiso='$NP'  WHERE id=".$IDN
 mysqli_query($con,$Kuery_Update99);
 
 }
-}
 
 ############
 ######################
 $arregloGIRO=mysqli_fetch_array(mysqli_query($con,"SELECT  *  FROM giro WHERE id=$id_giroNP"));
-$MES_VENCIMIENTO=$arregloGIRO[6];
+$MES_VENCIMIENTO=$arregloGIRO[7];
 $GIRO=$arregloGIRO[1];
 ##
 $MASunANO = strtotime ('+1 year' , strtotime($todayANO));
@@ -354,7 +354,7 @@ $resultadoEnvio=enviarCorreo(
 
 
 
-$messages[] = "Se Registro el Pago con Exito y Autorizo  Folio ($folio)  - Se envio Correo $resultadoEnvio";
+$messages[] = "Se Registro el Pago con  Exito y Autorizo  Folio ($folio)  - Se envio Correo $resultadoEnvio";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

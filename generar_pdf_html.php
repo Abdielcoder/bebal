@@ -268,7 +268,7 @@ header('Content-Type: text/html; charset=utf-8');
     <div class="container">
         <div class="header">
             <div class="logo">
-		<img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="400">
+		<img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="500">
 	    </div>
 <?php
             echo '<div class="title">';
@@ -286,12 +286,12 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
         
 	<div class="main-title">
 <center>
-<h2>SOLICITUD DEL PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h2>
+<h2>CONSTANCIA DEL PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h2>
 </center>
         </div>
         
         <div class="folio">
-            Folio: <?php echo $datos['folio']; ?>
+            BID: <?php echo $datos['folio']; ?>
 	</div>
 
 
@@ -299,9 +299,9 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
 		<div class="section">
 <?php
 if ( $datos['operacion']=='NUEVO' ) {
-echo '<div class="section-title">TIPO DE TRAMITE : NUEVO PERMISO</div>';
+echo '<div class="section-title">TRAMITE(S): NUEVO PERMISO</div>';
 } else {
-echo '<div class="section-title">TIPO DE TRAMITE : CAMBIO </div>';
+echo '<div class="section-title">TRAMIT(S): CAMBIO </div>';
 }
 ?>
                     <table class="compact-table">
@@ -355,19 +355,19 @@ if ( $datos['clave_catastral']=='' || $datos['clave_catastral']==NULL || empty($
 
 echo '<tr>';
 echo '<th>Colonia Delegación / Ciudad / CP</th>';
-echo '<td> </td>';
+echo '<td> NA </td>';
 echo '</tr>';
 
 echo '<tr>';
 echo '<th>Clave Catastral</th>';
-echo '<td> </td>';
+echo '<td> NA </td>';
 echo '</tr>';
 
 
 echo '<tr>';
 echo '<tr>';
 echo '<th>No. de Comensales / Superficie (m²)</th>';
-echo '<td></td>';
+echo '<td> NA </td>';
 echo '</tr>';
 
 
@@ -417,7 +417,7 @@ if ( $datos['nombre_persona_fisicamoral_solicitante']=='' || $datos['nombre_pers
 
 echo '<tr>';
 echo '<th>Persona Física/Moral</th>';
-echo '<td> </td>';
+echo '<td> NA </td>';
 echo '</tr>';
 echo '<tr>';
 echo '<th>Representante Legal</th>';
@@ -425,15 +425,15 @@ echo '<td>'.$datos['nombre_representante_legal_solicitante'].'</td>';
 echo '</tr>';
 echo '<tr>';
 echo '<th>RFC / Persona Física o Moral</th>';
-echo '<td> </td>';
+echo '<td> NA </td>';
 echo '</tr>';
 echo '<tr>';
 echo '<th>Domicilio</th>';
-echo '<td> </td>';
+echo '<td> NA </td>';
 echo '</tr>';
 echo '<tr>';
 echo '<th>Email / Teléfono</th>';
-echo '<td> </td>';
+echo '<td> NA </td>';
 echo '</tr>';
 
 } else {
@@ -482,10 +482,9 @@ echo '</tr>';
             </div>
             <div class="signature">
                 <div class="signature-line"></div>
-                <p><b>Dr. José Alonso López Sepúlveda</b><br>
-                Director General de Gobierno<br>
-                Secretaria de Gobierno Municipal<br>
-                XV Ayuntamiento de Tijuana, Baja California
+                <p><b>Lic. Arnulfo Guerrero León</b><br>
+                Secretario de Gobierno Municipal<br>
+                XXV Ayuntamiento de Tijuana, Baja California
             </div>
         </div>
     </div>

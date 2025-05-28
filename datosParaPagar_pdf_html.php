@@ -88,6 +88,13 @@ if (!$resultado || mysqli_num_rows($resultado) == 0) {
 
 $datos = mysqli_fetch_assoc($resultado);
 
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='UMAS'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$TIPO_CAMBIO_UMAS=$row_generales['descripcion'];
+$TOTAL_A_PAGAR_MN=$MONTO_UMAS*$TIPO_CAMBIO_UMAS;
+##
 // Cabecera que indica que esto es un documento HTML
 header('Content-Type: text/html; charset=utf-8');
 ?>
@@ -308,7 +315,7 @@ header('Content-Type: text/html; charset=utf-8');
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="400">
+                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="500">
             </div>
 <?php
             echo '<div class="title">';
@@ -338,8 +345,21 @@ case "Recepcion y Analisis Documentos":
 //default:
 }
 
+$todayANO = date("Y");
 
-echo '<h1>Datos Para Pago <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+$NUMERO_RECIBO='';
+if ( $DESCRIPCION_TRAMITE=='Inspección' ) {
+$NUMERO_RECIBO='PI-'.$id.'-'.$todayANO;
+} else {
+	if ( $DESCRIPCION_TRAMITE=='Recepción y Análisis Documentos' ) {
+		$NUMERO_RECIBO='PA-'.$id.'-'.$todayANO;
+	} else {
+	$NUMERO_RECIBO='PX-'.$id.'-'.$todayANO;
+	}
+}
+
+
+echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
 echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
@@ -347,7 +367,7 @@ echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
         </div>
         
         <div class="folio">
-            Folio: <?php echo $datos['folio']; ?>
+            BID: <?php echo $datos['folio']; ?>
         </div>
         
             <div class="column">
@@ -380,8 +400,16 @@ echo '</tr>';
                             <td><?php echo $datos['modalidad_graduacion_alcoholica']; ?> * [<?php echo $datos['numero_modalidad_graduacion_alcoholica']; ?>]</td>
                         </tr>
                         <tr>
-                            <th>Persona Física/Moral</th>
-                            <td><?php echo $datos['nombre_persona_fisicamoral_solicitante']; ?></td>
+			    <th>Persona Física/Moral</th>
+
+<?php
+$nombre_persona_fisicamoral_solicitante=$datos['nombre_persona_fisicamoral_solicitante'];
+if ( empty($nombre_persona_fisicamoral_solicitante) || $nombre_persona_fisicamoral_solicitante=='' ) {
+echo '<td>NA</td>';
+} else {
+echo '<td>'.$nombre_persona_fisicamoral_solicitante.'</td>';
+}
+?>
                         </tr>
                         <tr>
                             <th>Representante Legal</th>
@@ -410,7 +438,7 @@ echo '</tr>';
                 <tr>
 		    <td class="monto-label">Total a Pagar:</td>
 <?php
-echo '<td class="monto-value">'.number_format($MONTO_UMAS).' UMAS</td>';
+echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGAR_MN,2).'</font>  ( '.number_format($MONTO_UMAS).' umas )</td>';
 ?>
                 </tr>
             </table>

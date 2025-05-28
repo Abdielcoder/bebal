@@ -62,7 +62,7 @@
 			include("modal/registro_principal_temp.php");
 			include("modal/editar_registro.php");
 			include("modal/elegirTramite.php");
-			include("modal/imprimir_permiso.php");
+			include("modal/imprimir_permisoTemporal.php");
 			?>
 <form class="form-horizontal" role="form" id="datos_principal">
 
@@ -102,11 +102,11 @@ echo '</table>';
 	<hr>
 	<?php
 	include("footer.php");
-	include("modal/imagenes_modal.php"); // Modal para mostrar imágenes
+	include("modal/imagenes_modalTemporal.php"); // Modal para mostrar imágenes
 	include("modal/pdf_modal.php"); // Modal para cargar PDFs
 	?>
 	<script type="text/javascript" src="js/principal_temp.js"></script>
-	<script type="text/javascript" src="js/imagenes-modal.js"></script>
+	<script type="text/javascript" src="js/imagenes-modalTemporal.js"></script>
 <script type="text/javascript" src="js/pdf-modal.js"></script>
 <?php
 
@@ -199,7 +199,7 @@ $("#pagina").val(pagina);
 $("#mod_page").val(page);
 }
 
-function obtener_datosImprimirPermiso(id,pagina) {
+function obtener_datosImprimirPermisoTemporal(id,pagina) {
 var folio = $("#folio"+id).val();
 var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
 var numero_permiso = $("#numero_permiso"+id).val();

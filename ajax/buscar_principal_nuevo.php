@@ -569,11 +569,13 @@ echo '<a href="detalleRegistro.php?id='.$id.'--'.$page.'--'.$id_tramite.'" class
                                         $docs_pdf4DB=$arregloPTfiles['docs_pdf4'];
                                         $estatus_docs_pdf4DB=$arregloPTfiles['estatus_docs_pdf4'];
                                     }
-echo '<FORM action="HistoricoRegistro.php" name="HistoricoRegistro'.$id.'" id=name="HistoricoRegistro'.$id.'"  method="POST">';
-echo '<input type="hidden" name="paginaHistorico" value="'.$page.'">';
-echo '<input type="hidden" name="idHistorico" value="'.$id.'">';
-echo '<button name="HistoricoRegistro'.$id.'" class="btn btn-sm btn-action btn-dark" type="submit" title="Historico Folio '.$folio.'"><i class="bi bi-clock-history"></i><font color="black"></font></button>';
-echo '</FORM>';
+//echo '<FORM action="HistoricoRegistro.php" name="HistoricoRegistro'.$id.'" id=name="HistoricoRegistro'.$id.'"  method="POST">';
+//echo '<input type="hidden" name="paginaHistorico" value="'.$page.'">';
+//echo '<input type="hidden" name="idHistorico" value="'.$id.'">';
+//echo '<button name="HistoricoRegistro'.$id.'" class="btn btn-sm btn-action btn-dark" type="submit" title="Historico Folio '.$folio.'"><i class="bi bi-clock-history"></i><font color="black"></font></button>';
+//echo '</FORM>';
+echo '<a href="HistoricoRegistro.php?id='.$id.'&page='.$page.'"  class="btn btn-sm btn-action btn-dark" title="Historico Folio '.$folio.'"><i class="bi bi-clock-history"></i></a>';
+				    
                                 ?>
                                 </div>
                                 

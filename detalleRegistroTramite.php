@@ -74,7 +74,6 @@ session_start();
 	include("modal/actualizar_datos_titularHerencia.php");
 	include("modal/actualizar_datos_titular.php");
 	include("modal/actualizar_datos_nombre_comercial.php");
-	include("modal/actualizar_giro.php");
 
 	$active_principal="active";
 	$active_clientes="";
@@ -342,6 +341,8 @@ $result_proceso_tramite10 = mysqli_query($con,$sql_proceso_tramite10);
 $row_tramite10 = mysqli_fetch_assoc($result_proceso_tramite10);
 $ID_PROCESO_TRAMITES=$row_tramite10['id'];
 $NOTA_proceso_tramites=$row_tramite10['nota'];
+
+
 }
 }
 }
@@ -364,8 +365,10 @@ $servicios_adicionales_raw=$row['servicios_adicionales_raw'];
 $numero_servicios_adicionales=$row['numero_servicios_adicionales'];
 $monto_umas_total_servicios_adicionales=$row['monto_umas_total_servicios_adicionales'];
 
-
-
+################
+##include("modal/actualizar_giro.php");
+echo 'chang';
+######################
 	$superficie_establecimiento=$row['superficie_establecimiento'];
 	$capacidad_comensales_personas=$row['capacidad_comensales_personas'];
 	$rfc=$row['rfc'];
@@ -1517,7 +1520,7 @@ $( "#guardar_registroPrincipalGiro" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-                        }, 2000);
+                        }, 22000);
 
                   }
         });

@@ -254,16 +254,16 @@ $DELEGACION=$arregloDelegacion[0];
                                 // Definir un array con todas las posibles rutas para la imagen
                                 $posibles_rutas = array(
                                     // 1. Rutas usando la constante FOTOSMEDIAS
-                                    "../".FOTOSMEDIAS.$id."-".$id_proceso_tramites."-".$foto.".jpg",
-                                    FOTOSMEDIAS.$id."-".$id_proceso_tramites."-".$foto.".jpg",
+                                    "../".FOTOSMEDIAS.'T-'.$id."-".$id_proceso_tramites."-".$foto.".jpg",
+                                    FOTOSMEDIAS.'T-'.$id."-".$id_proceso_tramites."-".$foto.".jpg",
                                     // 2. Rutas explícitas relativas
                                     "bebal_images/medias/".$id."-".$id_proceso_tramites."-".$foto.".jpg",
                                     "../bebal_images/medias/".$id."-".$id_proceso_tramites."-".$foto.".jpg",
                                     // 3. Rutas con nombre de archivo alternativo
-                                    "../".FOTOSMEDIAS.$id."_".$id_proceso_tramites."_".$foto.".jpg",
-                                    FOTOSMEDIAS.$id."_".$id_proceso_tramites."_".$foto.".jpg",
+                                    "../".FOTOSMEDIAS.'T-'.$id."_".$id_proceso_tramites."_".$foto.".jpg",
+                                    FOTOSMEDIAS.'T-'.$id."_".$id_proceso_tramites."_".$foto.".jpg",
                                     // 4. Ruta absoluta desde document root (si está disponible)
-                                    (isset($_SERVER["DOCUMENT_ROOT"]) ? $_SERVER["DOCUMENT_ROOT"]."/bebal_images/medias/".$id."-".$id_proceso_tramites."-".$foto.".jpg" : "")
+                                    (isset($_SERVER["DOCUMENT_ROOT"]) ? $_SERVER["DOCUMENT_ROOT"]."/bebal_images/medias/T-".$id."-".$id_proceso_tramites."-".$foto.".jpg" : "")
                                 );
                                 
                                 // Filtrar rutas vacías
@@ -301,7 +301,7 @@ $DELEGACION=$arregloDelegacion[0];
                                         $url_imagen = str_replace('../', '/', $url_imagen);
                                     }
                                     
-                                    echo '<a href="#" class="imagen-registro" data-id="'.$id.'" data-id_proceso_tramites="'.$id_proceso_tramites.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
+                                    echo '<a href="#" class="imagen-registroTemporal" data-id="'.$id.'" data-id_proceso_tramites="'.$id_proceso_tramites.'" data-foto="'.$foto.'" data-nombre="'.$nombre_comercial.'" data-folio="'.$folio.'">
                                         <img class="img-thumbnail-custom" src="'.$url_imagen.'" alt="Imagen de '.$nombre_comercial.'">
                                     </a>';
                                 } else {
@@ -446,8 +446,7 @@ echo '<div class="estatus-badge" style="background-color:#AC905B;font-size:10px;
 // Botón de acción para Activo (cambios)
 if ($operacion=='Activo') {
 	if ( $estatus=='Permiso Temporal Autorizado' || $estatus=='Imprimir Permiso' ) {
-	 echo '<a href="#" class="btn btn-sm btn-action btn-warning" title="Imprimir Permiso - Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosImprimirPermiso('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#imprimirpermiso"><i class="bi bi-p-square"></i></a>';
-	 ##echo '<a href="permiso_pdf_html.php?id='.$id.'" target="_blank" class="btn btn-sm btn-action btn-warning"><i class="bi bi-p-square"></i><font size="1"> </font></a>&nbsp;';
+	 echo '<a href="#" class="btn btn-sm btn-action btn-warning" title="Imprimir Permiso Temporal - Folio '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datosImprimirPermisoTemporal('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#imprimirpermisoTemporal"><i class="bi bi-p-square"></i></a>';
 	 }
 
 

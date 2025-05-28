@@ -519,7 +519,7 @@ $COLONIA=$row_colonia['colonia'];
 
 <?php
 
-echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;" > <i class="bi bi-arrow-left"></i><font size="1"> Regresar</font></button>&nbsp;';
+echo '<button type="button" onclick="window.location.href=\'principal.php?page='.$page.'&action=ajax\'" class="btn btn-info bs-sm" style="background-color:#FFFFFF;" > <i class="bi bi-arrow-left"></i><font size="1"> Regresar</font></button>';
 //<a href="principal.php?page='.$page.'" class="btn btn-info" style="background-color:#FFFFFF;"> <i class="bi bi-arrow-left"></i><font color="black" size="1"> Regresar </font></a>
 
 ?>
@@ -536,7 +536,7 @@ echo '<button type="button" onclick="window.location.href=\'principal.php?page='
 if ( $estatus=='Generar Recibos IRAD' || $estatus=='Pago INS' ||  $estatus=='Pago RAD' ) {
 
 #################
-echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>&nbsp;';
+echo '<a href="generar_pdf_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Datos Generales </font></a>';
 #################
 //** Inspección ( tabla tramites )
 ##
@@ -591,7 +591,7 @@ $MONTO_UMAS_RAD=$row_tramite['monto_umas'];
 ##
 if ( $estatus=='Pago RAD' )  {
 } else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>';
 }
 #### Revisar Pago RAD
 #### 
@@ -615,7 +615,7 @@ $montoRAD2=$row_pagoRAD2['monto'];
 ##echo '<font size="1"><b>RAD Pagado ('.$fecha_pagoRAD2.') $'.number_format($montoRAD2,2).'</b></font>&nbsp;';
 } else {
 //echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
-echo '<a href="#" class="btn btn-success btn-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>&nbsp;';
+echo '<a href="#" class="btn btn-success btn-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">RAD Pagado</font></a>';
 }
 } else {
 echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago" data-id_pago_ins="'.$ID_PAGO_INS.'"  data-id_pago_rad="'.$ID_PAGO_RAD.'" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-tramite_pagoid="'.$ID_TRAMITE.'"
@@ -627,7 +627,7 @@ echo '<a href="#revisarPago" data-bs-toggle="modal" data-bs-target="#revisarPago
 ###################               
 if ( $estatus=='Generar Recibos IRAD' ) {
 
-echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><font color="red"><i class="bi bi-trash"></i></font></a>&nbsp;';
+echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#EliminarRegistro" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-dark bs-sm" title="Eliminar Registro"><font color="red"><i class="bi bi-trash"></i></font></a>';
 
 
 echo '<div class="dropup">';
@@ -667,7 +667,7 @@ $RAD=$row_RAD['RAD'];
 if ( $estatus=='Pagos IRAD' || $estatus=='Inspeccion Realizada' || $estatus=='RAD Realizado')  {
 	##echo '<a href="#EfectuarInspeccion" data-bs-toggle="modal" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
 
-echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP-RAD Pagados</font></a>&nbsp;';
+echo '<a href="#" class="btn btn-success bs-sm"><i class="bi bi-currency-dollar"></i><font color="white" size="1">INSP-RAD Pagados</font></a>';
 
 
 
@@ -693,20 +693,20 @@ echo '</div>';
 echo '</div>';
 
 ####	
-echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>';
 ##
-echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
+echo '<a href="#"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>';
 
 
 } else {
 if ( $INSPECCION>0 ) {
 } else {
-echo '<a href="principalFotos.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+echo '<a href="principalFotos.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar Inspección"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar Inspección </font></a>';
 }
 ##
 if ( $RAD>0 ) {
 } else {
-echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>&nbsp;';
+echo '<a href="principalPDFs.php?id='.$IDPRINCIPAL.'&page='.$page.'&id_proceso_tramites='.$id_proceso_tramites.'"  class="btn btn-danger bs-sm" title="Registrar RAD"> <i class="bi bi-clipboard-check"></i><font size="1"> Registrar R y A Docs </font></a>';
 }
 #########
 if ( $INSPECCION>0 && $RAD>0  )  {
@@ -727,7 +727,7 @@ $concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
 $concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
 $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
-echo '<a href="datosParaPagar_pdf_Nuevo_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_Nuevo_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>';
 
 echo '<a href="#revisarPagoPresupuesto" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuesto" 
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 
@@ -740,7 +740,7 @@ echo '<a href="#revisarPagoPresupuesto" data-bs-toggle="modal" data-bs-target="#
  data-concepto_modalidad="'.$concepto_modalidad.'"  
  data-concepto_servicios_adicionales="'.$concepto_servicios_adicionales.'"  
  data-total_umas_pagar="'.$MONTO_TOTAL_UMAS.'"  
-class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>&nbsp;';
+class="btn btn-danger bs-sm" title="Revisar Pago Presupuesto"><i class="bi bi-check-circle"></i><font size="1">Pago Pesupuesto</font></a>';
 
 }
  ## LOS ELIMINE

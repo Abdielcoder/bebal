@@ -99,10 +99,9 @@ $row=mysqli_fetch_assoc($resultMAXidfoto);
 $nextidf=$row['idfoto'];
 
 
-
 	$filename='T-'.$IDPRINCIPAL.'-'.$ID_PROCESO_TRAMITES.'-'.$nextidf.'.jpg';
 	##echo "filename=".$filename."<br>";
-	if ($_FILES["nuevafoto"]['type']!='image/jpeg') {
+	if ($_FILES["nuevafoto"]["type"]!='image/jpeg') {
 	  ###
 	   $errorfoto="La foto debe estar en formato jpg";
 	   $queryUPDATE="UPDATE fotos_temp SET descripcion='".$errorfoto.", idprincipal=".$IDPRINCIPAL."', idprincipal=0 WHERE idfoto=".$nextidf." AND idprincipal=".$IDPRINCIPAL;

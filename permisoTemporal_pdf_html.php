@@ -47,11 +47,11 @@ nota
 0,
 $ID_USER,
 '$fecha_datetime_hoy',
-'Error: No se especificó un ID válido'
+'Error: No se especificó un ID válido - Permiso Temporal'
 );";
 $query_Insert = mysqli_query($con,$Kuery_Insert);
 
-die("Error: No se especificó un ID válido");
+die("Error: No se especificó un ID válido - Permiso Temporal");
 }
 
 $id = intval($_POST['id']);
@@ -118,7 +118,7 @@ $sql = "SELECT p.*,
         mu.municipio AS municipio_desc,
         d.delegacion AS delegacion_desc,
         c.colonia AS colonia_desc
-        FROM principal p
+        FROM principal_temp p
         LEFT JOIN giro g ON p.giro = g.id
         LEFT JOIN municipio mu ON p.id_municipio = mu.id
         LEFT JOIN delegacion d ON p.id_delegacion = d.id
@@ -143,11 +143,11 @@ nota
 $id,
 $ID_USER,
 '$fecha_datetime_hoy',
-'Error: No se encontró el registro solicitado'
+'Error: No se encontró el registro solicitado - Permiso Temporal'
 );";
 $query_Insert = mysqli_query($con,$Kuery_Insert);
 ###
-ie("Error: No se encontró el registro solicitado");
+die("Error: No se encontró el registro solicitado - Permiso Temporal");
 }
 
 ##################
@@ -181,7 +181,7 @@ $ID_USER,
 $query_Insert = mysqli_query($con,$Kuery_Insert);
 
 //echo 'El NIP no coincide';
-die("Error: El NIP no coincide");
+die("Error: El NIP no coincide - Permiso Temporal");
 //sleep(2);
 //header("location: index.php");
 }
@@ -202,7 +202,7 @@ nota
 $id,
 $ID_USER,
 '$fecha_datetime_hoy',
-'OK'
+'OK - Permiso Temporal'
 );";
 $query_Insert = mysqli_query($con,$Kuery_Insert);
 
@@ -216,7 +216,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permiso de Alcoholes  - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Permiso Temporal de Alcoholes  - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
         @media print {
             body {
@@ -498,11 +498,20 @@ $DIAp4=$FechaPorciones4[2];
 $MES_LETRAp4=funcion_MES($MESp4);
 $FECHA_ALTA=$DIAp4.'/'.$MES_LETRAp4.'/'.$ANOp4;
 ##
+$fecha_expiracion=$datos['fecha_expiracion'];
+$FechaPorciones5=explode("-",$fecha_expiracion);
+$ANOp5=$FechaPorciones5[0];
+$MESp5=$FechaPorciones5[1];
+$DIAp5=$FechaPorciones5[2];
+$MES_LETRAp5=funcion_MES($MESp5);
+$FECHA_EXPIRACION=$DIAp5.'/'.$MES_LETRAp5.'/'.$ANOp5;
+##
 echo '<table width="800px" style="margin-top: 13px;">';
 echo '<tbody>';
 echo '<tr>';
 echo '<td class="tab" width="380px">'.$FECHA_AUTORIZACION.'</td>';
-echo '<td class="tab">'.$FECHA_ALTA.'</td>';
+##echo '<td class="tab">'.$FECHA_ALTA.'</td>';
+echo '<td class="tab">'.$FECHA_EXPIRACION.'</td>';
 echo '</tr>';
 echo '</tbody>';
 echo '</table>';

@@ -199,9 +199,14 @@ session_start();
 
 
 ################################
-$IDPRINCIPAL = $_POST['idHistorico'];
-$page = $_POST['paginaHistorico'];
+##$IDPRINCIPAL = $_POST['idHistorico'];
+##$page = $_POST['paginaHistorico'];
 #################################
+$IDPRINCIPAL = $_GET['id'];
+$page = $_GET['page'];
+
+
+
 
 $sqlPrincipal="SELECT * FROM principal WHERE id=".$IDPRINCIPAL;
 $row = mysqli_fetch_array(mysqli_query($con,$sqlPrincipal));
@@ -492,7 +497,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf1DB.'"></object>';
+if ( empty($docs_pdf1DB) || $docs_pdf1DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf1DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';
@@ -510,7 +518,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf2DB.'"></object>';
+if ( empty($docs_pdf2DB) || $docs_pdf2DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf2DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';
@@ -528,7 +539,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf3DB.'"></object>';
+if ( empty($docs_pdf3DB) || $docs_pdf3DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf3DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';
@@ -546,7 +560,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf4DB.'"></object>';
+if ( empty($docs_pdf4DB) || $docs_pdf4DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf4DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';
@@ -950,7 +967,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf1DB.'"></object>';
+if ( empty($docs_pdf1DB) || $docs_pdf1DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf1DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';
@@ -968,7 +988,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf2DB.'"></object>';
+if ( empty($docs_pdf2DB) || $docs_pdf2DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf2DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';
@@ -986,7 +1009,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf3DB.'"></object>';
+if ( empty($docs_pdf3DB) || $docs_pdf3DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf3DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';
@@ -1004,7 +1030,10 @@ echo '</button>';
 echo '</div>';
 echo '<div class="modal-body">';
 //echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="http://'.IPADDRESS.'/bebal_docs/'.$docs_pdf4DB.'"></object>';
+if ( empty($docs_pdf4DB) || $docs_pdf4DB=='' ) {
+} else {
 echo '<object class="PDFdoc" width="100%" height="500px" type="application/pdf" data="../bebal_docs/'.$docs_pdf4DB.'"></object>';
+}
 echo '</div>';
 echo '</div>';
 echo '</div>';

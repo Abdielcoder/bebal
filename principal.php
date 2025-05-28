@@ -276,7 +276,7 @@ $("#telefono_solicitante_data").val(telefono_solicitante);
 $("#COLONIAyDELEGACION_data").val(COLONIAyDELEGACION);
 $("#direccion_establecimiento_completa_data").val(direccion_establecimiento_completa);
 
-$("#id_data").val(id);
+$("#mod_id_data").val(id);
 $("#mod_folio_data").val(folio);
 
 }

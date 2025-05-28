@@ -26,7 +26,90 @@ if (!isset($_POST['IDPRINCIPAL']) || empty($_POST['IDPRINCIPAL'])) {
 }
 
 $id = intval($_POST['IDPRINCIPAL']);
-$id = intval($_POST['page']);
+$page = intval($_POST['page']);
+
+$MODALIDAD_GA=$_POST['TRAMITES'];
+
+
+$monto_umas_total_modalidad_graduacion_alcoholica=0;
+$MODALIDAD_GA_LISTA='';
+$cuentaMGA=count($MODALIDAD_GA);
+
+if ( $cuentaMGA==1 ) {
+#########
+$MODALIDAD_GA_RAW=$MODALIDAD_GA[0];
+#
+$porciones0 = explode("**", $MODALIDAD_GA[0]);
+$e00=$porciones0[0];
+$e01=$porciones0[1];
+$e02=$porciones0[2];
+$monto_umas_total_modalidad_graduacion_alcoholica=$e02;
+$MODALIDAD_GA_LISTA='('.$e01.')';
+#
+#########
+} else {
+
+if ( $cuentaMGA==2 ) {
+#################
+$MODALIDAD_GA_RAW=$MODALIDAD_GA[0].'--'.$MODALIDAD_GA[1];
+#
+$porciones0 = explode("**", $MODALIDAD_GA[0]);
+$e00=$porciones0[0];
+$e01=$porciones0[1];
+$e02=$porciones0[2];
+#
+$porciones1 = explode("**", $MODALIDAD_GA[1]);
+$e10=$porciones1[0];
+$e11=$porciones1[1];
+$e12=$porciones1[2];
+$monto_umas_total_modalidad_graduacion_alcoholica=$e02+$e12;
+$MODALIDAD_GA_LISTA='('.$e01.') y ('.$e11.')';
+#
+#################
+} else {
+
+$MODALIDAD_GA_RAW=$MODALIDAD_GA[0];
+#
+$porciones0 = explode("**", $MODALIDAD_GA[0]);
+$e00=$porciones0[0];
+$e01=$porciones0[1];
+$e02=$porciones0[2];
+$monto_umas_total_modalidad_graduacion_alcoholica=$e02;
+$MODALIDAD_GA_LISTA='('.$e01.')';
+#
+
+
+
+for($i = 1; $i<$cuentaMGA-1; $i++) {
+
+$MODALIDAD_GA_RAW .= '--'.$MODALIDAD_GA[$i];
+
+$porcionesi = explode("**", $MODALIDAD_GA[$i]);
+$ei0=$porcionesi[0];
+$ei1=$porcionesi[1];
+$ei2=$porcionesi[2];
+$monto_umas_total_modalidad_graduacion_alcoholica=$ei2+$monto_umas_total_modalidad_graduacion_alcoholica;
+#
+
+$MODALIDAD_GA_LISTA.=', ('.$ei1.')';
+}
+
+
+$MODALIDAD_GA_RAW .= ' --'.$MODALIDAD_GA[$cuentaMGA-1];
+$porcionesu = explode("**", $MODALIDAD_GA[$cuentaMGA-1]);
+$eu0=$porcionesu[0];
+$eu1=$porcionesu[1];
+$eu2=$porcionesu[2];
+$monto_umas_total_modalidad_graduacion_alcoholica=$eu2+$monto_umas_total_modalidad_graduacion_alcoholica;
+
+$MODALIDAD_GA_LISTA .= ' Y ('.$eu1.')';
+}
+}
+
+#####################
+
+
+
 
 // Consultar datos del establecimiento
 $sql = "SELECT p.*, 

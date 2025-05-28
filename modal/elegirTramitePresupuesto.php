@@ -20,7 +20,7 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 			<div id="resultados_ajaxElegirTramitePresupuesto"></div>
 
 
-<input type="hidden" id="id_data" name="IDPRINCIPAL">
+<input type="hidden" id="mod_id_data" name="IDPRINCIPAL">
 <input type="hidden" id="pagina" name="page">
 
 

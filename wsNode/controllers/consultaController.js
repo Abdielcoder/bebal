@@ -169,6 +169,77 @@ class ConsultaController {
       });
     }
   }
+
+  // Migración de generar_pdf_html.php - Obtener datos de establecimiento
+  async obtenerDatosEstablecimiento(req, res) {
+    try {
+      const { id } = req.params;
+
+      // Validar que se recibió el ID
+      if (!id || isNaN(parseInt(id))) {
+        return res.status(400).json({
+          success: false,
+          data: null,
+          message: 'Error: No se especificó un ID válido',
+          error: 'ID requerido y debe ser numérico'
+        });
+      }
+
+      const idEstablecimiento = parseInt(id);
+
+      // Consultar datos del establecimiento (misma consulta que en generar_pdf_html.php)
+      const sql = `
+        SELECT p.*, 
+               g.descripcion_giro AS giro_desc, 
+               g.horario_funcionamiento AS horario_funcionamiento, 
+               mu.municipio AS municipio_desc,
+               d.delegacion AS delegacion_desc,
+               c.colonia AS colonia_desc
+        FROM principal p
+        LEFT JOIN giro g ON p.giro = g.id
+        LEFT JOIN municipio mu ON p.id_municipio = mu.id
+        LEFT JOIN delegacion d ON p.id_delegacion = d.id
+        LEFT JOIN colonias c ON p.id_colonia = c.id
+        WHERE p.id = ?
+      `;
+
+      const resultado = await database.query(sql, [idEstablecimiento]);
+
+      if (!resultado || resultado.length === 0) {
+        return res.status(404).json({
+          success: false,
+          data: null,
+          message: 'Error: No se encontró el registro solicitado',
+          error: 'Establecimiento no encontrado'
+        });
+      }
+
+      const datos = resultado[0];
+
+      // Retornar los datos en formato JSON
+      return res.json({
+        success: true,
+        data: {
+          establecimiento: datos,
+          metadata: {
+            consulta_fecha: new Date().toISOString(),
+            id_consultado: idEstablecimiento
+          }
+        },
+        message: 'Datos del establecimiento obtenidos correctamente',
+        error: null
+      });
+
+    } catch (error) {
+      console.error('Error en obtenerDatosEstablecimiento:', error);
+      return res.status(500).json({
+        success: false,
+        data: null,
+        message: 'Error interno del servidor',
+        error: 'Error al consultar datos del establecimiento'
+      });
+    }
+  }
 }
 
 module.exports = new ConsultaController(); 

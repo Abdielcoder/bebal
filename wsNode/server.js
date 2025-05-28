@@ -77,7 +77,8 @@ app.get('/', (req, res) => {
       consultas: {
         'POST /api/consultas/table-rows': 'Consultar filas de tabla (requiere JWT)',
         'POST /api/consultas/table-rows-count': 'Contar filas de tabla (requiere JWT)',
-        'POST /api/consultas/row-by-folio': 'Consultar por folio específico (requiere JWT)'
+        'POST /api/consultas/row-by-folio': 'Consultar por folio específico (requiere JWT)',
+        'GET /api/consultas/establecimiento/:id': 'Obtener datos de establecimiento por ID (público, sin JWT)'
       },
       actualizaciones: {
         'POST /api/actualizaciones/lat-lon-sup-com': 'Actualizar coordenadas y datos (requiere JWT)'

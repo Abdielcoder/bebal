@@ -12,4 +12,7 @@ router.post('/table-rows-count', authenticateToken, consultaController.consultaT
 // POST /api/consultas/row-by-folio - Migración de consultaUnRowXfolio.php
 router.post('/row-by-folio', authenticateToken, consultaController.consultaUnRowXfolio);
 
+// GET /api/consultas/establecimiento/:id - Migración de generar_pdf_html.php (sin autenticación)
+router.get('/establecimiento/:id', consultaController.obtenerDatosEstablecimiento);
+
 module.exports = router; 

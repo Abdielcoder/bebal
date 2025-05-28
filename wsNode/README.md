@@ -308,4 +308,124 @@ Esta API Node.js replica **exactamente** la funcionalidad de los archivos PHP or
 
 ## 📞 Soporte
 
-Para cualquier problema o duda sobre la migración, revisar los logs del servidor y verificar la configuración de la base de datos. 
+Para cualquier problema o duda sobre la migración, revisar los logs del servidor y verificar la configuración de la base de datos.
+
+## Endpoints Disponibles
+
+### Autenticación
+- `POST /api/auth/validar-usuario` - Validar credenciales
+- `POST /api/auth/authenticate` - Generar token JWT
+
+### Consultas (requieren JWT)
+- `POST /api/consultas/table-rows` - Consultar filas de tabla
+- `POST /api/consultas/table-rows-count` - Contar filas de tabla  
+- `POST /api/consultas/row-by-folio` - Consultar por folio específico
+
+### Consultas Públicas (sin JWT)
+- `GET /api/consultas/establecimiento/:id` - Obtener datos de establecimiento
+
+### Actualizaciones (requieren JWT)
+- `POST /api/actualizaciones/lat-lon-sup-com` - Actualizar coordenadas y datos
+
+### Uploads (requieren JWT)
+- `POST /api/uploads/foto` - Subir foto
+
+## Nuevo Endpoint: Consulta de Establecimiento
+
+### GET /api/consultas/establecimiento/:id
+
+**Descripción:** Obtiene todos los datos de un establecimiento específico basado en su ID. Este endpoint migra la funcionalidad del archivo PHP `generar_pdf_html.php`.
+
+**Características:**
+- ✅ Endpoint público (no requiere autenticación JWT)
+- ✅ Método GET con parámetro en URL
+- ✅ Validación de entrada
+- ✅ Manejo de errores
+- ✅ Joins con tablas relacionadas (giro, municipio, delegación, colonias)
+
+**Parámetros:**
+- `id` (path parameter): ID numérico del establecimiento
+
+**Ejemplo de uso:**
+```bash
+GET http://localhost:5014/api/consultas/establecimiento/1
+```
+
+**Respuesta exitosa:**
+```json
+{
+  "success": true,
+  "data": {
+    "establecimiento": {
+      "id": 1,
+      "folio": "TIJ-2024-001",
+      "nombre_comercial_establecimiento": "Restaurante El Ejemplo",
+      "giro_desc": "Restaurante",
+      "horario_funcionamiento": "08:00 - 22:00",
+      "municipio_desc": "Tijuana",
+      "delegacion_desc": "Centro",
+      "colonia_desc": "Zona Centro",
+      // ... todos los demás campos
+    },
+    "metadata": {
+      "consulta_fecha": "2024-12-19T10:30:00.000Z",
+      "id_consultado": 1
+    }
+  },
+  "message": "Datos del establecimiento obtenidos correctamente",
+  "error": null
+}
+```
+
+**Respuesta de error (ID inválido):**
+```json
+{
+  "success": false,
+  "data": null,
+  "message": "Error: No se especificó un ID válido",
+  "error": "ID requerido y debe ser numérico"
+}
+```
+
+**Respuesta de error (establecimiento no encontrado):**
+```json
+{
+  "success": false,
+  "data": null,
+  "message": "Error: No se encontró el registro solicitado",
+  "error": "Establecimiento no encontrado"
+}
+```
+
+### Consulta SQL Utilizada
+
+El endpoint ejecuta la misma consulta que el archivo PHP original:
+
+```sql
+SELECT p.*, 
+       g.descripcion_giro AS giro_desc, 
+       g.horario_funcionamiento AS horario_funcionamiento, 
+       mu.municipio AS municipio_desc,
+       d.delegacion AS delegacion_desc,
+       c.colonia AS colonia_desc
+FROM principal p
+LEFT JOIN giro g ON p.giro = g.id
+LEFT JOIN municipio mu ON p.id_municipio = mu.id
+LEFT JOIN delegacion d ON p.id_delegacion = d.id
+LEFT JOIN colonias c ON p.id_colonia = c.id
+WHERE p.id = ?
+```
+
+### Pruebas
+
+Para probar el nuevo endpoint, puedes ejecutar:
+
+```bash
+node test_establecimiento.js
+```
+
+Este script ejecutará varias pruebas:
+- ✅ Consulta con ID válido
+- ✅ Validación de ID inválido
+- ✅ Manejo de establecimiento inexistente
+- ✅ Verificación de documentación de API 

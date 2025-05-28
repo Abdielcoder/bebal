@@ -347,14 +347,15 @@ case "Recepcion y Analisis Documentos":
 
 $todayANO = date("Y");
 
+$id_proceso_tramites=$datos['id_proceso_tramites'];
 $NUMERO_RECIBO='';
 if ( $DESCRIPCION_TRAMITE=='Inspección' ) {
-$NUMERO_RECIBO='PI-'.$id.'-'.$todayANO;
+$NUMERO_RECIBO='PI-'.$id.$id_proceso_tramites.'-'.$todayANO;
 } else {
 	if ( $DESCRIPCION_TRAMITE=='Recepción y Análisis Documentos' ) {
-		$NUMERO_RECIBO='PA-'.$id.'-'.$todayANO;
+	$NUMERO_RECIBO='PA-'.$id.$id_proceso_tramites.'-'.$todayANO;
 	} else {
-	$NUMERO_RECIBO='PX-'.$id.'-'.$todayANO;
+	$NUMERO_RECIBO='PX-'.$id.$id_proceso_tramites.'-'.$todayANO;
 	}
 }
 
@@ -378,7 +379,6 @@ echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
                             <th>Nombre Comercial</th>
                             <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
 			</tr>
-
 
 <?php
 if ( $DESCRIPCION_TRAMITE_SOLICITADO=='Permiso Nuevo' ) {

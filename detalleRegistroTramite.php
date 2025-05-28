@@ -342,7 +342,6 @@ $row_tramite10 = mysqli_fetch_assoc($result_proceso_tramite10);
 $ID_PROCESO_TRAMITES=$row_tramite10['id'];
 $NOTA_proceso_tramites=$row_tramite10['nota'];
 
-
 }
 }
 }
@@ -366,8 +365,9 @@ $numero_servicios_adicionales=$row['numero_servicios_adicionales'];
 $monto_umas_total_servicios_adicionales=$row['monto_umas_total_servicios_adicionales'];
 
 ################
-##include("modal/actualizar_giro.php");
-echo 'chang';
+if ($TRAMITE_tramite_SOLICITADO=='Cambio de Giro') {
+include("modal/actualizar_giro.php");
+}
 ######################
 	$superficie_establecimiento=$row['superficie_establecimiento'];
 	$capacidad_comensales_personas=$row['capacidad_comensales_personas'];
@@ -729,7 +729,6 @@ echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
 #####################################
 
 ##echo 'operacion='.$operacion.', estatus='.$estatus;
-//chang
 
 if ( str_contains($operacion, 'Cierre Temporal') && $estatus=='CTemp Recibo Insp' )  {
 

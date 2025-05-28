@@ -63,6 +63,7 @@
 			include("modal/registro_principal.php");
 			include("modal/editar_registro.php");
 			include("modal/elegirTramite.php");
+			include("modal/elegirTramitePresupuesto.php");
 			include("modal/imprimir_permiso.php");
 			?>
 <form class="form-horizontal" role="form" id="datos_principal">
@@ -199,6 +200,7 @@ $("#pagina").val(pagina);
 $("#mod_page").val(page);
 }
 
+
 function obtener_datosImprimirPermiso(id,pagina) {
 var folio = $("#folio"+id).val();
 var nombre_comercial_establecimiento = $("#nombre_comercial_establecimiento"+id).val();
@@ -273,6 +275,9 @@ $("#telefono_solicitante_data").val(telefono_solicitante);
 
 $("#COLONIAyDELEGACION_data").val(COLONIAyDELEGACION);
 $("#direccion_establecimiento_completa_data").val(direccion_establecimiento_completa);
+
+$("#id_data").val(id);
+$("#mod_folio_data").val(folio);
 
 }
 

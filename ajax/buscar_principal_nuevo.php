@@ -601,6 +601,10 @@ echo '<a href="HistoricoRegistro.php?id='.$id.'&page='.$page.'"  class="btn btn-
                                 if ($mostrarBotonAmarillo) {
                                     echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
                                 }
+if ($operacion=='NUEVO') {
+echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Presupuesto '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datos('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramitePresupuesto"><i class="bi bi-calculator"></i></a>';
+}
+//chang
                                 ?>
 			    </div>
                         </td>
@@ -812,7 +816,6 @@ echo '</div>';
 				echo '</div>';
 				echo '</div>';
 				}
-
 
 		}  //* while
 

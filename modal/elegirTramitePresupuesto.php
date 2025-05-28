@@ -53,11 +53,7 @@ $descripcion_tramite=$row['descripcion_tramite'];
 $monto_umas=$row['monto_umas'];
 $descuento=$row['descuento'];
 
-$id_modalidad_GADB=$rowmodalidad_GA['id'];
-$monto_umas_MODALIDAD=$rowmodalidad_GA['monto_umas'];
-$MODALIDAD=$rowmodalidad_GA['descripcion_modalidad_graduacion_alcoholica'];
-
-echo '<input type="checkbox" name="TRAMITES[]" value="'.$id_tramite.'**'.$descripcion_tramite.'**'.$monto_umas.'**'.$descuento.'">&nbsp; <font size="1">'.$descripcion_tramite.'</font><br>';
+echo '<input type="checkbox" name="TRAMITES[]" value="'.$id_tramite.'**'.$descripcion_tramite.'**'.$monto_umas.'**">&nbsp; <font size="1">'.$descripcion_tramite.'</font><br>';
 }
 
 

@@ -32,7 +32,7 @@ $MODALIDAD_GA=$_POST['TRAMITES'];
 
 
 $monto_umas_total_modalidad_graduacion_alcoholica=0;
-$MODALIDAD_GA_LISTA='';
+$TRAMITE_LISTA='';
 $cuentaMGA=count($MODALIDAD_GA);
 
 if ( $cuentaMGA==1 ) {
@@ -44,7 +44,7 @@ $e00=$porciones0[0];
 $e01=$porciones0[1];
 $e02=$porciones0[2];
 $monto_umas_total_modalidad_graduacion_alcoholica=$e02;
-$MODALIDAD_GA_LISTA='('.$e01.')';
+$TRAMITE_LISTA='('.$e01.')';
 #
 #########
 } else {
@@ -63,7 +63,7 @@ $e10=$porciones1[0];
 $e11=$porciones1[1];
 $e12=$porciones1[2];
 $monto_umas_total_modalidad_graduacion_alcoholica=$e02+$e12;
-$MODALIDAD_GA_LISTA='('.$e01.') y ('.$e11.')';
+$TRAMITE_LISTA='('.$e01.') y ('.$e11.')';
 #
 #################
 } else {
@@ -75,7 +75,7 @@ $e00=$porciones0[0];
 $e01=$porciones0[1];
 $e02=$porciones0[2];
 $monto_umas_total_modalidad_graduacion_alcoholica=$e02;
-$MODALIDAD_GA_LISTA='('.$e01.')';
+$TRAMITE_LISTA='('.$e01.')';
 #
 
 
@@ -91,7 +91,7 @@ $ei2=$porcionesi[2];
 $monto_umas_total_modalidad_graduacion_alcoholica=$ei2+$monto_umas_total_modalidad_graduacion_alcoholica;
 #
 
-$MODALIDAD_GA_LISTA.=', ('.$ei1.')';
+$TRAMITE_LISTA.=', ('.$ei1.')';
 }
 
 
@@ -102,13 +102,13 @@ $eu1=$porcionesu[1];
 $eu2=$porcionesu[2];
 $monto_umas_total_modalidad_graduacion_alcoholica=$eu2+$monto_umas_total_modalidad_graduacion_alcoholica;
 
-$MODALIDAD_GA_LISTA .= ' Y ('.$eu1.')';
+$TRAMITE_LISTA .= ' Y ('.$eu1.')';
 }
 }
 
 #####################
 
-
+echo 'TRAMITE_LISTA='.$TRAMITE_LISTA;
 
 
 // Consultar datos del establecimiento

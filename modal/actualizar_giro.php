@@ -158,6 +158,7 @@ echo '</div>';
 <!--<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>--!>
 <button type="submit" class="btn btn-primary" id="Button_guardar_registroPrincipalGiro"  style="background-color:#FF0000;color:black"> Actualizar Giro </button>
 </div>
+<font color='white' size='1'>actualizar_giro.php (Button_guardar_registroPrincipalGiro) - ajax/ActualizarDatosGIRO.php</font>
 
 </form>
 </div>

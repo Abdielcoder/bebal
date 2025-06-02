@@ -601,8 +601,20 @@ echo '<a href="HistoricoRegistro.php?id='.$id.'&page='.$page.'"  class="btn btn-
                                 if ($mostrarBotonAmarillo) {
                                     echo '<div class="yellow-button-container">'.$botonAmarilloHTML.'</div>';
                                 }
-if ($operacion=='NUEVO') {
-echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Presupuesto '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datos('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramitePresupuesto"><i class="bi bi-calculator"></i></a>';
+if ($operacion=='NUEVO' || $operacion=='Activo' || $operacion=='Tramite') {
+//$arregloCuentaPresupuesto=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `presupuesto` WHERE id_principal=$id AND estatus='Inicio'"));
+//$CUENTA_presupuesto=$arregloCuentaPresupuesto[0];
+//if ( $CUENTA_presupuesto>0 ) {
+//$arregloPresupuesto=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `presupuesto` WHERE id_principal=$id AND estatus='Inicio'"));
+//$TRAMITES_PRESUPUESTO=$arregloPresupuesto[3];
+//echo '<input type="hidden" id="tramitesPresupuesto'.$id.'" value="'.$TRAMITES_PRESUPUESTO.'">';
+## EXISTE INFORMACION EN LA TABLA presupuesto
+##echo '<a href="generarPresupuestoTramites_pdf_html.php?id='.$id.'&page='.$page.'"" class="btn btn-xs btn-action btn-danger" title="Presupuesto '.$folio.', '.$nombre_comercial_establecimiento.'"  target="_blank"><i class="bi bi-calculator"></i></a>';
+echo '<a href="detalleRegistroPresupuestoTramite.php?id='.$id.'&page='.$page.'"" class="btn btn-xs btn-action btn-success" title="Presupuesto '.$folio.', '.$nombre_comercial_establecimiento.'"><i class="bi bi-calculator"></i></a>';
+//} else {
+//echo '<input type="hidden" id="tramitesPresupuesto'.$id.'" value="">';
+//echo '<a href="#" class="btn btn-xs btn-action btn-success" title="Presupuesto '.$folio.', '.$nombre_comercial_establecimiento.'" onclick="obtener_datos('.$id.','.$page.');" data-bs-toggle="modal" data-bs-target="#elegirTramitePresupuesto"><i class="bi bi-calculator"></i></a>';
+//}
 }
 //chang
                                 ?>

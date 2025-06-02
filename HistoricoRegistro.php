@@ -312,7 +312,16 @@ $COLONIA=$row_colonia['colonia'];
 ##
 }
 ##################################################
+##  ALTA NUEVA
 ##################################################
+
+$sql_Cuenta_Alta="SELECT COUNT(*) CUENTA_ALTA FROM proceso_tramites WHERE id_tramite=1 AND id_principal=$IDPRINCIPAL";
+$result_CuentaAlta=mysqli_query($con,$sql_Cuenta_Alta);
+$row_cuentaAlta = mysqli_fetch_assoc($result_CuentaAlta);
+$CUENTA_ALTA=$row_cuentaAlta['CUENTA_ALTA'];
+
+if ( $CUENTA_ALTA>0 ) {
+
 $KueryPT_Alta="SELECT * FROM proceso_tramites WHERE id_tramite=1 AND id_principal=$IDPRINCIPAL";
 ##echo $KueryPT;
 $arregloPT_Alta = mysqli_fetch_array(mysqli_query($con,$KueryPT_Alta));
@@ -689,10 +698,99 @@ echo '</div>';
 echo '</div>';
 ##############################
 
+//chang
+} else {
+$sql_Cuenta_Paso="SELECT COUNT(*) CUENTA_PASO FROM de_paso WHERE id_principal=$IDPRINCIPAL";
+$result_CuentaPaso=mysqli_query($con,$sql_Cuenta_Paso);
+$row_cuentaPaso = mysqli_fetch_assoc($result_CuentaPaso);
+$CUENTA_PASO=$row_cuentaPaso['CUENTA_PASO'];
+
+if ( $CUENTA_PASO>0 ) {
+$sql_Paso="SELECT * FROM de_paso WHERE id_principal=$IDPRINCIPAL";
+$result_Paso=mysqli_query($con,$sql_Paso);
+$row_Paso = mysqli_fetch_assoc($result_Paso);
+$NOTA_PASO=$row_Paso['nota'];
+$FECHA_ALTA_PASO=$row_Paso['fecha_alta'];
+$IDGIRO_PASO=$row_Paso['giro'];
+$NUMERO_PERMISO_ANTERIOR=$row_Paso['numero_permiso'];
+$NUMERO_PERMISO_NUEVO=$row_Paso['numero_permiso_nuevo'];
+
+##
+$sql_giro00="SELECT * FROM giro WHERE id=".$IDGIRO_PASO;
+$result_giro00 = mysqli_query($con,$sql_giro00);
+$row_giro00 = mysqli_fetch_assoc($result_giro00);
+$GIRO_PASO=$row_giro00['descripcion_giro'];
+
+
+
+?>
+    <div class="mt-4">
+        <!-- Encabezado del programa -->
+        <div class="encabezado-programa">
+        <h6 class="mb-0">Histórico  Registro    Folio  (<?php echo $folio; ?>)</h6>
+        </div>
+
+        <!-- Sección de datos del establecimiento -->
+        <div class="seccion-datos">
+            <div class="encabezado">
+
+<?php
+
+echo '<h4>Permiso Anterior </h4>';
+
+?>
+
+
+            </div>
+            <div class="contenido">
+
+                <div class="row fila-datos">
+                    <div class="col-10">
+                        <div class="etiqueta">Datos para la Alta</div>
+                        <div class="valor"><font size="1"><?php echo $NOTA_PASO; ?></font></div>
+
+                    </div>
+                    <div class="col-md-2 col-4">
+                        <div class="etiqueta">Fecha</div>
+                        <div class="valor"><?php echo $FECHA_ALTA_PASO; ?></div>
+                    </div>
+                </div>
+               <div class="row fila-datos">
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Giro</div>
+                        <div class="valor"><font size="1"><?php echo $GIRO_PASO; ?></font></div>
+                    </div>
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Número de Permiso Anterior</div>
+                        <div class="valor"><font size="1"><?php echo $NUMERO_PERMISO_ANTERIOR; ?></font></div>
+                    </div>
+                    <div class="col-md-4 col-4">
+                        <div class="etiqueta">Número Permiso Nuevo</div>
+                        <div class="valor"><font size="1"><?php echo $NUMERO_PERMISO_NUEVO; ?></font></div>
+                    </div>
+                </div>
+                </div>
+
+
+            </div>
+        </div>
 
 
 
 
+<?php
+
+}
+
+
+}
+
+
+
+
+##################################
+##  CAMBIOS Y TRAMITES
+##################################
 
 echo '<br>';
 $KueryPT_Cambio="SELECT * FROM proceso_tramites WHERE id_tramite!=1 AND id_principal=$IDPRINCIPAL";

@@ -237,22 +237,21 @@ monto_umas_total_modalidad_graduacion_alcoholica=$monto_umas_total_modalidad_gra
 nip='$NIPgenerado' 
 WHERE id=".$idprincipal;
 
-##$query_UpdatePrincipal = mysqli_query($con,$sql_UpdatePrincipal);
+$query_UpdatePrincipal = mysqli_query($con,$sql_UpdatePrincipal);
 
 ##
 
 $Kuery_Update2="UPDATE proceso_tramites SET fecha_fin='$today', numero_permiso='$NP', en_proceso='Fin', el_cambio='$tramite_cambio'  WHERE id=".$id_proceso_tramitesDB;
 
-##mysqli_query($con,$Kuery_Update2);
+mysqli_query($con,$Kuery_Update2);
 
 
 
-##if ($query_UpdatePrincipal) {
-if (1) {
+if ($query_UpdatePrincipal) {
 
 
 
-				$messages[] = "El Registro  $sql_UpdatePrincipal -- $tramite_cambio  ha sido  Actuaizado Exito Folio ($folioDB)";
+				$messages[] = "El Registro   ha sido  Actuaizado Exito Folio ($folioDB)";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

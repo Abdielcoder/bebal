@@ -85,9 +85,11 @@ session_start();
 if (isset($_GET['id'])) {
 $IDPRINCIPAL=$_GET['id'];
 $page=$_GET['page'];
+$ID_PROCESO_TRAMITES=$_GET["id_proceso_tramites"];
 } else {
 $IDPRINCIPAL=$_POST['IDPRINCIPAL'];
 $page=$_POST['page'];
+$ID_PROCESO_TRAMITES=$_POST["ID_PROCESO_TRAMITES"];
 }
 
 #################################
@@ -331,7 +333,33 @@ $COLONIA=$row_colonia['colonia'];
 $domicilio_establecimiento=$calle_establecimientoDB." #".$numero_establecimientoDB." ".$numerointerno_local_establecimientoDB." CP ".$cp_establecimientoDB.", ".$COLONIA." (".$DELEGACION.") ".$MUNICIPIO;
 
 echo "<h7><b><span style='background:#AC905B;'><font color='white'>Revisón y Análisis de Documentos  :</span></b><font color='black'> Folio (".$folioDB."), ".$nombre_comercial_establecimientoDB." (".$GIRO.")<br>".$domicilio_establecimiento."</font></h7>";
+#############################
+####################
+## chang
+$kuery00="SELECT COUNT(*) AS CUENTA00 FROM `proceso_tramites` WHERE id_principal=$IDPRINCIPAL AND en_proceso='Fin' ORDER by ID DESC LIMIT 1";
+$arreglo00=mysqli_fetch_array(mysqli_query($con,$kuery00));
+$CUENTA00=$arreglo00['CUENTA00'];
+if ( $CUENTA00>0 ) {
+$kuery800="SELECT * FROM proceso_tramites WHERE id_principal=$IDPRINCIPAL AND en_proceso='Fin' ORDER by ID DESC LIMIT 1";
+$arreglo_PT800=mysqli_fetch_array(mysqli_query($con,$kuery800));
+$ID_PT=$arreglo_PT800['id'];
+$NOTA_PT=$arreglo_PT800['nota'];
+$FECHA_FIN_PT=$arreglo_PT800['fecha_fin'];
+$ID_TRAMITE_PT=$arreglo_PT800['id_tramite'];
+#
+$kueryTramite="SELECT * FROM tramite WHERE id=$ID_TRAMITE_PT";
+$arreglo_Tramite=mysqli_fetch_array(mysqli_query($con,$kueryTramite));
+$TRAMITE=$arreglo_Tramite['descripcion_tramite'];
+#
+echo '<br><font color="red" size="2"><i class="bi bi-currency-dollar"></i></font><font color="black" size="2">  El Ultimo Tramite ('.$TRAMITE.') contiene los PDFs</font>';
+###
+} else {
+echo '<br><font color="black" size="2"><i class="bi bi-sign-no-parking"></i>   No existe Tramite Anterior.</font>';
+}
 ##############################
+include("modal/copiarPDFs.php");
+##############################
+
 if (!isset($errorpdf)) {
 	$errorpdf="";
 } else {
@@ -483,7 +511,6 @@ echo "<input type='hidden' name='conjuntoc1' value='c1'>";
 
 echo '</form>';
 
-//chang
 echo '<a href="#" class="btn btn-sm btn-action btn-dark" title="Cargar PDF1" data-bs-toggle="modal" data-bs-target="#pdfModalc1" onclick="pdf_registro1file(\''.$IDPRINCIPAL.'\',\'c1\',\''.$folioDB.'\',\''.$id_proceso_tramites.'\',\''.$page.'\')"><i class="bi bi-upload"></i>PDF 1</a>';
 }
 
@@ -819,11 +846,18 @@ if  ( $cuentaFINALIZADO>0 ) {
 echo '<font size="2" color="black"><b><u>Revisión y Análisis de Documentos  Finalizada </u></b></font>';
 } else {
 if ( $estatus_docs_pdf1DB=='OK' && $estatus_docs_pdf2DB=='OK' && $estatus_docs_pdf3DB=='OK' && $estatus_docs_pdf4DB=='OK' ) {
-echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger btn-sm" style="color:white;"  /><i class="bi bi-gear"></i><font size="1">Finalizar Trabajo RAD</font></button>';
+echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger btn-sm" style="color:white;"  /><i class="bi bi-gear"></i><font size="1">Finalizar Trabajo RAD</font></button>&nbsp;';
 } else {
-echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger btn-sm" style="color:white;" disabled  /><i class="bi bi-gear"></i><font size="1">Se Tiene que Subir los PDFs</font></button>';
+echo '<button id="cerrarTrabajoPDF" name="cerrarTrabajoPDF" type="submit" title="Finalizar Revisión y Análisis de Documentos" class="btn btn-danger btn-sm" style="color:white;" disabled  /><i class="bi bi-gear"></i><font size="1">Se Tiene que Subir los PDFs</font></button>&nbsp;';
+//chang
+if ( $CUENTA00>0 ) {
+echo  '<a href="#CopiarPDFs" data-bs-toggle="modal" data-bs-target="#CopiarPDFs"  class="btn btn-dark bs-sm" title="Copiar PDFs"><font color="red" size="2"><i class="bi bi-c-square"></i></font><font color="white" size="1"> Copiar PDFs</font></a>';
+}
+
 }
 }
+
+
 
 echo "</form>";
 echo '</td>';
@@ -845,3 +879,43 @@ include("footer.php");
 <script type="text/javascript" src="js/pdf-modal_un_file_c2.js"></script>
 <script type="text/javascript" src="js/pdf-modal_un_file_c3.js"></script>
 <script type="text/javascript" src="js/pdf-modal_un_file_c4.js"></script>
+
+
+
+<script>
+
+
+$( "#copiarPDFs" ).submit(function( event ) {
+  $('#Button_copiarPDFs').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/copiarPDFs.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxcopiarPDFs").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxcopiarPDFs").html(datos);
+                        $('#Button_copiarPDFs').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+
+<?php
+echo "location.replace('principalPDFs.php?id=".$IDPRINCIPAL."&page=".$page."&id_proceso_tramites=".$ID_PROCESO_TRAMITES."');";
+?>
+
+
+
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+</script>
+
+

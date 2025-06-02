@@ -214,11 +214,6 @@ mysqli_query($con, $sqlUpdate3);
 }
 }
 
-#################################
-
-include("modal/efectuar_inspeccion.php");
-
-#################################
 
 
 $sqlPrincipal="SELECT * FROM principal WHERE id=".$IDPRINCIPAL;
@@ -288,6 +283,51 @@ $cuentaFINALIZADO=$arregloPT_FINALIZADO['cuentaFINALIZADO'];
 $domicilio_establecimiento=$calle_establecimiento." #".$numero_establecimiento." ".$numerointerno_local_establecimiento." CP ".$cp_establecimiento.", ".$COLONIA." (".$DELEGACION.") ".$MUNICIPIO;
 
 echo "<h6><b><span style='background:#AC905B;'><font color='white'>Inspección:</span></b><font color='black'> ".$folioDB.", ".$nombre_comercial_establecimientoDB." (".$GIRO."), ".$domicilio_establecimiento."</font></h5>";
+####################
+####################
+## chang
+$SiHayFotos='';
+$kuery00="SELECT COUNT(*) AS CUENTA00 FROM `proceso_tramites` WHERE id_principal=$IDPRINCIPAL AND en_proceso='Fin' ORDER by ID DESC LIMIT 1";
+$arreglo00=mysqli_fetch_array(mysqli_query($con,$kuery00));
+$CUENTA00=$arreglo00['CUENTA00'];
+if ( $CUENTA00>0 ) {
+$kuery800="SELECT * FROM proceso_tramites WHERE id_principal=$IDPRINCIPAL AND en_proceso='Fin' ORDER by ID DESC LIMIT 1";
+$arreglo_PT800=mysqli_fetch_array(mysqli_query($con,$kuery800));
+$ID_PT=$arreglo_PT800['id'];
+$NOTA_PT=$arreglo_PT800['nota'];
+$FECHA_FIN_PT=$arreglo_PT800['fecha_fin'];
+$ID_TRAMITE_PT=$arreglo_PT800['id_tramite'];
+#
+$kuery000="SELECT COUNT(*) AS CUENTA000 FROM fotos WHERE descripcion='OK' AND id_proceso_tramites=$ID_PT";
+$arreglo_FOTOS00=mysqli_fetch_array(mysqli_query($con,$kuery000));
+$CUENTA000=$arreglo_FOTOS00['CUENTA000'];
+#
+$kueryTramite="SELECT * FROM tramite WHERE id=$ID_TRAMITE_PT";
+$arreglo_Tramite=mysqli_fetch_array(mysqli_query($con,$kueryTramite));
+$TRAMITE=$arreglo_Tramite['descripcion_tramite'];
+#
+if ( $CUENTA000>0 ) $SiHayFotos='SiHayFotos';
+echo '<font color="red" size="2"><i class="bi bi-currency-dollar"></i></font><font color="black" size="2">  El Ultimo Tramite ('.$TRAMITE.') con ('.$CUENTA000.') Fotos </font><br>';
+###
+$kueryPRINCIPAL="SELECT * FROM principal WHERE id=$IDPRINCIPAL";
+$arreglo_PRINCIPAL=mysqli_fetch_array(mysqli_query($con,$kueryPRINCIPAL));
+$latitudDB=$arreglo_PRINCIPAL['latitud'];
+$longitudDB=$arreglo_PRINCIPAL['longitud'];
+$capacidad_comensales_personasDB=$arreglo_PRINCIPAL['capacidad_comensales_personas'];
+$superficie_establecimientoDB=$arreglo_PRINCIPAL['superficie_establecimiento'];
+###
+} else {
+echo '<font color="black" size="2"><i class="bi bi-sign-no-parking"></i>   No existe Tramite Anterior.</font><br>';
+$latitudDB='';
+$longitudDB='';
+$capacidad_comensales_personasDB='';
+$superficie_establecimientoDB='';
+}
+
+
+#################################
+include("modal/efectuar_inspeccion.php");
+include("modal/copiarFotos.php");
 ##############################
 /* Agregar foto */
 $ret="";
@@ -345,9 +385,8 @@ echo "</td>";
 ####
 echo "</tr>";
 echo "</table>";
-//chang
 $sqlFotos="SELECT * FROM fotos f WHERE f.idprincipal=".$IDPRINCIPAL." AND f.id_proceso_tramites=".$ID_PROCESO_TRAMITES." ORDER BY f.idfoto;";
-echo $sqlFotos;
+##echo $sqlFotos;
 $resultFotos = mysqli_query($con, $sqlFotos);
 $rowsFotos = mysqli_num_rows($resultFotos);
 
@@ -429,16 +468,28 @@ echo '<input type="hidden" id="idprincipal" value="'.$IDPRINCIPAL.'" >';
 echo '<input type="hidden" id="id_tramite" value="'.$id_tramite.'" >';
 echo '<input type="hidden" id="id_proceso_tramites" value="'.$id_proceso_tramites.'" >';
 
-echo 'cuentaFINALIZADO='.$cuentaFINALIZADO;
+##echo 'cuentaFINALIZADO='.$cuentaFINALIZADO;
 
 if  ( $cuentaFINALIZADO> 0 ) {
 echo '<font size="2" color="black"><b><u>Inspección Finalizada </u></b></font>';
 } else {
 ##echo '<a href="#" class="btn btn-outline-success" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-clipboard-check"></i> Registrar Inspección </a>';
-echo '<a href="#" class="btn btn-danger btn-sm" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-gear"></i><font size="1"> Registrar Inspección </font></a>';
+echo '<a href="#" class="btn btn-danger bs-sm" title="Efectuar Inspeccion" onclick="obtener_datosInspeccion('.$IDPRINCIPAL.');" data-bs-toggle="modal" data-bs-target="#EfectuarInspeccion"><i class="bi bi-gear"></i><font size="1"> Registrar Inspección </font></a>&nbsp;';
+
+if ( $SiHayFotos=='SiHayFotos' ) {
+echo  '<a href="#CopiarFotos" data-bs-toggle="modal" data-bs-target="#CopiarFotos"  class="btn btn-dark bs-sm" title="Copiar Fotos"><font color="red" size="2"><i class="bi bi-c-square"></i></font><font color="white" size="1"> Copiar Imagenes</font></a>';
 }
 
 
+}
+
+##########
+$sql_proceso_tramites="SELECT * FROM proceso_tramites WHERE id=$id_proceso_tramites";
+$result_proceso_tramites = mysqli_query($con,$sql_proceso_tramites);
+$row_proceso_tramites = mysqli_fetch_assoc($result_proceso_tramites);
+$MEMO=$row_proceso_tramites['memo'];
+##########
+echo '<br><p><font size="1" color="black"><u>Campo Memo:</u> '.$MEMO.'</font></p>';
 
 mysqli_close($con);
 
@@ -457,6 +508,42 @@ echo '<br><br>';
 </html>
 
 <script>
+
+
+
+$( "#copiarFotos" ).submit(function( event ) {
+  $('#Button_copiarFotos').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/copiarFotos.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxcopiarFotos").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxcopiarFotos").html(datos);
+                        $('#Button_copiarFotos').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+
+<?php
+echo "location.replace('principalFotos.php?id=".$IDPRINCIPAL."&page=".$page."&id_proceso_tramites=".$ID_PROCESO_TRAMITES."');";
+?>
+
+
+
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
+
+
+
 
 $( "#registro_guardar_inspeccion" ).submit(function( event ) {
   $('#Button_registro_guardar_inspeccion').attr("disabled", true);

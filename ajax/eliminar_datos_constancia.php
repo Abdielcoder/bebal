@@ -5,9 +5,7 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 	$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 
 	/*Inicia validacion del lado del servidor*/
-	if (empty($_POST['numero_pago']) || 
-	empty($_POST['fecha_pago'])
-	) {
+	if (empty($_POST['idprincipal'])) {
            $errors[] = "Campo vacío";
 		} else {
 		/* Connect To Database*/
@@ -18,36 +16,20 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
 
-
 $ID=intval($_POST['idprincipal']);
-##$pagina=intval($_POST['pagina']);
-$nombre_comercial_establecimiento=$_POST['nombre_comercial_establecimiento'];
-
-$fecha_pago=$_POST['fecha_pago'];
-$numero_pago=$_POST['numero_pago'];
-$monto=$_POST['monto'];
-
-$id_proceso_tramites=$_POST['id_proceso_tramites'];
-$folio=$_POST['folio'];
-
-$id_tramite=$_POST['id_tramite'];
 
 
-##
-## Presupuesto
-
-##
-
-$sql20="UPDATE pagos SET estatus_pago='PAGADO', numero_pago='$numero_pago', monto='$monto', fecha_pago='$fecha_pago' WHERE id_principal=".$ID." AND id_proceso_tramites=".$id_proceso_tramites." AND concepto='Tramite Cambio'";
-$query_Update20 = mysqli_query($con,$sql20);
-
-##
-$Kuery_Update_principal="UPDATE principal SET  estatus='Pago Tramite' WHERE id=".$ID;
-$query_Update = mysqli_query($con,$Kuery_Update_principal);
+$sql_delete="DELETE FROM presupuesto WHERE id_principal=$ID";
+$query_delete=mysqli_query($con,$sql_delete);
 
 
-			if ($query_Update) {
-				$messages[] = "Se Registro el Pago  con Exito -  Folio ($folio)";
+###
+mysqli_close($con);
+
+
+
+			if ($query_delete) {
+				$messages[] = "Se Eliminaron los Datos de la Constancia";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

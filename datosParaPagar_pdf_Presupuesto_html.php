@@ -26,6 +26,8 @@ $RI=$_GET['ri'];
 } else {
 $RI='ND';
 }
+
+$ID_PAGO = $_GET['yy'];
 ##$ID = intval($_GET['id']);
 
 ##$porciones = explode("--", $ID);
@@ -164,6 +166,21 @@ $DESCRIPCION_TRAMITE=$row_tramite['descripcion_tramite'];
 }
 }
 
+$TOTAL_UMAS_PAGAR =str_replace(',', '', $TOTAL_UMAS_PAGAR);
+
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='UMAS'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$TIPO_CAMBIO_UMAS=$row_generales['descripcion'];
+$TOTAL_A_PAGAR_MN= (float) $TOTAL_UMAS_PAGAR * $TIPO_CAMBIO_UMAS;
+##
+
+##echo 'TIPO_CAMBIO_UMAS='.$TIPO_CAMBIO_UMAS.'<br>';
+
+##$float_TOTAL_UMAS_PAGAR=(float)$TOTAL_UMAS_PAGAR;
+##echo 'TOTAL_UMAS_PAGAR='.$float_TOTAL_UMAS_PAGAR.'<br>';
+
 // Cabecera que indica que esto es un documento HTML
 header('Content-Type: text/html; charset=utf-8');
 ?>
@@ -172,7 +189,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de Inspección - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Recibo de Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
         @media print {
             body {
@@ -389,7 +406,13 @@ header('Content-Type: text/html; charset=utf-8');
 <?php
             	echo '<div class="title">';
                 //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
-                //<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
+		//<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="6px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
+
 		echo '</div>';
 ?>
 
@@ -484,6 +507,10 @@ $monto_umas_total_servicios_adicionalesDB=$datos['monto_umas_total_servicios_adi
 ### (Musica Grabada y Aparatos Musicales), (Conjunto Musicales), (Mesas de Billar), (Espectaculos Artisticos) Y (Pista de Baile)
 ###  monto_umas_total_servicios_adicionalesDB -->    1515
 
+$todayANO = date("Y");
+
+
+
 if ( $numero_servicios_adicionalesDB==0 ) {
 $STRING_SERVICIOS_ADICIONALES="-";
 } else {
@@ -538,8 +565,39 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
         </div>
         
 	<div class="main-title">
+
+
+        <div class="main-title">
 <?php
-echo '<h1>Presupuesto  <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+
+
+
+$sql_pago="SELECT * FROM `pagos` WHERE id=$ID_PAGO";
+$result_pago = mysqli_query($con,$sql_pago);
+if (mysqli_num_rows($result_pago) > 0) {
+$row_pago = mysqli_fetch_assoc($result_pago);
+$ORDEN_PAGO=$row_pago['orden_pago'];
+$CONCEPTO_RECAUDACION=$row_pago['concepto_recaudacion'];
+
+} else {
+$CONCEPTO_RECAUDACION='ND';
+$id_proceso_tramites=$datos['id_proceso_tramites'];
+$ORDEN_PAGO='';
+if ( $DESCRIPCION_TRAMITE=='Inspección' ) {
+$ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
+} else {
+        if ( $DESCRIPCION_TRAMITE=='Recepción y Análisis Documentos' ) {
+        $ORDEN_PAGO='PA-'.$id.$ID_PAGO.'-'.$todayANO;
+        } else {
+        $ORDEN_PAGO='PX-'.$id.$ID_PAGO.'-'.$todayANO;
+        }
+}
+}
+
+echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
+
+//echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
             <h4>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h4>
@@ -562,6 +620,13 @@ echo '<td><font size="2"><b>'.$numero_permiso.'</b></font></td>';
 echo '</tr>';
 }
 ?>
+
+                        <tr>
+                            <th>Concepto Recaudación</th>
+                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
+                        </tr>
+
+
 
                         <tr>
                             <th>Nombre Comercial</th>
@@ -615,8 +680,11 @@ $NOTA=$porcionesSA[0];
                 <tr>
 		    <td class="monto-label">Total a Pagar:</td>
 <?php
-echo '<td class="monto-value"><font color="blue">'.$TOTAL_UMAS_PAGAR.' UMAS</font></td>';
+//echo '<td class="monto-value"><font color="blue">'.$TOTAL_UMAS_PAGAR.' UMAS</font></td>';
+echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGAR_MN,2).'</font>  ( '.$TOTAL_UMAS_PAGAR.' umas )</td>';
 ?>
+
+
                 </tr>
             </table>
         </div>

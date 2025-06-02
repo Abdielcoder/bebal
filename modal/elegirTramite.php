@@ -77,6 +77,7 @@ echo '<option value="'.$id_tramite.'">'.$descripcion_tramite.' ('.$COBRO.')</opt
 <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
 <button type="submit" class="btn btn-primary" id="Button_elegir_tramite"> Selecciona Tramite </button>
   </div>
+<font color='white' size='1'>modal/elegirTramite.php-(Button_elegir_tramite)-POST->aprobarPresupuestoCambio.php</font>
   </form>
  </div>
  </div>

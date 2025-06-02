@@ -58,7 +58,6 @@ session_start();
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
 
 include("modal/elegirGiro.php");
-include("modal/aprobrarTramite.php");
 include("modal/aprobrarTramiteCierreTemporal.php");
 include("modal/aprobrarTramiteRevalidacion.php");
 include("modal/aprobrarImprimrPermiso.php");
@@ -201,7 +200,6 @@ include("modal/aprobrarImprimrPermiso.php");
 	include("navbar.php");
 	?>
 	
-<div class="container">
 <?php
 
 #################################
@@ -513,7 +511,6 @@ $fecha_expiracion=$row['fecha_expiracion'];
 #################################
 #################################
 
-####################
 #####################
 include("modal/actualizar_serviciosAdicionales.php");
 ####################
@@ -558,6 +555,7 @@ $CAMBIO_DE_GIRO="NO";
 if ( $TRAMITE_tramite_SOLICITADO=='Mantenimiento Servicios Adicionales' ) {
 $SERVICIOS_ADICIONALES="SI";
 $ley_ingresos="Articulo 22, Fracción IV.-Para efectos de los servicios adicionales, se otorgarán sólo en aquellos giros a que refiere la ley de la materia y su reglamento, pagando por la autorización los siguientes derechos";
+$MONTO_UMAS_tramite_SOLICITADO='0';
 } else {
 $SERVICIOS_ADICIONALES="NO";
 }
@@ -620,7 +618,10 @@ $REVALIDACION=1;
 ###&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
 if ( $TRAMITE_tramite_SOLICITADO=='Cambio de Nombre Comercial' && $DESCUENTO_tramite_SOLICITADO=='SI' ) {
-$MONTO_UMAS_tramite_SOLICITADO_calculo= ((100 - $MONTO_UMAS_tramite_SOLICITADO ) / 100) * $MONTO_UMAS_giro;
+##echo 'MONTO_UMAS_giro='.$MONTO_UMAS_giro.'<br>';
+##echo 'MONTO_UMAS_tramite_SOLICITADO='.$MONTO_UMAS_tramite_SOLICITADO.'<br>';
+$MONTO_UMAS_tramite_SOLICITADO_calculo= (float) (($MONTO_UMAS_tramite_SOLICITADO ) / 100);
+$MONTO_UMAS_tramite_SOLICITADO_calculo= $MONTO_UMAS_tramite_SOLICITADO_calculo * (float) $MONTO_UMAS_giro;
 $MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO_calculo;
 
 $ley_ingresos="Articulo 22, Fracción  III-B e).- Por el cambio de nombre comercial se pagará 1% (uno por ciento), sobre el valor de la expedición del permiso nuevo.";
@@ -659,8 +660,73 @@ $MONTO_UMAS_tramite_SOLICITADO=$MONTO_UMAS_tramite_SOLICITADO_calculo;
 $ley_ingresos="Articulo 22, Fracción  III-B b).- Habiendo sido autorizado el cambio de titular o el cambio de domicilio, se pagará el 50% (cincuenta por ciento) y el 15% (quince por ciento) respectivamente, sobre el valor de la expedición de un permiso nuevo del giro solicitado..";
 $listo_presupuesto='SI';
 }
-
+##########################################
+##########################################
+## REVISAR SI EL REGISTRO FUE DE PASO
+//chang
+$kuery200="SELECT COUNT(*) AS CUENTA200 FROM de_paso WHERE id_principal=$IDPRINCIPAL AND folio='$folio'";
+$arreglo_de_paso=mysqli_fetch_array(mysqli_query($con,$kuery200));
+$CUENTA200=$arreglo_de_paso['CUENTA200'];
+if ( $CUENTA200>0 ) {
+$kuery201="SELECT * FROM de_paso WHERE id_principal=$IDPRINCIPAL AND folio='$folio'";
+$arreglo_de_paso201=mysqli_fetch_array(mysqli_query($con,$kuery201));
+$NUMERO_PERMISO_ANTERIOR=$arreglo_de_paso201['numero_permiso'];
+} else {
+$NUMERO_PERMISO_ANTERIOR='NPA';
+}
+##
+$NUMERO_PERMISO_NUEVO=$numero_permiso;
+##
 #################################
+### VAMOS A REVISAR SI EL TRAMITE A REALIZAR ESTA EN LA TABLA presupuesto ( CONSTANCIA )
+### PARA CAMBIAR Y SETEAR LOS DATOS DEL SOLICITANTE
+####################
+$kuery00="SELECT COUNT(*) AS CUENTA00 FROM presupuesto WHERE id_principal=$IDPRINCIPAL AND estatus='Inicio' AND INSTR(tramites,'($TRAMITE_tramite_SOLICITADO)') ";
+$arregloPresupuestoConstancia=mysqli_fetch_array(mysqli_query($con,$kuery00));
+$CUENTA00=$arregloPresupuestoConstancia['CUENTA00'];
+$presupuestoConstancia=0;
+if ( $CUENTA00>0 ) {
+$presupuestoConstancia=1;
+$arregloPresupuestoConstancia=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `presupuesto` WHERE id_principal=$IDPRINCIPAL AND estatus='Inicio'"));
+$TRAMITES_PRESUPUESTOConstancia=$arregloPresupuestoConstancia['tramites'];
+$concepto_recaudacion=$arregloPresupuestoConstancia['tramites_concepto_recaudacion'];
+$RFCConstancia=$arregloPresupuestoConstancia['rfc'];
+$FISICA_O_MORALConstancia=$arregloPresupuestoConstancia['fisica_o_moral'];
+$NOMBRE_PERSONA_FISICAMORAL_SOLICITANTEConstancia=$arregloPresupuestoConstancia['nombre_persona_fisicamoral_solicitante'];
+$NOMBRE_REPRESENTANTE_SOLICITANTEConstancia=$arregloPresupuestoConstancia['nombre_representante_legal_solicitante'];
+$DOMICILIO_SOLICITANTEConstancia=$arregloPresupuestoConstancia['domicilio_solicitante'];
+$EMAIL_SOLICITANTEConstancia=$arregloPresupuestoConstancia['email_solicitante'];
+$TELEFONO_SOLICITANTEConstancia=$arregloPresupuestoConstancia['telefono_solicitante'];
+} else {
+$presupuestoConstancia=0;
+$TRAMITES_PRESUPUESTOConstancia=$TRAMITE_tramite_SOLICITADO;
+$concepto_recaudacion=$TRAMITE_tramite_SOLICITADO;
+$NOMBRE_PERSONA_FISICAMORAL_SOLICITANTEConstancia=$nombre_persona_fisicamoral_solicitante;
+$NOMBRE_REPRESENTANTE_SOLICITANTEConstancia=$nombre_representante_legal_solicitante;
+$RFCConstancia=$rfc;
+$FISICA_O_MORALConstancia=$fisica_o_moral;
+#
+if ($DOMICILIO_SOLICITANTEConstancia=='' || empty($DOMICILIO_SOLICITANTEConstancia)) $DOMICILIO_SOLICITANTEConstancia='ND';
+else $DOMICILIO_SOLICITANTEConstancia=$domicilio_solicitante;
+#
+if ($EMAIL_SOLICITANTEConstancia=='' || empty($EMAIL_SOLICITANTEConstancia)) $EMAIL_SOLICITANTEConstancia='ND';
+else $EMAIL_SOLICITANTEConstancia=$email_solicitante;
+#
+if ($TELEFONO_SOLICITANTEConstancia=='' || empty($TELEFONO_SOLICITANTEConstancia)) $TELEFONO_SOLICITANTEConstancia='ND';
+else $TELEFONO_SOLICITANTEConstancia=$telefono_solicitante;
+#
+}
+####
+##echo 'presupuestoConstancia='.$presupuestoConstancia.'<br>';
+##echo 'NOMBRE_PERSONA_FISICAMORAL_SOLICITANTEConstancia='.$NOMBRE_PERSONA_FISICAMORAL_SOLICITANTEConstancia.'<br>';
+##echo 'NOMBRE_REPRESENTANTE_SOLICITANTEConstancia='.$NOMBRE_REPRESENTANTE_SOLICITANTEConstancia.'<br>';
+##echo 'RFCConstancia='.$RFCConstancia.'<br>';
+##echo 'FISICA_O_MORALConstancia='.$FISICA_O_MORALConstancia.'<br>';
+##echo 'DOMICILIO_SOLICITANTEConstancia='.$DOMICILIO_SOLICITANTEConstancia.'<br>';
+##echo 'EMAIL_SOLICITANTEConstancia='.$EMAIL_SOLICITANTEConstancia.'<br>';
+##echo 'TELEFONO_SOLICITANTEConstancia='.$TELEFONO_SOLICITANTEConstancia.'<br>';
+
+include("modal/aprobrarTramite.php");
 ############################
 
 ##
@@ -686,6 +752,7 @@ $COLONIA=$row_colonia['colonia'];
 ##
 ?>
 
+<div class="container">
     <div class="mt-4">
         <!-- Encabezado del programa -->
 	<div class="encabezado-programa">
@@ -810,8 +877,12 @@ echo '<div class="valor valor-destacado">'.$servicios_adicionalesDB.' * ['.$nume
                     </div>
                 </div>
 <!-----------------------!>
+
+<?php
+if ( $presupuestoConstancia>0 ) echo '<font color="red" size="1"><b>La Información para la Orden de Pago se toman de los datos Propuesta Constancia.</b></font><br>';
+?>
                 <div class="row fila-datos">
-                    <div class="col-md-6 col-12">
+		    <div class="col-md-6 col-12">
                         <div class="etiqueta">Persona Física/Moral</div>
                         <div class="valor"><?php echo $nombre_persona_fisicamoral_solicitante; ?></div>
                     </div>
@@ -908,7 +979,6 @@ data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
 
 } else {
 
-//chang
 if ( $CIERRE_TEMPORAL==1 ) {
 
 echo '<a href="#aprobrarTramiteCierreTemporal" data-bs-toggle="modal" data-bs-target="#aprobrarTramiteCierreTemporal" data-idprincipal="'.$IDPRINCIPAL.'" data-folio="'.$folio.'" data-pagina="'.$page.'"

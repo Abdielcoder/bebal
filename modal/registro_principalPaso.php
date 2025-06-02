@@ -35,7 +35,7 @@
 
 <script>
 
-function getColonias(val) {
+function getColonias66(val) {
 $.ajax({
 type: "POST",
 <?php
@@ -44,7 +44,7 @@ echo 'url: "ajax/get_colonias.php",';
 ?>
         data:'UNIDAD='+val,
         success: function(data){
-                $("#colonias-list").html(data);
+                $("#colonias-list66").html(data);
         }
         });
 }
@@ -182,16 +182,16 @@ background-color: #3CBC8D;
 	{
 	?>
 	<!-- Modal -->
-	<div class="modal fade" id="nuevoRegistroPrincipal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal fade" id="nuevoRegistroPrincipalPaso" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">
 		  <div class="modal-header"  style="background-color:#AC905B;color:white">
 			<button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h6 class="modal-title" id="myModalLabel"><i class='bi bi-pencil'></i> Agregar Nuevo Registro</h6>
+			<h6 class="modal-title" id="myModalLabel"><i class='bi bi-pencil'></i> Agregar Registro de Paso</h6>
 		  </div>
 		  <div class="modal-body">
-			<form class="form-horizontal" method="post" id="guardar_registroPrincipal" name="guardar_registroPrincipal">
-			<div id="resultados_ajaxGuardarRegistroPrincipal"></div>
+			<form class="form-horizontal" method="post" id="guardar_registroPrincipalPaso" name="guardar_registroPrincipal">
+			<div id="resultados_ajaxGuardarRegistroPrincipalPaso"></div>
 
 
 
@@ -330,13 +330,18 @@ echo '<h4><span style="background:black"><font color="white" size="3">Datos del 
 echo '<div id="Respuesta" style="color:black;font-size:12px;"></div>';
 ###
 echo '<div class="form-group row">';
-echo '<label for="nombre_comercial_establecimiento" class="col-sm-2 control-label">Nombre Comercial</label>';
-echo '<div class="col-sm-5">';
-echo '<input type="text" class="form-control form-control-sm" style="text-transform:uppercase" id="nombre_comercial_establecimiento" name="nombre_comercial_establecimiento" required>';
+echo '<label for="nombre_comercial_establecimiento" class="col-sm-1 control-label"><font size="1">Nombre Comercial</font></label>';
+echo '<div class="col-sm-4">';
+echo '<input type="text" class="form-control form-control-sm" style="text-transform:uppercase" id="nombre_comercial_establecimiento" name="nombre_comercial_establecimiento">';
+echo '</div>';
+//##
+echo '<label for="numero_permiso" class="col-sm-1 control-label"><font size="1">Número Permiso</font></label>';
+echo '<div class="col-sm-2">';
+echo '<input type="text" class="form-control form-control-sm" id="numero_permiso" name="numero_permiso" pattern="[A]{1}[0-9]{5}" required>';
 echo '</div>';
 //##
 
-echo '<label for="clave_catastral" class="col-sm-2 control-label" align="right"><font color="blue">Número Catastro</font>';
+echo '<label for="clave_catastral" class="col-sm-2 control-label" align="right"><font color="blue" size="1">Número Catastro</font>';
 echo '<br><a href="javascript:getPredial(document.guardar_registroPrincipal)" style="background-color:#000000;color:white"><font size="1">Consultar Predial</font></a>';
 echo '</label>';
 echo '<div class="col-sm-2 form-check">';
@@ -386,7 +391,7 @@ echo '<div class="form-group row">';
 echo '<label for="id_delegacion" class="col-sm-2 control-label">Delegación </label>';
 
 echo '<div class="col-sm-4">';
-echo "<select class='form-control  form-select' name='id_delegacion' id='id_delegacion' onChange='getColonias(this.value);' required>";
+echo "<select class='form-control  form-select' name='id_delegacion' id='id_delegacion' onChange='getColonias66(this.value);' required>";
  
 echo '<option value="">Selecciona Delegación</option>';
 if ( $PROFILE=='admin' ) {
@@ -417,7 +422,7 @@ echo '</div>';
 echo '<label for="id_colonia" class="col-sm-1 control-label">Colonia</label>';
 
 echo '<div class="col-sm-4">';
-echo "<select class='form-control  form-select' name='id_colonia' id='colonias-list' required>";
+echo "<select class='form-control  form-select' name='id_colonia' id='colonias-list66' required>";
  
 echo '<option value="">Seleccione Colonia</option>';
 
@@ -448,7 +453,7 @@ echo '</div>';
 
 ##########################
 ##########################
-echo '<h4><span style="background:black"><font color="white" size="3">Datos del Solicitante</font></span></h4>';
+echo '<h4><span style="background:black"><font color="white" size="3">Datos del Titular</font></span></h4>';
 ##
 
 ### Nombre Persona Fisica/Moral
@@ -487,19 +492,19 @@ echo '</div>';
 echo '<div class="form-group row">';
 echo '<label for="domicilio_solicitante" class="col-sm-4 control-label">Domicilio Para Recibir Notificaciones</label>';
 echo '<div class="col-sm-8">';
-echo '<input type="text" class="form-control" style="text-transform:uppercase"  id="domicilio_solicitante" name="domicilio_solicitante" required>';
+echo '<input type="text" class="form-control" style="text-transform:uppercase"  id="domicilio_solicitante" name="domicilio_solicitante">';
 echo '</div>';
 echo '</div>';
 ###
 echo '<div class="form-group row">';
 echo '<label for="email_solicitante" class="col-sm-2 control-label">Email</label>';
 echo '<div class="col-sm-4">';
-echo '<input type="email" class="form-control" id="email_solicitante" name="email_solicitante" required>';
+echo '<input type="email" class="form-control" id="email_solicitante" name="email_solicitante">';
 echo '</div>';
 //##
 echo '<label for="telefono_solicitante" class="col-sm-1 control-label">Teléfono</label>';
 echo '<div class="col-sm-4">';
-echo '<input type="text" class="form-control" id="telefono_solicitante" name="telefono_solicitante" required>';
+echo '<input type="text" class="form-control" id="telefono_solicitante" name="telefono_solicitante">';
 echo '</div>';
 echo '</div>';
 ###
@@ -546,10 +551,11 @@ echo '<input type="date" class="form-control" id="fecha_alta" value="'.$today.'"
 
 <div class="modal-footer">
 <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
-<button type="submit" class="btn btn-primary" id="Button_guardar_registroPrincipal"  style="background-color:#AC905B;color:black"> Guardar Datos </button>
+<button type="submit" class="btn btn-primary" id="Button_guardar_registroPrincipalPaso"  style="background-color:#AC905B;color:black"> Guardar Datos </button>
 </div>
-<font color="white" size="1">modal/registro_principal.php-(Button_guardar_registroPrincipal)->ajax/nuevo_registroPrincipal.php</font>
+
 </form>
+<font color="white" size="1">modal/registro_principalPaso.php-(Button_guardar_registroPrincipalPaso)->ajax/nuevo_registroPrincipalPaso.php</font>
 </div>
 </div>
 </div>

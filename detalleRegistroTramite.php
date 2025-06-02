@@ -608,11 +608,6 @@ $RECIBO_INSPECCION_PAGADO="NO";
 }
 ##echo "RECIBO_INSPECCION_PAGADO=".$RECIBO_INSPECCION_PAGADO;
 ###$$$$
-#### RECIBO INSPECCION
-if ( ($estatus=='Pago INS-Cambio' || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_INSPECCION_PAGADO=='SI'  )  {
-} else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Inspección</font></a>&nbsp;';
-}
 #### Revisar Pago INSP
 $ID_PAGO_INS=0;
 $ID_PAGO_RAD=0;
@@ -625,6 +620,12 @@ $row_pagoI = mysqli_fetch_assoc($result_pagoI);
 $ID_PAGO_INS=$row_pagoI['id'];
 } else {
 $ID_PAGO_INS=0;
+}
+##
+#### RECIBO INSPECCION
+if ( ($estatus=='Pago INS-Cambio' || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_INSPECCION_PAGADO=='SI'  )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_INS.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Inspección</font></a>&nbsp;';
 }
 ##
 if ( $estatus=='Pago INS-Cambio' || $ID_PAGO_INS!=0 )  {
@@ -672,11 +673,6 @@ $RECIBO_RAD_PAGADO="NO";
 ##echo "RECIBO_RAD_PAGADO=".$RECIBO_RAD_PAGADO;
 ###$$$$
 ##
-##  RECIBO AR Docs
-if ( ( $estatus=='Pago RAD-Cambio'  || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_RAD_PAGADO=='SI' )  {
-} else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
-}
 #### Revisar Pago RAD
 ####
 
@@ -690,6 +686,11 @@ $ID_PAGO_RAD=$row_pagoRAD['id'];
 $ID_PAGO_RAD=0;
 }
 ##
+##  RECIBO AR Docs
+if ( ( $estatus=='Pago RAD-Cambio'  || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_RAD_PAGADO=='SI' )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_RAD.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black">Recibo AR Docs</font></a>&nbsp;';
+}
 ##
 if ( $estatus=='Pago RAD-Cambio' || $ID_PAGO_RAD!=0 )  {
 $sql_pagoRAD2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
@@ -754,11 +755,6 @@ $RECIBO_INSPECCION_PAGADO="NO";
 }
 ##echo "RECIBO_INSPECCION_PAGADO=".$RECIBO_INSPECCION_PAGADO;
 ###$$$$
-#### RECIBO INSPECCION
-if ( ($estatus=='Pago INS-Cambio' || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_INSPECCION_PAGADO=='SI'  )  {
-} else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Inspección</font></a>&nbsp;';
-}
 #### Revisar Pago INSP
 $ID_PAGO_INS=0;
 $ID_PAGO_RAD=0;
@@ -771,6 +767,12 @@ $row_pagoI = mysqli_fetch_assoc($result_pagoI);
 $ID_PAGO_INS=$row_pagoI['id'];
 } else {
 $ID_PAGO_INS=0;
+}
+##
+#### RECIBO INSPECCION
+if ( ($estatus=='Pago INS-Cambio' || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_INSPECCION_PAGADO=='SI'  )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_INS.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Inspección</font></a>&nbsp;';
 }
 ##
 if ( $estatus=='Pago INS-Cambio' || $ID_PAGO_INS!=0 )  {
@@ -818,11 +820,6 @@ $RECIBO_RAD_PAGADO="NO";
 ##echo "RECIBO_RAD_PAGADO=".$RECIBO_RAD_PAGADO;
 ###$$$$
 ##
-##  RECIBO AR Docs
-if ( ( $estatus=='Pago RAD-Cambio'  || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_RAD_PAGADO=='SI' )  {
-} else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>&nbsp;';
-}
 #### Revisar Pago RAD
 ####
 
@@ -836,6 +833,11 @@ $ID_PAGO_RAD=$row_pagoRAD['id'];
 $ID_PAGO_RAD=0;
 }
 ##
+##  RECIBO AR Docs
+if ( ( $estatus=='Pago RAD-Cambio'  || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_RAD_PAGADO=='SI' )  {
+} else {
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_RAD.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black">Recibo AR Docs</font></a>&nbsp;';
+}
 ##
 if ( $estatus=='Pago RAD-Cambio' || $ID_PAGO_RAD!=0 )  {
 $sql_pagoRAD2="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_cierre_temporal;
@@ -868,13 +870,23 @@ echo '<font size="1" color="red"><b>Error Pago RAD</b></font>&nbsp;';
 ###################
 }
 
-
+#####
+##### ID PRESUPUESTO - TRAMITE
+$sql_pagoTramite="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Tramite Cambio' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
+##echo $sql_pagoTramite;
+$result_pagoTramite = mysqli_query($con,$sql_pagoTramite);
+if (mysqli_num_rows($result_pagoTramite) > 0) {
+$row_pagoTramite = mysqli_fetch_assoc($result_pagoTramite);
+$ID_PAGO_TRAMITE=$row_pagoTramite['id'];
+} else {
+$ID_PAGO_TRAMITE=0;
+}
 ###################
 ###################
 ###################
 
 if ( $estatus=='IP Proceso'  )  {
-echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri=1X" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri=1X&yy='.$ID_PAGO_TRAMITE.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>&nbsp;';
 
 echo '<a href="#revisarPagoPresupuestoImprimirPermiso" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoImprimirPermiso"
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
@@ -919,7 +931,7 @@ $RECIBO_INSPECCION_PAGADO="NO";
 #### RECIBO INSPECCION
 if ($estatus=='Pago INSP-Revalidacion' || $RECIBO_INSPECCION_PAGADO=='SI')  {
 } else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--0X" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Inspección</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--0X" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Inspección</font></a>&nbsp;';
 }
 #### Revisar Pago INSP
 $ID_PAGO_INS=0;
@@ -1014,7 +1026,7 @@ $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_ad
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
 
 if ($operacion=='Revalidando' ) {
-echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri=0X" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto Revalidación</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri=0X&yy='.$ID_PAGO_TRAMITE.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto Revalidación</font></a>&nbsp;';
 
 echo '<a href="#revisarPagoPresupuestoTramiteRevalidacion" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoTramiteRevalidacion" 
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'"
@@ -1059,7 +1071,7 @@ class="btn btn-danger bs-sm" title="Revisar Pago Cierre Temporal"><i class="bi b
 
 
 
-echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>&nbsp;';
+echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&yy='.$ID_PAGO_TRAMITE.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto ('.$ID_PAGO_TRAMITE.')</font></a>&nbsp;';
 
 
 echo '<a href="#revisarPagoPresupuestoTramite" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoTramite"

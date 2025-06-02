@@ -482,6 +482,9 @@ echo '</table>';
 ##echo '<p style="line-height: 0.2;">&nbsp; aqui --> 0.2 </p>';
 echo '<br>';
 
+if ( $datos['fecha_autorizacion']==''  ||  empty($datos['fecha_autorizacion']) ) { 
+$FECHA_AUTORIZACION='ND';
+} else {
 $fecha_autorizacion=$datos['fecha_autorizacion'];
 $FechaPorciones3=explode("-",$fecha_autorizacion);
 $ANOp3=$FechaPorciones3[0];
@@ -489,6 +492,7 @@ $MESp3=$FechaPorciones3[1];
 $DIAp3=$FechaPorciones3[2];
 $MES_LETRAp3=funcion_MES($MESp3);
 $FECHA_AUTORIZACION=$DIAp3.'/'.$MES_LETRAp3.'/'.$ANOp3;
+}
 ##
 $fecha_alta=$datos['fecha_alta'];
 $FechaPorciones4=explode("-",$fecha_alta);

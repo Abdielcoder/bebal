@@ -20,6 +20,7 @@ $porciones = explode("--", $ID);
 $id=intval($porciones[0]);
 $ID_TRAMITE=intval($porciones[1]);
 $ID_TRAMITE_SOLICITADO=$porciones[2];
+$ID_PAGO=$porciones[3];
 
 ##
 
@@ -103,7 +104,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de Inspección - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Recibo de I&RAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
         @media print {
             body {
@@ -313,27 +314,12 @@ header('Content-Type: text/html; charset=utf-8');
     <button class="print-button no-print" onclick="window.print()">Imprimir Recibo</button>
     
     <div class="container">
+
         <div class="header">
             <div class="logo">
                 <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="500">
             </div>
 <?php
-            echo '<div class="title">';
-                //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
-                //<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
-	    echo '</div>';
-
-$Folio=$datos['folio'];
-            echo '<div class="date">';
-		//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
-	    echo '</div>';
-?>
-        </div>
-        
-	<div class="main-title">
-<?php
-
 switch ($DESCRIPCION_TRAMITE) {
 
 case "Inspeccion":
@@ -346,22 +332,56 @@ case "Recepcion y Analisis Documentos":
 }
 
 $todayANO = date("Y");
+####################
+####################
+
+
+            echo '<div class="title">';
+                //echo '<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>';
+//echo '<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="6px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
+	    echo '</div>';
+
+$Folio=$datos['folio'];
+         echo '<div class="date">';
+	//echo 'Fecha de Impresión: '.date('d/m/Y');
+echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
+echo '</div>';
+echo '</div>';
+?>
+        
+	<div class="main-title">
+<?php
+
+$sql_pago="SELECT * FROM `pagos` WHERE id=$ID_PAGO";
+$result_pago = mysqli_query($con,$sql_pago);
+if (mysqli_num_rows($result_pago) > 0) {
+$row_pago = mysqli_fetch_assoc($result_pago);
+$ORDEN_PAGO=$row_pago['orden_pago'];
+$CONCEPTO_RECAUDACION=$row_pago['concepto_recaudacion'];
+
+} else {
 
 $id_proceso_tramites=$datos['id_proceso_tramites'];
-$NUMERO_RECIBO='';
+$ORDEN_PAGO='';
 if ( $DESCRIPCION_TRAMITE=='Inspección' ) {
-$NUMERO_RECIBO='PI-'.$id.$id_proceso_tramites.'-'.$todayANO;
+$ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 } else {
 	if ( $DESCRIPCION_TRAMITE=='Recepción y Análisis Documentos' ) {
-	$NUMERO_RECIBO='PA-'.$id.$id_proceso_tramites.'-'.$todayANO;
+	$ORDEN_PAGO='PA-'.$id.$ID_PAGO.'-'.$todayANO;
 	} else {
-	$NUMERO_RECIBO='PX-'.$id.$id_proceso_tramites.'-'.$todayANO;
+	$ORDEN_PAGO='PX-'.$id.$ID_PAGO.'-'.$todayANO;
 	}
 }
+}
 
-
-echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
-echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
+echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
+//echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
             <h4>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h4>
@@ -398,7 +418,38 @@ echo '</tr>';
                         <tr>
                             <th>Modalidad Graduación Alcoólica</th>
                             <td><?php echo $datos['modalidad_graduacion_alcoholica']; ?> * [<?php echo $datos['numero_modalidad_graduacion_alcoholica']; ?>]</td>
-                        </tr>
+			</tr>
+
+                        <tr>
+			    <th>Domicilio</th>
+<?php
+if ( $datos['calle_establecimiento']=='' || $datos['calle_establecimiento']==NULL || empty($datos['calle_establecimiento']) ) {
+$domicilio_establecimiento='NA';
+} else {
+$domicilio_establecimiento=$datos['calle_establecimiento'].' '.$datos['numero_establecimiento'];
+}
+###
+if ( $datos['colonia_desc']=='' || empty($datos['colonia_desc']) ) $COLONIA='NA';
+else $COLONIA=$datos['colonia_desc'];
+##
+if ( $datos['delegacion_desc']=='' || empty($datos['delegacion_desc']) ) $DELEGACION='NA';
+else $DELEGACION=$datos['delegacion_desc'];
+##
+if ( $datos['municipio_desc']=='' || empty($datos['municipio_desc']) ) $MUNICIPIO='';
+else $MUNICIPIO=$datos['municipio_desc'];
+##
+if ( $datos['cp_establecimiento']=='' || empty($datos['cp_establecimiento']) ) $CP='';
+else $CP=$datos['cp_establecimiento'];
+##
+
+$colonia_delegacion_municipio_establecimiento='Colonia: '.$COLONIA.', Delegación: '.$DELEGACION.' / '.$MUNICIPIO.' / '.$CP;
+
+
+echo '<td>'.$domicilio_establecimiento.' '.$colonia_delegacion_municipio_establecimiento.'</td>';
+
+?>
+			</tr>
+
                         <tr>
 			    <th>Persona Física/Moral</th>
 
@@ -414,18 +465,22 @@ echo '<td>'.$nombre_persona_fisicamoral_solicitante.'</td>';
                         <tr>
                             <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
-                        </tr>
+			</tr>
+<?php
+$numero_permiso_anterior='';
+if ($numero_permiso_anterior=='' || empty($numero_permiso_anterior)) $numero_permiso_anterior='NA';
+                        echo '<tr>';
+                            echo '<th>Número Permiso Anterior</th>';
+                            echo '<td><font size="2">'.$numero_permiso_anterior.'</font></td>';
+			echo '</tr>';
+?>
                         <tr>
                             <th>Inciso </th>
                             <td><font size="2"><B><?php echo $CUENTA; ?></B></font></td>
                         </tr>
                         <tr>
-                            <th>Concepto</th>
-                            <td><font size="2"><?php echo $CONCEPTO; ?></font></td>
-                        </tr>
-                        <tr>
-                            <th>Descripcion</th>
-                            <td><font size="2"><?php echo $DESCRIPCION_TRAMITE; ?></font></td>
+                            <th>Concepto Recaudación</th>
+                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
                         </tr>
                     </table>
                 </div>
@@ -451,10 +506,27 @@ echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGA
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
 	</div>
+
+<br><br>
+<br><br>
+<br><br>
+
+<center>
+            <div class="signature">
+                <div class="signature-line"></div>
+                <p><b>Lic. Arnulfo Guerrero León</b><br>
+                Secretario de Gobierno Municipal<br>
+                XXV Ayuntamiento de Tijuana, Baja California
+            </div>
+        </div>
+</center>
+
+
+
    <style>
 @media print {
   @page { margin: 0; }
-  body { margin: 2cm; }
+  body { margin: 0.5cm; }
  </style>
 
 

@@ -210,6 +210,7 @@ echo '<input type="date" class="form-control" id="fecha_pago" value="'.$today.'"
 <!--<button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button> --!>
 <button type="submit" class="btn btn-primary" id="Button_registro_guardar_pago_presupuestoTramite"  style="background-color:#AC905B;color:black"> Registrar Pago Presupuesto</button>
 </div>
+<font size='1' color='white'>revisar_pagoPresupuestoTramite.php(Button_registro_guardar_pago_presupuestoTramite)->/ajax/registro_guardar_TramitePresupuesto.php</font>
 
 
 

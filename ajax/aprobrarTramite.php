@@ -19,6 +19,8 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 		require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
 		include("../funciones.php");
 
+$todayANO = date("Y");
+
 $monto_umas_tramite_solicitado=$_POST['monto_umas_tramite_solicitado'];
 $page=$_POST['page'];
 $ID=$_POST['IDPRINCIPAL'];
@@ -36,8 +38,25 @@ $servicios_adicionales_agregados=$_POST['servicios_adicionales_agregados'];
 $servicios_adicionales_agregados_raw=$_POST['servicios_adicionales_agregados_raw'];
 $servicios_adicionales_total=$_POST['servicios_adicionales_total'];
 $servicios_adicionales_total_raw=$_POST['servicios_adicionales_total_raw'];
-
+###########
+$nombre_persona_fisicamoral_solicitante=$_POST['nombre_persona_fisicamoral_solicitante'];
+$nombre_representante_legal_solicitante=$_POST['nombre_representante_legal_solicitante'];
+$rfc=$_POST['rfc'];
+$fisica_o_moral=$_POST['fisica_o_moral'];
+$domicilio_solicitante=$_POST['domicilio_solicitante'];
+$telefono_solicitante=$_POST['telefono_solicitante'];
+$email_solicitante=$_POST['email_solicitante'];
 ###############
+$concepto_recaudacion=$_POST['concepto_recaudacion'];
+$numero_permiso_anterior=$_POST['numero_permiso_anterior'];
+$numero_permiso_nuevo=$_POST['numero_permiso_nuevo'];
+$presupuestoConstancia=$_POST['presupuestoConstancia'];
+###############
+$memo=mysqli_real_escape_string($con,(strip_tags($_POST["memo"],ENT_QUOTES)));
+
+if ($presupuestoConstancia==0) {
+$concepto_recaudacion=','.$concepto_recaudacion;
+}
 
 $todo= 'monto_umas_tramite_solicitado='.$monto_umas_tramite_solicitado.' )
  page='.$page.' )
@@ -78,18 +97,33 @@ id_tramite,
 fecha_inicio,
 fechaRegistro,
 en_proceso,
+nombre_persona_fisicamoral_solicitante,
+nombre_representante_legal_solicitante,
+rfc,
+fisica_o_moral,
+domicilio_solicitante,
+telefono_solicitante,
+email_solicitante,
+memo,
  nota) VALUES (
 $ID,
 $ID_TRAMITE,
 '$today',
 '$today',
 'EN PROCESO',
+'$nombre_persona_fisicamoral_solicitante',
+'$nombre_representante_legal_solicitante',
+'$rfc',
+'$fisica_o_moral',
+'$domicilio_solicitante',
+'$telefono_solicitante',
+'$email_solicitante',
+'$memo',
 '$nota')";
 mysqli_query($con,$sqlInsert);
 ##
 $arregloMaxid2 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM `proceso_tramites`"));
 $ID_PROCESO_TRAMITE=$arregloMaxid2[0];
-
 ########################
 ##
 $sql_tramite0="SELECT * FROM tramite WHERE descripcion_tramite='Inspeccion'";
@@ -106,6 +140,7 @@ $MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
 
 #####################################################
 ###  PAGO Pendiete POR Inspeccion
+$concepto_recaudacion_inspeccion='Inspeccion'.$concepto_recaudacion.' '.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sql10="INSERT INTO pagos (
 id_principal,
 folio,
@@ -114,6 +149,7 @@ concepto,
 concepto_pago,
 estatus_pago,
 total_umas_pagar,
+concepto_recaudacion,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
@@ -122,10 +158,19 @@ $ID_PROCESO_TRAMITE,
 '$nota',
 'Pendiente',
 '$MONTO_UMAS_tramiteINS',
+'$concepto_recaudacion_inspeccion',
 '$today')";
 $query_new_insert10 = mysqli_query($con,$sql10);
+#
+$arregloMaxid4 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM pagos"));
+$ID_PAGO_INS=$arregloMaxid4[0];
+#
+$orden_pago='PI-'.$ID.$ID_PAGO_INS.'-'.$todayANO;
+$Update_Pago1="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_INS";
+mysqli_query($con,$Update_Pago1);
 ######################################################
 ##  PAGO Pendiente POR Recepcion y Analisis Documentos
+$concepto_recaudacion_rad='Recepcion y Analisis Documentos'.$concepto_recaudacion.' '.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sql20="INSERT INTO pagos (
 id_principal,
 folio,
@@ -134,6 +179,7 @@ concepto,
 concepto_pago,
 estatus_pago,
 total_umas_pagar,
+concepto_recaudacion,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
@@ -142,8 +188,16 @@ $ID_PROCESO_TRAMITE,
 '$nota',
 'Pendiente',
 '$MONTO_UMAS_tramiteRAD',
+'$concepto_recaudacion_rad',
 '$today')";
 $query_new_insert20 = mysqli_query($con,$sql20);
+#
+$arregloMaxid5 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM pagos"));
+$ID_PAGO_RAD=$arregloMaxid5[0];
+#
+$orden_pago='PA-'.$ID.$ID_PAGO_RAD.'-'.$todayANO;
+$Update_Pago2="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_RAD";
+mysqli_query($con,$Update_Pago2);
 ############
 #############
 $sql30="INSERT INTO inspeccion (
@@ -173,6 +227,7 @@ $ID_PROCESO_TRAMITE,
 $query_new_insert40 = mysqli_query($con,$sql40);
 #################################
 #
+$concepto_recaudacion_tramites='Tramite'.$concepto_recaudacion.' '.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sqlINSERT60="INSERT INTO  pagos (
 id_principal,
 id_proceso_tramites,
@@ -180,6 +235,7 @@ total_umas_pagar,
 concepto_pago,
 estatus_pago,
 folio,
+concepto_recaudacion,
 concepto,
 fechaRegistro ) VALUES (
 $ID,
@@ -188,9 +244,17 @@ $ID_PROCESO_TRAMITE,
 '$conceptoPagoPresupuesto',
 'Pendiente',
 '$folio',
+'$concepto_recaudacion_tramites',
 'Tramite Cambio',
 '$today')";
 $query_new_insert60 = mysqli_query($con,$sqlINSERT60);
+#
+$arregloMaxid6 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM pagos"));
+$ID_PAGO_TRA=$arregloMaxid6[0];
+#
+$orden_pago='PX-'.$ID.$ID_PAGO_TRA.'-'.$todayANO;
+$Update_Pago6="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_TRA";
+mysqli_query($con,$Update_Pago6);
 ###############################
 #######################
 #### con el id_tramite y el id_proceso_tramites ES EL ULTIMO TRAMITE REALIZADO y CONSULTAR LOS PDFs

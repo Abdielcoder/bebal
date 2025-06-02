@@ -61,6 +61,8 @@
 			<?php
 			include("modal/registro_principalLight.php");
 			include("modal/registro_principal.php");
+			include("modal/registro_principalPaso.php");
+
 			include("modal/editar_registro.php");
 			include("modal/elegirTramite.php");
 			include("modal/elegirTramitePresupuesto.php");
@@ -81,7 +83,7 @@ echo '</td><td width="20%">';
 } else {
 echo '<td width="10%"></td>';
 echo '<td width="70%" align="right">';
-echo '<input type="text" style="height:30px; width:250px"  id="q" size="10" placeholder="Buscar..." aria-label="Escribe el Folio a Buscar" title="Buscar Folio, Nombre establecimiento, Nombre Solicitante, Operación y Estatus" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">&nbsp;<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="1">Nuevo Registro</font></button>&nbsp;<button type="button" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipalLight" ><i class="bi bi-plus-circle me-1"></i><font size="1" color="pink">Registro Light</font></button>';
+echo '<input type="text" style="height:30px; width:250px"  id="q" size="10" placeholder="Buscar..." aria-label="Escribe el Folio a Buscar" title="Buscar Folio, Nombre establecimiento, Nombre Solicitante, Operación y Estatus" pattern="(3)(-)[\d]{1,}"  aria-describedby="basic-addon2" maxlength="9"   onkeyup="load(1);">&nbsp;<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipal" style="background-color:#AC905B;"><i class="bi bi-plus-circle me-1"></i><font size="1">Nuevo Registro</font></button>&nbsp;<button type="button" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipalLight" ><i class="bi bi-plus-circle me-1"></i><font size="1" color="pink">Registro Light</font></button>&nbsp;<button type="button" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#nuevoRegistroPrincipalPaso" ><i class="bi bi-plus-circle me-1"></i><font size="1" color="yellow">Registro de Paso</font></button>';
 }
 echo '</td></tr>';
 echo '</table>';
@@ -155,6 +157,34 @@ $( "#guardar_registroPrincipal" ).submit(function( event ) {
 
 		  }
 	});
+  event.preventDefault();
+})
+
+
+
+$( "#guardar_registroPrincipalPaso" ).submit(function( event ) {
+  $('#Button_guardar_registroPrincipalPaso').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/nuevo_registroPrincipalPaso.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                          $("#resultados_ajaxGuardarRegistroPrincipalPaso").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxGuardarRegistroPrincipalPaso").html(datos);
+                        $('#Button_guardar_registroPrincipalPaso').attr("disabled", true);
+
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('principal.php');
+                        }, 2000);
+
+                  }
+        });
   event.preventDefault();
 })
 
@@ -243,6 +273,8 @@ var domicilio_solicitante = $("#domicilio_solicitante"+id).val();
 var email_solicitante = $("#email_solicitante"+id).val();
 var telefono_solicitante = $("#telefono_solicitante"+id).val();
 
+var tramitesPresupuesto = $("#tramitesPresupuesto"+id).val();
+
 var COLONIAyDELEGACION = $("#COLONIAyDELEGACION"+id).val();
 var direccion_establecimiento_completa = $("#direccion_establecimiento_completa"+id).val();
 
@@ -278,6 +310,8 @@ $("#direccion_establecimiento_completa_data").val(direccion_establecimiento_comp
 
 $("#mod_id_data").val(id);
 $("#mod_folio_data").val(folio);
+
+$("#mod_tramitesPresupuesto").val(tramitesPresupuesto);
 
 }
 

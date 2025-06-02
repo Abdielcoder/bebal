@@ -21,172 +21,15 @@ require_once ("config/conexion.php");
 
 
 // Verificar que se recibió el ID
-if (!isset($_POST['IDPRINCIPAL']) || empty($_POST['IDPRINCIPAL'])) {
+if (!isset($_GET['id']) || empty($_GET['id'])) {
     die("Error: No se especificó un ID válido");
 }
 
-$id = intval($_POST['IDPRINCIPAL']);
-$page = intval($_POST['page']);
-#######################
-$rfc_solicitante=$_POST['rfc_solicitante'];
-$fisica_o_moral=$_POST['fisica_o_moral'];
-
-$nombre_persona_fisicamoral_solicitante=strtoupper($_POST['nombre_persona_fisicamoral_solicitante']);
-$nombre_representante_legal_solicitante=strtoupper($_POST['nombre_representante_legal_solicitante']);
-$domicilio_solicitante=strtoupper($_POST['domicilio_solicitante']);
-$email_solicitante=$_POST['email_solicitante'];
-$telefono_solicitante=$_POST['telefono_solicitante'];
-$observaciones=mysqli_real_escape_string($con,(strip_tags($_POST["observaciones"],ENT_QUOTES)));
-
+$id = intval($_GET['id']);
+$page = intval($_GET['page']);
 #######################
 
-if (!isset($_POST['TRAMITES']) || empty($_POST['TRAMITES'])) {
-$MODALIDAD_GA='';
-$cuentaMGA=0;
-} else {
-$MODALIDAD_GA=$_POST['TRAMITES'];
-
-##$monto_umas_total_modalidad_graduacion_alcoholica=0;
-$TRAMITE_LISTA='';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION='';
-$TRAMITES_RAW='';
-$cuentaMGA=count($MODALIDAD_GA);
-
-if ( $cuentaMGA==1 ) {
-#########
-$TRAMITES_RAW=$MODALIDAD_GA[0];
-#
-$porciones0 = explode("**", $MODALIDAD_GA[0]);
-$e00=$porciones0[0];
-$e01=$porciones0[1];
-$e02=$porciones0[2];
-##$monto_umas_total_modalidad_graduacion_alcoholica=$e02;
-$TRAMITE_LISTA='('.$e01.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION=','.$e01;
-#
-#########
-} else {
-
-if ( $cuentaMGA==2 ) {
-#################
-$TRAMITES_RAW=$MODALIDAD_GA[0].'--'.$MODALIDAD_GA[1];
-#
-$porciones0 = explode("**", $MODALIDAD_GA[0]);
-$e00=$porciones0[0];
-$e01=$porciones0[1];
-$e02=$porciones0[2];
-#
-$porciones1 = explode("**", $MODALIDAD_GA[1]);
-$e10=$porciones1[0];
-$e11=$porciones1[1];
-$e12=$porciones1[2];
-##$monto_umas_total_modalidad_graduacion_alcoholica=$e02+$e12;
-$TRAMITE_LISTA='('.$e01.') y ('.$e11.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION=','.$e01.','.$e11;
-#
-#################
-} else {
-
-$TRAMITES_RAW=$MODALIDAD_GA[0];
-#
-$porciones0 = explode("**", $MODALIDAD_GA[0]);
-$e00=$porciones0[0];
-$e01=$porciones0[1];
-$e02=$porciones0[2];
-##$monto_umas_total_modalidad_graduacion_alcoholica=$e02;
-$TRAMITE_LISTA='('.$e01.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION=','.$e01;
-#
-
-
-
-for($i = 1; $i<$cuentaMGA-1; $i++) {
-
-$TRAMITES_RAW .= '--'.$MODALIDAD_GA[$i];
-
-$porcionesi = explode("**", $MODALIDAD_GA[$i]);
-$ei0=$porcionesi[0];
-$ei1=$porcionesi[1];
-$ei2=$porcionesi[2];
-##$monto_umas_total_modalidad_graduacion_alcoholica=$ei2+$monto_umas_total_modalidad_graduacion_alcoholica;
-#
-
-$TRAMITE_LISTA.=', ('.$ei1.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION.=','.$ei1;
-}
-
-
-$TRAMITES_RAW .= ' --'.$MODALIDAD_GA[$cuentaMGA-1];
-$porcionesu = explode("**", $MODALIDAD_GA[$cuentaMGA-1]);
-$eu0=$porcionesu[0];
-$eu1=$porcionesu[1];
-$eu2=$porcionesu[2];
-##$monto_umas_total_modalidad_graduacion_alcoholica=$eu2+$monto_umas_total_modalidad_graduacion_alcoholica;
-
-$TRAMITE_LISTA .= ' Y ('.$eu1.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION .= ','.$eu1;
-}
-}
-
-
-
-
-}
-#####################
-$today = date("Y-m-d");
-##echo 'TRAMITE_LISTA='.$TRAMITE_LISTA;
-
-##echo 'cuentaMGA='.$cuentaMGA;
-
-if ( $cuentaMGA>0 ) {
-
-$arregloCuentaPresupuesto=mysqli_fetch_array(mysqli_query($con,"SELECT  COUNT(*)  FROM `presupuesto` WHERE id_principal=$id AND estatus='Inicio'"));
-$CUENTA=$arregloCuentaPresupuesto[0];
-##
-if ( $CUENTA==0 ) {
-##$sql_delete="DELETE FROM presupuesto WHERE id_principal=$id";
-##mysqli_query($con,$sql_delete);
-
-$sql_insert = "INSERT INTO presupuesto (
-id_principal,
-tramites,
-tramites_raw,
-tramites_concepto_recaudacion,
-rfc,
-fisica_o_moral,
-observaciones,
-nombre_persona_fisicamoral_solicitante,
-nombre_representante_legal_solicitante,
-domicilio_solicitante,
-email_solicitante,
-telefono_solicitante,
-fecha_alta,
-estatus
-) VALUES (
-$id,
-'$TRAMITE_LISTA',
-'$TRAMITES_RAW ',
-'$TRAMITE_LISTA_CONCEPTO_RECAUDACION ',
-'$rfc_solicitante',
-'$fisica_o_moral',
-'$observaciones',
-'$nombre_persona_fisicamoral_solicitante',
-'$nombre_representante_legal_solicitante',
-'$domicilio_solicitante',
-'$email_solicitante',
-'$telefono_solicitante',
-'$today',
-'Inicio'
-)";
-
-##echo $sql_insert;
-
-mysqli_query($con,$sql_insert);
-
-}
-}
-
-$arregloPresupuesto=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `presupuesto` WHERE id_principal=$id"));
+$arregloPresupuesto=mysqli_fetch_array(mysqli_query($con,"SELECT * FROM `presupuesto` WHERE id_principal=$id AND estatus='Inicio'"));
 $TRAMITES_PRESUPUESTO=$arregloPresupuesto['tramites'];
 $RFC=$arregloPresupuesto['rfc'];
 $FISICA_O_MORAL=$arregloPresupuesto['fisica_o_moral'];
@@ -255,7 +98,20 @@ $GRUPO4=$CAPACIDAD_COMENSALES_PERSONAS.' / '.$SUPERFICIE_ESTABLECIMIENTO;
 
 $colonia_delegacion_municipio_establecimiento=$datos['colonia_desc'].' '.$datos['delegacion_desc'].' / '.$datos['municipio_desc'].' / '.$datos['cp_establecimiento'];
 
-
+#########################
+$sql_Cuenta_Paso="SELECT COUNT(*) CUENTA_PASO FROM de_paso WHERE id_principal=$id";
+$result_CuentaPaso=mysqli_query($con,$sql_Cuenta_Paso);
+$row_cuentaPaso = mysqli_fetch_assoc($result_CuentaPaso);
+$CUENTA_PASO=$row_cuentaPaso['CUENTA_PASO'];
+if ( $CUENTA_PASO>0 ) {
+$sql_Paso="SELECT * FROM de_paso WHERE id_principal=$id";
+$result_Paso=mysqli_query($con,$sql_Paso);
+$row_Paso = mysqli_fetch_assoc($result_Paso);
+$NUMERO_PERMISO_ANTERIOR=$row_Paso['numero_permiso'];
+} else {
+$NUMERO_PERMISO_ANTERIOR='No Disponible';
+}
+########################
 $url = "https://landingbebal-production.up.railway.app/api/datorapido";
 
 $data = [
@@ -272,14 +128,15 @@ $data = [
     "comensales_superficie" => $GRUPO4,
     "horario_funcionamiento" => $datos['horario_funcionamiento'],
     "tramites_presupuesto"=> $TRAMITES_PRESUPUESTO,
-    "rfc_solicitante"=> $RFC,
+"rfc_solicitante"=> $RFC,
 "fisica_o_moral_solicitante"=> $FISICA_O_MORAL,
 "nombre_persona_fisicamoral_solicitante"=> $NOMBRE_PERSONA_FISICAMORAL_SOLICITANTE,
 "nombre_representante_legal_solicitante"=> $NOMBRE_REPRESENTANTE_SOLICITANTE,
 "domicilio_solicitante"=> $DOMICILIO_SOLICITANTE,
 "email_solicitante"=> $EMAIL_SOLICITANTE,
-"telefono_solicitante"=> $TELEFONO_SOLICITANTE
-
+"telefono_solicitante"=> $TELEFONO_SOLICITANTE,
+"numero_permiso_anterior"=> $NUMERO_PERMISO_ANTERIOR,
+"numero_permiso_nuevo"=> $datos['numero_permiso']
 ];
 
 $options = [
@@ -340,7 +197,7 @@ header('Content-Type: text/html; charset=utf-8');
             max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
-            font-size: 12px;
+            font-size: 10px;
         }
         
         .print-button {
@@ -452,7 +309,7 @@ header('Content-Type: text/html; charset=utf-8');
         th, td {
             padding: 5px;
             text-align: left;
-            font-size: 12px;
+            font-size: 10px;
         }
         
         th {
@@ -479,13 +336,13 @@ header('Content-Type: text/html; charset=utf-8');
         }
         
         .monto-label {
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             width: 30%;
         }
         
         .monto-value {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             text-align: center;
         }
@@ -528,6 +385,7 @@ header('Content-Type: text/html; charset=utf-8');
             <div class="logo">
 		<img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="500">
 	    </div>
+<br>
 <?php
             echo '<div class="title">';
                 //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
@@ -536,7 +394,7 @@ echo '<br><br>';
 echo '<br><br>';
 echo '<br><br>';
 echo '<br><br>';
-echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="5px"><b>CUMPLIMIENTO DE REQUISITOS CONSTANCIA</b></center></td></tr></table>';
+echo '<table width="100%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="5px"><b>CUMPLIMIENTO DE REQUISITOS CONSTANCIA</b></center></td></tr></table>';
 
 	    echo '</div>';
 
@@ -550,7 +408,7 @@ echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/consulta-consta
         
 	<div class="main-title">
 <center>
-<p><font size="3">PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</font></p>
+<p><font size="2px">PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</font></p>
 </center>
         </div>
         
@@ -563,9 +421,9 @@ echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/consulta-consta
 		<div class="section">
 <?php
 if ( $datos['operacion']=='NUEVO' ) {
-echo '<div class="section-title">TRAMITE: PERMISO NUEVO </div>';
+echo '<div class="section-title">TRAMITE: PERMISO NUEVO</div>';
 } else {
-echo '<div class="section-title">TRAMITE(S): '.$TRAMITES_PRESUPUESTO.'</div>';
+echo '<div class="section-title"> <font color="black">TRAMITE(S): '.$TRAMITES_PRESUPUESTO.'</font></div>';
 }
 ?>
                     <table class="compact-table">
@@ -584,6 +442,10 @@ echo '<div class="section-title">TRAMITE(S): '.$TRAMITES_PRESUPUESTO.'</div>';
                             <td><?php echo $datos['servicios_adicionales']; ?> * [<?php echo $datos['numero_servicios_adicionales']; ?>]</td>
 			</tr>
 
+                        <tr>
+                            <th>Número de Permiso Nuevo</th>
+                            <td><?php echo $datos['numero_permiso']; ?></td>
+                        </tr>
 
                         <tr>
                             <th>Fecha Registro</th>
@@ -660,6 +522,10 @@ echo '</tr>';
                         <tr>
                             <th>Horario Funcionamiento</th>
                             <td><?php echo $datos['horario_funcionamiento']; ?> </td>
+                        </tr>
+                        <tr>
+                            <th>Número de Permiso Anterior</th>
+                            <td><?php echo $NUMERO_PERMISO_ANTERIOR; ?></td>
                         </tr>
 
 

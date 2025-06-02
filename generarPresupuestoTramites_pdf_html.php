@@ -174,11 +174,23 @@ header('Content-Type: text/html; charset=utf-8');
     <title>Datos Generales - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
         @media print {
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important; /* Asegurar que html no tenga márgenes */
+                padding: 0 !important; /* Asegurar que html no tenga padding */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
             body {
-                width: 210mm;
+                width: 210mm; /* Tamaño carta exacto */
                 height: 279mm; /* Tamaño carta exacto */
-                margin: 0;
-                padding: 0;
+                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
+                padding: 0 !important; /* El body en sí no debe tener padding */
+                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
             }
             .no-print {
                 display: none !important;

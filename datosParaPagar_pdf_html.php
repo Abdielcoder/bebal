@@ -409,6 +409,7 @@ echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
         
             <div class="column">
                 <div class="section">
+                    
                     <div class="section-title">DATOS DEL SOLICITANTE</div>
                     <table class="compact-table">
                         <tr>

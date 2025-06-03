@@ -603,8 +603,32 @@ echo '</tr>';
 ?>
                     </table>
                 </div>
-	</div>
+	    </div>
 
+
+        <?php
+        // IMPORTANTE: Asegúrate de que la variable $ORDEN_PAGO esté definida y tenga un valor ANTES de este bloque.
+        // Por ejemplo, podría venir de una consulta a la base de datos o de otra variable:
+        // if (isset($datos['tu_campo_orden_pago'])) { $ORDEN_PAGO = $datos['tu_campo_orden_pago']; }
+        // else { $ORDEN_PAGO = 'VALOR_POR_DEFECTO_O_ERROR'; }
+
+        if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
+            // Code 39 requiere que el valor esté rodeado de asteriscos (*).
+            // Usualmente se usa en mayúsculas y solo permite caracteres alfanuméricos y algunos símbolos (- . $ / + % espacio).
+            $barcode_display_value = '*' . strtoupper(trim($ORDEN_PAGO)) . '*';
+            $human_readable_value = htmlspecialchars(trim($ORDEN_PAGO));
+        ?>
+            <div style="text-align: center; margin-top: 20px; margin-bottom: 20px;">
+                 Falls back to a generic cursive font if 'barcode-font' is not defined or the specific font is not available. -->
+                <div class="barcode-font" style="font-size: 48px; line-height: 1; margin-bottom: 5px; font-family: 'Libre Barcode 39', 'Free 3 of 9', cursive;"><?php echo htmlspecialchars($barcode_display_value); ?></div>
+                <div style="font-size: 12px;"><?php echo $human_readable_value; ?></div>
+            </div>
+        <?php
+        } else {
+            // Opcional: Si quieres mostrar un mensaje cuando $ORDEN_PAGO no está disponible o está vacía, descomenta la siguiente línea:
+            // echo '<p style="text-align:center; color:red; margin-top: 20px; margin-bottom: 20px;">Código de Barras no disponible: Valor ORDEN_PAGO no encontrado.</p>';
+        }
+        ?>
 
         <div class="legal"><font size="1"><i>
             Mediante Acuerdo del Cabildo de fecha once de diciembre del dos mil veinticuatro en el punto de acuerdo número VI.3, 

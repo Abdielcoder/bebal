@@ -159,7 +159,7 @@ header('Content-Type: text/html; charset=utf-8');
                 width: 210mm !important;
                 height: 297mm !important;
                 margin: 0 !important;
-                padding: 4mm !important; /* Padding optimizado para logo 7x */
+                padding: 4mm 2mm 4mm 2mm !important; /* Padding comprimido: arriba izquierda abajo derecha */
                 font-size: 8px !important; /* Fuente base ligeramente más grande */
                 line-height: 1.0 !important;
                 overflow: hidden !important;

@@ -105,16 +105,8 @@ header('Content-Type: text/html; charset=utf-8');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recibo de I&RAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
-
-        @font-face {
-            font-family: 'LibreBarcode39';
-            src: url('fonts/Libre_Barcode_39/LibreBarcode39-Regular.ttf') format('truetype');
-        }
-
-        .barcode-font-orden-pago {
-            font-family: 'LibreBarcode39', 'Free 3 of 9', cursive;
-        }
 
         @media print {
             html {
@@ -405,16 +397,25 @@ echo '</div>';
 
 echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
 
-// Generar y mostrar el código de barras para ORDEN_PAGO
+// Generar y mostrar el código de barras para ORDEN_PAGO usando JsBarcode
 if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
-    $barcode_display_value_orden_pago = '*' . strtoupper(trim($ORDEN_PAGO)) . '*';
-    $human_readable_value_orden_pago = htmlspecialchars(trim($ORDEN_PAGO));
+    $orden_pago_clean = trim($ORDEN_PAGO);
     echo '<div style="text-align: center; margin-top: 5px; margin-bottom: 15px;">';
-    echo '    <div class="barcode-font-orden-pago" style="font-size: 36px; line-height: 1; margin-bottom: 3px; font-family: \'Libre Barcode 39\', \'Free 3 of 9\', cursive;">'.htmlspecialchars($barcode_display_value_orden_pago).'</div>';
-    // No mostraremos el valor legible por humanos aquí porque ya está en el H1.
-    // Si también lo quieres aquí, descomenta la siguiente línea:
-    // echo '    <div style="font-size: 10px;">'.$human_readable_value_orden_pago.'</div>';
+    echo '    <svg id="barcode-orden-pago"></svg>';
     echo '</div>';
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo '    if (typeof JsBarcode !== "undefined") {';
+    echo '        JsBarcode("#barcode-orden-pago", "'.htmlspecialchars($orden_pago_clean).'", {';
+    echo '            format: "CODE39",';
+    echo '            width: 2,';
+    echo '            height: 50,';
+    echo '            displayValue: false,';
+    echo '            margin: 0';
+    echo '        });';
+    echo '    }';
+    echo '});';
+    echo '</script>';
 } else {
     // Opcional: si quieres un mensaje si $ORDEN_PAGO está vacía para el barcode
     // echo '<p style="text-align:center; color:red; margin-bottom: 10px;">Código de Barras para Orden de Pago no disponible.</p>';

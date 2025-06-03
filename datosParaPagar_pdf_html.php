@@ -109,29 +109,55 @@ header('Content-Type: text/html; charset=utf-8');
     <style>
 
         @media print {
+            @page { 
+                margin: 10mm; /* Margen mínimo para impresión */
+                size: letter; /* Tamaño carta específico */
+            }
             html {
                 width: 100%;
                 height: 100%;
-                margin: 0 !important; /* Asegurar que html no tenga márgenes */
-                padding: 0 !important; /* Asegurar que html no tenga padding */
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                overflow: hidden;
+                margin: 0 !important;
+                padding: 0 !important;
             }
             body {
-                width: 210mm; /* Tamaño carta exacto */
-                height: 279mm; /* Tamaño carta exacto */
-                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
-                padding: 0 !important; /* El body en sí no debe tener padding */
-                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
+                width: 100%;
+                height: 100%;
+                margin: 0 !important;
+                padding: 5mm !important; /* Padding reducido para más espacio */
+                font-size: 9px !important; /* Texto ligeramente más pequeño */
+                line-height: 1.2 !important; /* Espaciado de línea más compacto */
             }
             .no-print {
                 display: none !important;
             }
             .page-break {
                 page-break-before: always;
+            }
+            .container {
+                padding: 5px !important; /* Padding reducido del contenedor */
+                border: none !important;
+                box-shadow: none !important;
+            }
+            .header {
+                margin-bottom: 5px !important; /* Reducir espacio después del header */
+            }
+            .main-title {
+                margin: 5px 0 !important; /* Reducir márgenes del título principal */
+            }
+            .section {
+                margin: 5px 0 !important; /* Reducir márgenes entre secciones */
+            }
+            /* Reducir tamaños de fuente para elementos específicos */
+            .main-title h3 {
+                font-size: 10px !important;
+                margin: 1px 0 !important;
+            }
+            table, th, td {
+                font-size: 9px !important;
+            }
+            .info-text {
+                font-size: 9px !important;
+                margin: 5px 0 !important;
             }
         }
 
@@ -372,21 +398,16 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 }
 }
 
-
             echo '<div class="title">';
                 //echo '<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>';
 //echo '<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>';
-echo '<br><br>';
-echo '<br><br>';
-echo '<br><br>';
-echo '<br><br>';
-echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="6px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
+echo '<table width="90%" align="center" style="border: none; background: transparent; margin-top: 5px;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="5px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
 	    echo '</div>';
 
 $Folio=$datos['folio'];
          echo '<div class="date">';
 	//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'"></p>';
+echo '<p style="margin: 5px 0;"><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'"></p>';
 echo '</div>';
 echo '</div>';
 ?>
@@ -567,10 +588,7 @@ echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGA
             </p>
 	</div>
 
-<br><br>
-<br><br>
-<br><br>
-
+<div style="margin-top: 10px;">
 <center>
             <div class="signature">
                 <div class="signature-line"></div>
@@ -581,17 +599,6 @@ echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGA
         </div>
 </center>
 
-
-
-   <style>
-@media print {
-  @page { margin: 0; }
-  body { margin: 0.5cm; }
- </style>
-
-
- </style>
-        
     <script>
         // Auto-print when the page loads
         window.onload = function() {

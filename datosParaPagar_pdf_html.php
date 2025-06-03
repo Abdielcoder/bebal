@@ -104,60 +104,196 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de I&RAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="print-mode" content="no-headers-footers">
+    <title>Orden de Pago</title>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
 
         @media print {
-            @page { 
-                margin: 10mm; /* Margen mínimo para impresión */
-                size: letter; /* Tamaño carta específico */
+            /* Configuración de página sin headers/footers */
+            @page {
+                size: letter;
+                margin: 0 !important;
+                /* Eliminar completamente headers y footers automáticos */
+                @top-left-corner { content: ""; }
+                @top-left { content: ""; }
+                @top-center { content: ""; }
+                @top-right { content: ""; }
+                @top-right-corner { content: ""; }
+                @bottom-left-corner { content: ""; }
+                @bottom-left { content: ""; }
+                @bottom-center { content: ""; }
+                @bottom-right { content: ""; }
+                @bottom-right-corner { content: ""; }
+                @left-top { content: ""; }
+                @left-middle { content: ""; }
+                @left-bottom { content: ""; }
+                @right-top { content: ""; }
+                @right-middle { content: ""; }
+                @right-bottom { content: ""; }
             }
+            
+            /* Eliminar elementos específicos del navegador */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                box-sizing: border-box !important;
+            }
+            
             html {
-                width: 100%;
-                height: 100%;
+                width: 100% !important;
+                height: 100% !important;
                 margin: 0 !important;
                 padding: 0 !important;
+                overflow: hidden !important;
+                /* Eliminar cualquier contenido generado automáticamente */
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
             }
+            
             body {
-                width: 100%;
-                height: 100%;
+                width: 210mm !important;
+                height: 297mm !important;
                 margin: 0 !important;
-                padding: 5mm !important; /* Padding reducido para más espacio */
-                font-size: 9px !important; /* Texto ligeramente más pequeño */
-                line-height: 1.2 !important; /* Espaciado de línea más compacto */
+                padding: 10mm !important;
+                font-size: 8px !important;
+                line-height: 1.1 !important;
+                overflow: hidden !important;
+                position: relative !important;
+                /* Eliminar elementos automáticos del navegador */
+                -webkit-appearance: none !important;
+                -moz-appearance: none !important;
+                appearance: none !important;
             }
+            
+            /* Eliminar específicamente headers y footers automáticos */
+            body::before,
+            body::after,
+            html::before,
+            html::after,
+            *::before,
+            *::after {
+                content: "" !important;
+                display: none !important;
+                visibility: hidden !important;
+            }
+            
             .no-print {
                 display: none !important;
+                visibility: hidden !important;
             }
+            
             .page-break {
                 page-break-before: always;
             }
+            
             .container {
-                padding: 5px !important; /* Padding reducido del contenedor */
+                padding: 0 !important;
+                margin: 0 !important;
                 border: none !important;
                 box-shadow: none !important;
+                background: white !important;
+                width: 100% !important;
+                height: 100% !important;
+                position: relative !important;
+                overflow: hidden !important;
             }
+            
             .header {
-                margin-bottom: 5px !important; /* Reducir espacio después del header */
+                margin-bottom: 3px !important;
+                padding-bottom: 5px !important;
+                display: flex !important;
+                align-items: flex-start !important;
+                border-bottom: 1px solid #AC905B !important;
+                position: relative !important;
+                clear: both !important;
             }
+            
+            .logo {
+                width: 60px !important;
+                margin-right: 10px !important;
+                flex-shrink: 0 !important;
+            }
+            
+            .title {
+                flex: 1 !important;
+                text-align: center !important;
+                position: relative !important;
+            }
+            
+            .date {
+                position: absolute !important;
+                top: 0 !important;
+                right: 0 !important;
+                width: 80px !important;
+                text-align: center !important;
+            }
+            
             .main-title {
-                margin: 5px 0 !important; /* Reducir márgenes del título principal */
+                margin: 3px 0 !important;
+                text-align: center !important;
+                clear: both !important;
             }
-            .section {
-                margin: 5px 0 !important; /* Reducir márgenes entre secciones */
+            
+            .main-title h1 {
+                font-size: 14px !important;
+                margin: 2px 0 !important;
             }
-            /* Reducir tamaños de fuente para elementos específicos */
+            
             .main-title h3 {
-                font-size: 10px !important;
+                font-size: 8px !important;
                 margin: 1px 0 !important;
+                line-height: 1.1 !important;
             }
+            
+            .section {
+                margin: 3px 0 !important;
+                clear: both !important;
+            }
+            
+            .section-title {
+                font-size: 10px !important;
+                padding: 3px 5px !important;
+            }
+            
             table, th, td {
-                font-size: 9px !important;
+                font-size: 7px !important;
+                border: 1px solid #ddd !important;
+                padding: 2px !important;
             }
+            
+            .compact-table th, .compact-table td {
+                padding: 1px 2px !important;
+            }
+            
             .info-text {
-                font-size: 9px !important;
-                margin: 5px 0 !important;
+                font-size: 7px !important;
+                margin: 3px 0 !important;
+                line-height: 1.1 !important;
+            }
+            
+            .signature {
+                margin-top: 5px !important;
+                font-size: 7px !important;
+            }
+            
+            .folio {
+                font-size: 10px !important;
+                margin: 2px 0 !important;
+            }
+            
+            /* Asegurar que no haya contenido flotante que cause sobreposiciones */
+            * {
+                float: none !important;
+                position: relative !important;
+            }
+            
+            .date {
+                position: absolute !important;
             }
         }
 
@@ -352,17 +488,11 @@ header('Content-Type: text/html; charset=utf-8');
     </style>
 </head>
 <body>
-    <button class="print-button no-print" onclick="window.print()">Imprimir Recibo</button>
+    <button class="print-button no-print" onclick="imprimirSinCabeceras()">Imprimir Recibo</button>
     
     <div class="container">
-
-        <div class="header">
-            <div class="logo">
-                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="500">
-            </div>
 <?php
 switch ($DESCRIPCION_TRAMITE) {
-
 case "Inspeccion":
 	$DESCRIPCION_TRAMITE='Inspección';
         break;
@@ -397,56 +527,51 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 	}
 }
 }
-
-            echo '<div class="title">';
-                //echo '<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>';
-//echo '<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>';
-echo '<table width="90%" align="center" style="border: none; background: transparent; margin-top: 5px;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="5px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
-	    echo '</div>';
-
-$Folio=$datos['folio'];
-         echo '<div class="date">';
-	//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p style="margin: 5px 0;"><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'"></p>';
-echo '</div>';
-echo '</div>';
 ?>
-        
-	<div class="main-title">
-<?php
 
+        <div class="header">
+            <div class="logo">
+                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="60">
+            </div>
+            <div class="title">
+                <table width="100%" style="border: none; background: transparent; margin: 0;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent; text-align: center;"><font size="4px"><?php echo $DESCRIPCION_TRAMITE; ?></font></td></tr></table>
+            </div>
+            <div class="date">
+                <?php
+                $Folio=$datos['folio'];
+                echo '<img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'" style="width: 70px; height: 70px;">';
+                ?>
+            </div>
+        </div>
 
-echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
-
-// Generar y mostrar el código de barras para ORDEN_PAGO usando JsBarcode
-if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
-    $orden_pago_clean = trim($ORDEN_PAGO);
-    echo '<div style="text-align: center; margin-top: 5px; margin-bottom: 15px;">';
-    echo '    <svg id="barcode-orden-pago"></svg>';
-    echo '</div>';
-    echo '<script>';
-    echo 'document.addEventListener("DOMContentLoaded", function() {';
-    echo '    if (typeof JsBarcode !== "undefined") {';
-    echo '        JsBarcode("#barcode-orden-pago", "'.htmlspecialchars($orden_pago_clean).'", {';
-    echo '            format: "CODE39",';
-    echo '            width: 2,';
-    echo '            height: 50,';
-    echo '            displayValue: false,';
-    echo '            margin: 0';
-    echo '        });';
-    echo '    }';
-    echo '});';
-    echo '</script>';
-} else {
-    // Opcional: si quieres un mensaje si $ORDEN_PAGO está vacía para el barcode
-    // echo '<p style="text-align:center; color:red; margin-bottom: 10px;">Código de Barras para Orden de Pago no disponible.</p>';
-}
-
-//echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
-//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
-?>
-            <h3>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h3>
-            <h3>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h3>
+        <div class="main-title">
+             <h1><font size="5px;">Orden de Pago: <?php echo $ORDEN_PAGO; ?></font></h1>
+             
+             <?php
+             // Generar y mostrar el código de barras para ORDEN_PAGO usando JsBarcode
+             if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
+                 $orden_pago_clean = trim($ORDEN_PAGO);
+                 echo '<div style="text-align: center; margin: 3px 0;">';
+                 echo '    <svg id="barcode-orden-pago"></svg>';
+                 echo '</div>';
+                 echo '<script>';
+                 echo 'document.addEventListener("DOMContentLoaded", function() {';
+                 echo '    if (typeof JsBarcode !== "undefined") {';
+                 echo '        JsBarcode("#barcode-orden-pago", "'.htmlspecialchars($orden_pago_clean).'", {';
+                 echo '            format: "CODE39",';
+                 echo '            width: 1.5,';
+                 echo '            height: 40,';
+                 echo '            displayValue: false,';
+                 echo '            margin: 0';
+                 echo '        });';
+                 echo '    }';
+                 echo '});';
+                 echo '</script>';
+             }
+             ?>
+             
+             <h3>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h3>
+             <h3>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h3>
         </div>
         
         <div class="folio">
@@ -600,13 +725,90 @@ echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGA
 </center>
 
     <script>
-        // Auto-print when the page loads
-        window.onload = function() {
-            // Esperar un momento para que se cargue la página completamente
+        // Función para eliminar completamente cabeceras y pies de página
+        function configurarImpresionLimpia() {
+            // Crear estilo específico para eliminar headers/footers
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.media = 'print';
+            style.innerHTML = `
+                @page { 
+                    size: letter; 
+                    margin: 0 !important;
+                }
+                @media print {
+                    * { 
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    body {
+                        margin: 0 !important;
+                        padding: 10mm !important;
+                        width: 210mm !important;
+                        height: 297mm !important;
+                        overflow: hidden !important;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Limpiar título temporalmente
+            var originalTitle = document.title;
+            document.title = '';
+            
+            // Configurar evento beforeprint
+            window.addEventListener('beforeprint', function() {
+                document.title = '';
+                // Ocultar cualquier elemento que pueda generar headers/footers
+                var metaTags = document.querySelectorAll('meta');
+                metaTags.forEach(function(meta) {
+                    if (meta.name === 'author' || meta.name === 'description') {
+                        meta.content = '';
+                    }
+                });
+            });
+            
+            // Restaurar título después de imprimir
+            window.addEventListener('afterprint', function() {
+                document.title = originalTitle || 'Orden de Pago';
+            });
+            
+            // Forzar configuración de impresión sin headers/footers
             setTimeout(function() {
-                document.querySelector('.print-button').style.display = 'block';
-            }, 1000);
+                window.print();
+            }, 100);
+        }
+        
+        // Función principal de impresión
+        function imprimirSinCabeceras() {
+            configurarImpresionLimpia();
+        }
+        
+        // Auto-configurar al cargar la página
+        window.onload = function() {
+            // Eliminar título inicial
+            document.title = '';
+            
+            // Configurar botón de impresión
+            setTimeout(function() {
+                var printButton = document.querySelector('.print-button');
+                if (printButton) {
+                    printButton.style.display = 'block';
+                    printButton.onclick = imprimirSinCabeceras;
+                }
+            }, 500);
         };
+        
+        // Prevenir headers/footers automáticos
+        document.addEventListener('DOMContentLoaded', function() {
+            document.title = '';
+            
+            // Eliminar metadatos que puedan generar headers/footers
+            var metas = document.querySelectorAll('meta[name="author"], meta[name="description"], meta[name="generator"]');
+            metas.forEach(function(meta) {
+                meta.remove();
+            });
+        });
     </script>
 </body>
 </html> 

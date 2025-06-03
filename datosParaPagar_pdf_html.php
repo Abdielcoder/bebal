@@ -211,26 +211,54 @@ header('Content-Type: text/html; charset=utf-8');
                 border-bottom: 1px solid #AC905B !important;
                 position: relative !important;
                 clear: both !important;
+                min-height: 80px !important; /* Altura mínima para evitar solapamiento */
             }
             
             .logo {
                 width: 60px !important;
-                margin-right: 10px !important;
+                margin-right: 15px !important;
                 flex-shrink: 0 !important;
+                align-self: flex-start !important;
             }
             
             .title {
                 flex: 1 !important;
                 text-align: center !important;
                 position: relative !important;
+                padding: 10px 5px !important; /* Padding para evitar solapamiento */
+                margin: 0 10px !important; /* Margen lateral para separar del logo y QR */
+                max-width: calc(100% - 180px) !important; /* Limitar ancho para no invadir QR */
+            }
+            
+            .title table {
+                width: 100% !important;
+                margin: 0 !important;
+                border: none !important;
+            }
+            
+            .title td {
+                border: none !important;
+                background: transparent !important;
+                text-align: center !important;
+                padding: 5px !important;
+                font-size: 12px !important;
+                font-weight: bold !important;
             }
             
             .date {
                 position: absolute !important;
-                top: 0 !important;
-                right: 0 !important;
+                top: 5px !important;
+                right: 5px !important;
                 width: 80px !important;
                 text-align: center !important;
+                z-index: 10 !important; /* Asegurar que esté por encima */
+            }
+            
+            .date img {
+                width: 70px !important;
+                height: 70px !important;
+                display: block !important;
+                margin: 0 auto !important;
             }
             
             .main-title {
@@ -332,39 +360,52 @@ header('Content-Type: text/html; charset=utf-8');
         
         .header {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             border-bottom: 2px solid #AC905B;
             padding-bottom: 10px;
             margin-bottom: 10px;
+            min-height: 80px; /* Altura mínima para evitar solapamiento */
+            position: relative;
         }
         
         .logo {
             width: 70px;
             margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .logo img {
+            max-width: 100%;
+            height: auto;
         }
         
         .title {
             flex: 1;
+            text-align: center;
+            padding: 10px 5px;
+            margin: 0 10px;
+            max-width: calc(100% - 180px); /* Limitar ancho para no invadir QR */
         }
         
-        .title h1 {
-            margin: 0;
+        .title div {
             font-size: 16px;
+            font-weight: bold;
             color: #333;
         }
         
-        .title h2 {
-            margin: 2px 0;
-            font-size: 14px;
-            color: #666;
-            font-weight: normal;
+        .date {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 80px;
+            text-align: center;
         }
         
-        .date {
-            text-align: right;
-            font-style: italic;
-            font-size: 12px;
-            color: #666;
+        .date img {
+            width: 70px;
+            height: 70px;
+            display: block;
+            margin: 0 auto;
         }
         
         .main-title {
@@ -534,7 +575,9 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
                 <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="60">
             </div>
             <div class="title">
-                <table width="100%" style="border: none; background: transparent; margin: 0;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent; text-align: center;"><font size="4px"><?php echo $DESCRIPCION_TRAMITE; ?></font></td></tr></table>
+                <div style="text-align: center; font-size: 14px; font-weight: bold; padding: 15px 5px;">
+                    <?php echo $DESCRIPCION_TRAMITE; ?>
+                </div>
             </div>
             <div class="date">
                 <?php

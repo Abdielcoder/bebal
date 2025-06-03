@@ -623,7 +623,7 @@ $ID_PAGO_INS=0;
 }
 ##
 #### RECIBO INSPECCION
-if ( ($estatus=='Pago INS-Cambio' || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_INSPECCION_PAGADO=='SI'  )  {
+if ( ($estatus=='Pago INS-Cambio' || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_INSPECCION_PAGADO=='SI'  || $estatus=='IP Proceso' )  {
 } else {
 echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_INS.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Inspección</font></a>&nbsp;';
 }
@@ -687,7 +687,7 @@ $ID_PAGO_RAD=0;
 }
 ##
 ##  RECIBO AR Docs
-if ( ( $estatus=='Pago RAD-Cambio'  || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_RAD_PAGADO=='SI' )  {
+if ( ( $estatus=='Pago RAD-Cambio'  || $estatus=='Pagos-IRAD-Cambio') || $RECIBO_RAD_PAGADO=='SI'  || $estatus=='IP Proceso' )  {
 } else {
 echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_RAD.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black">Recibo AR Docs</font></a>&nbsp;';
 }
@@ -886,6 +886,20 @@ $ID_PAGO_TRAMITE=0;
 ###################
 
 if ( $estatus=='IP Proceso'  )  {
+
+#####
+##### ID PRESUPUESTO - TRAMITE
+$sql_pagoTramite="SELECT * FROM `pagos` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Impresion Permiso' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=0";
+##echo $sql_pagoTramite;
+$result_pagoTramite = mysqli_query($con,$sql_pagoTramite);
+if (mysqli_num_rows($result_pagoTramite) > 0) {
+$row_pagoTramite = mysqli_fetch_assoc($result_pagoTramite);
+$ID_PAGO_TRAMITE=$row_pagoTramite['id'];
+} else {
+$ID_PAGO_TRAMITE=0;
+}
+
+
 echo '<a href="datosParaPagar_pdf_Presupuesto_html.php?id='.$IDPRINCIPAL.'&ri=1X&yy='.$ID_PAGO_TRAMITE.'" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>&nbsp;';
 
 echo '<a href="#revisarPagoPresupuestoImprimirPermiso" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoImprimirPermiso"
@@ -1531,7 +1545,7 @@ $( "#guardar_registroPrincipalGiro" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-                        }, 22000);
+                        }, 2000);
 
                   }
         });

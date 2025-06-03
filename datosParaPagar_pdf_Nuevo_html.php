@@ -74,12 +74,26 @@ header('Content-Type: text/html; charset=utf-8');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recibo Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
+
+
         @media print {
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important; /* Asegurar que html no tenga márgenes */
+                padding: 0 !important; /* Asegurar que html no tenga padding */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
             body {
-                width: 210mm;
+                width: 210mm; /* Tamaño carta exacto */
                 height: 279mm; /* Tamaño carta exacto */
-                margin: 0;
-                padding: 0;
+                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
+                padding: 0 !important; /* El body en sí no debe tener padding */
+                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
             }
             .no-print {
                 display: none !important;
@@ -88,7 +102,7 @@ header('Content-Type: text/html; charset=utf-8');
                 page-break-before: always;
             }
         }
-        
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.4;
@@ -98,9 +112,10 @@ header('Content-Type: text/html; charset=utf-8');
             max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
-            font-size: 12px;
+            font-size: 10px;
         }
-        
+
+
         .print-button {
             position: fixed;
             top: 10px;
@@ -288,14 +303,6 @@ header('Content-Type: text/html; charset=utf-8');
 
 	    </div>
 <?php
-            echo '<div class="title">';
-                //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
-                //<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
-	    echo '</div>';
-?>
-
-<?php
-
 ################
 $id_tramite=$datos['id_tramite'];
 $id_proceso_tramites=$datos['id_proceso_tramites'];
@@ -317,6 +324,21 @@ $CUENTA_giro=$row_giro['cuenta'];
 $MONTO_UMAS_giro=$row_giro['monto_umas'];
 ##$MONTO_UMAS_REV_CAMB_giro=$row_giro['monto_umas_revalidacion_cambios'];
 #############
+
+            echo '<div class="title">';
+                //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
+//<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
+
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="6px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
+
+	    echo '</div>';
+?>
+
+<?php
 
 $COBRO_UMAS_giro=$MONTO_UMAS_giro;	//##  Permiso Nuevo
 
@@ -449,7 +471,10 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
         
 	<div class="main-title">
 <?php
-echo '<h1>Presupuesto  <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+$todayANO = date("Y");
+$ORDEN_PAGO='PX-'.$id.$id_proceso_tramites.'-'.$todayANO;
+echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
+
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
             <h4>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h4>
@@ -484,7 +509,38 @@ echo $datos['giro_desc'];
 echo '   <font color="blue" size="3">'.number_format($COBRO_UMAS_giro,2).' umas </font>';
 echo '</td>';
 ?>
+			</tr>
+
+
+			<tr>
+<?php
+$MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
+$CONCEPTO_RECAUDACION=$DESCRIPCION_TRAMITE.';'.$MONTO_TOTAL_UMAS;
+echo '<th>Concepto Recaudación</th>';
+echo '<td><font size="2">'.$CONCEPTO_RECAUDACION.'</font></td>';
+?>
                         </tr>
+
+                        <tr>
+                            <th>Inciso </th>
+                            <td><font size="2"><B><?php echo $CUENTA_tramite; ?></B></font></td>
+                        </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <tr>
                             <th>Modalidad Graduación Alcohólica</th>
 <?php
@@ -503,7 +559,6 @@ echo '   <font color="blue" size="3">'.number_format($monto_umas_total_servicios
 echo '</td>';
 
 
-$MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
 ?>
 			</tr>
 
@@ -516,11 +571,13 @@ $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
                         <tr>
                             <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Descripcion</th>
-                            <td><font size="2"><?php echo $DESCRIPCION_TRAMITE; ?></font></td>
-                        </tr>
+			</tr>
+<?php
+//<tr>
+//<th>Descripcion</th>
+//<td><font size="2">'.$DESCRIPCION_TRAMITE.'</font></td>
+//</tr>
+?>
                     </table>
                 </div>
                 
@@ -532,7 +589,7 @@ $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
                 <tr>
 		    <td class="monto-label">Total a Pagar:</td>
 <?php
-echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UMAS,2).' UMAS</font></td>';
+echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UMAS,2).' umas</font></td>';
 ?>
                 </tr>
             </table>
@@ -545,6 +602,26 @@ echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UM
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
         </div>
+
+
+
+<br><br>
+<br><br>
+<br><br>
+
+<center>
+            <div class="signature">
+                <div class="signature-line"></div>
+                <p><b>Lic. Arnulfo Guerrero León</b><br>
+                Secretario de Gobierno Municipal<br>
+                XXV Ayuntamiento de Tijuana, Baja California
+            </div>
+        </div>
+</center>
+
+
+
+
 
  <style>
 @media print {

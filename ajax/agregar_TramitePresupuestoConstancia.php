@@ -54,7 +54,7 @@ $e01=$porciones0[1];
 $e02=$porciones0[2];
 ##$monto_umas_total_modalidad_graduacion_alcoholica=$e02;
 $TRAMITE_LISTA='('.$e01.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION=','.$e01;
+$TRAMITE_LISTA_CONCEPTO_RECAUDACION=';'.$e01;
 #
 #########
 } else {
@@ -74,7 +74,7 @@ $e11=$porciones1[1];
 $e12=$porciones1[2];
 ##$monto_umas_total_modalidad_graduacion_alcoholica=$e02+$e12;
 $TRAMITE_LISTA='('.$e01.') y ('.$e11.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION=','.$e01.','.$e11;
+$TRAMITE_LISTA_CONCEPTO_RECAUDACION=';'.$e01.'*'.$e11;
 #
 #################
 } else {
@@ -87,7 +87,7 @@ $e01=$porciones0[1];
 $e02=$porciones0[2];
 ##$monto_umas_total_modalidad_graduacion_alcoholica=$e02;
 $TRAMITE_LISTA='('.$e01.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION=','.$e01;
+$TRAMITE_LISTA_CONCEPTO_RECAUDACION=';'.$e01;
 #
 
 
@@ -104,7 +104,7 @@ $ei2=$porcionesi[2];
 #
 
 $TRAMITE_LISTA.=', ('.$ei1.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION.=','.$ei1;
+$TRAMITE_LISTA_CONCEPTO_RECAUDACION.='*'.$ei1;
 }
 
 
@@ -116,7 +116,7 @@ $eu2=$porcionesu[2];
 ##$monto_umas_total_modalidad_graduacion_alcoholica=$eu2+$monto_umas_total_modalidad_graduacion_alcoholica;
 
 $TRAMITE_LISTA .= ' Y ('.$eu1.')';
-$TRAMITE_LISTA_CONCEPTO_RECAUDACION .= ','.$eu1;
+$TRAMITE_LISTA_CONCEPTO_RECAUDACION .= '*'.$eu1;
 }
 }
 

@@ -151,6 +151,10 @@ $CONCEPTO_PAGO="Tramite [[ ".$concepto_tramite." ]]   Giro [[ ".$concepto_giro."
 ## Presupuesto
 
 ##
+$todayANO = date("Y");
+$ORDEN_PAGO='PX-'.$id.$id_proceso_tramites.'-'.$todayANO;
+
+$CONCEPTO_RECAUDACION='Permiso Nuevo;'.$total_umas_pagar;
 
 $sqlINSERT="INSERT INTO  pagos (
 id_principal,
@@ -163,6 +167,8 @@ fecha_pago,
 estatus_pago,
 concepto,
 folio,
+concepto_recaudacion,
+orden_pago,
 fechaRegistro ) VALUES (
 $ID,
 $id_proceso_tramites,
@@ -174,6 +180,8 @@ $id_proceso_tramites,
 'PAGADO',
 '$tramite_pago',
 '$folio',
+'$CONCEPTO_RECAUDACION',
+'$ORDEN_PAGO',
 '$today')";
 ######################
 ############

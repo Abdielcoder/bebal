@@ -7,7 +7,7 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 	?>
 	<!-- Modal -->
 	<div class="modal fade" id="aprobrarTramite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+	  <div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 <div class="modal-header"  style="background-color:#AC905B;color:white">
 

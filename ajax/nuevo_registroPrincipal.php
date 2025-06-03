@@ -317,6 +317,7 @@ $el_cambio="Permiso Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Estab
 	
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
+$todayANO = date("Y");
 ################
 ################
 ###  TRAMITE NUEVO
@@ -517,9 +518,13 @@ $row_tramite00 = mysqli_fetch_assoc($result_tramite00);
 $MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
 ##
 ########################
+#
+$concepto_recaudacion='Permiso Nuevo;'.$MONTO_UMAS_tramiteINS;
+
 $sql10="INSERT INTO pagos (
 id_principal,
 folio,
+concepto_recaudacion,
 id_proceso_tramites,
 concepto,
 estatus_pago,
@@ -527,16 +532,30 @@ total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
+'$concepto_recaudacion',
 $ID_PROCESO_TRAMITE,
 'Inspeccion',
 'Pendiente',
 '$MONTO_UMAS_tramiteINS',
 '$today')";
 $query_new_insert1 = mysqli_query($con,$sql10);
+##############
 ##
+#
+$arregloMaxid6 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM pagos"));
+$ID_PAGO_INS=$arregloMaxid6[0];
+#
+$orden_pago='PI-'.$ID.$ID_PAGO_INS.'-'.$todayANO;
+$Update_Pago6="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_INS";
+mysqli_query($con,$Update_Pago6);
+##############
+#
+$concepto_recaudacion='Permiso Nuevo;'.$MONTO_UMAS_tramiteRAD;
+
 $sql20="INSERT INTO pagos (
 id_principal,
 folio,
+concepto_recaudacion,
 id_proceso_tramites,
 concepto,
 estatus_pago,
@@ -544,6 +563,7 @@ total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
+'$concepto_recaudacion',
 $ID_PROCESO_TRAMITE,
 'Recepcion y Analisis Documentos',
 'Pendiente',
@@ -551,7 +571,16 @@ $ID_PROCESO_TRAMITE,
 '$today')";
 $query_new_insert2 = mysqli_query($con,$sql20);
 ##
-
+##############
+##
+#
+$arregloMaxid7 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM pagos"));
+$ID_PAGO_RAD=$arregloMaxid7[0];
+#
+$orden_pago='PA-'.$ID.$ID_PAGO_RAD.'-'.$todayANO;
+$Update_Pago7="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_RAD";
+mysqli_query($con,$Update_Pago7);
+##############
 $sql30="INSERT INTO inspeccion (
 id_principal,
 folio,

@@ -78,6 +78,7 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 <button type="submit" class="btn btn-primary" id="Button_aprobrarTramiteImpresionPermiso"> Aprobar Impresión </button>
   </div>
   </form>
+<p><font color="white" size="1">modal/aprobrarImprimrPermiso.php-(Button_aprobrarTramiteImpresionPermiso)->ajax/aprobrarImpresionPermiso.php</font></p>
  </div>
  </div>
 </div>

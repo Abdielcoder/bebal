@@ -191,12 +191,25 @@ header('Content-Type: text/html; charset=utf-8');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recibo de Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
+
         @media print {
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important; /* Asegurar que html no tenga márgenes */
+                padding: 0 !important; /* Asegurar que html no tenga padding */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
             body {
-                width: 210mm;
+                width: 210mm; /* Tamaño carta exacto */
                 height: 279mm; /* Tamaño carta exacto */
-                margin: 0;
-                padding: 0;
+                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
+                padding: 0 !important; /* El body en sí no debe tener padding */
+                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
             }
             .no-print {
                 display: none !important;
@@ -205,7 +218,7 @@ header('Content-Type: text/html; charset=utf-8');
                 page-break-before: always;
             }
         }
-        
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.4;
@@ -215,9 +228,11 @@ header('Content-Type: text/html; charset=utf-8');
             max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
-            font-size: 12px;
+            font-size: 10px;
         }
-        
+
+
+
         .print-button {
             position: fixed;
             top: 10px;
@@ -554,24 +569,6 @@ $STRING_SERVICIOS_ADICIONALES=$DESCRIPCION_SA." <font size='3' color='blue'>".$C
 }
 
 ##############################
-
-$Folio=$datos['folio'];
-$numero_permiso=$datos['numero_permiso'];
-            echo '<div class="date">';
-		//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
-	    echo '</div>';
-?>
-        </div>
-        
-	<div class="main-title">
-
-
-        <div class="main-title">
-<?php
-
-
-
 $sql_pago="SELECT * FROM `pagos` WHERE id=$ID_PAGO";
 $result_pago = mysqli_query($con,$sql_pago);
 if (mysqli_num_rows($result_pago) > 0) {
@@ -594,6 +591,27 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 }
 }
 
+##############################
+
+$Folio=$datos['folio'];
+$numero_permiso=$datos['numero_permiso'];
+            echo '<div class="date">';
+		//echo 'Fecha de Impresión: '.date('d/m/Y');
+
+echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'"></p>';
+
+	    echo '</div>';
+?>
+        </div>
+        
+	<div class="main-title">
+
+
+        <div class="main-title">
+<?php
+
+
+
 echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
 
 //echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
@@ -611,32 +629,42 @@ echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
                 <div class="section">
                     <div class="section-title">DATOS DEL SOLICITANTE</div>
 		    <table class="compact-table">
-<?php
-if ( $DESCRIPCION_TRAMITE=='Permiso Nuevo' ) {
-} else {
-echo '<tr>';
-echo '<th>Número Permiso</th>';
-echo '<td><font size="2"><b>'.$numero_permiso.'</b></font></td>';
-echo '</tr>';
-}
-?>
-
-                        <tr>
-                            <th>Concepto Recaudación</th>
-                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
-                        </tr>
-
-
-
                         <tr>
                             <th>Nombre Comercial</th>
                             <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
 			</tr>
 
-                        <tr>
-			    <th>Trámite</th>
-			    <td><?php echo $DESCRIPCION_TRAMITE; ?>    <font color="blue" size="3"><?php echo $TOTAL_UMAS_PAGAR; ?> umas </font></td>
-                        </tr>
+<?php
+
+######################
+$NUMERO_PERMISO_ANTERIOR='';
+$sql_Cuenta_Paso="SELECT COUNT(*) CUENTA_PASO FROM de_paso WHERE id_principal=$id";
+$result_CuentaPaso=mysqli_query($con,$sql_Cuenta_Paso);
+$row_cuentaPaso = mysqli_fetch_assoc($result_CuentaPaso);
+$CUENTA_PASO=$row_cuentaPaso['CUENTA_PASO'];
+if ( $CUENTA_PASO>0 ) {
+$sql_Paso="SELECT * FROM de_paso WHERE id_principal=$id";
+$result_Paso=mysqli_query($con,$sql_Paso);
+$row_Paso = mysqli_fetch_assoc($result_Paso);
+$NUMERO_PERMISO_ANTERIOR=$row_Paso['numero_permiso'];
+} else {
+$NUMERO_PERMISO_ANTERIOR='ND';
+}
+######################
+
+if ( $DESCRIPCION_TRAMITE=='Permiso Nuevo' ) {
+} else {
+echo '<tr>';
+if ( $CUENTA_PASO>0 ) {
+echo '<th>Número Permiso Anterior</th>';
+echo '<td><font size="2"><b>'.$NUMERO_PERMISO_ANTERIOR.'</b></font></td>';
+} else {
+echo '<th>Número Permiso</th>';
+echo '<td><font size="2"><b>'.$datos["numero_permiso"].'</b></font></td>';
+}
+echo '</tr>';
+}
+?>
 
 
 			<tr>
@@ -651,6 +679,55 @@ echo '</td>';
                         </tr>
 
 
+
+
+
+
+
+                        <tr>
+                            <th>Concepto Recaudación</th>
+                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
+                        </tr>
+
+                        <tr>
+                            <th>Inciso </th>
+                            <td><font size="2"><B><?php echo $CUENTA_tramite; ?></B></font></td>
+                        </tr>
+
+
+                        <tr>
+                            <th>Domicilio</th>
+<?php
+if ( $datos['calle_establecimiento']=='' || $datos['calle_establecimiento']==NULL || empty($datos['calle_establecimiento']) ) {
+$domicilio_establecimiento='NA';
+} else {
+$domicilio_establecimiento=$datos['calle_establecimiento'].' '.$datos['numero_establecimiento'];
+}
+###
+if ( $datos['colonia_desc']=='' || empty($datos['colonia_desc']) ) $COLONIA='NA';
+else $COLONIA=$datos['colonia_desc'];
+##
+if ( $datos['delegacion_desc']=='' || empty($datos['delegacion_desc']) ) $DELEGACION='NA';
+else $DELEGACION=$datos['delegacion_desc'];
+##
+if ( $datos['municipio_desc']=='' || empty($datos['municipio_desc']) ) $MUNICIPIO='';
+else $MUNICIPIO=$datos['municipio_desc'];
+##
+if ( $datos['cp_establecimiento']=='' || empty($datos['cp_establecimiento']) ) $CP='';
+else $CP=$datos['cp_establecimiento'];
+##
+
+$colonia_delegacion_municipio_establecimiento='Colonia: '.$COLONIA.', Delegación: '.$DELEGACION.' / '.$MUNICIPIO.' / '.$CP;
+
+
+echo '<td>'.$domicilio_establecimiento.' '.$colonia_delegacion_municipio_establecimiento.'</td>';
+
+?>
+                        </tr>
+
+
+
+
                         <tr>
                             <th>Persona Física/Moral</th>
                             <td><?php echo $datos['nombre_persona_fisicamoral_solicitante']; ?></td>
@@ -659,16 +736,16 @@ echo '</td>';
                             <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
                         </tr>
-                        <tr>
-                            <th>Descripción</th>
 <?php
-if ( $DESCRIPCION_TRAMITE=='Mantenimiento Servicios Adicionales' ) {
-$porcionesSA = explode("Quedando", $NOTA);
-$NOTA=$porcionesSA[0];
-}
+//<tr>
+//<th>Descripción</th>
+//if ( $DESCRIPCION_TRAMITE=='Mantenimiento Servicios Adicionales' ) {
+//$porcionesSA = explode("Quedando", $NOTA);
+//$NOTA=$porcionesSA[0];
+//}
+//<td><font size="2">'.$NOTA.'</font></td>
+//</tr>
 ?>
-                            <td><font size="2"><?php echo $NOTA; ?></font></td>
-                        </tr>
                     </table>
                 </div>
                 
@@ -696,6 +773,23 @@ echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGA
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
         </div>
+
+
+<br><br>
+<br><br>
+<br><br>
+
+<center>
+            <div class="signature">
+                <div class="signature-line"></div>
+                <p><b>Lic. Arnulfo Guerrero León</b><br>
+                Secretario de Gobierno Municipal<br>
+                XXV Ayuntamiento de Tijuana, Baja California
+            </div>
+        </div>
+</center>
+
+
 
  <style>
 @media print {

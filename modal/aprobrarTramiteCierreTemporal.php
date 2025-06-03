@@ -99,7 +99,7 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 
 
 <div class="alert alert-info">
-  <i class="bi bi-info-circle"></i> Asegúrese de que el Contribuyente Conoce el Presupuesto para el Trámite - Cierre Temporal.
+<i class="bi bi-info-circle"></i> <font size="1">Asegúrese de que el Contribuyente Conoce el Presupuesto para el Trámite - Cierre Temporal.</font>
 </div>
 
 			 
@@ -110,6 +110,7 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 <button type="submit" class="btn btn-primary" id="Button_aprobrarTramiteCierreTemporal"> Aprobar Trámite </button>
   </div>
   </form>
+<p><font color="white" size="1">modal/"aprobrarTramiteCierreTemporal.php-(Button_aprobrarTramiteCierreTemporal)->ajax/aprobrarTramiteCierreTemporal.php</font></p>
  </div>
  </div>
 </div>

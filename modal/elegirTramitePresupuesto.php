@@ -146,7 +146,7 @@ echo '</div>';
 <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
 <button type="submit" class="btn btn-primary" id="Button_elegir_tramitePresupuesto"> Aplica </button>
   </div>
-<font size='1' color='white'>modal/elegirTramitePresupuesto.php-(Button_elegir_tramitePresupuesto)->agregar_TramitePresupuesto.php</font>
+<font size='1' color='white'>modal/elegirTramitePresupuesto.php-(Button_elegir_tramitePresupuesto)->ajax/agregar_TramitePresupuestoConstancia.php</font>
   </form>
  </div>
  </div>

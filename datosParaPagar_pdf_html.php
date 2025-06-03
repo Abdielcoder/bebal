@@ -106,12 +106,27 @@ header('Content-Type: text/html; charset=utf-8');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recibo de I&RAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
+
+
+
         @media print {
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important; /* Asegurar que html no tenga márgenes */
+                padding: 0 !important; /* Asegurar que html no tenga padding */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
             body {
-                width: 210mm;
+                width: 210mm; /* Tamaño carta exacto */
                 height: 279mm; /* Tamaño carta exacto */
-                margin: 0;
-                padding: 0;
+                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
+                padding: 0 !important; /* El body en sí no debe tener padding */
+                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
             }
             .no-print {
                 display: none !important;
@@ -120,7 +135,7 @@ header('Content-Type: text/html; charset=utf-8');
                 page-break-before: always;
             }
         }
-        
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.4;
@@ -130,9 +145,10 @@ header('Content-Type: text/html; charset=utf-8');
             max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
-            font-size: 12px;
+            font-size: 10px;
         }
-        
+
+
         .print-button {
             position: fixed;
             top: 10px;
@@ -334,29 +350,6 @@ case "Recepcion y Analisis Documentos":
 $todayANO = date("Y");
 ####################
 ####################
-
-
-            echo '<div class="title">';
-                //echo '<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>';
-//echo '<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>';
-echo '<br><br>';
-echo '<br><br>';
-echo '<br><br>';
-echo '<br><br>';
-echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="6px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
-	    echo '</div>';
-
-$Folio=$datos['folio'];
-         echo '<div class="date">';
-	//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
-echo '</div>';
-echo '</div>';
-?>
-        
-	<div class="main-title">
-<?php
-
 $sql_pago="SELECT * FROM `pagos` WHERE id=$ID_PAGO";
 $result_pago = mysqli_query($con,$sql_pago);
 if (mysqli_num_rows($result_pago) > 0) {
@@ -378,6 +371,29 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 	}
 }
 }
+
+
+            echo '<div class="title">';
+                //echo '<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>';
+//echo '<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="6px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
+	    echo '</div>';
+
+$Folio=$datos['folio'];
+         echo '<div class="date">';
+	//echo 'Fecha de Impresión: '.date('d/m/Y');
+echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'"></p>';
+echo '</div>';
+echo '</div>';
+?>
+        
+	<div class="main-title">
+<?php
+
 
 echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
 //echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
@@ -401,11 +417,33 @@ echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
 			</tr>
 
 <?php
+
+######################
+$NUMERO_PERMISO_ANTERIOR='';
+$sql_Cuenta_Paso="SELECT COUNT(*) CUENTA_PASO FROM de_paso WHERE id_principal=$id";
+$result_CuentaPaso=mysqli_query($con,$sql_Cuenta_Paso);
+$row_cuentaPaso = mysqli_fetch_assoc($result_CuentaPaso);
+$CUENTA_PASO=$row_cuentaPaso['CUENTA_PASO'];
+if ( $CUENTA_PASO>0 ) {
+$sql_Paso="SELECT * FROM de_paso WHERE id_principal=$id";
+$result_Paso=mysqli_query($con,$sql_Paso);
+$row_Paso = mysqli_fetch_assoc($result_Paso);
+$NUMERO_PERMISO_ANTERIOR=$row_Paso['numero_permiso'];
+} else {
+$NUMERO_PERMISO_ANTERIOR='ND';
+}
+######################
+
 if ( $DESCRIPCION_TRAMITE_SOLICITADO=='Permiso Nuevo' ) {
 } else {
 echo '<tr>';
+if ( $CUENTA_PASO>0 ) {
+echo '<th>Número Permiso Anterior</th>';
+echo '<td><font size="2"><b>'.$NUMERO_PERMISO_ANTERIOR.'</b></font></td>';
+} else {
 echo '<th>Número Permiso</th>';
 echo '<td><font size="2"><b>'.$datos["numero_permiso"].'</b></font></td>';
+}
 echo '</tr>';
 }
 ?>
@@ -416,13 +454,25 @@ echo '</tr>';
                             <td><?php echo $datos['giro_desc']; ?></td>
                         </tr>
                         <tr>
-                            <th>Modalidad Graduación Alcoólica</th>
-                            <td><?php echo $datos['modalidad_graduacion_alcoholica']; ?> * [<?php echo $datos['numero_modalidad_graduacion_alcoholica']; ?>]</td>
+                            <th>Concepto Recaudación</th>
+                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
 			</tr>
 
                         <tr>
-			    <th>Domicilio</th>
+                            <th>Inciso </th>
+                            <td><font size="2"><B><?php echo $CUENTA; ?></B></font></td>
+                        </tr>
+
+
 <?php
+
+//<tr>
+//<th>Modalidad Graduación Alcohólica</th>
+//<td>'.$datos['modalidad_graduacion_alcoholica'].' '.$datos['numero_modalidad_graduacion_alcoholica.'</td>
+//</tr>
+
+echo '<tr>';
+echo '<th>Domicilio</th>';
 if ( $datos['calle_establecimiento']=='' || $datos['calle_establecimiento']==NULL || empty($datos['calle_establecimiento']) ) {
 $domicilio_establecimiento='NA';
 } else {
@@ -466,22 +516,6 @@ echo '<td>'.$nombre_persona_fisicamoral_solicitante.'</td>';
                             <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
 			</tr>
-<?php
-$numero_permiso_anterior='';
-if ($numero_permiso_anterior=='' || empty($numero_permiso_anterior)) $numero_permiso_anterior='NA';
-                        echo '<tr>';
-                            echo '<th>Número Permiso Anterior</th>';
-                            echo '<td><font size="2">'.$numero_permiso_anterior.'</font></td>';
-			echo '</tr>';
-?>
-                        <tr>
-                            <th>Inciso </th>
-                            <td><font size="2"><B><?php echo $CUENTA; ?></B></font></td>
-                        </tr>
-                        <tr>
-                            <th>Concepto Recaudación</th>
-                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
-                        </tr>
                     </table>
                 </div>
                 

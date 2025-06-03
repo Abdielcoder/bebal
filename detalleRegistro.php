@@ -729,7 +729,7 @@ $concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
 $concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
 $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
-echo '<a href="datosParaPagar_pdf_Nuevo_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>';
+echo '<a href="datosParaPagar_pdf_Nuevo_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>';
 
 echo '<a href="#revisarPagoPresupuesto" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuesto" 
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 

@@ -54,6 +54,13 @@ $presupuestoConstancia=$_POST['presupuestoConstancia'];
 ###############
 $memo=mysqli_real_escape_string($con,(strip_tags($_POST["memo"],ENT_QUOTES)));
 
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='UMAS'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$TIPO_CAMBIO_UMAS=$row_generales['descripcion'];
+##
+
 if ($presupuestoConstancia==0) {
 $concepto_recaudacion=','.$concepto_recaudacion;
 }
@@ -88,7 +95,7 @@ $nota="Tramite ($descripcion_tramite_solicitado), Giro Solicitado ($cambio_giro_
 	}
 }
 
-$conceptoPagoPresupuesto="Tramite Cambio ($descripcion_tramite_solicitado), monto ($monto_umas_tramite_solicitado) umas $today";
+$conceptoPagoPresupuesto="Tramite Cambio ($descripcion_tramite_solicitado), monto ($monto_umas_tramite_solicitado) umas - $today";
 
 #####################
 $sqlInsert="INSERT INTO proceso_tramites (
@@ -140,7 +147,8 @@ $MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
 
 #####################################################
 ###  PAGO Pendiete POR Inspeccion
-$concepto_recaudacion_inspeccion='Inspeccion'.$concepto_recaudacion.' '.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
+$MONTO_UMAS_tramiteINS_PESOS=$MONTO_UMAS_tramiteINS*$TIPO_CAMBIO_UMAS;
+$concepto_recaudacion_inspeccion='Inspeccion'.$concepto_recaudacion.';'.$MONTO_UMAS_tramiteINS.';'.$MONTO_UMAS_tramiteINS_PESOS.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sql10="INSERT INTO pagos (
 id_principal,
 folio,
@@ -170,7 +178,8 @@ $Update_Pago1="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_INS";
 mysqli_query($con,$Update_Pago1);
 ######################################################
 ##  PAGO Pendiente POR Recepcion y Analisis Documentos
-$concepto_recaudacion_rad='Recepcion y Analisis Documentos'.$concepto_recaudacion.' '.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
+$MONTO_UMAS_tramiteRAD_PESOS=$MONTO_UMAS_tramiteRAD*$TIPO_CAMBIO_UMAS;
+$concepto_recaudacion_rad='Recepcion y Analisis Documentos'.$concepto_recaudacion.';'.$MONTO_UMAS_tramiteRAD.';'.$MONTO_UMAS_tramiteRAD_PESOS.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sql20="INSERT INTO pagos (
 id_principal,
 folio,
@@ -227,7 +236,8 @@ $ID_PROCESO_TRAMITE,
 $query_new_insert40 = mysqli_query($con,$sql40);
 #################################
 #
-$concepto_recaudacion_tramites='Tramite'.$concepto_recaudacion.' '.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
+$monto_umas_tramite_solicitado_PESOS=$monto_umas_tramite_solicitado*$TIPO_CAMBIO_UMAS;
+$concepto_recaudacion_tramites=$descripcion_tramite_solicitado.';'.$monto_umas_tramite_solicitado.';'.$monto_umas_tramite_solicitado_PESOS.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sqlINSERT60="INSERT INTO  pagos (
 id_principal,
 id_proceso_tramites,

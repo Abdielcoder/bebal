@@ -87,12 +87,25 @@ header('Content-Type: text/html; charset=utf-8');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recibo de Inspección - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
+
         @media print {
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important; /* Asegurar que html no tenga márgenes */
+                padding: 0 !important; /* Asegurar que html no tenga padding */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
             body {
-                width: 210mm;
+                width: 210mm; /* Tamaño carta exacto */
                 height: 279mm; /* Tamaño carta exacto */
-                margin: 0;
-                padding: 0;
+                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
+                padding: 0 !important; /* El body en sí no debe tener padding */
+                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
             }
             .no-print {
                 display: none !important;
@@ -101,7 +114,7 @@ header('Content-Type: text/html; charset=utf-8');
                 page-break-before: always;
             }
         }
-        
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.4;
@@ -111,9 +124,11 @@ header('Content-Type: text/html; charset=utf-8');
             max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
-            font-size: 12px;
+            font-size: 10px;
         }
-        
+
+
+
         .print-button {
             position: fixed;
             top: 10px;
@@ -403,6 +418,27 @@ echo '<td class="monto-value">'.$MONTO_UMAS.' UMAS</td>';
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
 	</div>
+
+
+
+<br><br>
+<br><br>
+<br><br>
+
+<center>
+            <div class="signature">
+                <div class="signature-line"></div>
+                <p><b>Lic. Arnulfo Guerrero León</b><br>
+                Secretario de Gobierno Municipal<br>
+                XXV Ayuntamiento de Tijuana, Baja California
+            </div>
+        </div>
+</center>
+
+
+
+
+
    <style>
 @media print {
   @page { margin: 0; }

@@ -109,7 +109,7 @@ header('Content-Type: text/html; charset=utf-8');
 
         @font-face {
             font-family: 'LibreBarcode39';
-            src: url('fonts/LibreBarcode39-Regular.ttf') format('truetype');
+            src: url('fonts/Libre_Barcode_39/LibreBarcode39-Regular.ttf') format('truetype');
         }
 
         .barcode-font-orden-pago {

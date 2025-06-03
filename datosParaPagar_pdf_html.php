@@ -211,7 +211,7 @@ header('Content-Type: text/html; charset=utf-8');
                 margin-bottom: 3px !important;
                 min-height: 110px !important;
                 position: relative !important;
-                margin-top: 2mm !important;
+                margin-top: 25mm !important; /* Margen superior aumentado 10% hacia abajo */
                 border-bottom: none !important;
                 clear: both !important;
             }

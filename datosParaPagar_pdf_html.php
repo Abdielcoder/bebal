@@ -107,7 +107,14 @@ header('Content-Type: text/html; charset=utf-8');
     <title>Recibo de I&RAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
 
+        @font-face {
+            font-family: 'LibreBarcode39';
+            src: url('fonts/LibreBarcode39-Regular.ttf') format('truetype');
+        }
 
+        .barcode-font-orden-pago {
+            font-family: 'LibreBarcode39', 'Free 3 of 9', cursive;
+        }
 
         @media print {
             html {
@@ -354,13 +361,14 @@ $sql_pago="SELECT * FROM `pagos` WHERE id=$ID_PAGO";
 $result_pago = mysqli_query($con,$sql_pago);
 if (mysqli_num_rows($result_pago) > 0) {
 $row_pago = mysqli_fetch_assoc($result_pago);
-$ORDEN_PAGO=$row_pago['orden_pago'];
-$CONCEPTO_RECAUDACION=$row_pago['concepto_recaudacion'];
+$ORDEN_PAGO = isset($row_pago['orden_pago']) ? $row_pago['orden_pago'] : 'ORDEN_PAGO_INDETERMINADA';
+$CONCEPTO_RECAUDACION = (isset($row_pago['concepto_recaudacion']) && $row_pago['concepto_recaudacion'] !== null) ? $row_pago['concepto_recaudacion'] : 'No disponible';
 
 } else {
 
 $id_proceso_tramites=$datos['id_proceso_tramites'];
 $ORDEN_PAGO='';
+$CONCEPTO_RECAUDACION='No disponible';
 if ( $DESCRIPCION_TRAMITE=='Inspección' ) {
 $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 } else {
@@ -396,6 +404,22 @@ echo '</div>';
 
 
 echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
+
+// Generar y mostrar el código de barras para ORDEN_PAGO
+if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
+    $barcode_display_value_orden_pago = '*' . strtoupper(trim($ORDEN_PAGO)) . '*';
+    $human_readable_value_orden_pago = htmlspecialchars(trim($ORDEN_PAGO));
+    echo '<div style="text-align: center; margin-top: 5px; margin-bottom: 15px;">';
+    echo '    <div class="barcode-font-orden-pago" style="font-size: 36px; line-height: 1; margin-bottom: 3px; font-family: \'Libre Barcode 39\', \'Free 3 of 9\', cursive;">'.htmlspecialchars($barcode_display_value_orden_pago).'</div>';
+    // No mostraremos el valor legible por humanos aquí porque ya está en el H1.
+    // Si también lo quieres aquí, descomenta la siguiente línea:
+    // echo '    <div style="font-size: 10px;">'.$human_readable_value_orden_pago.'</div>';
+    echo '</div>';
+} else {
+    // Opcional: si quieres un mensaje si $ORDEN_PAGO está vacía para el barcode
+    // echo '<p style="text-align:center; color:red; margin-bottom: 10px;">Código de Barras para Orden de Pago no disponible.</p>';
+}
+
 //echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
 //echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 ?>

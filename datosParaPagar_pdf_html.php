@@ -204,22 +204,21 @@ header('Content-Type: text/html; charset=utf-8');
             }
             
             .header {
-                margin-bottom: 8px !important;
-                padding-bottom: 10px !important;
                 display: flex !important;
                 align-items: flex-start !important;
-                border-bottom: 1px solid #AC905B !important;
+                justify-content: space-between !important;
+                padding-bottom: 8px !important;
+                margin-bottom: 3px !important;
+                min-height: 110px !important;
                 position: relative !important;
+                margin-top: 2mm !important;
+                border-bottom: none !important;
                 clear: both !important;
-                min-height: 130px !important; /* Altura para logo 7x */
-                margin-top: 1mm !important; /* Margen mínimo para maximizar espacio */
             }
             
             .logo {
                 width: 320px !important; /* Logo 7x para impresión, optimizado */
-                margin-right: 15px !important;
                 flex-shrink: 0 !important;
-                align-self: flex-start !important;
             }
             
             .logo img {
@@ -227,35 +226,36 @@ header('Content-Type: text/html; charset=utf-8');
                 height: auto;
             }
             
+            /* Eliminar el title del header - ya no está en el centro */
             .title {
-                flex: 1 !important;
-                text-align: center !important;
-                position: relative !important;
-                padding: 20px 5px !important;
-                margin: 0 10px !important;
-                max-width: calc(100% - 480px) !important; /* Espacio para logo 7x */
-            }
-            
-            .title div {
-                font-size: 14px !important;
-                font-weight: bold !important;
-                color: #333 !important;
+                display: none !important; /* Mantener oculto */
             }
             
             .date {
-                position: absolute !important;
-                top: 10px !important;
-                right: 10px !important;
                 width: 110px !important;
                 text-align: center !important;
-                z-index: 10 !important;
             }
             
             .date img {
-                width: 100px !important; /* QR ajustado para logo 7x */
+                width: 100px !important;
                 height: 100px !important;
                 display: block !important;
                 margin: 0 auto !important;
+            }
+            
+            /* Nueva sección para el título centrado debajo */
+            .centered-title {
+                text-align: center !important;
+                margin: 3px 0 8px 0 !important;
+                padding: 8px 0 !important;
+                border-bottom: 1px solid #AC905B !important;
+            }
+            
+            .centered-title h2 {
+                font-size: 14px !important;
+                font-weight: bold !important;
+                color: #333 !important;
+                margin: 0 !important;
             }
             
             .main-title {
@@ -317,8 +317,9 @@ header('Content-Type: text/html; charset=utf-8');
                 position: relative !important;
             }
             
+            /* El QR ya no necesita posición absoluta con la nueva estructura */
             .date {
-                position: absolute !important;
+                position: relative !important;
             }
         }
 
@@ -358,17 +359,17 @@ header('Content-Type: text/html; charset=utf-8');
         .header {
             display: flex;
             align-items: flex-start;
-            border-bottom: 2px solid #AC905B;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-            min-height: 170px; /* Altura ajustada para logo 7x */
+            justify-content: space-between; /* Distribuir logo y QR en extremos */
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+            min-height: 140px; /* Altura reducida sin título en medio */
             position: relative;
-            margin-top: 15mm; /* Mover todo el contenido hacia abajo */
+            margin-top: 15mm;
+            border-bottom: none; /* Sin línea aquí */
         }
         
         .logo {
-            width: 420px; /* Logo 7 veces más grande (60px x 7 = 420px) */
-            margin-right: 20px;
+            width: 420px; /* Logo 7x */
             flex-shrink: 0;
         }
         
@@ -377,33 +378,36 @@ header('Content-Type: text/html; charset=utf-8');
             height: auto;
         }
         
+        /* Eliminar el title del header - ya no está en el centro */
         .title {
-            flex: 1;
-            text-align: center;
-            padding: 35px 5px; /* Padding ajustado para logo 7x */
-            margin: 0 15px;
-            max-width: calc(100% - 640px); /* Ajustar para logo 7x */
-        }
-        
-        .title div {
-            font-size: 22px; /* Texto proporcionalmente ajustado */
-            font-weight: bold;
-            color: #333;
+            display: none; /* Ocultar el título del header */
         }
         
         .date {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 140px; /* QR ajustado proporcionalmente */
+            width: 140px;
             text-align: center;
         }
         
         .date img {
-            width: 120px; /* QR ajustado para logo 7x */
+            width: 120px;
             height: 120px;
             display: block;
             margin: 0 auto;
+        }
+        
+        /* Nueva sección para el título centrado debajo */
+        .centered-title {
+            text-align: center;
+            margin: 10px 0 15px 0;
+            padding: 15px 0;
+            border-bottom: 2px solid #AC905B; /* Línea dorada aquí */
+        }
+        
+        .centered-title h2 {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
         }
         
         .main-title {
@@ -572,17 +576,17 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
             <div class="logo">
                 <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="420">
             </div>
-            <div class="title">
-                <div style="text-align: center; font-size: 22px; font-weight: bold; padding: 35px 5px;">
-                    <?php echo $DESCRIPCION_TRAMITE; ?>
-                </div>
-            </div>
             <div class="date">
                 <?php
                 $Folio=$datos['folio'];
                 echo '<img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'" style="width: 120px; height: 120px;">';
                 ?>
             </div>
+        </div>
+        
+        <!-- Nueva sección para el título centrado debajo del header -->
+        <div class="centered-title">
+            <h2><?php echo $DESCRIPCION_TRAMITE; ?></h2>
         </div>
 
         <div class="main-title">

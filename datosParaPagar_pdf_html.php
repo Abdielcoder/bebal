@@ -159,7 +159,7 @@ header('Content-Type: text/html; charset=utf-8');
                 width: 210mm !important;
                 height: 297mm !important;
                 margin: 0 !important;
-                padding: 10mm !important;
+                padding: 5mm !important; /* Padding más pequeño para dar más espacio */
                 font-size: 8px !important;
                 line-height: 1.1 !important;
                 overflow: hidden !important;
@@ -204,114 +204,111 @@ header('Content-Type: text/html; charset=utf-8');
             }
             
             .header {
-                margin-bottom: 3px !important;
-                padding-bottom: 5px !important;
+                margin-bottom: 5px !important;
+                padding-bottom: 8px !important;
                 display: flex !important;
                 align-items: flex-start !important;
                 border-bottom: 1px solid #AC905B !important;
                 position: relative !important;
                 clear: both !important;
-                min-height: 80px !important; /* Altura mínima para evitar solapamiento */
+                min-height: 100px !important; /* Altura para logos grandes */
+                margin-top: 5mm !important; /* Reducir margen superior para más espacio */
             }
             
             .logo {
-                width: 60px !important;
+                width: 120px !important; /* Logo más grande para impresión */
                 margin-right: 15px !important;
                 flex-shrink: 0 !important;
                 align-self: flex-start !important;
+            }
+            
+            .logo img {
+                max-width: 100%;
+                height: auto;
             }
             
             .title {
                 flex: 1 !important;
                 text-align: center !important;
                 position: relative !important;
-                padding: 10px 5px !important; /* Padding para evitar solapamiento */
-                margin: 0 10px !important; /* Margen lateral para separar del logo y QR */
-                max-width: calc(100% - 180px) !important; /* Limitar ancho para no invadir QR */
+                padding: 15px 5px !important;
+                margin: 0 10px !important;
+                max-width: calc(100% - 300px) !important; /* Espacio para logos grandes */
             }
             
-            .title table {
-                width: 100% !important;
-                margin: 0 !important;
-                border: none !important;
-            }
-            
-            .title td {
-                border: none !important;
-                background: transparent !important;
-                text-align: center !important;
-                padding: 5px !important;
-                font-size: 12px !important;
+            .title div {
+                font-size: 14px !important;
                 font-weight: bold !important;
+                color: #333 !important;
             }
             
             .date {
                 position: absolute !important;
-                top: 5px !important;
-                right: 5px !important;
-                width: 80px !important;
+                top: 8px !important;
+                right: 8px !important;
+                width: 100px !important; /* QR más grande */
                 text-align: center !important;
-                z-index: 10 !important; /* Asegurar que esté por encima */
+                z-index: 10 !important;
             }
             
             .date img {
-                width: 70px !important;
-                height: 70px !important;
+                width: 90px !important; /* QR tamaño original más grande */
+                height: 90px !important;
                 display: block !important;
                 margin: 0 auto !important;
             }
             
             .main-title {
-                margin: 3px 0 !important;
+                margin: 2px 0 !important;
                 text-align: center !important;
                 clear: both !important;
             }
             
             .main-title h1 {
-                font-size: 14px !important;
-                margin: 2px 0 !important;
+                font-size: 12px !important;
+                margin: 1px 0 !important;
             }
             
             .main-title h3 {
-                font-size: 8px !important;
-                margin: 1px 0 !important;
-                line-height: 1.1 !important;
+                font-size: 7px !important;
+                margin: 0px 0 !important;
+                line-height: 1.0 !important;
             }
             
             .section {
-                margin: 3px 0 !important;
+                margin: 2px 0 !important;
                 clear: both !important;
             }
             
             .section-title {
-                font-size: 10px !important;
-                padding: 3px 5px !important;
+                font-size: 9px !important;
+                padding: 2px 5px !important;
             }
             
             table, th, td {
-                font-size: 7px !important;
+                font-size: 6px !important;
                 border: 1px solid #ddd !important;
-                padding: 2px !important;
+                padding: 1px !important;
             }
             
             .compact-table th, .compact-table td {
-                padding: 1px 2px !important;
+                padding: 1px !important;
             }
             
             .info-text {
-                font-size: 7px !important;
-                margin: 3px 0 !important;
-                line-height: 1.1 !important;
+                font-size: 6px !important;
+                margin: 2px 0 !important;
+                line-height: 1.0 !important;
             }
             
             .signature {
-                margin-top: 5px !important;
-                font-size: 7px !important;
+                margin-top: 3px !important;
+                font-size: 6px !important;
             }
             
             .folio {
-                font-size: 10px !important;
-                margin: 2px 0 !important;
+                font-size: 8px !important;
+                margin: 1px 0 !important;
             }
             
             /* Asegurar que no haya contenido flotante que cause sobreposiciones */
@@ -364,12 +361,13 @@ header('Content-Type: text/html; charset=utf-8');
             border-bottom: 2px solid #AC905B;
             padding-bottom: 10px;
             margin-bottom: 10px;
-            min-height: 80px; /* Altura mínima para evitar solapamiento */
+            min-height: 120px; /* Aumentar altura para logos más grandes */
             position: relative;
+            margin-top: 15mm; /* Mover todo el contenido hacia abajo */
         }
         
         .logo {
-            width: 70px;
+            width: 150px; /* Restaurar tamaño original más grande */
             margin-right: 15px;
             flex-shrink: 0;
         }
@@ -382,28 +380,28 @@ header('Content-Type: text/html; charset=utf-8');
         .title {
             flex: 1;
             text-align: center;
-            padding: 10px 5px;
+            padding: 20px 5px; /* Más padding para centrar con logos grandes */
             margin: 0 10px;
-            max-width: calc(100% - 180px); /* Limitar ancho para no invadir QR */
+            max-width: calc(100% - 350px); /* Ajustar para logos más grandes */
         }
         
         .title div {
-            font-size: 16px;
+            font-size: 18px; /* Texto un poco más grande */
             font-weight: bold;
             color: #333;
         }
         
         .date {
             position: absolute;
-            top: 5px;
-            right: 5px;
-            width: 80px;
+            top: 10px;
+            right: 10px;
+            width: 120px; /* QR más grande */
             text-align: center;
         }
         
         .date img {
-            width: 70px;
-            height: 70px;
+            width: 100px; /* QR tamaño original más grande */
+            height: 100px;
             display: block;
             margin: 0 auto;
         }
@@ -572,17 +570,17 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 
         <div class="header">
             <div class="logo">
-                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="60">
+                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="150">
             </div>
             <div class="title">
-                <div style="text-align: center; font-size: 14px; font-weight: bold; padding: 15px 5px;">
+                <div style="text-align: center; font-size: 18px; font-weight: bold; padding: 20px 5px;">
                     <?php echo $DESCRIPCION_TRAMITE; ?>
                 </div>
             </div>
             <div class="date">
                 <?php
                 $Folio=$datos['folio'];
-                echo '<img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'" style="width: 70px; height: 70px;">';
+                echo '<img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'" style="width: 100px; height: 100px;">';
                 ?>
             </div>
         </div>

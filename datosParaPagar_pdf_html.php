@@ -159,8 +159,8 @@ header('Content-Type: text/html; charset=utf-8');
                 width: 210mm !important;
                 height: 297mm !important;
                 margin: 0 !important;
-                padding: 3mm !important; /* Padding mínimo para maximizar espacio con header gigante */
-                font-size: 7px !important; /* Fuente base más pequeña */
+                padding: 4mm !important; /* Padding optimizado para logo 7x */
+                font-size: 8px !important; /* Fuente base ligeramente más grande */
                 line-height: 1.0 !important;
                 overflow: hidden !important;
                 position: relative !important;
@@ -211,12 +211,12 @@ header('Content-Type: text/html; charset=utf-8');
                 border-bottom: 1px solid #AC905B !important;
                 position: relative !important;
                 clear: both !important;
-                min-height: 150px !important; /* Altura para logo gigante */
+                min-height: 130px !important; /* Altura para logo 7x */
                 margin-top: 1mm !important; /* Margen mínimo para maximizar espacio */
             }
             
             .logo {
-                width: 400px !important; /* Logo gigante para impresión, un poco reducido */
+                width: 320px !important; /* Logo 7x para impresión, optimizado */
                 margin-right: 15px !important;
                 flex-shrink: 0 !important;
                 align-self: flex-start !important;
@@ -231,13 +231,13 @@ header('Content-Type: text/html; charset=utf-8');
                 flex: 1 !important;
                 text-align: center !important;
                 position: relative !important;
-                padding: 25px 5px !important;
+                padding: 20px 5px !important;
                 margin: 0 10px !important;
-                max-width: calc(100% - 600px) !important; /* Espacio para logo gigante */
+                max-width: calc(100% - 480px) !important; /* Espacio para logo 7x */
             }
             
             .title div {
-                font-size: 16px !important;
+                font-size: 14px !important;
                 font-weight: bold !important;
                 color: #333 !important;
             }
@@ -246,69 +246,69 @@ header('Content-Type: text/html; charset=utf-8');
                 position: absolute !important;
                 top: 10px !important;
                 right: 10px !important;
-                width: 120px !important;
+                width: 110px !important;
                 text-align: center !important;
                 z-index: 10 !important;
             }
             
             .date img {
-                width: 110px !important; /* QR grande para equilibrar */
-                height: 110px !important;
+                width: 100px !important; /* QR ajustado para logo 7x */
+                height: 100px !important;
                 display: block !important;
                 margin: 0 auto !important;
             }
             
             .main-title {
-                margin: 1px 0 !important;
+                margin: 2px 0 !important;
                 text-align: center !important;
                 clear: both !important;
             }
             
             .main-title h1 {
-                font-size: 10px !important;
-                margin: 0px 0 !important;
+                font-size: 11px !important;
+                margin: 1px 0 !important;
             }
             
             .main-title h3 {
-                font-size: 6px !important;
+                font-size: 7px !important;
                 margin: 0px 0 !important;
-                line-height: 0.9 !important;
+                line-height: 1.0 !important;
             }
             
             .section {
-                margin: 1px 0 !important;
+                margin: 2px 0 !important;
                 clear: both !important;
             }
             
             .section-title {
-                font-size: 8px !important;
-                padding: 1px 3px !important;
+                font-size: 9px !important;
+                padding: 2px 4px !important;
             }
             
             table, th, td {
-                font-size: 5px !important;
+                font-size: 6px !important;
                 border: 1px solid #ddd !important;
-                padding: 0.5px !important;
+                padding: 1px !important;
             }
             
             .compact-table th, .compact-table td {
-                padding: 0.5px !important;
+                padding: 1px !important;
             }
             
             .info-text {
-                font-size: 5px !important;
-                margin: 1px 0 !important;
-                line-height: 0.9 !important;
+                font-size: 6px !important;
+                margin: 2px 0 !important;
+                line-height: 1.0 !important;
             }
             
             .signature {
-                margin-top: 2px !important;
-                font-size: 5px !important;
+                margin-top: 3px !important;
+                font-size: 6px !important;
             }
             
             .folio {
-                font-size: 7px !important;
-                margin: 0px 0 !important;
+                font-size: 8px !important;
+                margin: 1px 0 !important;
             }
             
             /* Asegurar que no haya contenido flotante que cause sobreposiciones */
@@ -361,13 +361,13 @@ header('Content-Type: text/html; charset=utf-8');
             border-bottom: 2px solid #AC905B;
             padding-bottom: 15px;
             margin-bottom: 15px;
-            min-height: 200px; /* Altura mucho mayor para logo gigante */
+            min-height: 170px; /* Altura ajustada para logo 7x */
             position: relative;
             margin-top: 15mm; /* Mover todo el contenido hacia abajo */
         }
         
         .logo {
-            width: 600px; /* Logo 10 veces más grande aproximadamente */
+            width: 420px; /* Logo 7 veces más grande (60px x 7 = 420px) */
             margin-right: 20px;
             flex-shrink: 0;
         }
@@ -380,13 +380,13 @@ header('Content-Type: text/html; charset=utf-8');
         .title {
             flex: 1;
             text-align: center;
-            padding: 40px 5px; /* Más padding para centrar con logo gigante */
+            padding: 35px 5px; /* Padding ajustado para logo 7x */
             margin: 0 15px;
-            max-width: calc(100% - 800px); /* Ajustar para logo gigante */
+            max-width: calc(100% - 640px); /* Ajustar para logo 7x */
         }
         
         .title div {
-            font-size: 24px; /* Texto proporcionalmente más grande */
+            font-size: 22px; /* Texto proporcionalmente ajustado */
             font-weight: bold;
             color: #333;
         }
@@ -395,13 +395,13 @@ header('Content-Type: text/html; charset=utf-8');
             position: absolute;
             top: 15px;
             right: 15px;
-            width: 150px; /* QR proporcionalmente más grande también */
+            width: 140px; /* QR ajustado proporcionalmente */
             text-align: center;
         }
         
         .date img {
-            width: 130px; /* QR más grande para equilibrar */
-            height: 130px;
+            width: 120px; /* QR ajustado para logo 7x */
+            height: 120px;
             display: block;
             margin: 0 auto;
         }
@@ -570,17 +570,17 @@ $ORDEN_PAGO='PI-'.$id.$ID_PAGO.'-'.$todayANO;
 
         <div class="header">
             <div class="logo">
-                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="600">
+                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="420">
             </div>
             <div class="title">
-                <div style="text-align: center; font-size: 24px; font-weight: bold; padding: 40px 5px;">
+                <div style="text-align: center; font-size: 22px; font-weight: bold; padding: 35px 5px;">
                     <?php echo $DESCRIPCION_TRAMITE; ?>
                 </div>
             </div>
             <div class="date">
                 <?php
                 $Folio=$datos['folio'];
-                echo '<img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'" style="width: 130px; height: 130px;">';
+                echo '<img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'" style="width: 120px; height: 120px;">';
                 ?>
             </div>
         </div>

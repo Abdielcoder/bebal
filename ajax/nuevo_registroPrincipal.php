@@ -274,6 +274,7 @@ $superficie_establecimiento=$_POST['superficie_establecimiento'];
 		$fecha_alta=$_POST['fecha_alta'];
 		$fecha_datetime_hoy=date("Y-m-d H:i:s");
 		$clave_catastral=strtoupper($_POST['clave_catastral']);
+		$numero_cuenta=$_POST['numero_cuenta'];
 
 
 $nombre_comercial_establecimiento=strtoupper($_POST['nombre_comercial_establecimiento']);
@@ -312,7 +313,7 @@ $COLONIA=$row_colonia['colonia'];
 ##
 #################################
 
-$el_cambio="Permiso Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
+$el_cambio="Permiso Nuevo Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), Numero Cuenta (".$numero_cuenta."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
 
 	
 date_default_timezone_set('America/Los_Angeles');
@@ -342,6 +343,7 @@ id_colonia,
 estatus,
 operacion,
 clave_catastral,
+numero_cuenta,
 nombre_comercial_establecimiento,
 calle_establecimiento,
 entre_calles_establecimiento,
@@ -375,6 +377,7 @@ $id_colonia,
 'Generar Recibos IRAD',
 'NUEVO',
 '$clave_catastral',
+'$numero_cuenta',
 '$nombre_comercial_establecimiento',
 '$calle_establecimiento',
 '$entre_calles_establecimiento',
@@ -519,7 +522,7 @@ $MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
 ##
 ########################
 #
-$concepto_recaudacion='Permiso Nuevo;'.$MONTO_UMAS_tramiteINS;
+$concepto_recaudacion='Inspeccion;Permiso Nuevo;'.$MONTO_UMAS_tramiteINS;
 
 $sql10="INSERT INTO pagos (
 id_principal,
@@ -550,7 +553,7 @@ $Update_Pago6="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_INS";
 mysqli_query($con,$Update_Pago6);
 ##############
 #
-$concepto_recaudacion='Permiso Nuevo;'.$MONTO_UMAS_tramiteRAD;
+$concepto_recaudacion='Recepcion y Analisis Documentos;Permiso Nuevo;'.$MONTO_UMAS_tramiteRAD;
 
 $sql20="INSERT INTO pagos (
 id_principal,

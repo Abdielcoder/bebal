@@ -546,11 +546,6 @@ $row_tramite = mysqli_fetch_assoc($result_tramite);
 $ID_TRAMITE=$row_tramite['id'];
 $MONTO_UMAS_Inspeccion=$row_tramite['monto_umas'];
 
-#### RECIBO INSPECCION
-if ( $estatus=='Pago INS' )  {
-} else {
-echo '<a href="datosParaPagarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo Inspección</font></a>';
-}
 #### Revisar Pago INSP
 $ID_PAGO_INS=0;
 $ID_PAGO_RAD=0;
@@ -564,6 +559,12 @@ $ID_PAGO_INS=$row_pagoI['id'];
 $ID_PAGO_INS=0;
 }
 ##
+#### RECIBO INSPECCION
+if ( $estatus=='Pago INS' )  {
+} else {
+echo '<a href="datosParaPagarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_INS.'" target="_blank" class="btn btn-warning btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1"> Orden de Pago - Inspección</font></a>';
+}
+#
 if ( $estatus=='Pago INS' )  {
 $sql_pagoI2="SELECT * FROM `pagos_temp` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Inspeccion' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
 $result_pagoI2 = mysqli_query($con,$sql_pagoI2);
@@ -588,11 +589,6 @@ $result_tramite = mysqli_query($con,$sql_tramite);
 $row_tramite = mysqli_fetch_assoc($result_tramite);
 $ID_TRAMITE=$row_tramite['id'];
 $MONTO_UMAS_RAD=$row_tramite['monto_umas'];
-##
-if ( $estatus=='Pago RAD' )  {
-} else {
-echo '<a href="datosParaPagarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>';
-}
 #### Revisar Pago RAD
 #### 
 $sql_pagoRAD="SELECT * FROM `pagos_temp` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
@@ -604,6 +600,11 @@ $ID_PAGO_RAD=$row_pagoRAD['id'];
 $ID_PAGO_RAD=0;
 }
 ##
+##
+if ( $estatus=='Pago RAD' )  {
+} else {
+echo '<a href="datosParaPagarTemporal_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_RAD.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Orden de Pago - AR Docs</font></a>';
+}
 ##
 if ( $estatus=='Pago RAD' )  {
 	$sql_pagoRAD2="SELECT * FROM `pagos_temp` WHERE `id_principal`=$IDPRINCIPAL AND `concepto`='Recepcion y Analisis Documentos' AND `estatus_pago`='Pendiente' AND id_proceso_tramites=".$id_proceso_tramites;
@@ -726,7 +727,7 @@ $concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
 $concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
 $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
-echo '<a href="datosParaPagar_pdf_Temporal_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Recibo Presupuesto</font></a>';
+echo '<a href="datosParaPagar_pdf_Temporal_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Orden de Pago - Presupuesto</font></a>';
 
 echo '<a href="#revisarPagoPresupuestoTemp" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuestoTemp" 
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 
@@ -882,7 +883,7 @@ echo "location.replace('principal_temp.php?page=".$page."&action=ajax');";
 ?>
 
 
-                        }, 22000);
+                        }, 2000);
 
                   }
         });

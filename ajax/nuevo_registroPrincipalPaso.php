@@ -194,7 +194,7 @@ $superficie_establecimiento=$_POST['superficie_establecimiento'];
 		$clave_catastral=strtoupper($_POST['clave_catastral']);
 
 		$numero_permiso=strtoupper($_POST['numero_permiso']);
-
+		$numero_cuenta=$_POST['numero_cuenta'];
 
 $nombre_comercial_establecimiento=strtoupper($_POST['nombre_comercial_establecimiento']);
 $calle_establecimiento=strtoupper($_POST['calle_establecimiento']);
@@ -232,7 +232,7 @@ $COLONIA=$row_colonia['colonia'];
 ##
 #################################
 
-$nota="Registro PASO - Numero de Permiso (".$numero_permiso.")  (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
+$nota="Registro PASO - Numero de Permiso (".$numero_permiso.")  (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), Numero Cuenta (".$numero_cuenta."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
 
 	
 date_default_timezone_set('America/Los_Angeles');
@@ -262,6 +262,7 @@ id_colonia,
 estatus,
 operacion,
 clave_catastral,
+numero_cuenta,
 nombre_comercial_establecimiento,
 calle_establecimiento,
 entre_calles_establecimiento,
@@ -295,6 +296,7 @@ $id_colonia,
 'Paso',
 'Activo',
 '$clave_catastral',
+'$numero_cuenta',
 '$nombre_comercial_establecimiento',
 '$calle_establecimiento',
 '$entre_calles_establecimiento',

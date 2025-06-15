@@ -20,6 +20,7 @@ $porciones = explode("--", $ID);
 $id=intval($porciones[0]);
 $ID_TRAMITE=intval($porciones[1]);
 $ID_TRAMITE_SOLICITADO=$porciones[2];
+$ID_PAGO=$porciones[3];
 
 ##
 
@@ -85,7 +86,8 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de Inspección - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Orden de Pago de IRAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
 
         @media print {
@@ -315,9 +317,55 @@ header('Content-Type: text/html; charset=utf-8');
                 <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="400">
             </div>
 <?php
+
+$todayANO = date("Y");
+####################
+####################
+$sql_pago="SELECT * FROM `pagos_temp` WHERE id=$ID_PAGO";
+##echo $sql_pago;
+$result_pago = mysqli_query($con,$sql_pago);
+if (mysqli_num_rows($result_pago) > 0) {
+$row_pago = mysqli_fetch_assoc($result_pago);
+$ORDEN_PAGO = isset($row_pago['orden_pago']) ? $row_pago['orden_pago'] : 'ORDEN_PAGO_INDETERMINADA';
+$CONCEPTO_RECAUDACION = (isset($row_pago['concepto_recaudacion']) && $row_pago['concepto_recaudacion'] !== null) ? $row_pago['concepto_recaudacion'] : 'No disponible';
+
+} else {
+
+$id_proceso_tramites=$datos['id_proceso_tramites'];
+$ORDEN_PAGO='';
+$CONCEPTO_RECAUDACION='No disponible';
+if ( $DESCRIPCION_TRAMITE=='Inspección' ) {
+$ORDEN_PAGO='PIT-'.$id.$ID_PAGO.'-'.$todayANO;
+} else {
+        if ( $DESCRIPCION_TRAMITE=='Recepción y Análisis Documentos' ) {
+        $ORDEN_PAGO='PAT-'.$id.$ID_PAGO.'-'.$todayANO;
+        } else {
+        $ORDEN_PAGO='PXT-'.$id.$ID_PAGO.'-'.$todayANO;
+        }
+}
+}
+
+##################
+switch ($DESCRIPCION_TRAMITE) {
+
+case "Inspeccion - Permiso Temporal":
+	$DESCRIPCION_TRAMITE='Inspección';
+        break;
+case "Recepcion y Analisis Documentos - Permiso Temporal":
+	$DESCRIPCION_TRAMITE='Recepción y Análisis Documentos';
+	break;
+//default:
+}
+##################
+
             echo '<div class="title">';
-                //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
-                //<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
+//<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
+//<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="5px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
 	    echo '</div>';
 
 $Folio=$datos['folio'];
@@ -331,20 +379,43 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
 	<div class="main-title">
 <?php
 
-switch ($DESCRIPCION_TRAMITE) {
 
-case "Inspeccion - Permiso Temporal":
-	$DESCRIPCION_TRAMITE='Inspección';
-        break;
-case "Recepcion y Analisis Documentos - Permiso Temporal":
-	$DESCRIPCION_TRAMITE='Recepción y Análisis Documentos';
-	break;
-//default:
+
+//echo '<h1>Datos Para Pago <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
+
+
+echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
+
+// Generar y mostrar el código de barras para ORDEN_PAGO usando JsBarcode
+if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
+$orden_pago_clean = trim($ORDEN_PAGO);
+    echo '<div style="text-align: center; margin-top: 5px; margin-bottom: 15px;">';
+    echo '    <svg id="barcode-orden-pago"></svg>';
+    echo '</div>';
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo '    if (typeof JsBarcode !== "undefined") {';
+    echo '        JsBarcode("#barcode-orden-pago", "'.htmlspecialchars($orden_pago_clean).'", {';
+    echo '            format: "CODE39",';
+    echo '            width: 2,';
+    echo '            height: 50,';
+    echo '            displayValue: false,';
+    echo '            margin: 0';
+    echo '        });';
+    echo '    }';
+    echo '});';
+    echo '</script>';
+} else {
+    // Opcional: si quieres un mensaje si $ORDEN_PAGO está vacía para el barcode
+    // echo '<p style="text-align:center; color:red; margin-bottom: 10px;">Código de Barras para Orden de Pago no disponible.</p>';
 }
 
+//echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 
-echo '<h1>Datos Para Pago <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
-echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
+$MONTO_TOTAL_UMAS=$MONTO_UMAS;
+
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
             <h4>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h4>
@@ -362,16 +433,23 @@ echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
                             <th>Nombre Comercial</th>
                             <td><?php echo $datos['nombre_comercial_establecimiento']; ?></td>
 			</tr>
+<?php
+$numero_cuenta=$datos['numero_cuenta'];
 
+if ( empty($numero_cuenta) || $numero_cuenta=='' ) {
+} else {
+echo '<tr>';
+echo '<th>Número de Cuenta</th>';
+echo '<td>'.$numero_cuenta.'</td>';
+echo '</tr>';
+}
+?>
 
                         <tr>
                             <th>Giro</th>
                             <td><?php echo $datos['giro_desc']; ?></td>
-                        </tr>
-                        <tr>
-                            <th>Modalidad Graduación Alcoólica</th>
-                            <td><?php echo $datos['modalidad_graduacion_alcoholica']; ?> * [<?php echo $datos['numero_modalidad_graduacion_alcoholica']; ?>]</td>
-                        </tr>
+			</tr>
+
                         <tr>
                             <th>Persona Física/Moral</th>
                             <td><?php echo $datos['nombre_persona_fisicamoral_solicitante']; ?></td>
@@ -379,21 +457,36 @@ echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
                         <tr>
                             <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
+			</tr>
+
+                        <tr>
+                            <th>Concepto Barandilla</th>
+                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
                         </tr>
+
+
                         <tr>
                             <th>Inciso </th>
                             <td><font size="2"><B><?php echo $CUENTA; ?></B></font></td>
 			</tr>
+                        <tr>
+                            <th>Modalidad Graduación Alcoólica</th>
+                            <td><?php echo $datos['modalidad_graduacion_alcoholica']; ?> * [<?php echo $datos['numero_modalidad_graduacion_alcoholica']; ?>]</td>
+                        </tr>
 <?php
+
+$CONCEPTO_RECAUDACION='Permiso Temporal;'.number_format($MONTO_TOTAL_UMAS,2);
+
+
 //                        <tr>
 //                            <th>Concepto</th>
 //                            <td><font size="2">$CONCEPTO</font></td>
 //			</tr>
+//                        <tr>
+//                            <th>Descripcion</th>
+//                            <td><font size="2">'.$DESCRIPCION_TRAMITE.'</font></td>
+//                        </tr>
 ?>
-                        <tr>
-                            <th>Descripcion</th>
-                            <td><font size="2"><?php echo $DESCRIPCION_TRAMITE; ?></font></td>
-                        </tr>
                     </table>
                 </div>
                 
@@ -405,19 +498,43 @@ echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
                 <tr>
 		    <td class="monto-label">Total a Pagar:</td>
 <?php
-echo '<td class="monto-value">'.$MONTO_UMAS.' UMAS</td>';
+echo '<td class="monto-value">'.$MONTO_TOTAL_UMAS.' umas</td>';
 ?>
                 </tr>
-            </table>
+	    </table>
+<?php
+
+switch ($DESCRIPCION_TRAMITE) {
+
+case "Inspección":
+        $DESCRIPCION_TRAMITE='Inspeccion';
+echo '<p><font size="1"><b>FUNDAMENTACIÓN.-</b> <b><u>INSPECCIÓN</u></b>: ARTÍCULO 22, FRAC.I, DE LA LEY DE INGRESOS DEL MUNICIPIO DE TIJUANA, BAJA CALIFORNIA PARA EL EJERCICIO FISCAL DEL 2025.</font>';
+        break;
+case "Recepción y Análisis Documentos":
+echo '<p><font size="1"><b>FUNDAMENTACIÓN.-</b> <b><u>RECEPCIÓN Y ANÁLISIS, EVALUACIÓN DE SOLICITUDES</u></b>: ARTÍCULO 22, FRAC.II, DE LA LEY DE INGRESOS DEL MUNICIPIO DE TIJUANA, BAJA CALIFORNIA PARA EL EJERCICIO FISCAL DEL 2025.</font>';
+        break;
+//default:
+}
+
+
+
+
+echo '<font size="1"><i>&nbsp;&nbsp;El pago debe realizarse en la caja de recaudación municipal presentando este recibo.  Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.</i></font></p>';
+?>
+
+
+
         </div>
-        
-        <div class="section">
-            <div class="section-title">INFORMACIÓN DE PAGO</div>
-            <p class="info-text">
-                El pago debe realizarse en la caja de recaudación municipal presentando este recibo. 
-                Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
-            </p>
-	</div>
+
+<?php
+//<div class="section">
+//<div class="section-title">INFORMACIÓN DE PAGO</div>
+//<p class="info-text">
+//El pago debe realizarse en la caja de recaudación municipal presentando este recibo. 
+//Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
+//</p>
+//</div>
+?>
 
 
 
@@ -426,12 +543,32 @@ echo '<td class="monto-value">'.$MONTO_UMAS.' UMAS</td>';
 <br><br>
 
 <center>
-            <div class="signature">
-                <div class="signature-line"></div>
-                <p><b>Lic. Arnulfo Guerrero León</b><br>
-                Secretario de Gobierno Municipal<br>
-                XXV Ayuntamiento de Tijuana, Baja California
-            </div>
+<div class="signature">
+<div class="signature-line"></div>
+
+<?php
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='Firma'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$FIRMA=$row_generales['descripcion'];
+##
+#
+if ( $FIRMA=='Secretario' ) {
+echo '<p><b>Lic. Arnulfo Guerrero León</b><br>';
+echo 'Secretario de Gobierno Municipal<br>';
+echo 'XXV Ayuntamiento de Tijuana, Baja California';
+} else {
+
+echo '<p><b>Dr. José Alonso López Sepúlveda</b><br>';
+echo 'Director General de Gobierno<br>';
+echo 'Secretaria de Gobierno Municipal<br>';
+echo 'XV Ayuntamiento de Tijuana, Baja California';
+}
+
+
+?>
+</div>
         </div>
 </center>
 

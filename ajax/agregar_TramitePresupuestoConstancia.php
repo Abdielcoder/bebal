@@ -234,6 +234,10 @@ $GRUPO4=$CAPACIDAD_COMENSALES_PERSONAS.' / '.$SUPERFICIE_ESTABLECIMIENTO;
 
 $colonia_delegacion_municipio_establecimiento=$datos['colonia_desc'].' '.$datos['delegacion_desc'].' / '.$datos['municipio_desc'].' / '.$datos['cp_establecimiento'];
 
+################
+$numero_cuenta=$datos['numero_cuenta'];
+if ( empty($numero_cuenta) || $numero_cuenta=='' ) $numero_cuenta='No Disponible';
+################
 
 $url = "https://landingbebal-production.up.railway.app/api/datorapido";
 
@@ -259,7 +263,8 @@ $data = [
 "email_solicitante"=> $EMAIL_SOLICITANTE,
 "telefono_solicitante"=> $TELEFONO_SOLICITANTE,
 "numero_permiso_anterior"=> $NUMERO_PERMISO_ANTERIOR,
-"numero_permiso_nuevo"=> $datos['numero_permiso']
+"numero_permiso_nuevo"=> $datos['numero_permiso'],
+"numero_cuenta"=> $datos['numero_cuenta']
 
 ];
 

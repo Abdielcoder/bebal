@@ -189,7 +189,8 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Orden de Pago de Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
 
         @media print {
@@ -230,7 +231,6 @@ header('Content-Type: text/html; charset=utf-8');
             background-color: #f9f9f9;
             font-size: 10px;
         }
-
 
 
         .print-button {
@@ -614,6 +614,36 @@ echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php
 
 echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
 
+
+// Generar y mostrar el código de barras para ORDEN_PAGO usando JsBarcode
+if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
+    $orden_pago_clean = trim($ORDEN_PAGO);
+    echo '<div style="text-align: center; margin-top: 5px; margin-bottom: 15px;">';
+    echo '    <svg id="barcode-orden-pago"></svg>';
+    echo '</div>';
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo '    if (typeof JsBarcode !== "undefined") {';
+    echo '        JsBarcode("#barcode-orden-pago", "'.htmlspecialchars($orden_pago_clean).'", {';
+    echo '            format: "CODE39",';
+    echo '            width: 2,';
+    echo '            height: 50,';
+    echo '            displayValue: false,';
+    echo '            margin: 0';
+    echo '        });';
+    echo '    }';
+    echo '});';
+    echo '</script>';
+} else {
+    // Opcional: si quieres un mensaje si $ORDEN_PAGO está vacía para el barcode
+    // echo '<p style="text-align:center; color:red; margin-bottom: 10px;">Código de Barras para Orden de Pago no disponible.</p>';
+}
+
+//echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
+
+
+
 //echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
 //echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
 ?>
@@ -685,7 +715,7 @@ echo '</td>';
 
 
                         <tr>
-                            <th>Concepto Recaudación</th>
+                            <th>Concepto Barandilla</th>
                             <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
                         </tr>
 
@@ -780,12 +810,32 @@ echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGA
 <br><br>
 
 <center>
-            <div class="signature">
-                <div class="signature-line"></div>
-                <p><b>Lic. Arnulfo Guerrero León</b><br>
-                Secretario de Gobierno Municipal<br>
-                XXV Ayuntamiento de Tijuana, Baja California
-            </div>
+<div class="signature">
+<div class="signature-line"></div>
+
+<?php
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='Firma'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$FIRMA=$row_generales['descripcion'];
+##
+#
+if ( $FIRMA=='Secretario' ) {
+echo '<p><b>Lic. Arnulfo Guerrero León</b><br>';
+echo 'Secretario de Gobierno Municipal<br>';
+echo 'XXV Ayuntamiento de Tijuana, Baja California';
+} else {
+
+echo '<p><b>Dr. José Alonso López Sepúlveda</b><br>';
+echo 'Director General de Gobierno<br>';
+echo 'Secretaria de Gobierno Municipal<br>';
+echo 'XV Ayuntamiento de Tijuana, Baja California';
+}
+
+
+?>
+</div>
         </div>
 </center>
 

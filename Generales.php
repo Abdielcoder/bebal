@@ -43,7 +43,8 @@
 
 	<?php
         //include("modal/registro_generales.php");
-        //include("modal/editar_generales.php");
+        include("modal/editar_generalesFirma.php");
+        include("modal/editar_generales.php");
 
         ?>
         <form class="form-horizontal" role="form" id="datos_cotizacion">
@@ -75,3 +76,64 @@
 	<script type="text/javascript" src="js/generales.js"></script>
   </body>
 </html>
+
+
+<script>
+
+$( "#guardar_generalesFirma" ).submit(function( event ) {
+  $('#Button_guardar_datosGeneralesFirma').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/editar_GeneralesFirma.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxGeneralesFirma").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxGeneralesFirma").html(datos);
+                        $('#Button_guardar_datosGeneralesFirma').attr("disabled", false);
+
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+                                location.replace('Generales.php');
+                        }, 1000);
+                  }
+        });
+  event.preventDefault();
+})
+
+
+
+function obtener_datosGenerales(id) {
+
+var dato_general = $("#dato_general"+id).val();
+var descripcion = $("#descripcion"+id).val();
+
+//alert(id+", "+dato_general+", "+descripcion);
+
+$("#mod_id").val(id);
+$("#mod_dato_general").val(dato_general);
+$("#mod_descripcion").val(descripcion);
+
+}
+
+function obtener_datosGeneralesFirma(idOtro) {
+
+var dato_generalOtro = $("#dato_generalOtro"+idOtro).val();
+var descripcionOtro = $("#descripcionOtro"+idOtro).val();
+
+//alert(idOtro+", "+dato_generalOtro+", "+descripcionOtro);
+
+$("#mod_idOtro").val(idOtro);
+$("#mod_dato_generalOtro").val(dato_generalOtro);
+$("#mod_descripcionOtro").val(descripcionOtro);
+
+}
+
+
+
+</script>
+

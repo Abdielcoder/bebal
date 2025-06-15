@@ -58,12 +58,25 @@ header('Content-Type: text/html; charset=utf-8');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datos Generales - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <style>
+
         @media print {
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important; /* Asegurar que html no tenga márgenes */
+                padding: 0 !important; /* Asegurar que html no tenga padding */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
             body {
-                width: 210mm;
+                width: 210mm; /* Tamaño carta exacto */
                 height: 279mm; /* Tamaño carta exacto */
-                margin: 0;
-                padding: 0;
+                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
+                padding: 0 !important; /* El body en sí no debe tener padding */
+                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
             }
             .no-print {
                 display: none !important;
@@ -72,7 +85,7 @@ header('Content-Type: text/html; charset=utf-8');
                 page-break-before: always;
             }
         }
-        
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.4;
@@ -82,9 +95,11 @@ header('Content-Type: text/html; charset=utf-8');
             max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
-            font-size: 12px;
+            font-size: 10px;
         }
-        
+
+
+
         .print-button {
             position: fixed;
             top: 10px;
@@ -268,7 +283,7 @@ header('Content-Type: text/html; charset=utf-8');
     <div class="container">
         <div class="header">
             <div class="logo">
-		<img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="400">
+		<img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="500">
 	    </div>
 <?php
             echo '<div class="title">';
@@ -279,19 +294,19 @@ header('Content-Type: text/html; charset=utf-8');
 $Folio=$datos['folio'];
             echo '<div class="date">';
 		//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
+echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/consulta-constancia/?folio='.$Folio.'"></p>';
 	    echo '</div>';
 ?>
         </div>
         
 	<div class="main-title">
 <center>
-<h2>SOLICITUD DEL PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h2>
+<h3>SOLICITUD DEL PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h3>
 </center>
         </div>
         
         <div class="folio">
-            Folio: <?php echo $datos['folio']; ?>
+            BID: <?php echo $datos['folio']; ?>
 	</div>
 
 
@@ -355,8 +370,8 @@ echo '<td> </td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<th>Clave Catastral</th>';
-echo '<td> </td>';
+echo '<th>Número de Cuenta / Clave Catastral</th>';
+echo '<td> NA / NA</td>';
 echo '</tr>';
 
 
@@ -376,9 +391,12 @@ echo '<th>Colonia Delegación / Ciudad / CP</th>';
 echo '<td>'.$datos['colonia_desc'].' '.$datos['delegacion_desc'].' / '.$datos['municipio_desc'].' / '.$datos['cp_establecimiento'].'</td>';
 echo '</tr>';
 
+$numero_cuenta=$datos['numero_cuenta'];
+if ( empty($numero_cuenta) || $numero_cuenta=='' ) $numero_cuenta='-';
+
 echo '<tr>';
-echo '<th>Clave Catastral</th>';
-echo '<td>'.$datos['clave_catastral'].'</td>';
+echo '<th>Número de Cuenta / Clave Catastral</th>';
+echo '<td>'.$numero_cuenta.' /  '.$datos['clave_catastral'].'</td>';
 echo '</tr>';
 
 
@@ -469,6 +487,7 @@ echo '</tr>';
         </i></font></div>
 
 <p>&nbsp;</p>
+<br>
 
         <div class="signatures">
             <div class="signature">
@@ -477,11 +496,34 @@ echo '</tr>';
        <b><?php echo $datos['nombre_representante_legal_solicitante']; ?></b>
             </div>
             <div class="signature">
-                <div class="signature-line"></div>
-                <p><b>Dr. José Alonso López Sepúlveda</b><br>
-                Director General de Gobierno<br>
-                Secretaria de Gobierno Municipal<br>
-                XV Ayuntamiento de Tijuana, Baja California
+		<div class="signature-line"></div>
+
+
+<?php
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='Firma'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$FIRMA=$row_generales['descripcion'];
+##
+#
+if ( $FIRMA=='Secretario' ) {
+echo '<p><b>Lic. Arnulfo Guerrero León</b><br>';
+echo 'Secretario de Gobierno Municipal<br>';
+echo 'XXV Ayuntamiento de Tijuana, Baja California';
+} else {
+
+echo '<p><b>Dr. José Alonso López Sepúlveda</b><br>';
+echo 'Director General de Gobierno<br>';
+echo 'Secretaria de Gobierno Municipal<br>';
+echo 'XV Ayuntamiento de Tijuana, Baja California';
+}
+
+
+?>
+
+
+
             </div>
         </div>
     </div>

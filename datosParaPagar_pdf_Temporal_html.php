@@ -72,14 +72,27 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Orden de Pago - Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
-        @media print {
+                @media print {
+            html {
+                width: 100%;
+                height: 100%;
+                margin: 0 !important; /* Asegurar que html no tenga márgenes */
+                padding: 0 !important; /* Asegurar que html no tenga padding */
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            }
             body {
-                width: 210mm;
+                width: 210mm; /* Tamaño carta exacto */
                 height: 279mm; /* Tamaño carta exacto */
-                margin: 0;
-                padding: 0;
+                margin: 0 !important; /* El body en sí no debe tener margen, el html lo centrará */
+                padding: 0 !important; /* El body en sí no debe tener padding */
+                /* Otros estilos específicos del body para impresión pueden ir aquí si es necesario */
             }
             .no-print {
                 display: none !important;
@@ -88,7 +101,7 @@ header('Content-Type: text/html; charset=utf-8');
                 page-break-before: always;
             }
         }
-        
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.4;
@@ -98,9 +111,8 @@ header('Content-Type: text/html; charset=utf-8');
             max-width: 21cm;
             margin: 0 auto;
             background-color: #f9f9f9;
-            font-size: 12px;
+            font-size: 10px;
         }
-        
         .print-button {
             position: fixed;
             top: 10px;
@@ -288,14 +300,6 @@ header('Content-Type: text/html; charset=utf-8');
 
 	    </div>
 <?php
-            echo '<div class="title">';
-                //<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
-                //<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
-	    echo '</div>';
-?>
-
-<?php
-
 ################
 $id_tramite=$datos['id_tramite'];
 $id_proceso_tramites=$datos['id_proceso_tramites'];
@@ -319,6 +323,19 @@ $MONTO_UMAS_giro=$row_giro['monto_umas_permiso_temporal'];
 #############
 
 $COBRO_UMAS_giro=$MONTO_UMAS_giro;	//##  Permiso Nuevo
+
+            echo '<div class="title">';
+//<h1>GOBIERNO MUNICIPAL DE TIJUANA</h1>
+//<h2>SECRETARÍA DE GOBIERNO MUNICIPAL</h2>
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<br><br>';
+echo '<table width="90%" align="center" style="border: none; background: transparent;"><tr style="border: none; background: transparent;"><td style="border: none; background: transparent;"><center><font size="5px">'.$DESCRIPCION_TRAMITE.'</center></td></tr></table>';
+	    echo '</div>';
+?>
+
+<?php
 
 ##echo 'Cobro Giro='.$COBRO_UMAS_giro;
 
@@ -437,7 +454,16 @@ $STRING_SERVICIOS_ADICIONALES=$DESCRIPCION_SA." <font size='3' color='blue'>".$C
 ##}
 }
 
-##############################
+
+$todayANO = date("Y");
+####################
+####################
+
+$id_proceso_tramites=$datos['id_proceso_tramites'];
+
+$ORDEN_PAGO='PXT-'.$id.$id_proceso_tramites.'-'.$todayANO;
+##################
+
 
 $Folio=$datos['folio'];
             echo '<div class="date">';
@@ -449,7 +475,40 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
         
 	<div class="main-title">
 <?php
-echo '<h1>Presupuesto  <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h1>Presupuesto  <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+
+
+
+echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
+
+// Generar y mostrar el código de barras para ORDEN_PAGO usando JsBarcode
+if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
+    $orden_pago_clean = trim($ORDEN_PAGO);
+    echo '<div style="text-align: center; margin-top: 5px; margin-bottom: 15px;">';
+    echo '    <svg id="barcode-orden-pago"></svg>';
+    echo '</div>';
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo '    if (typeof JsBarcode !== "undefined") {';
+    echo '        JsBarcode("#barcode-orden-pago", "'.htmlspecialchars($orden_pago_clean).'", {';
+    echo '            format: "CODE39",';
+    echo '            width: 2,';
+    echo '            height: 50,';
+    echo '            displayValue: false,';
+    echo '            margin: 0';
+    echo '        });';
+    echo '    }';
+    echo '});';
+    echo '</script>';
+} else {
+    // Opcional: si quieres un mensaje si $ORDEN_PAGO está vacía para el barcode
+    // echo '<p style="text-align:center; color:red; margin-bottom: 10px;">Código de Barras para Orden de Pago no disponible.</p>';
+}
+
+//echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
+
+
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
             <h4>DE ESTABLECIMIENTOS QUE EXPIDEN Y VENDEN AL PÚBLICO BEBIDAS CON CONTENIDO ALCOHÓLICO</h4>
@@ -504,6 +563,10 @@ echo '</td>';
 
 
 $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
+
+$CONCEPTO_RECAUDACION='Permiso Temporal;'.number_format($MONTO_TOTAL_UMAS,2);
+
+
 ?>
 			</tr>
 
@@ -516,11 +579,21 @@ $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
                         <tr>
                             <th>Representante Legal</th>
                             <td><?php echo $datos['nombre_representante_legal_solicitante']; ?></td>
-                        </tr>
+			</tr>
+
+
                         <tr>
-                            <th>Descripcion</th>
-                            <td><font size="2"><?php echo $DESCRIPCION_TRAMITE; ?></font></td>
+                            <th>Concepto Barandilla</th>
+                            <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
                         </tr>
+
+
+                        <tr>
+                            <th>Inciso </th>
+                            <td><font size="2"><B><?php echo $CUENTA_tramite; ?></B></font></td>
+                        </tr>
+
+
                     </table>
                 </div>
                 
@@ -532,7 +605,7 @@ $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
                 <tr>
 		    <td class="monto-label">Total a Pagar:</td>
 <?php
-echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UMAS,2).' UMAS</font></td>';
+echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UMAS,2).' umas</font></td>';
 ?>
                 </tr>
             </table>
@@ -545,6 +618,42 @@ echo '<td class="monto-value"><font color="blue">'.number_format($MONTO_TOTAL_UM
                 Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
             </p>
         </div>
+
+<br><br><br>
+<br><br><br>
+
+<center>
+<div class="signature">
+<div class="signature-line"></div>
+
+<?php
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='Firma'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$FIRMA=$row_generales['descripcion'];
+##
+#
+if ( $FIRMA=='Secretario' ) {
+echo '<p><b>Lic. Arnulfo Guerrero León</b><br>';
+echo 'Secretario de Gobierno Municipal<br>';
+echo 'XXV Ayuntamiento de Tijuana, Baja California';
+} else {
+
+echo '<p><b>Dr. José Alonso López Sepúlveda</b><br>';
+echo 'Director General de Gobierno<br>';
+echo 'Secretaria de Gobierno Municipal<br>';
+echo 'XV Ayuntamiento de Tijuana, Baja California';
+}
+
+
+?>
+</div>
+        </div>
+</center>
+
+
+
 
  <style>
 @media print {

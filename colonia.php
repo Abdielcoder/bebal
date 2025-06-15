@@ -100,7 +100,7 @@ $( "#guardar_colonia" ).submit(function( event ) {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
 				location.replace('colonia.php');
-			}, 4000);
+			}, 1000);
 
 
 		}
@@ -127,7 +127,7 @@ $( "#editar_colonia" ).submit(function( event ) {
 				$(".alert").fadeTo(150, 0).slideUp(150, function(){
 				$(this).remove();});
 				location.replace('colonia.php');
-			}, 4000);
+			}, 1000);
 		  }
 	});
   event.preventDefault();

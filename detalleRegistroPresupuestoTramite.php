@@ -250,6 +250,7 @@ $estatus=$row['estatus'];
 $operacion=$row['operacion'];
 
 $clave_catastral=$row['clave_catastral'];
+$numero_cuenta=$row['numero_cuenta'];
 $nombre_comercial_establecimiento=$row['nombre_comercial_establecimiento'];
 $calle_establecimiento=$row['calle_establecimiento'];
 $entre_calles_establecimiento=$row['entre_calles_establecimiento'];
@@ -479,8 +480,8 @@ echo  '<a href="#" data-bs-toggle="modal" class="btn btn-dark bs-sm" title="Elim
                         <div class="valor valor-destacado"><?php echo $nombre_comercial_establecimiento; ?></div>
                     </div>
                     <div class="col-md-3 col-6 mt-md-0">
-                        <div class="etiqueta">Clave Catastral</div>
-                        <div class="valor"><?php echo $clave_catastral; ?></div>
+                        <div class="etiqueta">Número Cuenta / Clave Catastral</div>
+                        <div class="valor"><?php echo $numero_cuenta.' / '.$clave_catastral; ?></div>
                     </div>
                 </div>
 

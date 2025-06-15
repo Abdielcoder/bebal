@@ -3,6 +3,7 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 
 	$PROFILE=$_SESSION['user_profile'];
 	$ID_MUNICIPIO=$_SESSION['user_id_municipio'];
+	$ID_USER=$_SESSION['user_id'];
 
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['IDPRINCIPAL']) || 
@@ -19,7 +20,12 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 		require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
 		include("../funciones.php");
 
+################
+date_default_timezone_set('America/Los_Angeles');
+$today = date("Y-m-d");
 $todayANO = date("Y");
+$fecha_datetime_hoy=date("Y-m-d H:i:s");
+################
 
 $monto_umas_tramite_solicitado=$_POST['monto_umas_tramite_solicitado'];
 $page=$_POST['page'];
@@ -32,6 +38,7 @@ $cambio_id_giro_solicitado=$_POST['cambio_id_giro_solicitado'];
 $cambio_giro_solicitado=$_POST['cambio_giro_solicitado'];
 $descripcion_tramite_solicitado=$_POST['descripcion_tramite_solicitado'];
 $tramite_solicitado=$_POST['tramite_solicitado'];
+
 
 $cambio_de_sa=$_POST['cambio_de_sa'];  //## 1 Servicios Adicionales   0   No Servicios Adicionales
 $servicios_adicionales_agregados=$_POST['servicios_adicionales_agregados'];
@@ -65,22 +72,51 @@ if ($presupuestoConstancia==0) {
 $concepto_recaudacion=','.$concepto_recaudacion;
 }
 
-$todo= 'monto_umas_tramite_solicitado='.$monto_umas_tramite_solicitado.' )
- page='.$page.' )
- ID='.$ID.' )
- folio='.$folio.' )
- nombre_comercial_establecimiento='.$nombre_comercial_establecimiento.' )
- ID_TRAMITE='.$ID_TRAMITE.' )
-cambio_de_giro='.$cambio_de_giro.' )
-cambio_id_giro_solicitado='.$cambio_id_giro_solicitado.' )
-cambio_giro_solicitado='.$cambio_giro_solicitado.' )
-descripcion_tramite_solicitado='.$descripcion_tramite_solicitado.' )
-tramite_solicitado='.$tramite_solicitado.' )';
+$todo= 'monto_umas_tramite_solicitado=('.$monto_umas_tramite_solicitado.' )
+ page=('.$page.' )
+ ID=('.$ID.' )
+ folio=('.$folio.' )
+ nombre_comercial_establecimiento=('.$nombre_comercial_establecimiento.' )
+ ID_TRAMITE=('.$ID_TRAMITE.' )
+cambio_de_giro=('.$cambio_de_giro.' )
+cambio_id_giro_solicitado=('.$cambio_id_giro_solicitado.' )
+cambio_giro_solicitado=('.$cambio_giro_solicitado.' )
+descripcion_tramite_solicitado=('.$descripcion_tramite_solicitado.' )
+tramite_solicitado=('.$tramite_solicitado.' )';
 
 ################
-date_default_timezone_set('America/Los_Angeles');
-$today = date("Y-m-d");
-################
+#########
+$descuento=intval($_POST['descuento']);
+if ( $descuento>0 ) {
+
+$PORCENTAJE= ((100 - $descuento ) / 100);
+$monto_umas_tramite_solicitado_sin_coma = str_replace ( ",", '', $monto_umas_tramite_solicitado);
+$monto_umas_con_porcentaje=  $PORCENTAJE  * $monto_umas_tramite_solicitado_sin_coma;
+
+$kuery_Insert_Descuento="INSERT INTO descuentos (
+id_principal,
+tramite,
+monto_umas_tramite,
+porcentaje_descuento,
+monto_umas_con_porcentaje,
+user_id,
+fecha_hora,
+nota) VALUES (
+$ID,
+'$tramite_solicitado',
+'$monto_umas_tramite_solicitado',
+'$descuento',
+'$monto_umas_con_porcentaje',
+$ID_USER,
+'$fecha_datetime_hoy',
+'$todo')";
+mysqli_query($con,$kuery_Insert_Descuento);
+$monto_umas_tramite_solicitado=$monto_umas_con_porcentaje;
+}
+#########
+#########
+
+
 
 ### en el caso del CAMBIO DE GIRO los 2 ** para tomar el GIRO que se cambiara ( usando un xplode y split )
 if ( $cambio_de_giro=="SI" ) {
@@ -147,8 +183,8 @@ $MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
 
 #####################################################
 ###  PAGO Pendiete POR Inspeccion
-$MONTO_UMAS_tramiteINS_PESOS=$MONTO_UMAS_tramiteINS*$TIPO_CAMBIO_UMAS;
-$concepto_recaudacion_inspeccion='Inspeccion'.$concepto_recaudacion.';'.$MONTO_UMAS_tramiteINS.';'.$MONTO_UMAS_tramiteINS_PESOS.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
+##$MONTO_UMAS_tramiteINS_PESOS=$MONTO_UMAS_tramiteINS*$TIPO_CAMBIO_UMAS;
+$concepto_recaudacion_inspeccion='Inspeccion'.$concepto_recaudacion.';'.$MONTO_UMAS_tramiteINS.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sql10="INSERT INTO pagos (
 id_principal,
 folio,
@@ -178,8 +214,8 @@ $Update_Pago1="UPDATE pagos SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_INS";
 mysqli_query($con,$Update_Pago1);
 ######################################################
 ##  PAGO Pendiente POR Recepcion y Analisis Documentos
-$MONTO_UMAS_tramiteRAD_PESOS=$MONTO_UMAS_tramiteRAD*$TIPO_CAMBIO_UMAS;
-$concepto_recaudacion_rad='Recepcion y Analisis Documentos'.$concepto_recaudacion.';'.$MONTO_UMAS_tramiteRAD.';'.$MONTO_UMAS_tramiteRAD_PESOS.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
+##$MONTO_UMAS_tramiteRAD_PESOS=$MONTO_UMAS_tramiteRAD*$TIPO_CAMBIO_UMAS;
+$concepto_recaudacion_rad='Recepcion y Analisis Documentos'.$concepto_recaudacion.';'.$MONTO_UMAS_tramiteRAD.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sql20="INSERT INTO pagos (
 id_principal,
 folio,
@@ -236,8 +272,8 @@ $ID_PROCESO_TRAMITE,
 $query_new_insert40 = mysqli_query($con,$sql40);
 #################################
 #
-$monto_umas_tramite_solicitado_PESOS=$monto_umas_tramite_solicitado*$TIPO_CAMBIO_UMAS;
-$concepto_recaudacion_tramites=$descripcion_tramite_solicitado.';'.$monto_umas_tramite_solicitado.';'.$monto_umas_tramite_solicitado_PESOS.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
+##$monto_umas_tramite_solicitado_PESOS=$monto_umas_tramite_solicitado*$TIPO_CAMBIO_UMAS;
+$concepto_recaudacion_tramites=$descripcion_tramite_solicitado.';'.$monto_umas_tramite_solicitado.';'.$numero_permiso_anterior.' '.$numero_permiso_nuevo;
 $sqlINSERT60="INSERT INTO  pagos (
 id_principal,
 id_proceso_tramites,
@@ -276,7 +312,7 @@ mysqli_close($con);
 
 			if ($query_Update100) {
 
-				$messages[] = "El Tramite ( $descripcion_tramite_solicitado  )  ha sido Registrado Correctamente.";
+				$messages[] = "El  Tramite ( $descripcion_tramite_solicitado  )  ha sido Registrado Correctamente.";
 			} else {
 				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}

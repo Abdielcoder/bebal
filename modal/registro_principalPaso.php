@@ -331,23 +331,42 @@ echo '<div id="Respuesta" style="color:black;font-size:12px;"></div>';
 ###
 echo '<div class="form-group row">';
 echo '<label for="nombre_comercial_establecimiento" class="col-sm-1 control-label"><font size="1">Nombre Comercial</font></label>';
-echo '<div class="col-sm-4">';
+echo '<div class="col-sm-5">';
 echo '<input type="text" class="form-control form-control-sm" style="text-transform:uppercase" id="nombre_comercial_establecimiento" name="nombre_comercial_establecimiento">';
 echo '</div>';
 //##
-echo '<label for="numero_permiso" class="col-sm-1 control-label"><font size="1">Número Permiso</font></label>';
-echo '<div class="col-sm-2">';
-echo '<input type="text" class="form-control form-control-sm" id="numero_permiso" name="numero_permiso" pattern="[A]{1}[0-9]{5}" required>';
-echo '</div>';
+//echo '<div class="col-sm-2">';
+//echo '<label for="numero_permiso" class="col-sm-2 control-label"><font size="1">Número Permiso</font></label>';
+echo '<label for="numero_permiso" class="col-sm-2 control-label"><font size="2">Número Permiso</font>';
+echo '<input type="text" class="form-control form-control-sm" id="numero_permiso" name="numero_permiso" pattern="[A]{1}[0-9]{5}" minlength="6" maxlength="6" required>';
+echo '</label>';
+//echo '</div>';
 //##
 
-echo '<label for="clave_catastral" class="col-sm-2 control-label" align="right"><font color="blue" size="1">Número Catastro</font>';
-echo '<br><a href="javascript:getPredial(document.guardar_registroPrincipal)" style="background-color:#000000;color:white"><font size="1">Consultar Predial</font></a>';
-echo '</label>';
-echo '<div class="col-sm-2 form-check">';
+echo '<label for="clave_catastral" class="col-sm-2 control-label" align="right"><font color="blue" size="2">Catastro</font>';
+echo '&nbsp;&nbsp;<a href="javascript:getPredial(document.guardar_registroPrincipal)" style="background-color:#000000;color:white"><font size="1">Consultar</font></a>';
+//echo '<div class="col-sm-2 form-check">';
 //echo '<label class="form-check-label" for="clave_catastral">Dato Número Catastral</label>';
 echo '<input type="text" class="form-control required" id="clave_catastral" name="clave_catastral"   pattern="[A-Z]{2}(-)[0-9]{3}(-){1}[0-9]{3}"  title="Formato VALIDO -->  AA-NNN-NNN" minlength="10" maxlength="10" autocomplete="off"  required>';
+echo '</label>';
+
+//echo '</div>';
+
+
+
+//##
+
+
+echo '<label for="numero_cuenta" class="col-sm-2 control-label" align="right"><font color="blue" size="2">No. Cuenta</font>';
+//echo '<br><a href="javascript:getNoCuenta_CC1(document.guardar_registroPrincipal)" style="background-color:#000000;color:white"><font size="1">Consultar</font></a>';
+//echo '</label>';
+//echo '<div class="col-sm-1 form-check">';
+//echo '<label class="form-check-label" for="clave_catastral">Dato Número Catastral</label>';
+echo '<input type="text" class="form-control required" id="numero_cuenta" name="numero_cuenta"   pattern="[0-9]{6}"  title="Formato VALIDO -->  NNNNNN" minlength="6" maxlength="6" autocomplete="off"  required>';
+echo '</label>';
 echo '</div>';
+
+##
 echo '</div>';
 
 
@@ -547,7 +566,6 @@ echo '<input type="date" class="form-control" id="fecha_alta" value="'.$today.'"
 //</div>
 ?>
 
-</div>
 
 <div class="modal-footer">
 <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>

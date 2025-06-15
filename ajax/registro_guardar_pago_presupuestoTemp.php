@@ -151,6 +151,11 @@ $CONCEPTO_PAGO="Permiso Temporal [[ ".$concepto_tramite." ]]   Giro [[ ".$concep
 ## Presupuesto
 
 ##
+$todayANO = date("Y");
+####################
+$ORDEN_PAGO='PXT-'.$id.$id_proceso_tramites.'-'.$todayANO;
+$CONCEPTO_RECAUDACION='Permiso Temporal;'.$total_umas_pagar;
+##################
 
 $sqlINSERT="INSERT INTO  pagos_temp (
 id_principal,
@@ -163,6 +168,8 @@ fecha_pago,
 estatus_pago,
 concepto,
 folio,
+concepto_recaudacion,
+orden_pago,
 fechaRegistro ) VALUES (
 $ID,
 $id_proceso_tramites,
@@ -174,6 +181,8 @@ $id_proceso_tramites,
 'PAGADO',
 '$tramite_pago',
 '$folio',
+'$ORDEN_PAGO',
+'$CONCEPTO_RECAUDACION',
 '$today')";
 ######################
 ############

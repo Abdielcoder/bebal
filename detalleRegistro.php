@@ -64,7 +64,6 @@ session_start();
 
 	include("modal/actualizar_datos_solicitante.php");
 	include("modal/actualizar_datos_establecimiento.php");
-	include("modal/actualizar_giro_modalidad_serviciosesp.php");
 
 	$active_principal="active";
 	$active_clientes="";
@@ -234,6 +233,7 @@ $principal_id=$row['id'];
 $folio=$row['folio'];
 
 $clave_catastral=$row['clave_catastral'];
+$numero_cuenta=$row['numero_cuenta'];
 $nombre_comercial_establecimiento=$row['nombre_comercial_establecimiento'];
 $calle_establecimiento=$row['calle_establecimiento'];
 $entre_calles_establecimiento=$row['entre_calles_establecimiento'];
@@ -324,6 +324,9 @@ $row_colonia = mysqli_fetch_assoc($result_colonia);
 $COLONIA=$row_colonia['colonia'];
 ##
 }
+#############
+include("modal/actualizar_giro_modalidad_serviciosesp.php");
+#############
 ?>
 
     <div class="mt-4">
@@ -375,13 +378,13 @@ $COLONIA=$row_colonia['colonia'];
                 </div>
 <!-----------------------!>
                 <div class="row fila-datos">
-                    <div class="col-md-9 col-6">
+                    <div class="col-md-8 col-6">
                         <div class="etiqueta">Nombre Comercial</div>
                         <div class="valor valor-destacado"><?php echo $nombre_comercial_establecimiento; ?></div>
                     </div>
-                    <div class="col-md-3 col-6 mt-md-0">
-                        <div class="etiqueta">Clave Catastral</div>
-                        <div class="valor"><?php echo $clave_catastral; ?></div>
+                    <div class="col-md-4 col-6 mt-md-0">
+                        <div class="etiqueta">Número de Cuenta / Clave Catastral</div>
+                        <div class="valor"><?php echo $numero_cuenta.' / '.$clave_catastral; ?></div>
                     </div>
                 </div>
 
@@ -562,7 +565,7 @@ $ID_PAGO_INS=0;
 #### RECIBO INSPECCION
 if ( $estatus=='Pago INS' )  {
 } else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_INS.'" target="_blank" class="btn btn-warning btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo Inspección</font></a>';
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_INS.'" target="_blank" class="btn btn-warning btn-sm"><i class="bi bi-file-earmark-pdf"></i><font size="1"> Orden de Pago - Inspección</font></a>';
 }
 #########
 ##
@@ -604,7 +607,7 @@ $ID_PAGO_RAD=0;
 ##
 if ( $estatus=='Pago RAD' )  {
 } else {
-echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_RAD.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1">Recibo AR Docs</font></a>';
+echo '<a href="datosParaPagar_pdf_html.php?id='.$IDPRINCIPAL.'--'.$ID_TRAMITE.'--'.$ID_TRAMITE_SOLICITADO.'--'.$ID_PAGO_RAD.'" target="_blank" class="btn btn-warning btn-sm"> <i class="bi bi-file-earmark-pdf"></i><font size="1"> Orden de Pago - AR Docs</font></a>';
 }
 ##
 if ( $estatus=='Pago RAD' )  {
@@ -635,9 +638,10 @@ echo  '<a href="#EliminarRegistro" data-bs-toggle="modal" data-bs-target="#Elimi
 echo '<div class="dropup">';
 echo '<button class="dropbtn"><font size="1" color="red">Actualizar Registro</font></button>';
 echo '<div class="dropup-content">';
-//echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
+
+echo  '<a href="#ActualizarGiroModalidadServiciosEsp" data-bs-toggle="modal" data-bs-target="#GiroModalidadServiciosEsp" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-id_giro="'.$id_giro.'" data-modalidad_graduacion_alcoholica="'.$modalidad_graduacion_alcoholica.'" data-servicios_adicionales="'.$servicios_adicionales.'" class="btn btn-dark bs-sm" title="Actualizar GiroModalidadServiciosEsp Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Giro, Modalidad y SE</font></a>';
 ##
-echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
+echo  '<a href="#ActualizarDatosEstablecimiento" data-bs-toggle="modal" data-bs-target="#ActualizarDatosEstablecimiento" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-clave_catastral="'.$clave_catastral.'" data-numero_cuenta="'.$numero_cuenta.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-calle_establecimiento="'.$calle_establecimiento.'" data-entre_calles_establecimiento="'.$entre_calles_establecimiento.'" data-numero_establecimiento="'.$numero_establecimiento.'" data-numerointerno_local_establecimiento="'.$numerointerno_local_establecimiento.'" data-cp_establecimiento="'.$cp_establecimiento.'" data-capacidad_comensales_personas="'.$capacidad_comensales_personas.'" data-superficie_establecimiento="'.$superficie_establecimiento.'" data-colonia_id="'.$colonia_id.'" data-delegacion_id="'.$delegacion_id.'" data-observaciones="'.$observaciones.'" class="btn btn-dark bs-sm" title="Actualizar Datos Establecimiento"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Establecimiento</font></a>';
 ##
 echo  '<a href="#ActualizarDatosSolicitante" data-bs-toggle="modal" data-bs-target="#ActualizarDatosSolicitante" data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" data-folio="'.$folio.'" data-idprincipal="'.$IDPRINCIPAL.'" data-pagina="'.$page.'" data-nombre_persona_fisicamoral_solicitante="'.$nombre_persona_fisicamoral_solicitante.'" data-nombre_representante_legal_solicitante="'.$nombre_representante_legal_solicitante.'" data-domicilio_solicitante="'.$domicilio_solicitante.'" data-email_solicitante="'.$email_solicitante.'" data-telefono_solicitante="'.$telefono_solicitante.'" data-fisica_o_moral="'.$fisica_o_moral.'" data-rfc="'.$rfc.'"  class="btn btn-dark bs-sm" title="Actualizar Datos Solicitante"><font color="red" size="2"><i class="bi bi-pencil"></i> Datos del Solicitante</font></a>';
 echo '</div>';
@@ -729,7 +733,7 @@ $concepto_giro=$GIRO." {".number_format($COBRO_UMAS_giro,2)." umas}";
 $concepto_modalidad=$modalidad_graduacion_alcoholica." [".$numero_modalidad_graduacion_alcoholica."] {".number_format($monto_umas_total_modalidad_graduacion_alcoholica,2)." umas}";
 $concepto_servicios_adicionales=$servicios_adicionales." [".$numero_servicios_adicionales."]  {".number_format($monto_umas_total_servicios_adicionales,2)." umas }";
 $MONTO_TOTAL_UMAS=$MONTO_UMAS_tramite+$monto_umas_total_servicios_adicionales+$monto_umas_total_modalidad_graduacion_alcoholica+$COBRO_UMAS_giro;
-echo '<a href="datosParaPagar_pdf_Nuevo_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black"> Recibo Presupuesto</font></a>';
+echo '<a href="datosParaPagar_pdf_Nuevo_html.php?id='.$IDPRINCIPAL.'--'.$id_tramite.'--SI--SI" target="_blank" class="btn btn-danger bs-sm" style="background-color:#AC905B;"> <i class="bi bi-file-earmark-pdf"></i><font size="1" color="black">  Orden de Pago - Presupuesto</font></a>';
 
 echo '<a href="#revisarPagoPresupuesto" data-bs-toggle="modal" data-bs-target="#revisarPagoPresupuesto" 
  data-nombre_comercial_establecimiento="'.$nombre_comercial_establecimiento.'" 
@@ -768,6 +772,34 @@ include("footer.php");
 ?>
 
 <script>
+
+$( "#guardar_registroPrincipalGMSE" ).submit(function( event ) {
+  $('#Button_guardar_registroPrincipalGMSE').attr("disabled", true);
+
+ var parametros = $(this).serialize();
+         $.ajax({
+                        type: "POST",
+                        url: "ajax/actualizar_giro_modalidad_serviciosesp.php",
+                        data: parametros,
+                         beforeSend: function(objeto){
+                                $("#resultados_ajaxGuardarRegistroPrincipalGMSE").html("Mensaje: Cargando...");
+                          },
+                        success: function(datos){
+                        $("#resultados_ajaxGuardarRegistroPrincipalGMSE").html(datos);
+                        $('#Button_guardar_registroPrincipalGMSE').attr("disabled", true);
+                        window.setTimeout(function() {
+                                $(".alert").fadeTo(150, 0).slideUp(150, function(){
+                                $(this).remove();});
+<?php
+//location.replace('principal.php');
+echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$ID_TRAMITE_SOLICITADO."');";
+?>
+                        }, 2000);
+
+                  }
+        });
+  event.preventDefault();
+});
 
 
 
@@ -828,7 +860,6 @@ echo "location.replace('detalleRegistro.php?id=".$IDPRINCIPAL."--".$page."--".$I
         });
   event.preventDefault();
 });
-
 
 
 

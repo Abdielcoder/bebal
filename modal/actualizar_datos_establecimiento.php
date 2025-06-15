@@ -85,20 +85,30 @@ background-color: #3CBC8D;
 
 ##########################
 ##########################
-echo '<h4><span style="background:black"><font color="white" size="3">Datos del Establecimiento</font></span></h4>';
+echo '<h4><span style="background:black"><font color="white" size="2">Datos del Establecimiento</font></span></h4>';
 ###
 echo '<div class="form-group row">';
-echo '<label for="mod_nombre_comercial_establecimiento" class="col-sm-2 control-label">Nombre Comercial</label>';
-echo '<div class="col-sm-5">';
+echo '<label for="mod_nombre_comercial_establecimiento" class="col-sm-1 control-label"><font size="2">Nombre Comercial</font></label>';
+echo '<div class="col-sm-4">';
 echo '<input type="text" class="form-control form-control-sm" style="text-transform:uppercase" id="mod_nombre_comercial_establecimiento" name="nombre_comercial_establecimiento" required>';
 echo '</div>';
 //##
 
-echo '<label for="mod_clave_catastral" class="col-sm-2 control-label" align="right"><font color="blue">Número Catastro</font></label>';
+echo '<label for="mod_clave_catastral" class="col-sm-1 control-label" align="right"><font color="blue" size="2">Número Catastro</font></label>';
 echo '<div class="col-sm-2 form-check">';
 //echo '<label class="form-check-label" for="clave_catastral">Dato Número Catastral</label>';
 echo '<input type="text" class="form-control required" id="mod_clave_catastral" name="clave_catastral"   pattern="[A-Z]{2}(-)[0-9]{3}(-){1}[0-9]{3}"  title="Formato VALIDO -->  AA-NNN-NNN" minlength="10" maxlength="10" autocomplete="off"  required>';
 echo '</div>';
+
+//##
+
+echo '<label for="mod_clave_catastral" class="col-sm-1 control-label" align="right"><font color="blue" size="2">Número Cuenta</font></label>';
+echo '<div class="col-sm-2 form-check">';
+//echo '<label class="form-check-label" for="clave_catastral">Dato Número Catastral</label>';
+echo '<input type="text" class="form-control required" id="mod_numero_cuenta" name="numero_cuenta"   pattern="[0-9]{6}"  title="Formato VALIDO -->  AA-NNN-NNN" minlength="6" maxlength="6" autocomplete="off"  required>';
+echo '</div>';
+
+
 echo '</div>';
 
 
@@ -220,6 +230,7 @@ echo '</div>';
 </div>
 
 </form>
+<p><font color="white" size="1">modal/actualizar_datos_establecimiento.php-(Button_guardar_PrincipalEstablecimientoInicio)->ajax/ActualizarDatosEstablecimientoInicio.php</font></p>
 </div>
 </div>
 </div>

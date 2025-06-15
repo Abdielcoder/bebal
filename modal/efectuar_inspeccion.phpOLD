@@ -1,3 +1,6 @@
+<script src="../../MiLibreria/leaflet/js/leaflet.js"></script>
+<link rel="stylesheet" href="../../Taller/MapP/leaflet/css/leaflet.css">
+
 <style>
 #longitud:valid {
     color: black;
@@ -25,8 +28,6 @@ background-color: #3CBC8D;
 </style>
 
 
-<script src="../../MiLibreria/leaflet/js/leaflet.js"></script>
-<link rel="stylesheet" href="../../Taller/MapP/leaflet/css/leaflet.css">
 
 
 
@@ -37,11 +38,9 @@ background-color: #3CBC8D;
 	<!-- Modal -->
 <!--<div id="map" style="height:200px; width:100%;background-color: powderblue;"></div>-->
 
-<div id="EfectuarInspeccion" class="modal fade" tabindex="-1">
- <div class="modal-dialog modal-dialog-scrollable modal-xl"  role="document">
-<!--
-<div class="modal fade" id="EfectuarInspeccion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
--->
+        <div class="modal fade" id="EfectuarInspeccion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+	  <div class="modal-dialog modal-dialog-scrollable modal-xl"  role="document">
 		<div class="modal-content">
 
 <div class="modal-header"  style="background-color:#AC905B;color:white">
@@ -86,10 +85,6 @@ echo '<font size="2" color="black">Folio: </font><font size="2" color="blue">'.$
 
 
 ###
-
-if ( empty($latitudDB) || $latitudDB==''  ) $latitudDB="32.5317397";
-if ( empty($longitudDB) || $longitudDB==''  ) $longitudDB="-117.019529";
-
 echo '<div class="mb-3 row">';
 echo '<label for="latitud" class="col-sm-2 col-form-label"><font color="black">Latitud</font><br><font size="2" color="blue">Ej: 32.5317397</font></label>';
 echo '<div class="col-sm-2">';
@@ -102,10 +97,9 @@ echo '<input type="text" class="form-control required"  title="Enter Longitud (-
 echo '</div>';
 echo '</div>';
 ###
-echo '<div id="map" class="map" style="height:200px; width:100%;background-color: powderblue;"></div>';
+echo '<div id="map" style="height:200px; width:100%;background-color: powderblue;"></div>';
 ##echo '<iframe id="map" src="mapaMarcaCoordenadas.php" height="200px" width="100%"></iframe>';
 ###
-echo '<br>';
 echo '<br>';
 echo '<div class="form-group row" style="background-color:#ECECEC;color:black">';
 echo '<label for="observacion_1" class="col-sm-4 control-label"><font size="1">INSTITUCIONES EDUCATIVAS, CENTROS RELIGIOSOS, DEPORTIVOS, HOSPITALES, ETC. ARTICULO 20 FRACCION V Y ARTICULO 39 DEL REGLAMENTO PARA LA VENTA, ALMACENAJE Y  CONSUMO DE BEBIDAS ALCOHOLICAS PARA EL MUNICIPIO DE TIJUANA</font></label>';
@@ -271,12 +265,6 @@ echo '</div>';
 		</div>
 	  </div>
 	</div>
-
-<!--
- <script src="js/mapaLatLon.js"></script>
- <script src="js/simple_mapa.js"></script>
--->
-
 	<?php
 		}
 ?>
@@ -284,55 +272,26 @@ echo '</div>';
 
 <script>
 
+var Lat="32.5317397";
+var Lon="-117.019529";
 
-<script>
-$(document).ready(function(){
-  $("#myBtn").click(function(){
-    $("#EfectuarInspeccion").modal();
-
-
-
-<?php
-echo 'var Lat="'.$latitudDB.'";';
-echo 'var Lon="'.$longitudDB.'";';
-?>
-
-const modal = document.getElementById('EfectuarInspeccion');
-//const modalBs = new bootstrap.Modal(EfectuarInspeccion);
-
-const map = L.map("map")
-map.setView([Lat,Lon], 14);
-
+var map = L.map('map').
+setView([Lat,Lon],
+14);
 
 L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
     maxZoom: 18
 }).addTo(map);
 
-//modalBs.show();
 
 var marker = L.marker([Lat,Lon],{
 draggable: true
 }).addTo(map);
 
-
-map.whenReady(() => {
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 450);
-});
-
 marker.on('dragend', function (e) {
   document.getElementById('latitud').value = marker.getLatLng().lat;
   document.getElementById('longitud').value = marker.getLatLng().lng;
 });
-
-
-
-  });
-});
-
-
-
 </script>
 

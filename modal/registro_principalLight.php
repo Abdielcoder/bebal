@@ -266,6 +266,7 @@ echo '<input type="date" class="form-control" id="fecha_alta" value="'.$today.'"
 </div>
 
 </form>
+<p><font color="white" size="1">modal/registro_principalLight.php-(Button_guardar_registroPrincipalLight)->ajax/nuevo_registroPrincipal_Light.php</font></p>
 </div>
 </div>
 </div>

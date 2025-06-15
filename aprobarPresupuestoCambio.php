@@ -1075,7 +1075,7 @@ $( "#aprobrarTramiteImpresionPermiso" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-                        }, 2000);
+                        }, 1000);
 
                   }
         });
@@ -1105,7 +1105,7 @@ $( "#aprobrarTramitePostRevalidacion" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-                        }, 2000);
+                        }, 1000);
 
                   }
         });
@@ -1134,7 +1134,7 @@ $( "#aprobrarTramitePostCierreTemporal" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-                        }, 2000);
+                        }, 1000);
 
                   }
         });
@@ -1166,7 +1166,7 @@ $( "#aprobrarTramitePost" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-                        }, 2000);
+                        }, 1000);
 
                   }
         });
@@ -1197,7 +1197,7 @@ $( "#registro_guardar_pagoTramiteCambio" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-			}, 2000);
+			}, 1000);
 
 		  }
 	});
@@ -1226,7 +1226,7 @@ $( "#registro_guardar_pago_presupuesto" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-                        }, 2000);
+                        }, 1000);
 
                   }
         });
@@ -1257,7 +1257,7 @@ $( "#registro_guardar_inspeccion" ).submit(function( event ) {
 //location.replace('principal.php');
 echo "location.replace('principal.php?page=".$page."&action=ajax');";
 ?>
-			}, 2000);
+			}, 1000);
 
 		  }
 	});

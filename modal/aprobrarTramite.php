@@ -1,6 +1,38 @@
-	<?php
-		if (isset($con))
-		{
+<script>
+function CalcularDescuento(MONTO_UMAS_tramite_SOLICITADO) {
+
+  var total = 0;
+  var ahorro = 0;
+
+  $(".monto").each(function() {
+
+    if (isNaN(parseFloat($(this).val()))) {
+
+      total += 0;
+
+    } else {
+
+      //total += parseFloat($(this).val());
+      var descuento = (100-parseFloat($(this).val()))/100;
+      total = descuento * parseFloat(MONTO_UMAS_tramite_SOLICITADO);
+ahorro=parseFloat(MONTO_UMAS_tramite_SOLICITADO)-total;
+    }
+
+  });
+
+  //alert(total);
+  if ( total>0 )  {
+  document.getElementById('spTotal').innerHTML = "Monto a Pagar con Descuento "+total.toFixed(2)+" umas, con una diferencia de "+ahorro.toFixed(2)+" umas";
+  } else {
+ document.getElementById('spTotal').innerHTML ='';
+  }
+}
+
+</script>
+
+<?php
+	if (isset($con))
+	{
 $PROFILE=$_SESSION['user_profile'];
 $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 
@@ -47,6 +79,9 @@ $ID_MUNICIPIO=$_SESSION['user_id_municipio'];
 echo '<font size="2">Establecimiento: </font><font size="2" color="blue">'.$nombre_comercial_establecimiento.'</font><br>';
 echo '<font size="2">Folio: </font><font size="2" color="blue">'.$folio.'</font><br>';
 echo '<font size="2">Tramite Solicitado: </font><font size="2" color="blue">'.$TRAMITE_tramite_SOLICITADO.' ( </font><font size="2" color="red">'.number_format($MONTO_UMAS_tramite_SOLICITADO,2).' umas</font><font size="2" color="blue">)</font><br>';
+//chang
+echo '<font size="2" color="red"><b>Descuento:</b></font> <input type="tex" name="descuento" style="height:28px;width:50px;" class="monto"  pattern="[0-9]{2}"   value="0" maxlength="2"  onkeyup="CalcularDescuento('.$MONTO_UMAS_tramite_SOLICITADO.');"   required> %';
+echo '&nbsp;&nbsp;<span style="color:blue;size:1px" id="spTotal"></span>';
 echo '<br>';
 ##
 $kuery00="SELECT COUNT(*) AS CUENTA00 FROM pagos WHERE id_principal=$IDPRINCIPAL  AND concepto='Inspeccion' AND estatus_pago='PAGADO'";
@@ -88,7 +123,7 @@ echo '<font color="black" size="2"><i class="bi bi-sign-no-parking"></i>   No ex
 <br>
 
 <div class="alert alert-info">
-<i class="bi bi-info-circle"></i><font size="1"><b> Asegúrese de que el Contribuyente Conoce el Presupuesto para el Trámite.</b></font>
+<i class="bi bi-info-circle"></i><font size="1"><b> Si no va a haber descuento, el valor debe de ser Zero. Asegúrese de que el Contribuyente Conoce el Presupuesto para el Trámite.</b></font>
 </div>
 
 

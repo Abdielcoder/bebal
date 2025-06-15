@@ -190,6 +190,7 @@ $superficie_establecimiento=$_POST['superficie_establecimiento'];
 		$fecha_alta=$_POST['fecha_alta'];
 		$fecha_datetime_hoy=date("Y-m-d H:i:s");
 		$clave_catastral=strtoupper($_POST['clave_catastral']);
+		$numero_cuenta=$_POST['numero_cuenta'];
 
 
 $nombre_comercial_establecimiento=strtoupper($_POST['nombre_comercial_establecimiento']);
@@ -228,11 +229,12 @@ $COLONIA=$row_colonia['colonia'];
 ##
 #################################
 
-$el_cambio="Permiso Temporal  Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
+$el_cambio="Permiso Temporal  Fecha Alta (".$fecha_alta.") Giro (".$GIRO.") -  Establecimiento [[ ".$nombre_comercial_establecimiento.", Clave Catastral (".$clave_catastral."), Numero Cuenta (".$numero_cuenta."), ".$calle_establecimiento.", ".$entre_calles_establecimiento.", ".$numero_establecimiento.", ".$numerointerno_local_establecimiento.", ".$cp_establecimiento.", Delegación: ".$DELEGACION.", Colonia: ".$COLONIA.", Municipio: ".$MUNICIPIO.",  capacidad_comensales_personas (".$capacidad_comensales_personas.") superficie_establecimiento(".$superficie_establecimiento.")  ]], Solicitante [[".$fisica_o_moral.", ".$nombre_persona_fisicamoral_solicitante.", ".$nombre_representante_legal_solicitante.", ".$domicilio_solicitante.", ".$rfc_solicitante.", ".$email_solicitante.", ".$telefono_solicitante."]]  Modalidad [[".$MODALIDAD_GA_LISTA."]] Servicios Adicionales [[".$SERVICIOS_ADICIONALES_LISTA."]]   ";
 
 	
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
+$todayANO = date("Y");
 ################
 ################
 ###  TRAMITE PERMISO TEMPORAL
@@ -257,6 +259,7 @@ id_colonia,
 estatus,
 operacion,
 clave_catastral,
+numero_cuenta,
 nombre_comercial_establecimiento,
 calle_establecimiento,
 entre_calles_establecimiento,
@@ -290,6 +293,7 @@ $id_colonia,
 'Generar Recibos IRAD',
 'NUEVO',
 '$clave_catastral',
+'$numero_cuenta',
 '$nombre_comercial_establecimiento',
 '$calle_establecimiento',
 '$entre_calles_establecimiento',
@@ -434,9 +438,12 @@ $MONTO_UMAS_tramiteRAD=$row_tramite00['monto_umas'];
 ##
 ########################
 #
+$concepto_recaudacion='Inspeccion - Permiso Temporal;Permiso Temporal;'.$MONTO_UMAS_tramiteINS;
+
 $sql10="INSERT INTO pagos_temp (
 id_principal,
 folio,
+concepto_recaudacion,
 id_proceso_tramites,
 concepto,
 estatus_pago,
@@ -444,6 +451,7 @@ total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
+'$concepto_recaudacion',
 $ID_PROCESO_TRAMITE,
 'Inspeccion',
 'Pendiente',
@@ -451,10 +459,24 @@ $ID_PROCESO_TRAMITE,
 '$today')";
 #
 $query_new_insert1 = mysqli_query($con,$sql10);
+#############
 ##
+#
+$arregloMaxid6 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM pagos_temp"));
+$ID_PAGO_INS=$arregloMaxid6[0];
+#
+$orden_pago='PIT-'.$ID.$ID_PAGO_INS.'-'.$todayANO;
+$Update_Pago6="UPDATE pagos_temp SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_INS";
+mysqli_query($con,$Update_Pago6);
+##############
+
+##
+$concepto_recaudacion='Recepcion y Analisis Documentos - Permiso Temporal;Permiso Temporal;'.$MONTO_UMAS_tramiteRAD;
+
 $sql20="INSERT INTO pagos_temp (
 id_principal,
 folio,
+concepto_recaudacion,
 id_proceso_tramites,
 concepto,
 estatus_pago,
@@ -462,6 +484,7 @@ total_umas_pagar,
 fechaRegistro ) VALUES (
 $ID,
 '$folio',
+'$concepto_recaudacion',
 $ID_PROCESO_TRAMITE,
 'Recepcion y Analisis Documentos',
 'Pendiente',
@@ -469,6 +492,16 @@ $ID_PROCESO_TRAMITE,
 '$today')";
 $query_new_insert2 = mysqli_query($con,$sql20);
 ##
+##############
+##
+#
+$arregloMaxid7 = mysqli_fetch_array(mysqli_query($con,"SELECT max(`id`) FROM pagos_temp"));
+$ID_PAGO_RAD=$arregloMaxid7[0];
+#
+$orden_pago='PAT-'.$ID.$ID_PAGO_RAD.'-'.$todayANO;
+$Update_Pago7="UPDATE pagos_temp SET orden_pago='$orden_pago' WHERE id=$ID_PAGO_RAD";
+mysqli_query($con,$Update_Pago7);
+##############
 
 $sql30="INSERT INTO inspeccion_temp (
 id_principal,

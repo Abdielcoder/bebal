@@ -73,6 +73,7 @@ header('Content-Type: text/html; charset=utf-8');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recibo Presupuesto - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
 
 
@@ -299,7 +300,7 @@ header('Content-Type: text/html; charset=utf-8');
     <div class="container">
         <div class="header">
             <div class="logo">
-                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="400">
+                <img src="img/SGM_LOGO_UTM-02.png" alt="Logo" width="500">
 
 	    </div>
 <?php
@@ -464,7 +465,7 @@ $STRING_SERVICIOS_ADICIONALES=$DESCRIPCION_SA." <font size='3' color='blue'>".$C
 $Folio=$datos['folio'];
             echo '<div class="date">';
 		//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
+echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/consulta-constancia/?folio='.$Folio.'"></p>';
 	    echo '</div>';
 ?>
         </div>
@@ -474,6 +475,35 @@ echo '<p><img src="qrcode.php?s=qrl&d='.$Folio.'"></p>';
 $todayANO = date("Y");
 $ORDEN_PAGO='PX-'.$id.$id_proceso_tramites.'-'.$todayANO;
 echo '<h1><font size="5px;">Orden de Pago: '.$ORDEN_PAGO.'</font></h1>';
+
+
+// Generar y mostrar el código de barras para ORDEN_PAGO usando JsBarcode
+if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
+    $orden_pago_clean = trim($ORDEN_PAGO);
+    echo '<div style="text-align: center; margin-top: 5px; margin-bottom: 15px;">';
+    echo '    <svg id="barcode-orden-pago"></svg>';
+    echo '</div>';
+    echo '<script>';
+    echo 'document.addEventListener("DOMContentLoaded", function() {';
+    echo '    if (typeof JsBarcode !== "undefined") {';
+    echo '        JsBarcode("#barcode-orden-pago", "'.htmlspecialchars($orden_pago_clean).'", {';
+    echo '            format: "CODE39",';
+    echo '            width: 2,';
+    echo '            height: 50,';
+    echo '            displayValue: false,';
+    echo '            margin: 0';
+    echo '        });';
+    echo '    }';
+    echo '});';
+    echo '</script>';
+} else {
+    // Opcional: si quieres un mensaje si $ORDEN_PAGO está vacía para el barcode
+    // echo '<p style="text-align:center; color:red; margin-bottom: 10px;">Código de Barras para Orden de Pago no disponible.</p>';
+}
+
+//echo '<h1>Orden de Pago ( '.$NUMERO_RECIBO.') <b><u>'.$DESCRIPCION_TRAMITE.'</u></b></h1>';
+//echo '<h2>Tramite: <u>'.$DESCRIPCION_TRAMITE_SOLICITADO.'</u></b></h2>';
+
 
 ?>
             <h4>PROGRAMA DE IDENTIFICACIÓN, EMPADRONAMIENTO, REGULARIZACIÓN Y REVALIDACIÓN</h4>
@@ -516,7 +546,7 @@ echo '</td>';
 <?php
 $MONTO_TOTAL_UMAS=$monto_umas_total_servicios_adicionalesDB+$COBRO_UMAS_giro;
 $CONCEPTO_RECAUDACION=$DESCRIPCION_TRAMITE.';'.$MONTO_TOTAL_UMAS;
-echo '<th>Concepto Recaudación</th>';
+echo '<th>Concepto Barandilla</th>';
 echo '<td><font size="2">'.$CONCEPTO_RECAUDACION.'</font></td>';
 ?>
                         </tr>

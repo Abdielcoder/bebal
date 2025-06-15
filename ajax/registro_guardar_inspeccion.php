@@ -6,7 +6,7 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['latitud']) || 
-	empty($_POST['superficie_establecimiento'])
+	empty($_POST['observacion_1_cumple'])
 	) {
            $errors[] = "Campo vacío";
 		} else {
@@ -22,22 +22,78 @@ $ID=intval($_POST['idprincipal']);
 $pagina=intval($_POST['pagina']);
 $nombre_comercial_establecimiento=$_POST['nombre_comercial_establecimiento'];
 
-$observaciones=$_POST['observaciones'];
+$observaciones=mysqli_real_escape_string($con,(strip_tags($_POST["observaciones"],ENT_QUOTES)));
+
 $latitud=$_POST['latitud'];
 $longitud=$_POST['longitud'];
-$superficie_establecimiento=$_POST['superficie_establecimiento'];
-$capacidad_comensales_personas=$_POST['capacidad_comensales_personas'];
 $folio=$_POST['folio'];
 $mod_folio=$_POST['mod_folio'];
 $id_tramite=$_POST['id_tramite'];
 $id_proceso_tramites=$_POST['id_proceso_tramites'];
 
 
+##
+$observacion_1_cumple=$_POST['observacion_1_cumple'];
+$observacion_1_datos=mysqli_real_escape_string($con,(strip_tags($_POST['observacion_1_datos'])));
+$observacion_1_metros=$_POST['observacion_1_metros'];
+if ( empty($observacion_1_datos) || $observacion_1_datos==''  ) $observacion_1_datos='ND';
+if ( empty($observacion_1_metros) || $observacion_1_metros==''  ) $observacion_1_metros=0;
+##
+$observacion_2_cumple=$_POST['observacion_2_cumple'];
+$observacion_2_datos=mysqli_real_escape_string($con,(strip_tags($_POST['observacion_2_datos'])));
+$observacion_2_metros=$_POST['observacion_2_metros'];
+if ( empty($observacion_2_datos) || $observacion_2_datos==''  ) $observacion_2_datos='ND';
+if ( empty($observacion_2_metros) || $observacion_2_metros==''  ) $observacion_2_metros=0;
+##
+$observacion_3_cumple=$_POST['observacion_3_cumple'];
+$observacion_3_datos=mysqli_real_escape_string($con,(strip_tags($_POST['observacion_3_datos'])));
+$observacion_3_metros=$_POST['observacion_3_metros'];
+if ( empty($observacion_3_datos) || $observacion_3_datos==''  ) $observacion_3_datos='ND';
+if ( empty($observacion_3_metros) || $observacion_3_metros==''  ) $observacion_3_metros=0;
+##
+$observacion_4_cumple=$_POST['observacion_4_cumple'];
+$observacion_4_datos=mysqli_real_escape_string($con,(strip_tags($_POST['observacion_4_datos'])));
+$observacion_4_metros=$_POST['observacion_4_metros'];
+if ( empty($observacion_4_datos) || $observacion_4_datos==''  ) $observacion_4_datos='ND';
+if ( empty($observacion_4_metros) || $observacion_4_metros==''  ) $observacion_4_metros=0;
+##
+$observacion_5_cumple=$_POST['observacion_5_cumple'];
+$observacion_5_datos=mysqli_real_escape_string($con,(strip_tags($_POST['observacion_5_datos'])));
+$observacion_5_metros=$_POST['observacion_5_metros'];
+if ( empty($observacion_5_datos) || $observacion_5_datos==''  ) $observacion_5_datos='ND';
+if ( empty($observacion_5_metros) || $observacion_5_metros==''  ) $observacion_5_metros=0;
+
+
+##$superficie_establecimiento=$_POST['superficie_establecimiento'];
+##$capacidad_comensales_personas=$_POST['capacidad_comensales_personas'];
+##superficie_establecimiento=$superficie_establecimiento,
+##capacidad_comensales_personas=$capacidad_comensales_personas,
+
+
 $sql="UPDATE inspeccion SET 
-superficie_establecimiento=$superficie_establecimiento,
-capacidad_comensales_personas=$capacidad_comensales_personas,
-observaciones='$observaciones',
+
+observacion_1_cumple='$observacion_1_cumple',
+observacion_1_datos='$observacion_1_datos',
+observacion_1_metros=$observacion_1_metros,
+
+observacion_2_cumple='$observacion_2_cumple',
+observacion_2_datos='$observacion_2_datos',
+observacion_2_metros=$observacion_2_metros,
+
+observacion_3_cumple='$observacion_3_cumple',
+observacion_3_datos='$observacion_3_datos',
+observacion_3_metros=$observacion_3_metros,
+
+observacion_4_cumple='$observacion_4_cumple',
+observacion_4_datos='$observacion_4_datos',
+observacion_4_metros=$observacion_4_metros,
+
+observacion_5_cumple='$observacion_5_cumple',
+observacion_5_datos='$observacion_5_datos',
+observacion_5_metros=$observacion_5_metros,
+
 en_proceso='FIN',
+observaciones='$observaciones',
 fecha_fin='$today'  WHERE 
 id_principal=$ID AND id_proceso_tramites=$id_proceso_tramites";
 
@@ -64,9 +120,11 @@ $FOLIO=$arreglo_PRIN['folio'];
 mysqli_close($con);
 
 			if ($query_Update) {
-				$messages[] = "Se Finalizo la  Inspección con Exito Folio ($FOLIO )";
+			$messages[] = "Se Finalizo la  Inspección con Exito Folio ($FOLIO )";
+
+
 			} else {
-				$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
+			$errors []= "Lo siento algo ha salido mal intenta nuevamente.".mysqli_error($con);
 			}
 	##} else {
 	##		$errors []= "Error desconocido.";
@@ -94,11 +152,10 @@ mysqli_close($con);
 						<strong>¡Bien hecho!</strong>
 						<?php
 							foreach ($messages as $message) {
-									echo $message;
-								}
-							?>
-				</div>
-				<?php
+								echo $message;
+							}
+		echo '</div>';
+
 			}
 
 ?>

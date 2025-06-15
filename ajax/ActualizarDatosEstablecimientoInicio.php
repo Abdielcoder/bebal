@@ -82,6 +82,7 @@ $##DELEGACIONdb=$rowP_delegacion['delegacion'];
 
 $nombre_comercial_establecimiento=$NOMBRE_COMERCIAL_ESTABLECIMIENTO;
 $clave_catastral=strtoupper($_POST['clave_catastral']);
+$numero_cuenta=$_POST['numero_cuenta'];
 $calle_establecimiento=strtoupper($_POST['calle_establecimiento']);
 $entre_calles_establecimiento=strtoupper($_POST['entre_calles_establecimiento']);
 $numero_establecimiento=$_POST['numero_establecimiento'];
@@ -108,6 +109,7 @@ $today = date("Y-m-d");
 $sql_UpdatePrincipal="UPDATE principal SET 
 nombre_comercial_establecimiento='$NOMBRE_COMERCIAL_ESTABLECIMIENTO', 
 clave_catastral='$clave_catastral', 
+numero_cuenta='$numero_cuenta', 
 calle_establecimiento='$calle_establecimiento', 
 entre_calles_establecimiento='$entre_calles_establecimiento', 
 numero_establecimiento='$numero_establecimiento', 

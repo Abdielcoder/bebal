@@ -104,7 +104,7 @@ header('Content-Type: text/html; charset=utf-8');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recibo de I&RAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
+    <title>Orden de Pago de I&RAD - <?php echo $datos['nombre_comercial_establecimiento']; ?></title>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <style>
 
@@ -386,7 +386,7 @@ echo '<table width="90%" align="center" style="border: none; background: transpa
 $Folio=$datos['folio'];
          echo '<div class="date">';
 	//echo 'Fecha de Impresión: '.date('d/m/Y');
-echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/bebal/login.php?bid='.$Folio.'&op='.$ORDEN_PAGO.'"></p>';
+echo '<p><img src="qrcode.php?s=qrl&d=https://sgm.tijuana.gob.mx/consulta-constancia/?folio='.$Folio.'"></p>';
 echo '</div>';
 echo '</div>';
 ?>
@@ -443,6 +443,16 @@ if (isset($ORDEN_PAGO) && trim($ORDEN_PAGO) !== '') {
 			</tr>
 
 <?php
+$numero_cuenta=$datos['numero_cuenta'];
+
+if ( empty($numero_cuenta) || $numero_cuenta=='' ) {
+} else {
+echo '<tr>';
+echo '<th>Número de Cuenta</th>';
+echo '<td>'.$numero_cuenta.'</td>';
+echo '</tr>';
+}
+
 
 ######################
 $NUMERO_PERMISO_ANTERIOR='';
@@ -460,18 +470,18 @@ $NUMERO_PERMISO_ANTERIOR='ND';
 }
 ######################
 
-if ( $DESCRIPCION_TRAMITE_SOLICITADO=='Permiso Nuevo' ) {
-} else {
-echo '<tr>';
-if ( $CUENTA_PASO>0 ) {
-echo '<th>Número Permiso Anterior</th>';
-echo '<td><font size="2"><b>'.$NUMERO_PERMISO_ANTERIOR.'</b></font></td>';
-} else {
-echo '<th>Número Permiso</th>';
-echo '<td><font size="2"><b>'.$datos["numero_permiso"].'</b></font></td>';
-}
-echo '</tr>';
-}
+//if ( $DESCRIPCION_TRAMITE_SOLICITADO=='Permiso Nuevo' ) {
+//} else {
+//echo '<tr>';
+//if ( $CUENTA_PASO>0 ) {
+//echo '<th>Número Permiso Anterior</th>';
+//echo '<td><font size="2"><b>'.$NUMERO_PERMISO_ANTERIOR.'</b></font></td>';
+//} else {
+//echo '<th>Número Permiso</th>';
+//echo '<td><font size="2"><b>'.$datos["numero_permiso"].'</b></font></td>';
+//}
+//echo '</tr>';
+//}
 ?>
 
 
@@ -480,7 +490,7 @@ echo '</tr>';
                             <td><?php echo $datos['giro_desc']; ?></td>
                         </tr>
                         <tr>
-                            <th>Concepto Recaudación</th>
+                            <th>Concepto Barandilla</th>
                             <td><font size="2"><?php echo $CONCEPTO_RECAUDACION; ?></font></td>
 			</tr>
 
@@ -556,28 +566,67 @@ echo '<td>'.$nombre_persona_fisicamoral_solicitante.'</td>';
 echo '<td class="monto-value"> <font color="blue">$'.number_format($TOTAL_A_PAGAR_MN,2).'</font>  ( '.number_format($MONTO_UMAS).' umas )</td>';
 ?>
                 </tr>
-            </table>
+	    </table>
+<?php
+
+switch ($DESCRIPCION_TRAMITE) {
+
+case "Inspección":
+        $DESCRIPCION_TRAMITE='Inspeccion';
+echo '<p><font size="1"><b>FUNDAMENTACIÓN.-</b> <b><u>INSPECCIÓN</u></b>: ARTÍCULO 22, FRAC.I, DE LA LEY DE INGRESOS DEL MUNICIPIO DE TIJUANA, BAJA CALIFORNIA PARA EL EJERCICIO FISCAL DEL 2025.</font>';
+        break;
+case "Recepción y Análisis Documentos":
+echo '<p><font size="1"><b>FUNDAMENTACIÓN.-</b> <b><u>RECEPCIÓN Y ANÁLISIS, EVALUACIÓN DE SOLICITUDES</u></b>: ARTÍCULO 22, FRAC.II, DE LA LEY DE INGRESOS DEL MUNICIPIO DE TIJUANA, BAJA CALIFORNIA PARA EL EJERCICIO FISCAL DEL 2025.</font>';
+        break;
+//default:
+}
+
+
+
+
+echo '<font size="1"><i>&nbsp;&nbsp;El pago debe realizarse en la caja de recaudación municipal presentando este recibo.  Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.</i></font></p>';
+?>
         </div>
-        
-        <div class="section">
-            <div class="section-title">INFORMACIÓN DE PAGO</div>
-            <p class="info-text">
-                El pago debe realizarse en la caja de recaudación municipal presentando este recibo. 
-                Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.
-            </p>
-	</div>
+<?php       
+//echo '<div class="section">';
+//echo '<div class="section-title">INFORMACIÓN DE PAGO</div>';
+//echo '<p class="info-text">';
+//echo 'El pago debe realizarse en la caja de recaudación municipal presentando este recibo.  Una vez realizado el pago, conserve su comprobante y preséntelo para continuar con el trámite de inspección.  </p>';
+//echo '</div>';
+?>
 
 <br><br>
 <br><br>
 <br><br>
+
 
 <center>
-            <div class="signature">
-                <div class="signature-line"></div>
-                <p><b>Lic. Arnulfo Guerrero León</b><br>
-                Secretario de Gobierno Municipal<br>
-                XXV Ayuntamiento de Tijuana, Baja California
-            </div>
+<div class="signature">
+<div class="signature-line"></div>
+
+<?php
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='Firma'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$FIRMA=$row_generales['descripcion'];
+##
+#
+if ( $FIRMA=='Secretario' ) {
+echo '<p><b>Lic. Arnulfo Guerrero León</b><br>';
+echo 'Secretario de Gobierno Municipal<br>';
+echo 'XXV Ayuntamiento de Tijuana, Baja California';
+} else {
+
+echo '<p><b>Dr. José Alonso López Sepúlveda</b><br>';
+echo 'Director General de Gobierno<br>';
+echo 'Secretaria de Gobierno Municipal<br>';
+echo 'XV Ayuntamiento de Tijuana, Baja California';
+}
+
+
+?>
+</div>
         </div>
 </center>
 

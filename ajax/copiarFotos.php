@@ -43,7 +43,12 @@ mysqli_query($con,$kueryInsert);
 
 $arregloMaxid = mysqli_fetch_array(mysqli_query($con,"SELECT max(`idfoto`) FROM `fotos`"));
 $idfotoActual=intval($arregloMaxid[0]);
-
+###############
+if ( $i0==0 ) {
+$sqlUpdate1="UPDATE principal SET foto='$idfotoActual' WHERE id=".$IDPRINCIPAL;
+mysqli_query($con, $sqlUpdate1);
+}
+###############
 $Nombre_Archivo_Actual=$IDPRINCIPAL.'-'.$id_proceso_tramites_actual.'-'.$idfotoActual.'.jpg';
 
 ##

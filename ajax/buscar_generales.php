@@ -118,12 +118,23 @@
 				
 				<td><font size="2"><?php echo $dato_general; ?></font></td>
 				<td><font size="2"><?php echo $descripcion; ?></font></td>
-						
+
+<input type="hidden"  id="dato_general<?php echo $id;?>"   value="<?php echo $dato_general;?>"  >
+<input type="hidden"  id="descripcion<?php echo $id;?>"  value="<?php echo $descripcion;?>"  >
+
+<input type="hidden"  id="dato_generalOtro<?php echo $id;?>"   value="<?php echo $dato_general;?>"  >
+<input type="hidden"  id="descripcionOtro<?php echo $id;?>"  value="<?php echo $descripcion;?>"  >
+
+
 				<td class='text-right'>
 
 
 <?php
-echo '<a href="#" class="btn btn-outline-success" title="Editar Campo" onclick="#obtener_datos('.$id.');" data-toggle="modal" data-target="#editarColonia"><i class="bi bi-pencil"></i></a>';
+if ( $dato_general=='Firma' )  {
+echo '<a href="#" class="btn btn-outline-success" title="Firma" onclick="obtener_datosGeneralesFirma('.$id.');" data-bs-toggle="modal" data-bs-target="#editarGeneralesFirma"><i class="bi bi-key"></i></a>';
+} else {
+echo '<a href="#" class="btn btn-outline-success" title="Datos Generales" onclick="obtener_datosGenerales('.$id.');" data-bs-toggle="modal" data-bs-target="#editarGenerales"><i class="bi bi-pencil"></i></a>';
+}
 
 echo '&nbsp;&nbsp;';
 

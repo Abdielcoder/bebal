@@ -152,7 +152,7 @@ $CONCEPTO_PAGO="Tramite [[ ".$concepto_tramite." ]]   Giro [[ ".$concepto_giro."
 
 ##
 $todayANO = date("Y");
-$ORDEN_PAGO='PX-'.$id.$id_proceso_tramites.'-'.$todayANO;
+$ORDEN_PAGO='PX-'.$ID.$id_proceso_tramites.'-'.$todayANO;
 
 $CONCEPTO_RECAUDACION='Permiso Nuevo;'.$total_umas_pagar;
 

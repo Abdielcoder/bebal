@@ -111,6 +111,10 @@ $NUMERO_PERMISO_ANTERIOR=$row_Paso['numero_permiso'];
 } else {
 $NUMERO_PERMISO_ANTERIOR='No Disponible';
 }
+
+$numero_cuenta=$datos['numero_cuenta'];
+if ( empty($numero_cuenta) || $numero_cuenta=='' ) $numero_cuenta='No Disponible';
+
 ########################
 $url = "https://landingbebal-production.up.railway.app/api/datorapido";
 
@@ -136,7 +140,8 @@ $data = [
 "email_solicitante"=> $EMAIL_SOLICITANTE,
 "telefono_solicitante"=> $TELEFONO_SOLICITANTE,
 "numero_permiso_anterior"=> $NUMERO_PERMISO_ANTERIOR,
-"numero_permiso_nuevo"=> $datos['numero_permiso']
+"numero_permiso_nuevo"=> $datos['numero_permiso'],
+"numero_cuenta"=> $datos['numero_cuenta']
 ];
 
 $options = [
@@ -453,11 +458,12 @@ echo '<div class="section-title"> <font color="black">TRAMITE(S): '.$TRAMITES_PR
                             <th>Servicios Adicionales</th>
                             <td><?php echo $datos['servicios_adicionales']; ?> * [<?php echo $datos['numero_servicios_adicionales']; ?>]</td>
 			</tr>
-
-                        <tr>
-                            <th>Número de Permiso Nuevo</th>
-                            <td><?php echo $datos['numero_permiso']; ?></td>
-                        </tr>
+<?php
+//<tr>
+//<th>Número de Permiso Nuevo</th>
+//<td>'.$datos['numero_permiso.'</td>
+//</tr>
+?>
 
                         <tr>
                             <th>Fecha Registro</th>
@@ -497,8 +503,8 @@ echo '<td> NA </td>';
 echo '</tr>';
 
 echo '<tr>';
-echo '<th>Clave Catastral</th>';
-echo '<td> NA </td>';
+echo '<th>Número de Cuenta / Clave Catastral</th>';
+echo '<td> NA / NA </td>';
 echo '</tr>';
 
 
@@ -519,8 +525,8 @@ echo '<td>'.$datos['colonia_desc'].' '.$datos['delegacion_desc'].' / '.$datos['m
 echo '</tr>';
 
 echo '<tr>';
-echo '<th>Clave Catastral</th>';
-echo '<td>'.$datos['clave_catastral'].'</td>';
+echo '<th>Número de Cuenta / Clave Catastral</th>';
+echo '<td>'.$numero_cuenta.' / '.$datos['clave_catastral'].'</td>';
 echo '</tr>';
 
 
@@ -647,10 +653,31 @@ echo '</tr>';
        <b><?php echo $datos['nombre_representante_legal_solicitante']; ?></b>
             </div>
             <div class="signature">
-                <div class="signature-line"></div>
-                <p><b>LIC. ARNULFO GUERRERO LEÓN</b><br>
-                Secretario de Gobierno Municipal<br>
-                XXV Ayuntamiento de Tijuana, Baja California
+		<div class="signature-line"></div>
+
+<?php
+##
+$sql_generales="SELECT descripcion FROM generales WHERE dato_general='Firma'";
+$result_generales = mysqli_query($con,$sql_generales);
+$row_generales = mysqli_fetch_assoc($result_generales);
+$FIRMA=$row_generales['descripcion'];
+##
+#
+if ( $FIRMA=='Secretario' ) {
+
+echo '<p><b>LIC. ARNULFO GUERRERO LEÓN</b><br>';
+echo 'Secretario de Gobierno Municipal<br>';
+echo 'XXV Ayuntamiento de Tijuana, Baja California';
+} else {
+echo '<p><b>DR. JOSÉ ALONSO LÓPEZ SEPÚLVEDA</b><br>';
+echo 'Director General de Gobierno<br>';
+echo 'Secretaria de Gobierno Municipal<br>';
+echo 'XV Ayuntamiento de Tijuana, Baja California';
+}
+?>
+
+
+
             </div>
         </div>
     </div>

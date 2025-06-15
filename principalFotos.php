@@ -1,4 +1,3 @@
-
 <?php
 include('ajax/is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 
@@ -50,8 +49,11 @@ background-color: #3CBC8D;
 #map {
   margin: 0px;
   width: 100%;
-  height: 100%;
+  height: 400px;
   padding: 0px;
+  z-index: 1;
+  border: 2px solid #AC905B;
+  border-radius: 5px;
 }
 
 </style>
@@ -735,7 +737,13 @@ echo '<input type="text" class="form-control required"  title="Enter Longitud (-
 echo '</div>';
 echo '</div>';
 ###
-echo '<div id="map" class="map" style="height:200px; width:100%;background-color: powderblue;"></div>';
+echo '<div class="mb-3">';
+echo '<div class="alert alert-info" role="alert">';
+echo '<i class="bi bi-info-circle"></i> <strong>Instrucciones del Mapa:</strong> ';
+echo 'Haga clic en cualquier punto del mapa para actualizar las coordenadas, o arrastre el marcador rojo a la ubicación exacta del establecimiento.';
+echo '</div>';
+echo '</div>';
+echo '<div id="map" class="map" style="height:400px; width:100%;background-color: powderblue;"></div>';
 ##echo '<iframe id="map" src="mapaMarcaCoordenadas.php" height="200px" width="100%"></iframe>';
 ###
 echo '<br>';
@@ -917,42 +925,96 @@ echo '</div>';
 
 <script>
 $(document).ready(function(){
+  var map; // Variable global para el mapa
+  var marker; // Variable global para el marcador
+  
+  // Evento cuando el modal se abre completamente
+  $('#EfectuarInspeccion').on('shown.bs.modal', function () {
+    var msgInfo;
+    <?php
+    echo 'var Lat="'.$latitudDB.'";';
+    echo 'var Lon="'.$longitudDB.'";';
+    ?>
+    
+    // Mostrar indicador de carga
+    $('#map').html('<div class="d-flex justify-content-center align-items-center" style="height: 400px;"><div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div><p class="mt-2">Cargando mapa...</p></div></div>');
+    
+    // Si el mapa ya existe, destruirlo primero
+    if (map) {
+      map.remove();
+    }
+    
+    // Crear el mapa después de un pequeño delay para mostrar el loading
+    setTimeout(function() {
+      // Limpiar el contenido de loading
+      $('#map').empty();
+      
+      // Crear el mapa
+      map = L.map("map").setView([Lat, Lon], 14);
+      
+      // Agregar la capa de tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: 'Map data &copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://cloudmade.com">CloudMade</a>',
+          maxZoom: 18
+      }).addTo(map);
+      
+      // Crear el marcador
+      marker = L.marker([Lat, Lon], {
+          draggable: true
+      }).addTo(map);
+      
+      // Forzar que el mapa se redimensione correctamente
+      setTimeout(function() {
+          map.invalidateSize();
+          map.setView([Lat, Lon], 14);
+      }, 200);
+      
+      // Evento cuando se arrastra el marcador
+      marker.on('dragend', function (e) {
+        document.getElementById('latitud').value = marker.getLatLng().lat.toFixed(7);
+        document.getElementById('longitud').value = marker.getLatLng().lng.toFixed(6);
+        msgInfo = "Lat (" + marker.getLatLng().lat.toFixed(7) + "), Lon (" + marker.getLatLng().lng.toFixed(6) + ")";
+        marker.bindPopup(msgInfo).openPopup();
+      });
+      
+      // Evento cuando se hace clic en el mapa
+      map.on('click', function(e) {
+        var lat = e.latlng.lat.toFixed(7);
+        var lng = e.latlng.lng.toFixed(6);
+        
+        // Mover el marcador a la nueva posición
+        marker.setLatLng([lat, lng]);
+        
+        // Actualizar los campos de latitud y longitud
+        document.getElementById('latitud').value = lat;
+        document.getElementById('longitud').value = lng;
+        
+        // Mostrar popup con las nuevas coordenadas
+        msgInfo = "Lat (" + lat + "), Lon (" + lng + ")";
+        marker.bindPopup(msgInfo).openPopup();
+      });
+      
+      // Mostrar popup inicial
+      msgInfo = "Lat (" + Lat + "), Lon (" + Lon + ")";
+      marker.bindPopup(msgInfo).openPopup();
+      
+    }, 100); // Delay mínimo para mostrar el loading
+    
+  });
+  
+  // Limpiar el mapa cuando se cierre el modal
+  $('#EfectuarInspeccion').on('hidden.bs.modal', function () {
+    if (map) {
+      map.remove();
+      map = null;
+    }
+  });
+  
+  // Evento del botón para abrir el modal
   $("#myBtn").click(function(){
-    $("#EfectuarInspeccion").modal();
-
-var msgInfo;
-<?php
-echo 'var Lat="'.$latitudDB.'";';
-echo 'var Lon="'.$longitudDB.'";';
-?>
-const modal = document.getElementById('EfectuarInspeccion');
-//const modalBs = new bootstrap.Modal(EfectuarInspeccion);
-const map = L.map("map")
-map.setView([Lat,Lon], 14);
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-    maxZoom: 18
-}).addTo(map);
-//modalBs.show();
-var marker = L.marker([Lat,Lon],{
-draggable: true
-}).addTo(map);
-map.whenReady(() => {
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 650);
-});
-marker.on('dragend', function (e) {
-  document.getElementById('latitud').value = marker.getLatLng().lat.toFixed(6);
-  document.getElementById('longitud').value = marker.getLatLng().lng.toFixed(6);
-  msgInfo="Lat ("+marker.getLatLng().lat.toFixed(6)+"), Lon ("+marker.getLatLng().lng.toFixed(6)+")";
-  marker.bindPopup(msgInfo).openPopup();
-  marker.addTo(map); 
-});
-
+    // Solo obtener los datos de inspección, el mapa se inicializará con el evento shown.bs.modal
   });
 });
-
 </script>
 
 

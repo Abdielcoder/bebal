@@ -20,6 +20,23 @@ Esquema de colores del proyecto:
   --color-success: #4d7a44;
   --color-primary-rgb: 116, 44, 50;
   --color-secondary-rgb: 253, 229, 183;
+  
+  /* Variables de fuentes ITC - INTEGRACIÓN CON SISTEMA BEBAL */
+  --font-primary: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
+  --font-secondary: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
+  --font-system: 'ITC Avant Garde Std', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Override global para fuentes ITC en todo el sistema */
+*, *::before, *::after {
+  font-family: var(--font-primary) !important;
+}
+
+html, body {
+  font-family: var(--font-primary) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 /* Navbar styling */

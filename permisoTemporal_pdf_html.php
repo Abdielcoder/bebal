@@ -234,7 +234,7 @@ header('Content-Type: text/html; charset=utf-8');
         }
         
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
             margin: 0;
             margin: 0 auto;
             font-size: 16px;

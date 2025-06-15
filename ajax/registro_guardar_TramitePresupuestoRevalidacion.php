@@ -154,7 +154,7 @@ $row_giro = mysqli_fetch_assoc($result_giro);
 $GIRO=$row_giro['descripcion_giro'];
 #####################
 
-$mensajeEmail="<span style='background:yellow;color:black;font-family:Lucida Console, Courier New;font-weight: normal;font-size: 12px;'>Se esta Revalidando el Permiso Número $numero_permiso ( $nombre_comercial_establecimiento ) Folio ( $folio ) Giro ( $GIRO ).</span> <i><u>Para imprimir el Permiso debes de usar el siguiente</i></u> <b>NIP: $nip </b>";
+$mensajeEmail="<span style='background:yellow;color:black;font-family:ITC Avant Garde Std, Arial, Helvetica, sans-serif;font-weight: normal;font-size: 12px;'>Se esta Revalidando el Permiso Número $numero_permiso ( $nombre_comercial_establecimiento ) Folio ( $folio ) Giro ( $GIRO ).</span> <i><u>Para imprimir el Permiso debes de usar el siguiente</i></u> <b>NIP: $nip </b>";
 
 
 

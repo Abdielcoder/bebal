@@ -91,7 +91,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: Arial, sans-serif;
+          font-family: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
 }
 
 .login-container {

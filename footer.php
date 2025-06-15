@@ -1,9 +1,11 @@
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
       margin: 0;
       padding: 0;
       height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .clock {

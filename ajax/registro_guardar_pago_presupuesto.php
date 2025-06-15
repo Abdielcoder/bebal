@@ -327,7 +327,7 @@ mysqli_query($con,$Kuery_Update2);
 
 mysqli_close($con);
 
-$mensajeEmail="<span style='background:pink;color:black;font-family:Lucida Console, Courier New;font-weight: normal;font-size: 12px;'>NUEVO REGISTRO el Permiso Número $NP ( $nombre_comercial_establecimiento ) Folio ( $folio ) Giro ( $GIRO ).</span> <i><u>Para imprimir el Permiso debes de usar el siguiente</i></u> <b>NIP: $NIPgenerado </b>";
+$mensajeEmail="<span style='background:pink;color:black;font-family:ITC Avant Garde Std, Arial, Helvetica, sans-serif;font-weight: normal;font-size: 12px;'>NUEVO REGISTRO el Permiso Número $NP ( $nombre_comercial_establecimiento ) Folio ( $folio ) Giro ( $GIRO ).</span> <i><u>Para imprimir el Permiso debes de usar el siguiente</i></u> <b>NIP: $NIPgenerado </b>";
 
 if ($query_Update) {
 

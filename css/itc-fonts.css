@@ -1,0 +1,156 @@
+/* =====================================================
+   FUENTES ITC AVANT GARDE STANDARD - SISTEMA BEBAL
+   ===================================================== */
+
+/* Declaraciones @font-face para las fuentes ITC */
+@font-face {
+    font-family: 'ITC Avant Garde Std';
+    src: url('../fonts/ITC/ITCAvantGardeStd-Bk.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ITC Avant Garde Std';
+    src: url('../fonts/ITC/ITCAvantGardeStd-Demi.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ITC Avant Garde Std';
+    src: url('../fonts/ITC/ITCAvantGardeStd-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Variables CSS para fuentes */
+:root {
+    --font-primary: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
+    --font-secondary: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
+    --font-system: 'ITC Avant Garde Std', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Aplicación global de fuentes ITC */
+*, *::before, *::after {
+    font-family: var(--font-primary) !important;
+}
+
+html {
+    font-family: var(--font-primary) !important;
+}
+
+body {
+    font-family: var(--font-primary) !important;
+    font-weight: normal;
+    letter-spacing: 0.25px;
+}
+
+/* Encabezados */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: var(--font-primary) !important;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Elementos de formulario */
+input, textarea, select, button, 
+.form-control, .form-select, .btn {
+    font-family: var(--font-primary) !important;
+}
+
+/* Elementos de navegación */
+.navbar, .nav, .dropdown-menu {
+    font-family: var(--font-primary) !important;
+}
+
+/* Tablas */
+table, th, td {
+    font-family: var(--font-primary) !important;
+}
+
+/* Cards y paneles */
+.card, .panel, .modal {
+    font-family: var(--font-primary) !important;
+}
+
+/* Enlaces */
+a, .link {
+    font-family: var(--font-primary) !important;
+}
+
+/* Elementos de texto */
+p, span, div, label, .text {
+    font-family: var(--font-primary) !important;
+}
+
+/* Elementos específicos del sistema */
+.badge, .alert, .tooltip, .popover {
+    font-family: var(--font-primary) !important;
+}
+
+/* Override para Bootstrap */
+.bootstrap, .bs-* {
+    font-family: var(--font-primary) !important;
+}
+
+/* Fuentes para códigos de barras (mantener específicas) */
+.barcode-font, .libre-barcode {
+    font-family: 'Libre Barcode 39', 'Free 3 of 9', cursive !important;
+}
+
+/* Fuentes monospace para código (mantener específicas) */
+code, pre, kbd, samp, .monospace {
+    font-family: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace !important;
+}
+
+/* Estilos específicos para PDF */
+@media print {
+    *, *::before, *::after {
+        font-family: var(--font-primary) !important;
+    }
+    
+    body {
+        font-family: var(--font-primary) !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-primary) !important;
+        font-weight: 600;
+    }
+    
+    table, th, td, p, span, div {
+        font-family: var(--font-primary) !important;
+    }
+}
+
+/* Mejoras de legibilidad para ITC Avant Garde */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Ajustes específicos para títulos */
+.title, .titulo, .main-title {
+    font-family: var(--font-primary) !important;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Pesos de fuente específicos */
+.font-weight-normal {
+    font-weight: normal !important;
+}
+
+.font-weight-semi {
+    font-weight: 600 !important;
+}
+
+.font-weight-bold {
+    font-weight: bold !important;
+} 

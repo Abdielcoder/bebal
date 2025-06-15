@@ -5,6 +5,9 @@
     <title><?php echo $title;?></title>
     <link rel=icon href='img/logo-icon.png' sizes="32x32" type="image/png">
 
+  <!-- Fuentes ITC Avant Garde - PRIORIDAD MÁXIMA -->
+  <link rel="stylesheet" href="css/itc-fonts.css">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

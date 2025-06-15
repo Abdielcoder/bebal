@@ -221,7 +221,7 @@ header('Content-Type: text/html; charset=utf-8');
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
             line-height: 1.4;
             color: #333;
             margin: 0;

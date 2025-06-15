@@ -9,7 +9,7 @@ error_reporting(E_ALL);
 
 echo "<html><head><title>Corrección de Imágenes</title>
 <style>
-body { font-family: Arial, sans-serif; margin: 20px; }
+body { font-family: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif; margin: 20px; -webkit-font-smoothing: antialiased; }
 .success { color: green; }
 .error { color: red; }
 .warning { color: orange; }

@@ -136,7 +136,7 @@ header('Content-Type: text/html; charset=utf-8');
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'ITC Avant Garde Std', Arial, Helvetica, sans-serif;
             line-height: 1.4;
             color: #333;
             margin: 0;
@@ -145,6 +145,9 @@ header('Content-Type: text/html; charset=utf-8');
             margin: 0 auto;
             background-color: #f9f9f9;
             font-size: 10px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
         }
 
 
